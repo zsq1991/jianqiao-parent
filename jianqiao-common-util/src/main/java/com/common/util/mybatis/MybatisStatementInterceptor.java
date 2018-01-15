@@ -67,7 +67,7 @@ public class MybatisStatementInterceptor implements Interceptor {
 
         String sqlCommandType = mappedStatement.getSqlCommandType().name();
 
-        /*if(sql.contains("update_time") || sql.contains("created_time")){
+        if(sql.contains("update_time") || sql.contains("created_time")){
 
         }else {
             if ("UPDATE".equals(sqlCommandType)) {//如果是“增加”或“更新”操作
@@ -90,7 +90,7 @@ public class MybatisStatementInterceptor implements Interceptor {
                 String newSql = fristSql + createdTimeKey+")  VALUES"+  secondSqlSubFirst+createdTimeValue+")";
                 metaStatementHandler.setValue("delegate.boundSql.sql", newSql);
             }
-        }*/
+        }
 
         Object result = invocation.proceed();
         return result;
