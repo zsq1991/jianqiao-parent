@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybatis.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.zc.main.entity.permission.Menu">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+
+  </resultMap>
+
+	<sql id="baseSelect">
+		SELECT
+		m.id,
+		m.menuName,
+		m.menuUrl,
+        m.parentId,
+        m.sequence,
+        m.icon
+	</sql>
+	
+  <!-- 根据角色id获取菜单 -->
+	<select id="getMenuByRoleIds" resultType="com.zc.main.vo.MenuVO">
+  		SELECT
+		DISTINCT
+		m.id,
+		m.menuName,
+		m.menuUrl,
+        m.parentId,
+        m.icon
+		FROM
+		alq_permission_role_menu rm
+		INNER JOIN
+		alq_permission_menu m
+		ON
+		rm.menuId=m.id
+  	    WHERE
+		rm.roleId IN
+		<foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+  </select>
+
+
+	<!-- 获取所有菜单 -->
+    <select id="getAllMenu" resultType="com.zc.main.vo.MenuVO">
+		<include refid="baseSelect"/>
+		FROM
+		alq_permission_menu m
+	</select>
+
+	<!-- 获取所有菜单 -->
+	<select id="getAllBaseMenuByRoleId" resultType="com.zc.main.vo.MenuVO">
+		<include refid="baseSelect"/>
+  		  FROM
+  		  	   alq_permission_role r
+  		  INNER JOIN
+		alq_permission_role_menu_base b
+  		  ON r.roleCode = b.roleCode
+  		  INNER JOIN
+  	           alq_permission_menu m
+		ON b.menuId = m.id
+  	      WHERE
+		r.id = #{roleId}
+  </select>
+</mapper>

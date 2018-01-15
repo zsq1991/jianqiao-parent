@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+      <entry name="!?*.aj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="jianqiao-common-config" />
+        <module name="jianqiao-common-core" />
+        <module name="jianqiao-common-util" />
+        <module name="jianqiao-dbconfig-read" />
+        <module name="jianqiao-dbconfig-write" />
+        <module name="jianqiao-facade-main" />
+        <module name="jianqiao-facade-shiro" />
+        <module name="jianqiao-mobile-interface" />
+        <module name="jianqiao-server-main" />
+        <module name="jianqiao-server-shiro" />
+        <module name="jianqiao-web-shiro" />
+        <module name="tx-manager" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="jianqiao-common-config" target="1.8" />
+      <module name="jianqiao-common-core" target="1.8" />
+      <module name="jianqiao-common-util" target="1.8" />
+      <module name="jianqiao-dbconfig-read" target="1.8" />
+      <module name="jianqiao-dbconfig-write" target="1.8" />
+      <module name="jianqiao-facade-main" target="1.8" />
+      <module name="jianqiao-facade-shiro" target="1.8" />
+      <module name="jianqiao-mobile-interface" target="1.8" />
+      <module name="jianqiao-parent" target="1.8" />
+      <module name="jianqiao-server-main" target="1.8" />
+      <module name="jianqiao-server-shiro" target="1.8" />
+      <module name="jianqiao-web-shiro" target="1.8" />
+      <module name="tx-manager" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
