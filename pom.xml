@@ -90,6 +90,10 @@
 		<module>tx-manager</module>
 		<module>jianqiao-dbconfig-read</module>
 		<module>jianqiao-dbconfig-write</module>
+        <module>jianqiao-facade-member</module>
+		<module>jianqiao-facade-consultation</module>
+		<module>jianqiao-server-consultation</module>
+		<module>jianqiao-server-member</module>
 	</modules>
 	
 	<!-- 依赖包管理 -->
