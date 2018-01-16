@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.zc.mybatis.dao.ConsultationfabulousMapper">
+
+    <select id="getConsultationFabulousByIdAndMemberId" resultType="com.zc.main.entity.consultationfabulous.ConsultationFabulous">
+         SELECT * FROM alq_consultation_fabulous c WHERE c.id=#{id} AND c.member_id=#{memberId}
+    </select>
+
+    <!-- 根据咨询id和会员id查询点赞 -->
+    <select id="getConsultationFabulousByConsultationIdAndMemberId" resultType="com.zc.main.entity.consultationfabulous.ConsultationFabulous">
+        SELECT * FROM alq_consultation_fabulous c WHERE c.`consultation_id`=#{id} AND c.`member_id`=#{memberId}
+    </select>
+</mapper>
