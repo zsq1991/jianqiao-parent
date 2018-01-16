@@ -50,7 +50,7 @@ public class AdviceMemberLogin {
      * @throws Throwable
 	 */
 	// 方法执行的前后调用  
-    @Around("execution(* com.ph.controller.after.*.*.*(..))")
+    @Around("execution(* com.zc.main.controller.main.mobile.after.*.*.*(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
     	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
