@@ -1,11 +1,9 @@
-package com.zc.impl.consultationattachment;
+package com.zc.service.impl.consultationattachment;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.mybatis.dao.ConsultationAttachmentMapper;
-import com.zc.mybatis.dao.ConsultationMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 
 /**
