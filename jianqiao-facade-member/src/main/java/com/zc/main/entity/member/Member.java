@@ -3,7 +3,6 @@ package com.zc.main.entity.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zc.common.core.orm.hibernate.IdEntity;
-import com.zc.main.entity.attachment.Attachment;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.*;

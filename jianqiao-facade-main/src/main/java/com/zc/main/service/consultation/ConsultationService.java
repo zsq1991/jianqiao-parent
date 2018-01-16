@@ -9,13 +9,13 @@ import java.util.Map;
 public interface ConsultationService {
 
     /**
+     * @param id     咨询id
+     * @param member 用户
+     * @return
      * @description ：根据id删除咨询
      * @Created by  : gaoge
      * @Creation Date ： 2018/1/16 10:56
      * @version 1.0.0
-     * @param id 咨询id
-     * @param member 用户
-     * @return
      */
     Result deleteConsultationById(Long id, Member member);
 
@@ -30,24 +30,34 @@ public interface ConsultationService {
     // Result getConsultation(String id, Member member);
     Map<String, Object> getConsultationByIdaaa(Long id);
 
-    /**
-     * APP首页内容根据关键词搜索
-     *
-     * @return
-     */
+   /**
+    * @description ：APP首页内容根据关键词搜索
+    * @Created by  : gaoge
+    * @Creation Date ： 2018/1/16 14:24
+    * @version 1.0.0
+    * @param : checktype  1精选  2分享
+    * @return :
+    */
     Result findconsultationinfo(Integer page, Integer rows, String checktype);
 
     /**
-     * APP求助  内容根据关键词搜索
-     *
-     * @return
+     * @param page 页码
+     * @param rows 每页行数
+     * @description ：APP求助  内容根据关键词搜索
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 11:43
+     * @version 1.0.0
      */
     Result findConsultationInfoHelp(Integer page, Integer rows);
 
     /**
-     * APP民间高手  内容根据关键词搜索
-     *
-     * @return
+     * @param page      页码
+     * @param rows      每页行数
+     * @param checktype 类型 ： 1访谈  2口述
+     * @description ：APP民间高手  内容根据关键词搜索
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 11:38
+     * @version 1.0.0
      */
     Result findConsultationInfoPeople(Integer page, Integer rows, String checktype);
 
@@ -70,16 +80,16 @@ public interface ConsultationService {
 
     Result getMemberConsultationByType(String cid, Member member, Integer page, Integer size);
 
-   /**
-    * @description ：访谈详情页   点用户头像查看访谈
-    * @Created by  : gaoge
-    * @Creation Date ： 2018/1/16 11:07
-    * @version 1.0.0
-     * @param page 页码
-     * @param rows  行数
+    /**
+     * @param page      页码
+     * @param rows      行数
      * @param memberId  用户id
      * @param checktype 咨询类型 1 访谈  2 口述   3 求助   4 分享
      * @return
+     * @description ：访谈详情页   点用户头像查看访谈
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 11:07
+     * @version 1.0.0
      */
     Result findConsultationAllByTouxiang(Integer page, Integer rows, String memberId, String checktype);
 
