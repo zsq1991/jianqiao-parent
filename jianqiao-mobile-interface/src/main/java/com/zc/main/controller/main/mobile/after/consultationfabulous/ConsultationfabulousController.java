@@ -32,7 +32,6 @@ public class ConsultationfabulousController {
 	public Result consultationcfabulous(@RequestParam("id")Long id,
 										@RequestParam("type")Integer type,
 										@RequestParam("memberId")Long memberId){
-		logger.info("咨询点赞开始,入参参数{}"+"id:"+id+"type:"+type+"memberId:"+memberId);
 		return consultationFabulousService.getConsultationFabulousByIdAndMemberId(id, memberId, type);
 		
 	}

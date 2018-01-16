@@ -1,6 +1,7 @@
 package com.zc.service.impl.member;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
@@ -14,8 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
+
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -51,5 +53,13 @@ public class MemberServiceImpl implements MemberService {
             result.put("pics",resultAttachment);
         }
         return ResultUtils.returnSuccess("成功",result);
+    }
+
+    @Override
+    public Member getMemberByPhoneAndUuid(Map<String, Object> params) {
+        logger.info("============根据ID和UUID查询用户开始,params={}", JSON.toJSONString(params));
+        Member member = memberMapper.getMemberByPhoneAndUuid(params);
+        logger.info("============根据ID和UUID查询用户结束,member={}", JSON.toJSONString(member));
+        return member;
     }
 }

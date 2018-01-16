@@ -22,4 +22,14 @@ public interface MemberMapper extends BasicMapper<Member> {
 	 * @return
 	 */
 	Map<String,Object> getMemberByIdAndUuid(Map<String, Object> params);
+    /**
+     * 根据手机号和UUID查询用户
+     * @description 根据手机号和UUID查询用户
+     * @author whl
+     * @date 2018-01-16 12:39
+     * @version 1.0.0
+     * @param params 包含id和uuid的Map
+     * @return
+     */
+    Member getMemberByPhoneAndUuid(Map<String, Object> params);
 }
