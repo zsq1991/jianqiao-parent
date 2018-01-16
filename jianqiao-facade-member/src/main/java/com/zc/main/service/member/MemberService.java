@@ -1,5 +1,6 @@
 package com.zc.main.service.member;
 
+import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 
 import java.util.Map;
@@ -32,4 +33,6 @@ public interface MemberService {
 	 * @return
 	 */
 	Member getMemberByPhoneAndUuid(Map<String, Object> params);
+
+	Result getAuthMember(Member member);
 }
