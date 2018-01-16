@@ -4,11 +4,11 @@ import com.zc.common.core.config.RedisConfig;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.common.core.utils.JedisUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 @Order
 public class AdviceExplosionproof {
 
-	private static Log logger = LogFactory
-			.getLog(AdviceExplosionproof.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(AdviceExplosionproof.class);
 	@Autowired
 	private RedisConfig redisConfig;
 
@@ -52,11 +52,16 @@ public class AdviceExplosionproof {
 		Result result = new Result();
 
 		Object objSign=request.getParameter("sign");
-		if(objSign == null || objSign.equals("null") || objSign.equals("")){
-			return ResultUtils.returnError("请求异常");
+		Object objType=request.getParameter("client_type");
+		if (!"W".equals( objType.toString()) ){
+			if (objSign == null || objSign.equals("null") || objSign.equals("")) {
+				logger.info("延签+++++++++++++++++=：" + objSign);
+				return ResultUtils.returnError("请求异常");
+			}
 		}
+		logger.info("签名 sign:{}",objSign);
 		Boolean num = jedisUtils.exists(objSign.toString());
-		if(!num){
+		if(!num  || "W".equals( objType.toString() )){
 			String setex = jedisUtils.setex(objSign.toString(), objSign.toString(), 10);//设置失效时间
 			logger.info("方法:"+point.getSignature().getName()+"防爆通过，准备添加redis");
 			if (setex.equals("OK")){
