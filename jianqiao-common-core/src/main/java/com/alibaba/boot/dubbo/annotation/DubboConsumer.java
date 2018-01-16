@@ -39,7 +39,7 @@ public @interface DubboConsumer {
   String protocol() default "";
 
   // 检查服务提供者是否存在
-  boolean check() default true;
+  boolean check() default false;
 
   // lazy create connection
   boolean lazy() default false;

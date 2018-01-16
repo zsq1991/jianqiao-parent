@@ -37,7 +37,7 @@ public class AdviceMemberLogin {
 	private static Log logger = LogFactory
 			.getLog(AdviceMemberLogin.class);
 
-	@DubboConsumer(version = "1.0.0",timeout = 300000,check = false)
+	@DubboConsumer(version = "1.0.0",timeout = 300000)
 	private MemberService memberService;
 
     /**
