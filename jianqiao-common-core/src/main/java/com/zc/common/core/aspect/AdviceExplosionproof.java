@@ -1,4 +1,3 @@
-/*
 package com.zc.common.core.aspect;
 
 import com.zc.common.core.config.RedisConfig;
@@ -18,6 +17,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @description 防爆拦截器
+ * @author whl
+ * @date 2018-01-16 13:38
+ * @version 1.0.0
+ */
 @Component  
 @Aspect
 @Order
@@ -27,7 +32,16 @@ public class AdviceExplosionproof {
 			.getLog(AdviceExplosionproof.class);
 	@Autowired
 	private RedisConfig redisConfig;
-    
+
+	/**
+	 * @description 防爆拦截器
+	 * @author whl
+	 * @date 2018-01-16 13:38
+	 * @version 1.0.0
+	 * @param point 切入点
+	 * @return
+	 * @throws Throwable
+	 */
 	// 方法执行的前后调用  
 	@Around("@annotation(com.zc.common.core.annotation.Explosionproof )")
 	public Object around(ProceedingJoinPoint point) throws Throwable {
@@ -73,4 +87,4 @@ public class AdviceExplosionproof {
 			return ResultUtils.returnError("请勿重复提交");
 		}
 	}
-}  */
+}
