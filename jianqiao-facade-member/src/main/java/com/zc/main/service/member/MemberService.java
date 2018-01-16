@@ -1,6 +1,9 @@
 package com.zc.main.service.member;
 
+import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
+
+import java.util.Map;
 
 /**
  * @description ： 用户操作
@@ -19,4 +22,17 @@ public interface MemberService {
 	 * @return :
 	 */
 	Member getMerberById(Long memberId);
+
+	/**
+	 * 根据手机号和UUID查询用户
+	 * @description 根据手机号和UUID查询用户
+	 * @author whl
+	 * @date 2018-01-16 12:00
+	 * @version 1.0.0
+	 * @param params 包含phone和uuid的Map
+	 * @return
+	 */
+	Member getMemberByPhoneAndUuid(Map<String, Object> params);
+
+	Result getAuthMember(Member member);
 }

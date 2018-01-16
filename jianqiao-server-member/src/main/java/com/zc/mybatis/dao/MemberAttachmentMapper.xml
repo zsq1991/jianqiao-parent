@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybatis.dao.MemberAttachmentMapper">
+    <!--根据id获取用户附件-->
+    <select id="getMemberAttachment" resultType="Map"  >
+        SELECT m.address ,
+        (SELECT SUBSTRING_INDEX(am.size_info,',',1)) width,
+        (SELECT SUBSTRING_INDEX(am.size_info,',',1)) height,
+        am.id
+        FROM alq_member_attachment m ,alq_attachment	am WHERE m.attachment_id = am.id
+        and m.member_id = #{mid}
+    </select>
+</mapper>
