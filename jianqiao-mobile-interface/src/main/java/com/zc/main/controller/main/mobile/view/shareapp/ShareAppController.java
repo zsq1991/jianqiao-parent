@@ -1,12 +1,11 @@
-package com.zc.main.controller.main.mobile.view.share;
+package com.zc.main.controller.main.mobile.view.shareapp;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.main.service.helpdetails.HelpDetailsService;
-import com.zc.main.service.share.ShareAppService;
+import com.zc.main.service.shareapp.ShareAppService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +28,8 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("mobile/view/app")
-public class ShareController {
-    private static Logger logger = LoggerFactory.getLogger(ShareController.class);
+public class ShareAppController {
+    private static Logger logger = LoggerFactory.getLogger(ShareAppController.class);
 
     private static String url = "http://yst-images.img-cn-hangzhou.aliyuncs.com/";
 
