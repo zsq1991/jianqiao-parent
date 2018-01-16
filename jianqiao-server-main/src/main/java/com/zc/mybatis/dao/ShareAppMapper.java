@@ -1,5 +1,6 @@
 package com.zc.mybatis.dao;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,10 +10,12 @@ import java.util.Map;
  * @Created by :ZhaoJunBiao
  * @Creation Date ：2018年01月16日15:12
  */
-public interface ShareMapper {
+public interface ShareAppMapper {
     Map<String,Object> getConsultationnow(String id);
 
     Map<String,Object> getConsultation(Long id);
 
     Map<String,Object> getConsultationTop(String id);
+
+    List<Map<String,Object>> getConsultationList(String consultaionId);
 }
