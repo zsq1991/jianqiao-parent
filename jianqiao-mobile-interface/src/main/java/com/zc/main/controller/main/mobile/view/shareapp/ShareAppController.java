@@ -1,5 +1,6 @@
 package com.zc.main.controller.main.mobile.view.shareapp;
 
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.main.service.helpdetails.HelpDetailsService;
 import com.zc.main.service.shareapp.ShareAppService;
@@ -33,9 +34,9 @@ public class ShareAppController {
 
     private static String url = "http://yst-images.img-cn-hangzhou.aliyuncs.com/";
 
-    @Reference(version = "1.0.0")
+    @DubboConsumer(version = "1.0.0",timeout = 30000)
     private ShareAppService shareAppService;
-    @Reference(version = "1.0.0")
+    @DubboConsumer(version = "1.0.0",timeout = 30000)
     private HelpDetailsService helpDetailsService;
 
     /**

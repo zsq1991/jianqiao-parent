@@ -1,6 +1,7 @@
 package com.zc.main.controller.main.mobile.after.consultationfabulous;
 
 
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.common.core.annotation.Explosionproof;
 import com.zc.common.core.result.Result;
@@ -24,7 +25,7 @@ public class ConsultationfabulousController {
 	
 	private static Logger logger = LoggerFactory.getLogger(ConsultationfabulousController.class);
 
-	@Reference(version = "1.0.0")
+	@DubboConsumer(version = "1.0.0",timeout = 30000)
 	private ConsultationFabulousService consultationFabulousService;
 	
 	@Explosionproof
