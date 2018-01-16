@@ -2,6 +2,7 @@ package com.zc.main.entity.consultation;
 
 
 import com.zc.common.core.orm.hibernate.IdEntity;
+import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @Creation Date ： 2018/1/16 10:53
  * @version 1.0.0
  */
+@Alias("alq_consultation")
 public class Consultation extends IdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

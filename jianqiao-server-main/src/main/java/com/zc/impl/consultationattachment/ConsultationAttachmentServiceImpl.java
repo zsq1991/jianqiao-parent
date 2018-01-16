@@ -26,7 +26,7 @@ import java.util.Objects;
  */
 
 @Component
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",interfaceClass =ConsultationAttachmentService.class )
 @Transactional(readOnly = true)
 public class ConsultationAttachmentServiceImpl implements ConsultationAttachmentService {
 

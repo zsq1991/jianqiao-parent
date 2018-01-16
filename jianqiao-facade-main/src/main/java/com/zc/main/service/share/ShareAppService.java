@@ -13,7 +13,7 @@ import java.util.Map;
 public interface ShareAppService {
     Map<String,Object> getConsultationnow(String id);
 
-    Map<String,Object> getConsultation(String s);
+    Map<String,Object> getConsultation(Long id);
 
     Map<String,Object> getConsultationTop(String id);
 

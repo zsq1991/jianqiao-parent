@@ -67,7 +67,7 @@ public class ShareController {
         try {
             if (type == 1) {
                 Long consuid = (Long) consultationnow.get("consulatation_id");
-                Map<String, Object> consultation = shareAppService.getConsultation(consuid + "");
+                Map<String, Object> consultation = shareAppService.getConsultation(consuid);
                 logger.info("consultation:" + consultation);
                 Map<String, Object> consultationTop = shareAppService.getConsultationTop(id);
                 List<Map<String, Object>> consultationList = shareAppService.getConsultationList(consuid + "");
@@ -116,7 +116,7 @@ public class ShareController {
 
             if (type == 2) {
                 Long consuid = (Long) consultationnow.get("consulatation_id");
-                Map<String, Object> consultation = shareAppService.getConsultation(consuid + "");
+                Map<String, Object> consultation = shareAppService.getConsultation(consuid);
                 Map<String, Object> consultationTop = shareAppService.getConsultationTop(id);
                 long object2 = (long) consultationTop.get("id");
                 if (StringUtils.isNotBlank(object2 + "")) {
