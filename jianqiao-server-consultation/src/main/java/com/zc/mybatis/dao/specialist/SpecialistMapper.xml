@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
-<mapper namespace="com.zc.mybatis.dao.specialist.SpecialistsMapper">
+<mapper namespace="com.zc.mybatis.dao.specialist.SpecialistMapper">
 
 
 	<!-- 推荐专家地址列表 -->
-	<resultMap id="consultationMap" type="com.alqsoft.entity.specialist.Specialist">
+	<resultMap id="consultationMap" type="com.zc.main.entity.specialists.Specialist">
 		<id column="id" property="id"/>
 		<result column="title" property="title" />
 		<result column="created_time" property="createdTime" />
-		<collection property="addressList" ofType="com.alqsoft.entity.specialist.SpecialistDTO">
+		<collection property="addressList" ofType="com.zc.main.entity.specialists.SpecialistDTO">
 			<id column="caId" property="id"/>
 			<result  column="address" property="address"/>
 		</collection>
