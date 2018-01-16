@@ -1,6 +1,7 @@
 package com.zc.main.controller.view.specialist;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.service.specialist.SpecialistService;
@@ -27,7 +28,7 @@ import java.util.Map;
 public class SpecialistController {
 
 
-    @DubboConsumer(version="1.0.0")
+    @Reference(version = "1.0.0")
     private SpecialistService specialistService;
 
 

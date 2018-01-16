@@ -1,13 +1,12 @@
 package com.zc.service.impl.specialist;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.specialists.Specialist;
 import com.zc.main.service.specialist.SpecialistService;
 import com.zc.mybatis.dao.specialist.SpecialistMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;

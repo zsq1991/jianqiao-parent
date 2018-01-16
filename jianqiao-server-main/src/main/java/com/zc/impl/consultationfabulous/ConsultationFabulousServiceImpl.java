@@ -3,6 +3,7 @@ package com.zc.impl.consultationfabulous;
 
 
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.consultation.Consultation;
@@ -18,12 +19,11 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
-@Service
+@Service(version = "1.0.0")
 @Transactional(readOnly=true)
 public class ConsultationFabulousServiceImpl implements ConsultationFabulousService {
 	private static Logger logger = LoggerFactory.getLogger(ConsultationFabulousServiceImpl.class);

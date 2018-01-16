@@ -1,4 +1,4 @@
-package com.zc.shiro.confige.aspect;
+package com.zc.main.config.aspect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.common.core.annotation.MemberAnno;
@@ -85,8 +85,8 @@ public class AdviceMemberLogin {
 		        	Object[] args = point.getArgs();
 		        	if(annotation.annotationType().getName().equals(MemberAnno.class.getName()))
 		        	{
-		        		 Member memberArg=(Member) args[i];
-		        		 BeanUtils.copyProperties(memberArg, member);
+						Member memberArg=(Member) args[i];
+						BeanUtils.copyProperties(member,memberArg);
 		        	}
 	        	}
 			}
