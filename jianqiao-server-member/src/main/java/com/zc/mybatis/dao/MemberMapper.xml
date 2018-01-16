@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zc.mybatis.dao.MemberMapper">
+    <!--获得用户信息通过id和uuid-->
+    <select id="getMemberByIdAndUuid" resultType="Map"  parameterType="map">
+        SELECT id,phone,nickname,ifnull(user_type,0) user_type,card,name,ifnull(status,0) status,
+        (select g.content from alq_member_msg  g where g.type=1 and g.member_id=m.id ) rejectMsg
+        FROM alq_member m
+        <where>
+            <if test="phone != null ">
+                AND phone = #{phone}
+            </if>
 
+            <if test="uuid != null ">
+                AND uuid = #{uuid}
+            </if>
+        </where>
+    </select>
 </mapper>

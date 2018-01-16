@@ -1,5 +1,6 @@
 package com.zc.main.service.member;
 
+import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 
 /**
@@ -19,4 +20,6 @@ public interface MemberService {
 	 * @return :
 	 */
 	Member getMerberById(Long memberId);
+
+	Result getAuthMember(Member member);
 }
