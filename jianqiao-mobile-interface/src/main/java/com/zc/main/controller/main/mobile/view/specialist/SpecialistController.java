@@ -1,7 +1,6 @@
-package com.zc.main.controller.view.specialist;
+package com.zc.main.controller.main.mobile.view.specialist;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.service.specialist.SpecialistService;

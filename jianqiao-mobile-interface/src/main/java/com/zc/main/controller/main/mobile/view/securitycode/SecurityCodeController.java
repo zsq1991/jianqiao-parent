@@ -1,4 +1,4 @@
-package com.zc.main.controller.securitycode;
+package com.zc.main.controller.main.mobile.view.securitycode;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.common.util.ip.IPUtil;
