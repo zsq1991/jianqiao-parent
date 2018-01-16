@@ -24,7 +24,7 @@ public class ConsultationViewController {
 
     private static Logger logger = LoggerFactory.getLogger(ConsultationViewController.class);
 
-    @DubboConsumer(version = "1.0.0")
+    @DubboConsumer(version = "1.0.0",check = false)
     private ConsultationService consultationService;
 
     /**
