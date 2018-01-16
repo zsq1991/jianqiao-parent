@@ -1,10 +1,10 @@
-package com.zc.main.service.share;
+package com.zc.main.service.shareapp;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @package : com.zc.main.service.share
+ * @package : com.zc.main.service.shareapp
  * @progect : jianqiao-parent
  * @Description :
  * @Created by :ZhaoJunBiao
