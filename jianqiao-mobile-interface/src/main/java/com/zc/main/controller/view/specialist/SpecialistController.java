@@ -28,7 +28,7 @@ import java.util.Map;
 public class SpecialistController {
 
 
-    @Reference(version = "1.0.0")
+    @DubboConsumer(version="1.0.0",timeout = 30000)
     private SpecialistService specialistService;
 
 
