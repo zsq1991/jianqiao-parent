@@ -83,9 +83,14 @@
 			<artifactId>jianqiao-dbconfig-read</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+      <dependency>
+          <groupId>jianqiao-parent</groupId>
+          <artifactId>jianqiao-facade-consultation</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+      </dependency>
 
 
-	</dependencies>
+  </dependencies>
 	<build>
 		<plugins>
 		   <plugin>

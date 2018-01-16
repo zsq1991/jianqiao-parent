@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.zc.mybatis.dao.specialist.SpecialistMapper">
+
+
+	<!-- 推荐专家地址列表 -->
+	<resultMap id="consultationMap" type="com.zc.main.entity.specialists.Specialist">
+		<id column="id" property="id"/>
+		<result column="title" property="title" />
+		<result column="created_time" property="createdTime" />
+		<collection property="addressList" ofType="com.zc.main.entity.specialists.SpecialistDTO">
+			<id column="caId" property="id"/>
+			<result  column="address" property="address"/>
+		</collection>
+	</resultMap>
+
+	<!-- 根据专家ID获取荣誉图片集合 -->
+	<select id="getDoctorAttachment" resultType="java.lang.String"
+		parameterType="java.lang.Long">
+		SELECT
+			da.address
+		FROM
+			alq_doctor_attachment AS da
+		WHERE
+			da.user_id = #{id}
+		AND da.type = 2
+		AND da.user_type = 2
+	</select>
+	<!-- 根据ID获取专家详情 -->
+	<select id="getSpecialistDetail" resultType="java.util.Map"
+		parameterType="java.lang.Long">
+		SELECT
+			spe.id,
+			spe.head_url,
+			spe.office,
+			spe.position,
+			spe.employer,
+			spe.name,
+			spe.sex,
+			spe.detail
+		FROM
+			alq_specialist AS spe
+		WHERE
+			spe.id = #{specialistId}
+	</select>
+	<!-- 根据科室获取推荐信息列表 -->
+	<select id="queryConsultationList" resultMap="consultationMap">
+		SELECT
+			c.id,
+			c.title,
+			c.created_time,
+			ca.id caId,
+			ca.address
+		FROM
+			alq_consultation AS c
+		LEFT  JOIN alq_consultation_attachment AS ca ON c.id = ca.consultation_id
+		WHERE
+			c.title LIKE CONCAT(CONCAT('%', #{office}, '%'))
+	</select>
+
+	<select id="getSpecialistCount" resultType="java.lang.Integer">
+		select count(*) from alq_specialist
+	</select>
+
+	<select id="getDoctorCount" resultType="java.lang.Integer">
+		select count(*) from alq_doctor
+	</select>
+
+	<!-- 根据limit 获取专家列表 -->
+	<select id="getSpecialistData" resultType="map" parameterType="map">
+		SELECT
+			*
+		FROM
+			alq_specialist AS spe
+		ORDER BY spe.id ASC
+		<if test="dataType==1">
+			LIMIT 0,6
+		</if>
+		<if test="dataType==0">
+			LIMIT 6,#{specialistCount}
+		</if>
+	</select>
+
+	<!-- 根据limit 获取高手列表 -->
+	<select id="getDoctorData" resultType="map" parameterType="map">
+		SELECT
+			d.id,
+			d.name,
+			d.sex,
+			d.head_url,
+			concat(d.province_name,d.city_name,d.address) AS doctorAddress,
+			IFNULL(sp.name,"") AS pacageName
+		FROM
+			alq_doctor AS d LEFT JOIN alq_service_package sp ON d.id = sp.doctor_id
+		GROUP BY d.id ORDER BY d.id ASC
+		<if test="dataType==1">
+			LIMIT 0,6
+		</if>
+		<if test="dataType==0">
+			LIMIT 6,#{doctorCount}
+		</if>
+	</select>
+</mapper>
