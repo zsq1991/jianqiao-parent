@@ -1,12 +1,12 @@
 package com.zc.service.impl.specialist;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.specialists.Specialist;
 import com.zc.main.service.specialist.SpecialistService;
 import com.zc.mybatis.dao.specialist.SpecialistMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import java.util.Map;
  * @Created by : 朱军
  * @Creation Date ：2018年01月09日9:19
  */
-@Service
+@Service(version = "1.0.0")
 @Transactional(readOnly=true)
 public class SpecialistServiceImpl implements SpecialistService {
 
