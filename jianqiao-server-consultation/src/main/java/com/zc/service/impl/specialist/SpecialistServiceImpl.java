@@ -4,7 +4,7 @@ import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.specialists.Specialist;
 import com.zc.main.service.specialist.SpecialistService;
-import com.zc.mybatis.dao.specialist.SpecialistsMapper;
+import com.zc.mybatis.dao.specialist.SpecialistMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,24 +25,24 @@ import java.util.Map;
 public class SpecialistServiceImpl implements SpecialistService {
 
     @Autowired
-    private SpecialistsMapper specialistsMapper;
+    private SpecialistMapper specialistMapper;
 
     @Override
     public Result getSpecialistDetail(Long specialistId) {
 
         Map<String,Object> map = new HashMap<String,Object>();
         //专家信息
-        Map<String, Object> specialistDetail = specialistsMapper.getSpecialistDetail(specialistId);
+        Map<String, Object> specialistDetail = specialistMapper.getSpecialistDetail(specialistId);
         if(specialistDetail == null){
             return ResultUtils.returnError("专家不存在");
         }else{
             //荣誉图片地址集合
-            List<String> honorAddressList = specialistsMapper.getDoctorAttachment(new Long(specialistDetail.get("id").toString()));
+            List<String> honorAddressList = specialistMapper.getDoctorAttachment(new Long(specialistDetail.get("id").toString()));
             map.put("specialistInfo",specialistDetail);
             map.put("honorAddress",honorAddressList);
             Map<String,Object> consultatoin = new HashMap<String,Object>();
             if(specialistDetail.get("office") != null && specialistDetail.get("office") != ""){
-                List<Specialist> consultatoinList = specialistsMapper.queryConsultationList(specialistDetail.get("office").toString());
+                List<Specialist> consultatoinList = specialistMapper.queryConsultationList(specialistDetail.get("office").toString());
                 //专家相关推荐列表
                 map.put("consultatoin",consultatoinList);
             }
@@ -55,11 +55,11 @@ public class SpecialistServiceImpl implements SpecialistService {
     public List<Map<String, Object>> getSpecialistData(String dataType) {
         Map<String,Object> param = new HashMap<String,Object>();
         if("0".equals(dataType)){
-            Integer specialistCount = specialistsMapper.getSpecialistCount();
+            Integer specialistCount = specialistMapper.getSpecialistCount();
             param.put("specialistCount",specialistCount);
         }
         param.put("dataType",dataType);
-        List<Map<String, Object>> maplist =specialistsMapper.getSpecialistData(param);
+        List<Map<String, Object>> maplist =specialistMapper.getSpecialistData(param);
         return maplist;
     }
 
@@ -67,11 +67,11 @@ public class SpecialistServiceImpl implements SpecialistService {
     public List<Map<String, Object>> getDoctorData(String dataType) {
         Map<String,Object> param = new HashMap<String,Object>();
         if("0".equals(dataType)){
-            Integer doctorCount = specialistsMapper.getDoctorCount();
+            Integer doctorCount = specialistMapper.getDoctorCount();
             param.put("doctorCount",doctorCount);
         }
         param.put("dataType",dataType);
-        List<Map<String, Object>> maplist =specialistsMapper.getDoctorData(param);
+        List<Map<String, Object>> maplist =specialistMapper.getDoctorData(param);
         return maplist;
     }
 

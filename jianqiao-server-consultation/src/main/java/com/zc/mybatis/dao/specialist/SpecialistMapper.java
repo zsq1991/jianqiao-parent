@@ -14,7 +14,7 @@ import java.util.Map;
  * @Creation Date ：2018年01月09日9:22
  */
 @MyBatisRepository
-public interface SpecialistsMapper {
+public interface SpecialistMapper {
 
     /**
      * @description ：根据专家ID获取专家信息
