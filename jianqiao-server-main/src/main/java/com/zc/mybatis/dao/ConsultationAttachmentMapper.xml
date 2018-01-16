@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.zc.mybatis.dao.ConsultationAttachmentMapper">
+
+    <!-- 资讯图片 -->
+    <select id="findConsultationAttachmentByConsultationId" resultType="map" parameterType="long">
+		SELECT  ca.address FROM alq_consultation_attachment  AS ca WHERE ca.consultation_id=#{id}
+	</select>
+
+    <!-- 视频资讯 视频的地址 @author wudi-->
+    <select id="findConsultationAttachmentVideoAddressByConsultationId" resultType="String" parameterType="Long">
+	SELECT  ca.address as video FROM alq_consultation_attachment  AS ca WHERE ca.consultation_id=#{id} and ca.type=3
+	</select>
+
+    <!-- 视频资讯 封面图片 -->
+    <select id="findConsultationAttachmentMVByConsultationId" resultType="map" parameterType="long">
+		SELECT  ca.address FROM alq_consultation_attachment  AS ca WHERE ca.consultation_id=#{id} AND ca.consultation_attachment_id IS NULL
+	</select>
+
+    <!-- 封面图片 -->
+    <select id="getConsultationAttachmentCoverAddressByConsultationId" resultType="map" parameterType="long">
+
+		SELECT ca.address,
+		 CASE WHEN SUBSTRING(ca.address,1,4)='http' THEN  ca.address ELSE CONCAT ("http://yst-images.img-cn-hangzhou.aliyuncs.com/",ca.address) END addressDetil,
+		ca.attachment_id,
+		CASE WHEN ca.type is null THEN 2 ELSE ca.type END type,
+		 (SELECT SUBSTRING_INDEX(attm.size_info,',',1)  FROM alq_attachment attm WHERE attm.id=ca.attachment_id)width,
+		(SELECT SUBSTRING_INDEX(attm.size_info,',',-1)  FROM alq_attachment attm  WHERE attm.id=ca.attachment_id) height
+
+		 FROM alq_consultation_attachment  AS ca WHERE ca.consultation_id = #{id} AND ca.cover = 1
+
+	</select>
+
+    <!-- 内容 -->
+    <select id="getConsultationAttachmentDetailByConsultation" resultType="map" parameterType="long">
+
+		SELECT  ca.address,
+		CASE WHEN SUBSTRING(ca.address,1,4)='http' THEN  ca.address ELSE CONCAT ("http://yst-images.img-cn-hangzhou.aliyuncs.com/",ca.address) END addressDetil,
+		ca.type,ca.detail_content content,ca.sort_num sortNum,ca.attachment_id ,
+		(SELECT SUBSTRING_INDEX(attm.size_info,',',1)  FROM alq_attachment attm WHERE attm.id=ca.attachment_id)width,
+		(SELECT SUBSTRING_INDEX(attm.size_info,',',-1)  FROM alq_attachment attm  WHERE attm.id=ca.attachment_id) height
+		FROM alq_consultation_attachment  AS ca
+		WHERE  IFNULL(ca.cover,0) != 1 AND  ca.consultation_id = #{id} ORDER BY ca.sort_num ASC
+
+	</select>
+
+    <!--咨询信息-->
+    <select id="getConsultationAttachmentByConsultation" resultType="Map" parameterType="Map">
+
+        SELECT DISTINCT c.id,c.author_info,c.title,c.type,c.detail_summary descr,c.consulatation_id pid,
+        CASE WHEN DATE_FORMAT(NOW(),'%Y-%m-%d')= DATE_FORMAT(c.created_time,'%Y-%m-%d')
+        THEN DATE_FORMAT(c.created_time,'%H:%i')
+        ELSE DATE_FORMAT(c.created_time,'%Y-%m-%d')
+        END createdTime,
+        c.fabulous_num,c.num,c.collect_num,c.status,c.member_id,
+        (SELECT SUBSTRING_INDEX(attm.size_info,',',1) FROM alq_attachment attm WHERE attm.id=ca.attachment_id)width,
+        (SELECT SUBSTRING_INDEX(attm.size_info,',',-1) FROM alq_attachment attm WHERE attm.id=ca.attachment_id) height,
+        (SELECT mt.address FROM alq_member m,alq_attachment mt WHERE m.logo_attachment_id=mt.id AND m.id=c.member_id)
+        photo
+        FROM alq_consultation_attachment ca ,alq_consultation c WHERE ca.consultation_id = c.id AND c.is_delete=0
+        AND IFNULL(ca.cover,0) != 1
+        <if test="id != null ">
+            AND ca.consultation_id = #{id}
+        </if>
+
+        <if test="type != null">
+            AND c.type = #{type}
+        </if>
+
+        <if test="mid != null">
+            AND c.member_id = #{mid}
+        </if>
+
+        <if test="pid != null">
+            AND c.consulatation_id = #{pid}
+        </if>
+
+        <if test="status != null">
+            AND c.status = #{status}
+        </if>
+
+        <if test="ctype != null">
+            AND ca.type = #{ctype}
+        </if>
+
+        order by c.created_time desc
+
+        <if test="dlimit != null">
+            limit 3
+        </if>
+
+        <if test="detailLimit != null">
+            limit 5
+        </if>
+
+        <if test="climit != null">
+            limit #{page}, #{size}
+        </if>
+    </select>
+
+
+    <!--父级咨询信息-->
+    <select id="getConsultationAttachmentByConsultationType" resultType="Map" parameterType="Map">
+
+        SELECT c.id,c.author_info,c.type,c.title,ca.address,c.detail_summary descr,
+        CASE WHEN DATE_FORMAT(NOW(),'%Y-%m-%d')= DATE_FORMAT(c.created_time,'%Y-%m-%d')
+        THEN DATE_FORMAT(c.created_time,'%H:%i')
+        ELSE DATE_FORMAT(c.created_time,'%Y-%m-%d')
+        END createdTime,c.collect_num,c.status,c.consulatation_id pid,
+        (SELECT SUBSTRING_INDEX(attm.size_info,',',1) FROM alq_attachment attm WHERE attm.id=ca.attachment_id)width,
+        (SELECT SUBSTRING_INDEX(attm.size_info,',',-1) FROM alq_attachment attm WHERE attm.id=ca.attachment_id) height
+        FROM alq_consultation_attachment ca ,alq_consultation c WHERE ca.consultation_id = c.id AND c.is_delete=0
+        <if test="id != null ">
+            AND ca.consultation_id = #{id}
+        </if>
+
+        <if test="cover == 1 ">
+            AND ca.cover = 1
+        </if>
+
+        <if test="cover == 0 ">
+            AND ifnull(ca.cover,0) = 1
+        </if>
+
+        <if test="type != null">
+            AND c.type = #{type}
+        </if>
+
+        <if test="mid !=null">
+            AND c.member_id = #{mid}
+        </if>
+
+        <if test="status !=null">
+            AND c.status = #{status}
+        </if>
+        <if test="pid !=null">
+            AND c.consulatation_id = #{pid}
+        </if>
+        order by c.created_time desc
+        limit #{page},#{size}
+    </select>
+
+    <!--获取专题信息-->
+    <select id="getParentConsultationDetail" resultType="Map">
+		SELECT  c.id,c.type,c.title,
+		ca.address,
+		CASE WHEN SUBSTRING(ca.address,1,4)='http' THEN  ca.address ELSE CONCAT ("http://yst-images.img-cn-hangzhou.aliyuncs.com/",ca.address) END addressDetil,c.status,ca.attachment_id,c.detail_summary descr,c.consulatation_id pid,
+		(SELECT SUBSTRING_INDEX(attm.size_info,',',1)  FROM alq_attachment attm WHERE attm.id=ca.attachment_id)width,
+		(SELECT SUBSTRING_INDEX(attm.size_info,',',-1)  FROM alq_attachment attm  WHERE attm.id=ca.attachment_id) height
+		FROM alq_consultation_attachment ca ,alq_consultation c  WHERE  ca.consultation_id = c.id AND c.is_delete=0
+		AND ca.cover =1 and c.id = #{id} and c.type = #{type}
+	</select>
+
+    <select id="getCommonConsultation" resultType="Map">
+
+		SELECT  c.id,c.title,c.type
+		FROM alq_consultation_attachment ca ,alq_consultation c  WHERE  ca.consultation_id = c.id AND c.is_delete=0
+        AND	ca.consultation_id = #{id}
+
+	</select>
+
+    <!--获取咨询附件信息-->
+    <select id="getConsultationAttachmentByMap" resultType="Map" parameterType="Map">
+        SELECT ca.address,ca.type ctype,ca.cover,ca.attachment_id,(SELECT SUBSTRING_INDEX(attm.size_info,',',1) FROM
+        alq_attachment attm WHERE attm.id=ca.attachment_id)width,
+        (SELECT SUBSTRING_INDEX(attm.size_info,',',-1) FROM alq_attachment attm WHERE attm.id=ca.attachment_id) height
+        FROM alq_consultation_attachment ca
+        <where>
+
+            <if test="cover !=null ">
+                AND ca.cover = #{cover}
+            </if>
+
+            <if test="cid !=null ">
+                AND ca.consultation_id = #{cid}
+            </if>
+
+        </where>
+    </select>
+    <!-- 资讯的求助和分享的详情内容 -->
+    <select id="findDetailContentByConsultationId" resultType="map" parameterType="long">
+		SELECT c.detail_content AS detailContent FROM alq_consultation_attachment AS c 
+		WHERE c.consultation_id=#{id} AND c.type=0 ORDER BY c.created_time ASC LIMIT 1
+	</select>
+</mapper>
