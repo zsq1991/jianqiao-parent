@@ -11,7 +11,6 @@ public interface ConsultationService {
     /**
      * @param id     咨询id
      * @param member 用户
-     * @return
      * @description ：根据id删除咨询
      * @Created by  : gaoge
      * @Creation Date ： 2018/1/16 10:56

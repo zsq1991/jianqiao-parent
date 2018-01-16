@@ -59,6 +59,12 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>jianqiao-parent</groupId>
+            <artifactId>jianqiao-facade-member</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!--分布式事物-->
         <dependency>
             <groupId>com.codingapi</groupId>

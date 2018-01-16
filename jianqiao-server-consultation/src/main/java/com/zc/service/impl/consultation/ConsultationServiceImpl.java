@@ -1,10 +1,8 @@
-package com.zc.impl.consultation;
+package com.zc.service.impl.consultation;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
@@ -13,32 +11,29 @@ import com.zc.main.service.consultation.ConsultationService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.main.service.member.MemberService;
 import com.zc.mybatis.dao.ConsultationMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
-@Service(version = "1.0.0",interfaceClass = ConsultationService.class)
+@Service(version = "1.0.0", interfaceClass = ConsultationService.class)
 @Transactional(readOnly = true)
 public class ConsultationServiceImpl implements ConsultationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsultationServiceImpl.class);
 
-    @Reference(version = "1.0.0")
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private MemberService memberService;
 
     @Autowired
     private ConsultationMapper consultationMapper;
 
-    @Reference(version = "1.0.0")
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private ConsultationAttachmentService consultationAttachmentService;
 
     @Override
@@ -68,6 +63,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public Result findconsultationinfo(Integer page, Integer rows, String checktype) {
+        logger.info("====================APP首页  内容根据关键词搜索开始===========");
         HashMap<String, Object> param = new HashMap<String, Object>();
 
         if (null == checktype || "".equals(checktype)) {
@@ -80,18 +76,18 @@ public class ConsultationServiceImpl implements ConsultationService {
         param.put("endIndex", rows);
 
         List<Map<String, Object>> consultationInfoListss = consultationMapper.findconsultationinfo(param);
-        List<Map<String, Object>> consultationInfoList=new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> consultationInfoList = new ArrayList<Map<String, Object>>();
         if (consultationInfoListss.size() > 0) {
             for (Map<String, Object> consultationInfo : consultationInfoListss) {
                 //按类型查询
                 String type = consultationInfo.get("type").toString();
                 //是否是主题或访谈的标识
                 boolean isMore = false;//是否是主题或访谈的标识    false 不是   true 是
-                List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
+                List<Map<String, Object>> consultationChidList = new ArrayList<Map<String, Object>>();
                 if (type.equals("0") || type.equals("2")) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
                     //判断访谈和口述是否有内容
-                    Integer count=consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
-                    if(count==0){
+                    Integer count = consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
+                    if (count == 0) {
                         continue;
                     }
 
@@ -99,7 +95,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                     consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));//根据访谈或口述的id查询其子类
                     //取详情内容
-                    Object detailContentChid="";
+                    Object detailContentChid = "";
                     if (consultationChidList.size() > 0) {
                         for (Map<String, Object> consultationChidInfo : consultationChidList) {
                             //处理时间格式
@@ -125,16 +121,16 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                             //获取视频地址
                             String video = consultationAttachmentService.findConsultationAttachmentVideoAddressByConsultationId(Long.valueOf(consultationChidInfo.get("id").toString()));
-                            if (video!=null) {
+                            if (video != null) {
                                 consultationChidInfo.put("video", video);
                             }
 
                             //处理访谈和口述专题的详情内容
-                            Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
-                            if(null==map || map.size()==0){
-                                detailContentChid="";
-                            }else{
-                                detailContentChid=map.get("detailContent");
+                            Map<String, Object> map = consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                            if (null == map || map.size() == 0) {
+                                detailContentChid = "";
+                            } else {
+                                detailContentChid = map.get("detailContent");
                             }
                             consultationChidInfo.put("detailContentChid", detailContentChid);
                         }
@@ -171,28 +167,29 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                 //获取资讯的视频地址
                 String video = consultationAttachmentService.findConsultationAttachmentVideoAddressByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
-                if (video !=null) {
+                if (video != null) {
                     consultationInfo.put("video", video);
                 }
 
 
                 //取详情内容
-                Object detailContent="";
-                if(type.equals("4") || type.equals("6")){
-                    Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
-                    if(null==map || map.size()==0){
-                        detailContent="";
-                    }else{
-                        detailContent=map.get("detailContent");
+                Object detailContent = "";
+                if (type.equals("4") || type.equals("6")) {
+                    Map<String, Object> map = consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                    if (null == map || map.size() == 0) {
+                        detailContent = "";
+                    } else {
+                        detailContent = map.get("detailContent");
                     }
                 }
                 consultationInfo.put("detailContent", detailContent);
 
                 consultationInfoList.add(consultationInfo);
             }
-
+            logger.info("====================APP首页  内容根据关键词搜索结束===========");
             return ResultUtils.returnSuccess("请求成功", consultationInfoList);
         } else {
+            logger.info("====================APP首页  内容根据关键词搜索结束===========");
             return ResultUtils.returnError("没有数据");
         }
     }

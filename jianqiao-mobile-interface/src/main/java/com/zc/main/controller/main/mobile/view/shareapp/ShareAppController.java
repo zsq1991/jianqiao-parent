@@ -34,9 +34,9 @@ public class ShareAppController {
 
     private static String url = "http://yst-images.img-cn-hangzhou.aliyuncs.com/";
 
-    @DubboConsumer(version = "1.0.0",timeout = 30000)
+    @DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
     private ShareAppService shareAppService;
-    @DubboConsumer(version = "1.0.0",timeout = 30000)
+    @DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
     private HelpDetailsService helpDetailsService;
 
     /**
