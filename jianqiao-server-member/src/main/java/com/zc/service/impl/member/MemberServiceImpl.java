@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",interfaceClass =MemberService.class )
 @Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
