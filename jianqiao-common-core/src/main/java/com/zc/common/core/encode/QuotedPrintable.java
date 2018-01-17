@@ -104,8 +104,9 @@ public class QuotedPrintable {
 	 * @return The encoded string. If the content is null, return null.
 	 */
 	public static String encode(String content, String enc) {
-		if (content == null)
-			return null;
+		if (content == null) {
+            return null;
+        }
 
 		byte[] str = null;
 		try {
@@ -123,8 +124,9 @@ public class QuotedPrintable {
 	 * @return The encoded string. If the content is null, return null.
 	 */
 	public static String encode(byte[] content) {
-		if (content == null)
-			return null;
+		if (content == null) {
+            return null;
+        }
 
 		StringBuilder out = new StringBuilder();
 
@@ -152,7 +154,8 @@ public class QuotedPrintable {
 		if (required + mCurrentLineLength > MAX_LINE_LENGTH - 1) {
 			out.append("=/r/n");
 			mCurrentLineLength = required;
-		} else
-			mCurrentLineLength += required;
+		} else {
+            mCurrentLineLength += required;
+        }
 	}
 }

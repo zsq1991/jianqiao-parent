@@ -1,5 +1,7 @@
 package com.zc.common.core.shiro;
 
+import java.util.Objects;
+
 /**
  * @描述： 角色编号枚举
  */
@@ -26,7 +28,7 @@ public enum RoleEnum {
     public static RoleEnum getRoleEnumByCode(Byte code) {
         RoleEnum[] roleEnums =  RoleEnum.values();
         for (RoleEnum roleEnum : roleEnums) {
-            if (code == roleEnum.code) {
+            if (Objects.equals(code, roleEnum.code)) {
                 return roleEnum;
             }
         }

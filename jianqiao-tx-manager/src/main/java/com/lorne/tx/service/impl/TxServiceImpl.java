@@ -2,6 +2,7 @@ package com.lorne.tx.service.impl;
 
 
 import com.lorne.tx.Constants;
+import com.lorne.tx.config.ConfigReader;
 import com.lorne.tx.service.DiscoveryService;
 import com.lorne.tx.service.TxManagerService;
 import com.lorne.tx.service.TxService;
@@ -13,7 +14,6 @@ import com.netflix.appinfo.InstanceInfo;
 import com.netflix.eureka.EurekaServerContextHolder;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,16 +28,6 @@ import java.util.regex.Pattern;
 @Service
 public class TxServiceImpl implements TxService {
 
-    @Value("${redis_save_max_time}")
-    private int redis_save_max_time;
-
-    @Value("${transaction_netty_heart_time}")
-    private int transaction_netty_heart_time;
-
-    @Value("${transaction_netty_delay_time}")
-    private int transaction_netty_delay_time;
-
-
     @Autowired
     private TxManagerService managerService;
 
@@ -46,7 +36,8 @@ public class TxServiceImpl implements TxService {
 
     @Autowired
     private DiscoveryService discoveryService;
-
+    @Autowired
+    private ConfigReader configReader;
 
     @Override
     public TxServer getServer() {
@@ -108,9 +99,13 @@ public class TxServiceImpl implements TxService {
         state.setPort(Constants.socketPort);
         state.setMaxConnection(SocketManager.getInstance().getMaxConnection());
         state.setNowConnection(SocketManager.getInstance().getNowConnection());
-        state.setRedisSaveMaxTime(redis_save_max_time);
-        state.setTransactionNettyDelayTime(transaction_netty_delay_time);
-        state.setTransactionNettyHeartTime(transaction_netty_heart_time);
+        state.setRedisSaveMaxTime(configReader.getRedisSaveMaxTime());
+        state.setTransactionNettyDelayTime(configReader.getTransactionNettyDelayTime());
+        state.setTransactionNettyHeartTime(configReader.getTransactionNettyHeartTime());
+        state.setNotifyUrl(configReader.getCompensateNotifyUrl());
+        state.setCompensate(configReader.isCompensateAuto());
+        state.setCompensateTryTime(configReader.getCompensateTryTime());
+        state.setAutoCompensateLimit(configReader.getAutoCompensateLimit());
         state.setSlbList(getServices());
         return state;
     }

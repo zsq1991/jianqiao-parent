@@ -3,6 +3,7 @@ package com.zc.mybatis.dao;
 import com.common.util.mybatis.BasicMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
 import com.zc.main.entity.member.Member;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -42,4 +43,12 @@ public interface MemberMapper extends BasicMapper<Member> {
 	 * @return
 	 */
 	Member checkMemberById(Long memberId);
+
+	/**
+	 * @description ：根据手机号判断账户是否存在
+	 * @Created by  : tenghui
+	 * @Creation Date ： 2018/1/17 9:26
+	 * @version : 1.0.0
+	 */
+	public Member getMemberByPhone(@Param("phone")String phone);
 }

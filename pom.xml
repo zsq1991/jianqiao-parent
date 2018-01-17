@@ -87,7 +87,7 @@
 		<module>jianqiao-facade-shiro</module>
 		<module>jianqiao-web-shiro</module>
 		<!--分布式事物-->
-		<module>tx-manager</module>
+		<module>jianqiao-tx-manager</module>
 		<module>jianqiao-dbconfig-read</module>
 		<module>jianqiao-dbconfig-write</module>
         <module>jianqiao-facade-member</module>

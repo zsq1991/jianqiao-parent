@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -99,8 +98,9 @@ public class MShiroFilterFactoryBean extends ShiroFilterFactoryBean {
             int idx = 0;
             if ((idx = str.indexOf(".")) > 0) {
                 str = str.substring(idx);
-                if (ignoreExt.contains(str.toLowerCase()))
+                if (ignoreExt.contains(str.toLowerCase())) {
                     flag = false;
+                }
             }
             // 判断是否是信任的url
             if(isTrustResource(str)){
@@ -121,7 +121,7 @@ public class MShiroFilterFactoryBean extends ShiroFilterFactoryBean {
                         for (Session s : sessions) {
                             if (s.getId().equals(c.getValue())) {
                                 //判断session是否失效
-                                if (s.getLastAccessTime().getTime() + s.getTimeout() <= new Date().getTime()) {
+                                if (s.getLastAccessTime().getTime() + s.getTimeout() <= System.currentTimeMillis()) {
                                     isHave = false;
                                 } else {
                                     isHave = true;

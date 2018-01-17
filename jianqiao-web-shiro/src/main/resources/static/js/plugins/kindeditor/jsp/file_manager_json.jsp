@@ -108,7 +108,8 @@ out.println(result.toJSONString());
 %>
 <%!
 public class NameComparator implements Comparator {
-	public int compare(Object a, Object b) {
+	@Override
+    public int compare(Object a, Object b) {
 		Hashtable hashA = (Hashtable)a;
 		Hashtable hashB = (Hashtable)b;
 		if (((Boolean)hashA.get("is_dir")) && !((Boolean)hashB.get("is_dir"))) {
@@ -121,7 +122,8 @@ public class NameComparator implements Comparator {
 	}
 }
 public class SizeComparator implements Comparator {
-	public int compare(Object a, Object b) {
+	@Override
+    public int compare(Object a, Object b) {
 		Hashtable hashA = (Hashtable)a;
 		Hashtable hashB = (Hashtable)b;
 		if (((Boolean)hashA.get("is_dir")) && !((Boolean)hashB.get("is_dir"))) {
@@ -140,7 +142,8 @@ public class SizeComparator implements Comparator {
 	}
 }
 public class TypeComparator implements Comparator {
-	public int compare(Object a, Object b) {
+	@Override
+    public int compare(Object a, Object b) {
 		Hashtable hashA = (Hashtable)a;
 		Hashtable hashB = (Hashtable)b;
 		if (((Boolean)hashA.get("is_dir")) && !((Boolean)hashB.get("is_dir"))) {

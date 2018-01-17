@@ -175,8 +175,9 @@ public class PropertiesUtils {
 	  */
 	 public static <T> boolean updatePropertiesByProName(Class<T> class1,String propertiesFileName,String propertyName,String propertyValue){
 	     boolean writeOK=false;
-	     if(properties.isEmpty())
-	         initProperties(class1, propertiesFileName);
+	     if(properties.isEmpty()) {
+             initProperties(class1, propertiesFileName);
+         }
 	        //修改值
 	        properties.setProperty(propertyName,propertyValue);
 	        //保存文件

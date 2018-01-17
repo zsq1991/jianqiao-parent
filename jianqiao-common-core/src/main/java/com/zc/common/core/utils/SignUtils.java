@@ -70,14 +70,22 @@ public class SignUtils {
         for_map_keys:
         for(String key: mapKeys) {
             String value = map.get(key);
-            if (value==null || "".equals(value.trim())) continue;
+            if (value==null || "".equals(value.trim())) {
+                continue;
+            }
             for(String i: IGNORE) {
-                if (i.equalsIgnoreCase(key)) continue for_map_keys;
+                if (i.equalsIgnoreCase(key)) {
+                    continue for_map_keys;
+                }
             }
 
-            if (!first) link.append("&");
+            if (!first) {
+                link.append("&");
+            }
             link.append(key).append("=").append(value);
-            if (first) first = false;
+            if (first) {
+                first = false;
+            }
         }
         return link.toString();
     }
@@ -96,14 +104,24 @@ public class SignUtils {
         for(String key: mapKeys) {
             Object obj= map.get(key);
             String value ="";
-            if(obj!=null) value=((String[])obj)[0];
-            if ( "".equals(value.trim())) continue;
-            for(String i: IGNORE) {
-                if (i.equalsIgnoreCase(key)) continue for_map_keys;
+            if(obj!=null) {
+                value = ((String[]) obj)[0];
             }
-            if (!first) link.append("&");
+            if ( "".equals(value.trim())) {
+                continue;
+            }
+            for(String i: IGNORE) {
+                if (i.equalsIgnoreCase(key)) {
+                    continue for_map_keys;
+                }
+            }
+            if (!first) {
+                link.append("&");
+            }
             link.append(key).append("=").append(value);
-            if (first) first = false;
+            if (first) {
+                first = false;
+            }
         }
         return link.toString();
     }
@@ -122,14 +140,22 @@ public class SignUtils {
         for(String key: mapKeys) {
             Object obj= map.get(key);
             String value ="";
-            if(obj!=null) value=((String[])obj)[0];
+            if(obj!=null) {
+                value = ((String[]) obj)[0];
+            }
             //if ( "".equals(value.trim())) continue; //map升序保留空值
             for(String i: IGNORE) {
-                if (i.equalsIgnoreCase(key)) continue for_map_keys;
+                if (i.equalsIgnoreCase(key)) {
+                    continue for_map_keys;
+                }
             }
-            if (!first) link.append("&");
+            if (!first) {
+                link.append("&");
+            }
             link.append(key).append("=").append(value);
-            if (first) first = false;
+            if (first) {
+                first = false;
+            }
         }
         return link.toString();
     }

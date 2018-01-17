@@ -1,7 +1,7 @@
 package com.zc.main.controller.main.mobile.view.securitycode;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.common.util.ip.IPUtil;
+import com.common.util.http.IPUtil;
 import com.common.util.securitycode.SecurityCount;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;

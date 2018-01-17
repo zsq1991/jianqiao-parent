@@ -9,6 +9,7 @@ public class TxServer {
     private int port;
     private int heart;
     private int delay;
+    private int autoCompensateLimit;
 
     public static TxServer format(TxState state) {
         TxServer txServer = new TxServer();
@@ -16,6 +17,7 @@ public class TxServer {
         txServer.setPort(state.getPort());
         txServer.setHeart(state.getTransactionNettyHeartTime());
         txServer.setDelay(state.getTransactionNettyDelayTime());
+        txServer.setAutoCompensateLimit(state.getAutoCompensateLimit());
         return txServer;
     }
 
@@ -52,4 +54,16 @@ public class TxServer {
     public void setDelay(int delay) {
         this.delay = delay;
     }
+
+
+	public int getAutoCompensateLimit() {
+		return autoCompensateLimit;
+	}
+
+
+	public void setAutoCompensateLimit(int autoCompensateLimit) {
+		this.autoCompensateLimit = autoCompensateLimit;
+	}
+    
+    
 }

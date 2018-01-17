@@ -43,10 +43,31 @@ public class TxState {
      */
     private int redisSaveMaxTime;
 
+
+    /**
+     * 回调地址
+     */
+    private String notifyUrl;
+
+    /**
+     * 自动补偿
+     */
+    private boolean isCompensate;
+
+    /**
+     * 补偿尝试时间
+     */
+    private int compensateTryTime;
+
     /**
      * slb list
      */
     private List<String> slbList;
+    
+    /**
+     * 自动补偿间隔时间
+     */
+    private int autoCompensateLimit;
 
 
     public String getIp() {
@@ -81,6 +102,21 @@ public class TxState {
         this.nowConnection = nowConnection;
     }
 
+    public boolean isCompensate() {
+        return isCompensate;
+    }
+
+    public void setCompensate(boolean compensate) {
+        isCompensate = compensate;
+    }
+
+    public int getCompensateTryTime() {
+        return compensateTryTime;
+    }
+
+    public void setCompensateTryTime(int compensateTryTime) {
+        this.compensateTryTime = compensateTryTime;
+    }
 
     public int getRedisSaveMaxTime() {
         return redisSaveMaxTime;
@@ -113,4 +149,22 @@ public class TxState {
     public void setTransactionNettyDelayTime(int transactionNettyDelayTime) {
         this.transactionNettyDelayTime = transactionNettyDelayTime;
     }
+
+    public String getNotifyUrl() {
+        return notifyUrl;
+    }
+
+    public void setNotifyUrl(String notifyUrl) {
+        this.notifyUrl = notifyUrl;
+    }
+
+	public int getAutoCompensateLimit() {
+		return autoCompensateLimit;
+	}
+
+	public void setAutoCompensateLimit(int autoCompensateLimit) {
+		this.autoCompensateLimit = autoCompensateLimit;
+	}
+    
+    
 }

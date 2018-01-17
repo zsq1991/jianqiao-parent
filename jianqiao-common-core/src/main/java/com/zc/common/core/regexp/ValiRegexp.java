@@ -15,7 +15,8 @@ public enum ValiRegexp {
 	 * 0到9的数字
 	 */
 	INTEGER {
-		public String getName() {
+		@Override
+        public String getName() {
 			return "^[0-9]+$";
 		}
 	},

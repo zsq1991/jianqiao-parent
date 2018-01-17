@@ -44,13 +44,15 @@ public class MySecurityFilter extends AbstractSecurityInterceptor implements Fil
 		super();
 	}
 
-	public void init(FilterConfig arg0) throws ServletException {
+	@Override
+    public void init(FilterConfig arg0) throws ServletException {
 	}
 
 	/**
 	 * Not used (we rely on IoC container lifecycle services instead)
 	 */
-	public void destroy() {
+	@Override
+    public void destroy() {
 	}
 
 	/**
@@ -64,7 +66,8 @@ public class MySecurityFilter extends AbstractSecurityInterceptor implements Fil
 	 * @throws IOException if the filter chain fails
 	 * @throws ServletException if the filter chain fails
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	@Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		FilterInvocation fi = new FilterInvocation(request, response, chain);
 		invoke(fi);
@@ -74,7 +77,8 @@ public class MySecurityFilter extends AbstractSecurityInterceptor implements Fil
 		return this.securityMetadataSource;
 	}
 
-	public SecurityMetadataSource obtainSecurityMetadataSource() {
+	@Override
+    public SecurityMetadataSource obtainSecurityMetadataSource() {
 		return this.securityMetadataSource;
 	}
 
@@ -82,7 +86,8 @@ public class MySecurityFilter extends AbstractSecurityInterceptor implements Fil
 		this.securityMetadataSource = newSource;
 	}
 
-	public Class<?> getSecureObjectClass() {
+	@Override
+    public Class<?> getSecureObjectClass() {
 		return FilterInvocation.class;
 	}
 

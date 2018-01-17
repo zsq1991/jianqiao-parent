@@ -32,4 +32,9 @@
     <select id="checkMemberById" resultType="com.zc.main.entity.member.Member"  parameterType="Long">
         SELECT * FROM alq_member WHERE id=#{memberId}
     </select>
+    <!-- 通过手机号获取member实体 -->
+    <select id="getMemberByPhone" resultType="com.zc.main.entity.member.Member" parameterType="String">
+        select * from alq_member where phone=#{phone}
+    </select>
+
 </mapper>
