@@ -6,7 +6,6 @@ import com.zc.common.core.utils.MD5Util;
 import com.zc.common.core.utils.SignUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +54,7 @@ public class AdviceValidateSignature {
      * @date 2018-01-17 11:26
      * @version 1.0.0
      */
-    @Around("execution(* com.zc.main.controller.main.mobile.*.*.*.*(..))")
+//    @Around("execution(* com.zc.main.controller.main.mobile.*.*.*.*(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
@@ -68,6 +67,7 @@ public class AdviceValidateSignature {
         logger.info("========验签开始,sign={},client_type={},timestamp={},uri={}", objSign,objType,objTimestamp,requestURI);
         for (String url : PUBLIC_URLS) {
             if (url.equals(requestURI)) {
+                logger.info("========白名单地址不验签,sign={},client_type={},timestamp={},uri={}", objSign,objType,objTimestamp,requestURI);
                 return execute(point);
             }
         }
@@ -115,18 +115,17 @@ public class AdviceValidateSignature {
         }
         logger.info("========签名加密完成,sign={}", sign);
         logger.info("========签名比较,objSign={},sign={}", objSign, sign);
-        String signApp = objSign.toString();
-        if ((signApp.trim()).equals(sign.trim())) {
-            result.setCode(0);
-            result.setMsg("验签通过");
-            logger.info("========验签通过,result={}", JSON.toJSONString(result));
-            return execute(point);
-        } else {
+        if (!(objSign.trim()).equals(sign.trim())) {
             result.setCode(204);
             result.setMsg("验签失败");
             logger.info("========验签失败,result={}", JSON.toJSONString(result));
             return result;
+
         }
+        result.setCode(0);
+        result.setMsg("验签通过");
+        logger.info("========验签通过,result={}", JSON.toJSONString(result));
+        return execute(point);
     }
 
     /**

@@ -99,6 +99,18 @@
             <artifactId>pagehelper</artifactId>
             <version>5.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>jianqiao-parent</groupId>
+            <artifactId>jianqiao-facade-main</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>jianqiao-parent</groupId>
+            <artifactId>jianqiao-server-member</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

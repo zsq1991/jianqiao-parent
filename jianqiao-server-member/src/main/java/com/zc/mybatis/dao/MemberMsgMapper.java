@@ -15,5 +15,11 @@ public interface MemberMsgMapper extends BaseMapper<MemberMsg> {
 
     void deleteMemberMsgByConsulatationId(@Param("memberId") Long memberId, @Param("types") Integer types, @Param("id") Long id);
 
+    /**
+     * @description ：取消点赞的时删除对应的memberMsg表格
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/17 10:06
+     * @version 1.0.0
+     */
     public void deleteMemberMsgBycontentId(@Param("mId") Long mId, @Param("type") Integer type, @Param("commentid") Long commentid);
 }

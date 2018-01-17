@@ -136,8 +136,8 @@ public class BaseSqlProvider<T> {
 			
 		}
 		VALUES("created_time", "now()");
-		logger.info("sql:insert:"+sql);
 		sql=SQL();
+		logger.info("sql:insert:"+sql);
 		return sql;
 	}
 	

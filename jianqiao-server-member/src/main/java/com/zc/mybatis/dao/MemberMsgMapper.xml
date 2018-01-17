@@ -7,7 +7,6 @@
     <delete id="deleteMemberMsgByConsulatationId">
         delete from alq_member_msg where type=#{types}  and member_base_id=#{memberId} and consulatation_id=#{Id}
     </delete>
-
     <delete id="deleteMemberMsgBycontentId">
         delete from alq_member_msg where type=#{type}  and member_base_id=#{mId} and consulatation_comment_id=#{commentid}
 

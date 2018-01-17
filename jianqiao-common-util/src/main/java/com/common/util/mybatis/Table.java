@@ -4,6 +4,7 @@ import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -90,39 +91,22 @@ public class Table {
 		}
 
 		table.setName(alias.value());
-
-		/*Method[] methods = clazz.getDeclaredMethods();
-
-		for (Method method : methods) {
-
-			String column =null;
-
-			String type="";
-
-			if (method.getName().startsWith("get")) {
-
-				column = getFieldName(method.getName().substring(3));
-
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field:fields) {
+			Column column=field.getAnnotation(Column.class);
+			if(column==null){
+				continue;
 			}
-
-		if(column!=null){
-
-				type=getType(column,method.getReturnType());
-
-				table.setField(column,type);
-
-		}*/
-
-		Field[ ] fields = clazz.getFields( );
-		String type="";
-		for ( Field field : fields ){
-
-			Column column = field.getAnnotation(Column.class);
-			String name = column.name();
-			type = getType(name,field.getType());
+			String name=column.name();
+			String fieldName=field.getName();
+			Class typeClazz=field.getType();
+			if(name==null || "".equals(name)){
+				throw new Exception(fieldName
+						+ ": not name @Column");
+			}
+			String type=getType(fieldName,typeClazz);
 			table.setField(name,type);
 		}
-
 		return table;
 	}
 
