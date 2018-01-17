@@ -17,4 +17,5 @@ public interface ConsultationCommentFabulousService {
 	 */
 	public Result saveConsultationCommentFabulous(Long commentid, Long memberid, Integer type);
 
+
 }

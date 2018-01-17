@@ -1,61 +1,53 @@
 
 package com.zc.main.entity.membermsg;
 
+
 import com.zc.common.core.orm.hibernate.IdEntity;
-import com.zc.main.entity.consultation.Consultation;
-import com.zc.main.entity.consultationcomment.ConsultationComment;
-import com.zc.main.entity.member.Member;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 
 /**
- * @package : com.zc.main.entity.membermsg
- * @className : MemberMsg
- * @description ：系统消息
- * @Created by  : 朱军
- * @Creation Date ： 2018/1/17 16:35
- * @version
+ * 
+ * @author sunhuijie
+ * 系统消息
+ * @date 2017年6月12日
+ *
  */
 @Alias("alq_member_msg")
-public class MemberMsg extends IdEntity{
+public class MemberMsg extends IdEntity implements Serializable {
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "member_id")
-	private Member member;//被通知的用户
-
+	private Long  memberId;//被通知的用户
 	@Column(name = "type")
-	private Integer type;//通知类型  0高级用户审核通过  1认证驳回  2内容驳回 3内容通过4资讯评论通知5点赞通知6收藏通知
-
+	private Integer type;//通知类型  0高级用户审核通过  1认证驳回  2内容驳回 3内容通过4资讯评论通知5点赞通知
 	@Column(name = "count_type")
 	private Integer contentType;//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
-
 	@Column(name = "content")
 	private String content;//原因备注
-
 	@Column(name = "consulatation_id")
-	private Consultation consultation;//关联的内容
-
+	private Long consultationId;//关联的内容
 	@Column(name = "read_type")
 	private Integer readType;//0或者null未阅读，1阅读
-
-	@Column(name = "consultation_comment")
-	private ConsultationComment consultationComment;//关联的评论内容
-
-	@Column(name = "member_base")
-	private Member memberBase;//点赞或者评论者的id
-
+	@Column(name = "consulatation_comment_id")
+	private Long consultationCommentId;//关联的评论内容
+	@Column(name = "member_base_id")
+	private Long memberBaseId;//点赞或者评论者的id
 	@Column(name = "count_type")
 	private Integer countType;//消息通知的状态，0或者null是未通知，1是已通知
 
-
-	public Member getMember() {
-		return member;
+	public Long getMemberId() {
+		return memberId;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
 
 	public Integer getType() {
@@ -82,12 +74,12 @@ public class MemberMsg extends IdEntity{
 		this.content = content;
 	}
 
-	public Consultation getConsultation() {
-		return consultation;
+	public Long getConsultationId() {
+		return consultationId;
 	}
 
-	public void setConsultation(Consultation consultation) {
-		this.consultation = consultation;
+	public void setConsultationId(Long consultationId) {
+		this.consultationId = consultationId;
 	}
 
 	public Integer getReadType() {
@@ -98,20 +90,20 @@ public class MemberMsg extends IdEntity{
 		this.readType = readType;
 	}
 
-	public ConsultationComment getConsultationComment() {
-		return consultationComment;
+	public Long getConsultationCommentId() {
+		return consultationCommentId;
 	}
 
-	public void setConsultationComment(ConsultationComment consultationComment) {
-		this.consultationComment = consultationComment;
+	public void setConsultationCommentId(Long consultationCommentId) {
+		this.consultationCommentId = consultationCommentId;
 	}
 
-	public Member getMemberBase() {
-		return memberBase;
+	public Long getMemberBaseId() {
+		return memberBaseId;
 	}
 
-	public void setMemberBase(Member memberBase) {
-		this.memberBase = memberBase;
+	public void setMemberBaseId(Long memberBaseId) {
+		this.memberBaseId = memberBaseId;
 	}
 
 	public Integer getCountType() {

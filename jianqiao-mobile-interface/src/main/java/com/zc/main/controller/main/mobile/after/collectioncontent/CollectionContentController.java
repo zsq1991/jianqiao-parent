@@ -46,7 +46,7 @@ public class CollectionContentController {
             @MemberAnno Member member,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows) {
-        logger.info("");
+        logger.info("查询收藏列表传入参数==》member：" + member.toString() + "page：" + page + "rows" + rows);
         if (page < 1) {
             page = 1;
         }
@@ -55,6 +55,7 @@ public class CollectionContentController {
         }
         page = (page - 1) * rows;
         Result result = collectionContentService.mycollection(member, page, rows);
+        logger.info("查询收藏列表成功!");
         return result;
     }
 }
