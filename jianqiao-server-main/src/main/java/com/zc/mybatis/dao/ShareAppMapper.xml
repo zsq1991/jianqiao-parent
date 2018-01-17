@@ -4,13 +4,14 @@
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.zc.mybatis.dao.ShareAppMapper">
 
-    <select id="getConsultationnow" resultType="Map">
+	<select id="getConsultationnow" resultType="Map">
         SELECT * FROM alq_consultation c where c.status =2 and c.is_delete =0
 		and c.id = #{id}
     </select>
 
-    <select id="getConsultation"  resultType="Map">
-      SELECT
+	<!-- 根据id查询当前的资讯 -->
+	<select id="getConsultation"  resultType="Map">
+		SELECT
 		acsss.title,acsss.comment_num,acsss.detail_summary,aca.address FROM
 		alq_consultation acsss
 		LEFT JOIN alq_consultation_attachment aca on
@@ -18,5 +19,121 @@
 		aca.consultation_id
 		where cover=1 and acsss.id =#{id} and
 		status =2 AND is_delete =0 OR null
-    </select>
+	</select>
+
+	<!-- 得到访谈详情内容包括图片 -->
+	<select id="getFTDetailList" resultType="Map">
+		select address,detail_content as detailContent,type from
+		alq_consultation_attachment where consultation_id = #{id} AND cover is
+		NULL ORDER BY sort_num ASC
+	</select>
+	<!-- 得到当前资讯下的评论 -->
+	<select id="getConsultationDetail" resultType="Map">
+		select
+		m.nickname,
+		acc.created_time AS createdTime,
+		acc.id
+		as commentid,aam.address useraddress,m.user_type as userType,
+		aat.address,acc.fabulous_num as
+		reply_num,acc.content,acc.reply_num as
+		reply from
+		alq_consultation a
+		LEFT JOIN
+		alq_consultation_comment acc ON
+		a.id = acc.consultation_id
+		LEFT JOIN
+		alq_member m ON acc.member_id =
+		m.id
+		LEFT JOIN alq_attachment
+		aat ON
+		m.logo_attachment_id =aat.id
+		left
+		join alq_attachment aam on
+		m.logo_attachment_id = aam.id
+		WHERE a.id
+		=#{consultaionId} and acc.comment_info_id
+		is NULL ORDER BY acc.created_time desc
+		LIMIT 0,4
+	</select>
+	<!-- 得到当前评论下的回复,取两条 -->
+	<select id="getreplyDetail" resultType="Map">
+		select
+		aaa.content,
+		amm.nickname,
+		aaa.created_time AS
+		createdTime,
+		aaa.reply_num as replyNum,
+		aaa.fabulous_num as fabulousNum,
+		aat.address
+		from alq_consultation_comment aaa
+		LEFT JOIN
+		alq_member amm ON
+		aaa.member_id = amm.id
+		LEFT JOIN alq_attachment aat
+		on
+		amm.logo_attachment_id = aat.id
+		where aaa.comment_info_id =
+		#{commentId} ORDER BY aaa.created_time asc
+		limit 0,2
+
+	</select>
+
+	<select id="getFTPLNum" resultType="Map">
+		SELECT comment_num as countnum FROM alq_consultation where id = #{id}
+	</select>
+
+	<!-- 查询求助下面的评论 -->
+	<select id="getHelpAuthorIdList" resultType="Map">
+		select c.id,c.created_time as createdTime FROM
+		alq_consultation c where c.consulatation_id =#{id}
+		ORDER BY
+		c.created_time DESC LIMIT 0,4
+	</select>
+
+	<!-- 求助图片AND信息 -->
+	<select id="getImageList" resultType="Map">
+		SELECT detail_content AS detailContent,address from
+		alq_consultation_attachment where
+		consultation_id = #{id} AND sort_num
+		is not null ORDER BY sort_num asc
+	</select>
+
+	<!-- 求助信息发布者 -->
+	<select id="getAuthorUserList" resultType="Map">
+		SELECT DISTINCT aca.created_time as
+		createdTime,am.nickname,aat.address
+		as
+		useraddress ,aca.consultation_id
+		as id,am.user_type as userType
+		from alq_consultation_attachment aca
+		LEFT JOIN alq_consultation ac ON ac.id = aca.consultation_id
+		LEFT JOIN
+		alq_member
+		am ON am.id = ac.member_id
+		LEFT JOIN alq_attachment aat ON
+		am.logo_attachment_id =aat.id
+		where aca.consultation_id = #{id}
+	</select>
+
+	<!-- 求助评论信息详情 -->
+	<select id="getAuthorList" resultType="Map">
+		select aca.created_time as
+		createdTime,aca.address,aca.detail_content as
+		detailsss,aca.consultation_id as id
+		from alq_consultation_attachment
+		aca
+		LEFT JOIN
+		alq_consultation ac ON ac.id
+		= aca.consultation_id
+		LEFT JOIN
+		alq_member
+		am ON am.id = ac.member_id
+		LEFT JOIN alq_attachment aat ON
+		am.logo_attachment_id =aat.id
+		where
+		aca.consultation_id = #{id} AND
+		(aca.cover = 1 OR aca.sort_num = 0)
+		ORDER BY aca.sort_num desc
+		LIMIT 0,4
+	</select>
 </mapper>
