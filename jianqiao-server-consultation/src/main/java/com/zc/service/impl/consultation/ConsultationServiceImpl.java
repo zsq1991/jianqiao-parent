@@ -517,14 +517,117 @@ public class ConsultationServiceImpl implements ConsultationService {
         return null;
     }
 
+    /**
+     * @description ：检测是否是高级用户
+     * @Created by  : 朱军
+     * @version
+     * @Creation Date ： 2018/1/17 13:44
+     * @param memberId
+     * @return
+     */
     @Override
     public Result checkIsUserType(String memberId) {
-        return null;
+
+        Map<String, Object> memberMap=new HashMap<>();
+
+        if (null == memberId || "".equals(memberId)) {
+            return ResultUtils.returnError("用户id不能为空");
+        }
+
+        //验证用户是否存在
+        Member member=memberService.checkMemberById(Long.valueOf(memberId));
+        if(null==member){
+            return ResultUtils.returnError("用户不存在");
+        }
+        Object isDelete=member.getIsDelete();//0或null未禁用，1禁用
+        if(null==isDelete){isDelete=0;}
+        if("1".equals(isDelete)){
+            return ResultUtils.returnError("此用户已被禁用");
+        }
+        Object userType=member.getUserType();//0普通  1认证后用户可以发布访谈 口述
+        if(null==userType){userType=0;}
+        boolean isUserType=false;
+        if("1".equals(userType.toString())){
+            isUserType=true;
+        }
+        memberMap.put("isUserType", isUserType);
+        return ResultUtils.returnSuccess("请求成功", memberMap);
     }
 
+    /**
+     * @description ：查看全部  分页加载
+     * @Created by  : 朱军
+     * @version
+     * @Creation Date ： 2018/1/17 11:46
+     * @param page
+     * @param rows
+     * @param typeId
+     * @return
+     */
     @Override
     public Result findConsultationAllByFive(Integer page, Integer rows, String typeId) {
-        return null;
+
+        HashMap<String, Object> param = new HashMap<String, Object>();
+
+        if (null == typeId || "".equals(typeId)) {
+            return ResultUtils.returnError("资讯id不能为空");
+        }
+        List<Map<String, Object>> consultationAllList = consultationAllList = consultationMapper.findConsultationByIdAll(Long.valueOf(typeId));//根据访谈或口述的id查询其子类列表
+        if(consultationAllList.size() <3){
+            return ResultUtils.returnError("没有更多数据");
+        }
+        String id1=consultationAllList.get(0).get("id").toString();
+        String id2=consultationAllList.get(1).get("id").toString();
+        String id3=consultationAllList.get(2).get("id").toString();
+        if(null !=id1 && !"".equals(id1) && null !=id2 && !"".equals(id2) && null !=id3 && !"".equals(id3) ){
+            param.put("id1", id1);
+            param.put("id2", id2);
+            param.put("id3", id3);
+            param.put("typeId", typeId);
+            param.put("startIndex", (page - 1) * rows);
+            param.put("endIndex", rows);
+        }
+
+        List<Map<String, Object>> consultationList = consultationAllList = consultationMapper.findConsultationAllByFive(param);
+        if (consultationList.size() > 0) {
+            for (Map<String, Object> consultationInfo : consultationList) {
+                //处理时间格式
+                String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
+                SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                String chidNowTime = chiddf.format(new Date());
+                String chidTime1 = alreadyTime.subSequence(0, 10).toString();
+                String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+                if (chidTime1.equals(chidTime2)) {//同一天
+                    String chidcreatedTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                    consultationInfo.put("createdTime", chidcreatedTime);
+                } else {//不同一天
+                    String chidcreatedTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                    consultationInfo.put("createdTime", chidcreatedTime);
+                }
+
+                //图片地址
+                String addressChid = "";
+
+                //处理咨询图片
+                List<Map<String, Object>> consultationChidAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                consultationInfo.put("address", consultationChidAttachmentList);
+						/*if (consultationChidAttachmentList.size() > 0) {
+							//循环拼接图片地址
+							for (Map<String, Object> consultationChidAttachment : consultationChidAttachmentList) {
+								Object addrs=consultationChidAttachment.get("address");
+								if(null==addrs){addrs="";};
+								addressChid += addrs.toString() + ",";
+							}
+							consultationInfo.put("address", addressChid);
+						} else {
+							consultationInfo.put("address", "");
+						}*/
+            }
+
+            return ResultUtils.returnSuccess("请求成功", consultationList);
+        } else {
+            return ResultUtils.returnError("没有数据");
+        }
     }
 
     @Override
