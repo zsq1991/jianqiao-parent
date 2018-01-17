@@ -55,6 +55,21 @@ public class MemberServiceImpl implements MemberService {
         return ResultUtils.returnSuccess("成功",result);
     }
 
+
+    /**
+     * @description ：检测是否是高级用户
+     * @Created by  : 朱军
+     * @version
+     * @Creation Date ： 2018/1/17 13:46
+     * @param memberId
+     * @return
+     */
+    @Override
+    public Member checkMemberById(Long memberId) {
+
+        return memberMapper.checkMemberById(memberId);
+    }
+
     @Override
     public Member getMemberByPhoneAndUuid(Map<String, Object> params) {
         logger.info("============根据手机号和UUID查询用户开始,params={}", JSON.toJSONString(params));

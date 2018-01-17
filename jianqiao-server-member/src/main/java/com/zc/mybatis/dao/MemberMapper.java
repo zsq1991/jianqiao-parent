@@ -32,4 +32,14 @@ public interface MemberMapper extends BasicMapper<Member> {
      * @return
      */
     Member getMemberByPhoneAndUuid(Map<String, Object> params);
+
+	/**
+	 * @description ：
+	 * @Created by  : 朱军
+	 * @version
+	 * @Creation Date ： 2018/1/17 13:47
+	 * @param memberId
+	 * @return
+	 */
+	Member checkMemberById(Long memberId);
 }

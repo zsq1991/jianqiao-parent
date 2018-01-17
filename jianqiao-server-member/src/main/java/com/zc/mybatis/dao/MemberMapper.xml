@@ -28,4 +28,8 @@
             </if>
         </where>
     </select>
+
+    <select id="checkMemberById" resultType="com.zc.main.entity.member.Member"  parameterType="Long">
+        SELECT * FROM alq_member WHERE id=#{memberId}
+    </select>
 </mapper>

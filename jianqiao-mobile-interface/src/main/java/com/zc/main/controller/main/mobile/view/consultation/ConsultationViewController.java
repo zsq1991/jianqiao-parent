@@ -2,6 +2,7 @@ package com.zc.main.controller.main.mobile.view.consultation;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.zc.common.core.result.Result;
+import com.zc.common.core.result.ResultUtils;
 import com.zc.main.service.consultation.ConsultationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,13 +178,24 @@ public class ConsultationViewController {
     @ResponseBody
     public Result checkisusertype(@RequestParam(value = "memberId") String memberId) {
 
-
-        return consultationService.checkIsUserType(memberId);
+        logger.info("==========开始调用【检测是否是高级用户】接口方法==========");
+        try {
+            return consultationService.checkIsUserType(memberId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("==========调用【检测是否是高级用户】接口方法异常==========");
+            return ResultUtils.returnError("接口异常");
+        }
     }
 
     /**
-     * 查看全部  分页加载
-     *
+     * @description ：查看全部  分页加载
+     * @Created by  : 朱军
+     * @version
+     * @Creation Date ： 2018/1/17 11:49
+     * @param page
+     * @param rows
+     * @param typeId
      * @return
      */
     @RequestMapping(value = "findconsultationallbyfive", method = RequestMethod.POST)
@@ -193,8 +205,14 @@ public class ConsultationViewController {
             @RequestParam(value = "rows", defaultValue = "5", required = false) Integer rows,
             @RequestParam(value = "typeId") String typeId) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
 
-
-        return consultationService.findConsultationAllByFive(page, rows, typeId);
+        logger.info("==========开始调用【查看全部分页加载】接口方法==========");
+        try {
+            return consultationService.findConsultationAllByFive(page, rows, typeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("==========调用【查看全部分页加载】接口方法异常==========");
+            return ResultUtils.returnError("接口异常");
+        }
     }
 
     /**
