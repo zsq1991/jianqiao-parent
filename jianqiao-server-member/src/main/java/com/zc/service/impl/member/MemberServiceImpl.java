@@ -40,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public int updateById(Member member) {
-        int i = memberMapper.updateById(member);
+        int i = memberMapper.updateByPrimaryKeySelective(member);
         return i;
     }
     /**
