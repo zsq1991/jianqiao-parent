@@ -140,7 +140,7 @@ public class IdWorker {
 	public static void main(String[] args) throws InterruptedException {
         IdWorker idWorker = new IdWorker(0, 0);
         for (int i = 0; i < 1000; i++) {
-        	Thread.currentThread().sleep(1000L);
+        	Thread.sleep(1000L);
             long id = idWorker.nextId();
             System.out.println(Long.toBinaryString(id));
             System.out.println(id);

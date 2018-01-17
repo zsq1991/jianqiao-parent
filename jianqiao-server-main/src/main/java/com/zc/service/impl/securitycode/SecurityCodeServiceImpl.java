@@ -38,7 +38,8 @@ public class SecurityCodeServiceImpl implements SecurityCodeService {
         logger.info("============通过图形验证码,进入发送短信方法===============");
         Result result = new Result();
         logger.info("=======检验手机号是否合法=========");
-        Pattern p = Pattern.compile("^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-8])|(147))\\d{8}$");
+        String reg = "^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-8])|(147))\\d{8}$";
+        Pattern p = Pattern.compile(reg);
         Matcher m = p.matcher(phone);
         if (StringUtils.isEmptyOrWhitespaceOnly(phone)) {
             return ResultUtils.returnError("手机号不合法");

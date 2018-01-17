@@ -1,10 +1,9 @@
 package com.zc.common.core.utils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName: CheckDataUtils
@@ -52,7 +51,8 @@ public class CheckDataUtils {
 		if (str == null || "".equals(str)) {
 			return false;
 		}
-		Pattern pattern = Pattern.compile("^[\u4e00-\u9fa5]+$");
+		String reg = "^[\u4e00-\u9fa5]+$";
+		Pattern pattern = Pattern.compile(reg);
 		Matcher isNum = pattern.matcher(str);
 		if (!isNum.matches()) {
 			return false;
@@ -71,7 +71,8 @@ public class CheckDataUtils {
 		if (str == null || "".equals(str)) {
 			return false;
 		}
-		Pattern pattern = Pattern.compile("[0-9]*");
+		String reg = "[0-9]*";
+		Pattern pattern = Pattern.compile(reg);
 		Matcher isNum = pattern.matcher(str);
 		if (!isNum.matches()) {
 			return false;
@@ -89,7 +90,8 @@ public class CheckDataUtils {
 		if (str == null || "".equals(str)) {
 			return false;
 		}
-		Pattern pattern = Pattern.compile("[a-zA-Z]+");
+		String reg = "[a-zA-Z]+";
+		Pattern pattern = Pattern.compile(reg);
 		Matcher isNum = pattern.matcher(str);
 		if (!isNum.matches()) {
 			return false;
