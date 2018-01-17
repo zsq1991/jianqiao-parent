@@ -50,35 +50,42 @@ public class MemberFolloServiceImpl implements MemberFollowService {
 
     @Override
     public Result getFocusList(Long mId, int page, int size) {
-
+        logger.info("获取会员关注列表传入参数 --> mId:" + mId + " page: " + page + " size: " + size);
         Result result = new Result();
-        if(mId ==null){
-            return ResultUtils.returnError("请传入用户id");
-        }
-        List<Map> mIdList = memberFollowMapper.getFocusMIdList(mId,page,size);
-        if(mIdList.size()<=0){
-            return ResultUtils.returnError("还没有关注者");
-        }
-        List list = new ArrayList();
-        for(int i=0;mIdList.size()>i;i++){
-            String id = mIdList.get(i).get("member_id").toString();//被关注者id
-            long longValue = Long.valueOf(id).longValue();
-            //longValue是关注者id，被关注id是mId
-            MemberFollow focusById = memberFollowMapper.getFocusById(mId,longValue);//第一个参数是被关注，第二个参数关注者
-            Map fanList = memberFollowMapper.getFanList(longValue);//通过Id获取昵称和头像地址
-            Map  title= memberFollowMapper.getConsulatationTitleByMId(longValue);
-            String titles= title == null?"":(String)title.get("title");
-            fanList.put("title", titles);
-            if(focusById==null){
-                fanList.put("focus", "已关注");
-                fanList.put("focusType", 1);
-            }else{
-                fanList.put("focus", "互相关注");
-                fanList.put("focusType", 2);
+        try {
+            if (mId == null) {
+                return ResultUtils.returnError("请传入用户id");
             }
-            list.add(fanList);
+            List<Map> mIdList = memberFollowMapper.getFocusMIdList(mId, page, size);
+            if (mIdList.size() <= 0) {
+                return ResultUtils.returnError("还没有关注者");
+            }
+            List list = new ArrayList();
+            for (int i = 0; mIdList.size() > i; i++) {
+                String id = mIdList.get(i).get("member_id").toString();//被关注者id
+                long longValue = Long.valueOf(id).longValue();
+                //longValue是关注者id，被关注id是mId
+                MemberFollow focusById = memberFollowMapper.getFocusById(mId, longValue);//第一个参数是被关注，第二个参数关注者
+                Map fanList = memberFollowMapper.getFanList(longValue);//通过Id获取昵称和头像地址
+                Map title = memberFollowMapper.getConsulatationTitleByMId(longValue);
+                String titles = title == null ? "" : (String) title.get("title");
+                fanList.put("title", titles);
+                if (focusById == null) {
+                    fanList.put("focus", "已关注");
+                    fanList.put("focusType", 1);
+                } else {
+                    fanList.put("focus", "互相关注");
+                    fanList.put("focusType", 2);
+                }
+                list.add(fanList);
+            }
+            result.setContent(list);
+            logger.info("查询会员关注列表成功！");
+        } catch (Exception e) {
+            logger.info("查询会员关注列表异常"+e.getMessage());
+            e.printStackTrace();
+            return ResultUtils.returnError("获取会员关注列表异常!");
         }
-        result.setContent(list);
         return result;
     }
 }
