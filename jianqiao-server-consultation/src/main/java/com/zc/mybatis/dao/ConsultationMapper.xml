@@ -4,6 +4,19 @@
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.zc.mybatis.dao.ConsultationMapper">
 
+	<update id="updateByType1" parameterType="Long">
+		UPDATE alq_consultation SET is_delete =1 WHERE consulatation_id = #{cid}
+	</update>
+
+	<update id="updateByType" parameterType="Long">
+		UPDATE alq_consultation set type = 1 where id=#{id}
+	</update>
+	<!--根据资讯id获取资讯信息-->
+	<select id="getOne"  parameterType="Long" resultType="com.zc.main.entity.consultation.Consultation">
+		SELECT id,member_id AS memberId,num,comment_num as commentNum,fabulous_num as fabulousNum,
+		 is_delete as isDelete,share_num as shareNum,consulatation_id as consulatation_id,
+		  collect_num as collectNum,type,model_type as modelType,topic_type as topicType from alq_consultation where id = #{id}
+	</select>
 	<!--  APP首页根据关键词搜索 -->
 	<select id="findconsultationinfo" resultType="map" parameterType="map">
 		SELECT c.id AS id,c.title AS title,c.type AS type,IFNULL(c.model_type,0) AS modelType,IFNULL(c.num,0) AS num,IFNULL(m.nickname,INSERT((m.phone),4,4,'****')) AS authorInfo,
