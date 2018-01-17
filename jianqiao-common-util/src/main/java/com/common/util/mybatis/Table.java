@@ -4,7 +4,6 @@ import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -92,7 +91,7 @@ public class Table {
 
 		table.setName(alias.value());
 
-		Method[] methods = clazz.getDeclaredMethods();
+		/*Method[] methods = clazz.getDeclaredMethods();
 
 		for (Method method : methods) {
 
@@ -112,9 +111,18 @@ public class Table {
 
 				table.setField(column,type);
 
+		}*/
+
+		Field[ ] fields = clazz.getFields( );
+		String type="";
+		for ( Field field : fields ){
+
+			Column column = field.getAnnotation(Column.class);
+			String name = column.name();
+			type = getType(name,field.getType());
+			table.setField(name,type);
 		}
 
-	}
 		return table;
 	}
 
