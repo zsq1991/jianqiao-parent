@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ConsultationCommentFabulousController {
 
-    @DubboConsumer(version = "1.0.0")
+    @DubboConsumer(version = "1.0.0",timeout = 30000)
     private ConsultationCommentFabulousService consultationCommentFabulousService;
 
     /**
