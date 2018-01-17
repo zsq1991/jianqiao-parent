@@ -31,6 +31,32 @@ public class MemberServiceImpl implements MemberService {
     private MemberMapper memberMapper;
     @Autowired
     private MemberAttachmentMapper memberAttachmentMapper;
+    /**
+     * @description 接口说明 修改用户信息
+     * @author 王鑫涛
+     * @date 17:14 2018/1/17
+     * @version 版本号
+     * @param member 用户
+     * @return
+     */
+    @Override
+    public int updateById(Member member) {
+        int i = memberMapper.updateById(member);
+        return i;
+    }
+    /**
+     * @description 接口说明 根据id获取用户信息
+     * @author 王鑫涛
+     * @date 17:08 2018/1/17
+     * @version 版本号
+     * @param id 用户id
+     * @return
+     */
+    @Override
+    public Member findOne(Long id) {
+        Member one = memberMapper.findOne(id);
+        return one;
+    }
 
     @Override
     public Member getMerberById(Long memberId) {
