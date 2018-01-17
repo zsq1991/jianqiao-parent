@@ -164,4 +164,8 @@
 	  2
 
 	</select>
+
+	<select id="getRowLock" resultType="com.zc.main.entity.consultationcomment.ConsultationComment" parameterType="java.lang.Long">
+		SELECT * FROM alq_consultation_comment WHERE id = #{parentid} FOR UPDATE
+	</select>
 </mapper>

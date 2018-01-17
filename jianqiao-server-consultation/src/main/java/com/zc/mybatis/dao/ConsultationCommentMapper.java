@@ -2,6 +2,7 @@ package com.zc.mybatis.dao;
 
 
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
+import com.zc.main.entity.consultationcomment.ConsultationComment;
 
 import java.util.List;
 import java.util.Map;
@@ -53,4 +54,6 @@ public interface ConsultationCommentMapper {
      * @return
      */
     public List<Map> getCommentSonIdByPid(Long id);
+
+    public ConsultationComment getRowLock(Long parentid);
 }
