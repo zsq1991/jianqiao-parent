@@ -37,7 +37,7 @@ public class ProviderExportListener extends ExporterListenerAdapter {
     String version = url.getParameter(SpringBootStarterDobboConstants.VERSION);
     ClassIdBean classIdBean = new ClassIdBean(anInterface, group, version);
     EXPORTEDINTERFACES_SET.add(classIdBean);
-    if (!url.getProtocol().equals("injvm")) {
+    if (!"injvm".equals(url.getProtocol())) {
       EXPORTED_URL.add(url);
     }
   }
@@ -51,7 +51,7 @@ public class ProviderExportListener extends ExporterListenerAdapter {
     String version = url.getParameter(SpringBootStarterDobboConstants.VERSION);
     ClassIdBean classIdBean = new ClassIdBean(anInterface, group, version);
     EXPORTEDINTERFACES_SET.remove(classIdBean);
-    if (!url.getProtocol().equals("injvm")) {
+    if (!"injvm".equals(url.getProtocol())) {
       EXPORTED_URL.remove(url);
     }
   }

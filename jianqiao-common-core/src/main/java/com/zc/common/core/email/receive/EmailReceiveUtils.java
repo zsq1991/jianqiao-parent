@@ -55,7 +55,7 @@ public class EmailReceiveUtils {
 		store.connect();
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
-		Message msgs[] = folder.getMessages();
+        Message[] msgs = folder.getMessages();
 		ArrayUtils.reverse(msgs);
 		for (Message message : msgs) {
 			EmailParse emailParse = new EmailParse();
@@ -103,7 +103,7 @@ public class EmailReceiveUtils {
 		store.connect();
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
-		Message msgs[] = folder.getMessages();
+        Message[] msgs = folder.getMessages();
 		ArrayUtils.reverse(msgs);
 		Message message = msgs[0];
 		EmailParse emailParse = new EmailParse();
@@ -150,7 +150,7 @@ public class EmailReceiveUtils {
 		store.connect();
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
-		Message msgs[] = folder.getMessages();
+        Message[] msgs = folder.getMessages();
 		ArrayUtils.reverse(msgs);
 		Message message = msgs[num];
 		EmailParse emailParse = new EmailParse();
@@ -195,7 +195,7 @@ public class EmailReceiveUtils {
 		store.connect();
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
-		Message msgs[] = folder.getMessages();
+        Message[] msgs = folder.getMessages();
 		int count = msgs.length;
 		store.close();
 		return count;

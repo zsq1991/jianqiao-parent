@@ -88,14 +88,14 @@ public class ReciveMail {
 		String addrType = type.toUpperCase();
 		InternetAddress[] address = null;
 
-		if (addrType.equals("TO") || addrType.equals("CC") || addrType.equals("BCC")) {
-			if (addrType.equals("TO")) {
+		if ("TO".equals(addrType) || "CC".equals(addrType) || "BCC".equals(addrType)) {
+			if ("TO".equals(addrType)) {
 				address = (InternetAddress[]) msg.getRecipients(Message.RecipientType.TO);
 			}
-			if (addrType.equals("CC")) {
+			if ("CC".equals(addrType)) {
 				address = (InternetAddress[]) msg.getRecipients(Message.RecipientType.CC);
 			}
-			if (addrType.equals("BCC")) {
+			if ("BCC".equals(addrType)) {
 				address = (InternetAddress[]) msg.getRecipients(Message.RecipientType.BCC);
 			}
 
@@ -201,7 +201,7 @@ public class ReciveMail {
 	 */
 	public boolean getReplySign() throws MessagingException {
 		boolean replySign = false;
-		String needreply[] = msg.getHeader("Disposition-Notification-TO");
+		String[] needreply = msg.getHeader("Disposition-Notification-TO");
 		if (needreply != null) {
 			replySign = true;
 		}
@@ -389,7 +389,7 @@ public class ReciveMail {
 		store.connect();
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
-		Message msgs[] = folder.getMessages();
+		Message[] msgs = folder.getMessages();
 		int count = msgs.length;
 		System.out.println("Message Count:" + count);
 		ReciveMail rm = null;

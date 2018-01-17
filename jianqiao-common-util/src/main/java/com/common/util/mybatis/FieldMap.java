@@ -28,8 +28,7 @@ public class FieldMap {
 					if(fieldName.equals(field.getName())){
 	
 						// 如果类型是String
-						if (field.getGenericType().toString().equals(
-								"class java.lang.String")) { // 如果type是类类型，则前面包含"class "，后面跟类名
+						if ("class java.lang.String".equals(field.getGenericType().toString())) { // 如果type是类类型，则前面包含"class "，后面跟类名
 							// 拿到该属性的gettet方法
 							/**
 							 * 这里需要说明一下：他是根据拼凑的字符来找你写的getter方法的
@@ -47,8 +46,7 @@ public class FieldMap {
 						}
 		
 						// 如果类型是Integer
-						if (field.getGenericType().toString().equals(
-								"class java.lang.Integer")) {
+						if ("class java.lang.Integer".equals(field.getGenericType().toString())) {
 							Method m = (Method) object.getClass().getMethod(
 									"get" + getMethodName(field.getName()));
 							Integer val = (Integer) m.invoke(object);
@@ -59,8 +57,7 @@ public class FieldMap {
 						}
 		
 						// 如果类型是Double
-						if (field.getGenericType().toString().equals(
-								"class java.lang.Double")) {
+						if ("class java.lang.Double".equals(field.getGenericType().toString())) {
 							Method m = (Method) object.getClass().getMethod(
 									"get" + getMethodName(field.getName()));
 							Double val = (Double) m.invoke(object);
@@ -71,8 +68,7 @@ public class FieldMap {
 						}
 		
 						// 如果类型是Boolean 是封装类
-						if (field.getGenericType().toString().equals(
-								"class java.lang.Boolean")) {
+						if ("class java.lang.Boolean".equals(field.getGenericType().toString())) {
 							Method m = (Method) object.getClass().getMethod(
 									field.getName());
 							Boolean val = (Boolean) m.invoke(object);
@@ -84,7 +80,7 @@ public class FieldMap {
 		
 						// 如果类型是boolean 基本数据类型不一样 这里有点说名如果定义名是 isXXX的 那就全都是isXXX的
 						// 反射找不到getter的具体名
-						if (field.getGenericType().toString().equals("boolean")) {
+						if ("boolean".equals(field.getGenericType().toString())) {
 							Method m = (Method) object.getClass().getMethod(
 									field.getName());
 							Boolean val = (Boolean) m.invoke(object);
@@ -94,8 +90,7 @@ public class FieldMap {
 		
 						}
 						// 如果类型是Date
-						if (field.getGenericType().toString().equals(
-								"class java.util.Date")) {
+						if ("class java.util.Date".equals(field.getGenericType().toString())) {
 							Method m = (Method) object.getClass().getMethod(
 									"get" + getMethodName(field.getName()));
 							Date val = (Date) m.invoke(object);
@@ -105,8 +100,7 @@ public class FieldMap {
 		
 						}
 						// 如果类型是Short
-						if (field.getGenericType().toString().equals(
-								"class java.lang.Short")) {
+						if ("class java.lang.Short".equals(field.getGenericType().toString())) {
 							Method m = (Method) object.getClass().getMethod(
 									"get" + getMethodName(field.getName()));
 							Short val = (Short) m.invoke(object);

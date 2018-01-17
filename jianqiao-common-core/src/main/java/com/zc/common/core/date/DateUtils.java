@@ -35,7 +35,7 @@ public class DateUtils {
 	 */
 	public static String getWeekDayStrByDate(Date date) {
 		String weekString = "";
-		final String dayNames[] = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        final String[] dayNames = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -51,7 +51,7 @@ public class DateUtils {
 	 */
 	public static int getWeekDayIntByDate(Date date) {
 		int weekInt = 0;
-		final int dayNameInts[] = { 7, 1, 2, 3, 4, 5, 6 };
+        final int[] dayNameInts = {7, 1, 2, 3, 4, 5, 6};
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);

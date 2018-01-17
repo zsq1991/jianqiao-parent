@@ -32,8 +32,8 @@ public class MyBeanUtils {
 	public static void propertyUtils(final Object dest, final Object src) {
 		Field[] fields = src.getClass().getDeclaredFields();
 		for (Field field : fields) {
-			if (!field.getName().equals("serialVersionUID")) {
-				if (!field.getName().equals("lockversion")) {
+			if (!"serialVersionUID".equals(field.getName())) {
+				if (!"lockversion".equals(field.getName())) {
 					if (field.getAnnotation(XStreamOmitField.class) == null) {
 						Object object = ReflectionUtils.invokeGetterMethod(src, field.getName());
 						if (object != null
@@ -51,9 +51,9 @@ public class MyBeanUtils {
 			throws NoSuchMethodException, SecurityException {
 		Field[] fields = src.getClass().getDeclaredFields();
 		for (Field field : fields) {
-			if (!field.getName().equals("serialVersionUID")) {
-				if (!field.getName().equals("lockversion")) {
-					if (!field.getName().equals("id")) {
+			if (!"serialVersionUID".equals(field.getName())) {
+				if (!"lockversion".equals(field.getName())) {
+					if (!"id".equals(field.getName())) {
 						if (field.getAnnotation(Transient.class) == null) {
 							Object object = ReflectionUtils
 									.invokeGetterMethod(src, field.getName());

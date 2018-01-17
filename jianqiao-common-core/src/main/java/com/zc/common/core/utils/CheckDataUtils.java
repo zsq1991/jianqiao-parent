@@ -49,7 +49,7 @@ public class CheckDataUtils {
 	 */
 	public static boolean isCn(String str) {
 
-		if (str == null || str.equals("")) {
+		if (str == null || "".equals(str)) {
 			return false;
 		}
 		Pattern pattern = Pattern.compile("^[\u4e00-\u9fa5]+$");
@@ -68,7 +68,7 @@ public class CheckDataUtils {
 	 * @return
 	 */
 	public static boolean isNumer(String str) {
-		if (str == null || str.equals("")) {
+		if (str == null || "".equals(str)) {
 			return false;
 		}
 		Pattern pattern = Pattern.compile("[0-9]*");
@@ -86,7 +86,7 @@ public class CheckDataUtils {
 	 * @return
 	 */
 	public static boolean isLetters(String str) {
-		if (str == null || str.equals("")) {
+		if (str == null || "".equals(str)) {
 			return false;
 		}
 		Pattern pattern = Pattern.compile("[a-zA-Z]+");
@@ -100,7 +100,7 @@ public class CheckDataUtils {
 
 	/****************** 数据类型转换 ********************/
 	public static Long getLong(String str) {
-		if (str != null && !str.equals("")) {
+		if (str != null && !"".equals(str)) {
 			return Long.parseLong(str);
 		} else {
 			return null;
@@ -108,7 +108,7 @@ public class CheckDataUtils {
 	}
 	
 	public static Integer getInteger(String str) {
-		if (str != null && !str.equals("")) {
+		if (str != null && !"".equals(str)) {
 			return Integer.parseInt(str);
 		} else {
 			return null;

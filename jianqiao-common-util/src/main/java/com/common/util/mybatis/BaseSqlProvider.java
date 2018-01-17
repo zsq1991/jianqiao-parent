@@ -77,13 +77,13 @@ public class BaseSqlProvider<T> {
 
 			String key = keys.next();
 
-			if (!key.equals("id")) {
+			if (!"id".equals(key)) {
 				//检验字段是否为空，为空的话就不需要更新了
 				String filedValue=FieldMap.getObjectValue(t,(getFiledName(table.getField(key))));
-				 if(!filedValue.equals("")){
+				 if(!"".equals(filedValue)){
 					 SET(key + "=" + table.getField(key));
 				 }
-				 if(key.equals("update_time")){
+				 if("update_time".equals(key)){
 					 SET(key + "= now()" );
 					} 
 			}
@@ -126,8 +126,8 @@ public class BaseSqlProvider<T> {
 		while (keys.hasNext()) {
 
 			String key = keys.next();
-			if (!key.equals("id")) {
-				if(key.equals("created_time")||key.equals("update_time")){
+			if (!"id".equals(key)) {
+				if("created_time".equals(key) || "update_time".equals(key)){
 					VALUES(key, "now()");
 				} else {
 					VALUES(key, table.getField(key));
