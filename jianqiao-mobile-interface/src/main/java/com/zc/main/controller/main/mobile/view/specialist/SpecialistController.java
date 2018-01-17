@@ -50,7 +50,7 @@ public class SpecialistController {
         List<Map<String,Object>> doctorItem = specialistService.getDoctorData(dataType);
         model.addAttribute("specialistItem",specialistItem);
         model.addAttribute("doctorItem",doctorItem);
-        return "jsp/view/jianqiaoteam";
+        return "view/jianqiaoteam";
     }
 
     /**

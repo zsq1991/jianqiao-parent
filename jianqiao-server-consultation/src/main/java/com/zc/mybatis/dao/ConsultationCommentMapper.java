@@ -61,6 +61,8 @@ public interface ConsultationCommentMapper extends BasicMapper<ConsultationComme
      */
     public List<Map> getCommentSonIdByPid(Long id);
 
+    public ConsultationComment getRowLock(Long parentid);
+
     /**
      * 保存咨询评论
      *

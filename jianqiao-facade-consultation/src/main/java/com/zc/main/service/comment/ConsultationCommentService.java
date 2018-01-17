@@ -18,15 +18,18 @@ public interface ConsultationCommentService {
 	 * @return
 	public Result saveDirectConsultationComment(Long memberid, Long consultationid, String content);
 	
-	*//**
-	 * 用户相互回复评论
-	 * @param type          如果是给咨询评论者回复是0，给咨询评论者回复的人进行回复是1
-	 * @param parentid		回复评论的id	
+	/**
+	 * @description ：用户相互回复评论
+	 * @Created by  : 朱军
+	 * @version
+	 * @Creation Date ： 2018/1/17 15:39
+	 * @param memberid
+	 * @param type			如果是给咨询评论者回复是0，给咨询评论者回复的人进行回复是1
+	 * @param parentid		回复评论的id
 	 * @param content		回复内容
-	 * @param member			
 	 * @return
-	 *//*
-	public Result saveReplyconsultationCommentService(Long memberid, Integer type, Long parentid, String content);*/
+	 */
+	public Result saveReplyconsultationCommentService(Long memberid, Integer type, Long parentid, String content);
 	
 	/**
 	 * @description ：查询咨询评论是否存在，判断删除字段

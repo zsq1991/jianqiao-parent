@@ -178,6 +178,10 @@
 
 	</select>
 
+	<select id="getRowLock" resultType="com.zc.main.entity.consultationcomment.ConsultationComment" parameterType="java.lang.Long">
+		SELECT * FROM alq_consultation_comment WHERE id = #{parentid} FOR UPDATE
+	</select>
+
     <insert id="saveConsultation" parameterType="com.zc.main.entity.consultationcomment.ConsultationComment"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT  INTO  alq_consultation_comment
