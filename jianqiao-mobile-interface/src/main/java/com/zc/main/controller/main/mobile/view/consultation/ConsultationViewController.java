@@ -24,7 +24,7 @@ public class ConsultationViewController {
 
     private static Logger logger = LoggerFactory.getLogger(ConsultationViewController.class);
 
-    @DubboConsumer(version = "1.0.0",check = false)
+    @DubboConsumer(version = "1.0.0",timeout = 30000)
     private ConsultationService consultationService;
 
     /**
@@ -80,7 +80,7 @@ public class ConsultationViewController {
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
             @RequestParam(value = "checktype", defaultValue = "1", required = false) String checktype) {
 
-        logger.info("访谈详情页   内容根据关键词搜索: 咨询类型checktype={}", checktype);
+        logger.info("PP民间高手  内容根据关键词搜索: 咨询类型checktype={}", checktype);
         return consultationService.findConsultationInfoPeople(page, rows, checktype);
     }
 
