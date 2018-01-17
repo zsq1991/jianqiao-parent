@@ -28,12 +28,12 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @ServletComponentScan
 @SpringBootApplication
 @EnableDubboConsumerConfiguration
-public class JianQiaoPcApplication {
+public class JianQiaoMobileApplication {
 	/**
 	 * 启动程序的入口
 	 * @param args
 	 */ 
 	public static void main(String[] args){
-		SpringContextUtil.setApplicationContext(SpringApplication.run(JianQiaoPcApplication.class, args));
+		SpringContextUtil.setApplicationContext(SpringApplication.run(JianQiaoMobileApplication.class, args));
 	}
 }
