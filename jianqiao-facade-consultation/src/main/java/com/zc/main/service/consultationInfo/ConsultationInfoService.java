@@ -1,0 +1,15 @@
+package com.zc.main.service.consultationInfo;
+
+import com.zc.common.core.result.Result;
+
+/**
+ * @package : com.zc.main.service.consultationInfo
+ * @progect : jianqiao-parent
+ * @Description :
+ * @Created by :ZhaoJunBiao
+ * @Creation Date ：2018年01月17日16:59
+ */
+public interface ConsultationInfoService {
+
+    Result getConsultationDetail(String id, String uuid, String phone, Integer page, Integer size);
+}

@@ -45,4 +45,6 @@ public interface MemberService {
 	 * @return
 	 */
 	Member checkMemberById(Long memberId);
+
+    Member getMemberByIdAndUuid(Map<String, Object> params);
 }
