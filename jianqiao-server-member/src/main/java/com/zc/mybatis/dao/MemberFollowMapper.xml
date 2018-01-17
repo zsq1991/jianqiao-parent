@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybatis.dao.MemberFollowMapper">
+    <!-- 获取被登录者关注的id集合-->
+    <select id="getFocusMIdList" resultType="Map">
+        SELECT
+          member_id
+        FROM
+          alq_member_follow
+        WHERE
+          member_following_id= #{mId} AND IFNULL(is_delete,0)!=1
+        ORDER BY
+          created_time DESC
+        LIMIT #{pages} , #{sizes}
+    </select>
+    <!-- 判断是单向关注还是相互关注 -->
+    <select id="getFocusById" resultType="com.zc.main.entity.memberfollow.MemberFollow" parameterType="Long">
+        SELECT
+          *
+        FROM
+          alq_member_follow
+        WHERE
+          member_id = #{id}
+        AND IFNULL(is_delete,0)!=1
+        AND member_following_id = #{mId}
+    </select>
+
+    <!-- 获取关注登录者的头像和昵称 -->
+    <select id="getFanList" resultType="Map" parameterType="Long">
+        SELECT
+            m.nickname,
+            att.address,
+            m.id  as userId,
+        (case when m.user_type = 2 then 0 else m.user_type end )as userType
+        FROM
+          alq_member AS m
+        LEFT JOIN alq_attachment AS att ON att.id = m.logo_attachment_id
+        WHERE
+        m.id = #{id}
+    </select>
+    <!-- 通过mId获取资讯的title -->
+    <select id="getConsulatationTitleByMId" resultType="Map" parameterType="Long">
+        select
+          IFNULL(title,"") as title,
+          created_time
+        from
+          alq_consultation
+        where
+          member_id = #{id}
+        ORDER BY created_time DESC LIMIT 0,1
+    </select>
+</mapper>
