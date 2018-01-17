@@ -35,4 +35,14 @@ public interface MemberService {
 	Member getMemberByPhoneAndUuid(Map<String, Object> params);
 
 	Result getAuthMember(Member member);
+
+	/**
+	 * @description ：检测是否是高级用户
+	 * @Created by  : 朱军
+	 * @version
+	 * @Creation Date ： 2018/1/17 13:45
+	 * @param memberId
+	 * @return
+	 */
+	Member checkMemberById(Long memberId);
 }

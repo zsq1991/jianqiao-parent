@@ -35,6 +35,16 @@ public interface MemberMapper extends BasicMapper<Member> {
     Member getMemberByPhoneAndUuid(Map<String, Object> params);
 
 	/**
+	 * @description ：
+	 * @Created by  : 朱军
+	 * @version
+	 * @Creation Date ： 2018/1/17 13:47
+	 * @param memberId
+	 * @return
+	 */
+	Member checkMemberById(Long memberId);
+
+	/**
 	 * @description ：根据手机号判断账户是否存在
 	 * @Created by  : tenghui
 	 * @Creation Date ： 2018/1/17 9:26

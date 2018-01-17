@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybatis.dao.CollectionContentMapper">
+    <!--得到当前用户的收藏-->
+    <select id="getMyCollentent" resultType="map" parameterType="map">
+        SELECT
+			consultation_id
+		FROM
+			alq_collection_consultation
+		WHERE
+			member_id = #{id}
+		AND type = 0
+		ORDER BY
+			created_time DESC
+	    LIMIT #{startIndex},#{endIndex}
+    </select>
+
+</mapper>
