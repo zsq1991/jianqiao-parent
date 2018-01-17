@@ -1,5 +1,7 @@
 package com.zc.main.controller.main.mobile.after.member;
 
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.member.MemberService;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("mobile/after/member")
 public class MemberController {
 
-    @Autowired
+    @DubboConsumer(version="1.0.0")
     private MemberService memberService;
 
 

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",interfaceClass =MemberService.class )
 @Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
@@ -57,9 +57,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMemberByPhoneAndUuid(Map<String, Object> params) {
-        logger.info("============根据ID和UUID查询用户开始,params={}", JSON.toJSONString(params));
+        logger.info("============根据手机号和UUID查询用户开始,params={}", JSON.toJSONString(params));
         Member member = memberMapper.getMemberByPhoneAndUuid(params);
-        logger.info("============根据ID和UUID查询用户结束,member={}", JSON.toJSONString(member));
+        logger.info("============根据手机号和UUID查询用户结束,member={}", JSON.toJSONString(member));
         return member;
     }
 }

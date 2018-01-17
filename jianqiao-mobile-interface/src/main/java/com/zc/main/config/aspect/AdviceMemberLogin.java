@@ -1,6 +1,6 @@
-package com.zc.shiro.confige.aspect;
+package com.zc.main.config.aspect;
 
-import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.zc.common.core.annotation.MemberAnno;
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
@@ -37,7 +37,7 @@ public class AdviceMemberLogin {
 	private static Log logger = LogFactory
 			.getLog(AdviceMemberLogin.class);
 
-	@Reference(version = "1.0.0")
+	@DubboConsumer(version = "1.0.0",timeout = 300000)
 	private MemberService memberService;
 
     /**
@@ -85,8 +85,8 @@ public class AdviceMemberLogin {
 		        	Object[] args = point.getArgs();
 		        	if(annotation.annotationType().getName().equals(MemberAnno.class.getName()))
 		        	{
-		        		 Member memberArg=(Member) args[i];
-		        		 BeanUtils.copyProperties(memberArg, member);
+						Member memberArg=(Member) args[i];
+						BeanUtils.copyProperties(member,memberArg);
 		        	}
 	        	}
 			}

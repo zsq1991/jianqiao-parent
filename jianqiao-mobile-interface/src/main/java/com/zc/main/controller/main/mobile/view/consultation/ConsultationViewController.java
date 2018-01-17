@@ -1,9 +1,10 @@
 package com.zc.main.controller.main.mobile.view.consultation;
 
-import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.zc.common.core.result.Result;
 import com.zc.main.service.consultation.ConsultationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,18 +22,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ConsultationViewController {
 
-    @Reference(version = "1.0.0")
+    private static Logger logger = LoggerFactory.getLogger(ConsultationViewController.class);
+
+    @DubboConsumer(version = "1.0.0",timeout = 30000)
     private ConsultationService consultationService;
 
     /**
+     * @param page      页码
+     * @param rows      行数
+     * @param checktype 类型：1精选  2分享
+     * @return
      * @description ：APP首页  内容根据关键词搜索
      * @Created by  : gaoge
      * @Creation Date ： 2018/1/16 11:04
      * @version 1.0.0
-     * @param page 页码
-     * @param rows 行数
-     * @param checktype  类型：1精选  2分享
-     * @return
      */
     @RequestMapping(value = "findconsultationinfohomepage", method = RequestMethod.POST)
     @ResponseBody
@@ -45,9 +48,12 @@ public class ConsultationViewController {
     }
 
     /**
-     * APP求助  内容根据关键词搜索
-     *
-     * @return
+     * @param page 页码
+     * @param rows 每页行数
+     * @description ：APP求助  内容根据关键词搜索
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 11:43
+     * @version 1.0.0
      */
     @RequestMapping(value = "findconsultationinfohelp", method = RequestMethod.POST)
     @ResponseBody
@@ -59,62 +65,75 @@ public class ConsultationViewController {
     }
 
     /**
-     * APP民间高手  内容根据关键词搜索
-     *
-     * @return
+     * @param page      页码
+     * @param rows      每页行数
+     * @param checktype 类型 ： 1访谈  2口述
+     * @description ：APP民间高手  内容根据关键词搜索
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 11:37
+     * @version 1.0.0
      */
     @RequestMapping(value = "findconsultationinfopeople", method = RequestMethod.POST)
     @ResponseBody
     public Result findconsultationinfopeople(
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
-            @RequestParam(value = "checktype", defaultValue = "1", required = false) String checktype) {//checktype  1访谈  2口述
+            @RequestParam(value = "checktype", defaultValue = "1", required = false) String checktype) {
 
+        logger.info("PP民间高手  内容根据关键词搜索: 咨询类型checktype={}", checktype);
         return consultationService.findConsultationInfoPeople(page, rows, checktype);
     }
 
     /**
-     * 访谈详情页   点用户头像查看访谈
-     *
-     * @return
+     * @param page     页码
+     * @param rows     每页行数
+     * @param memberId 用户id
+     * @description ：访谈详情页   点用户头像查看访谈
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 11:36
+     * @version 1.0.0
      */
     @RequestMapping(value = "findconsultationbyfangtan", method = RequestMethod.POST)
     @ResponseBody
     public Result findconsultationbyfangtan(
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
-            @RequestParam(value = "memberId") String memberId) {//checktype  1 访谈  2 口述   3 求助   4 分享
+            @RequestParam(value = "memberId") String memberId) {
 
         String checktype = "1";//checktype  1 访谈  2 口述   3 求助   4 分享
-
+        logger.info("访谈详情页   点用户头像查看访谈: 用户id={},咨询类型checktype={}", memberId, checktype);
         return consultationService.findConsultationAllByTouxiang(page, rows, memberId, checktype);
     }
 
     /**
-     * 访谈详情页   点用户头像查看口述
-     *
-     * @return
+     * @param page     页码
+     * @param rows     每页行数
+     * @param memberId 用户id
+     * @description ：访谈详情页   点用户头像查看口述
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 11:35
+     * @version 1.0.0
      */
     @RequestMapping(value = "findconsultationbykoushu", method = RequestMethod.POST)
     @ResponseBody
     public Result findconsultationbykoushu(
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
-            @RequestParam(value = "memberId") String memberId) {//checktype  1 访谈  2 口述   3 求助   4 分享
+            @RequestParam(value = "memberId") String memberId) {
 
         String checktype = "2";//checktype  1 访谈  2 口述   3 求助   4 分享
-
+        logger.info("访谈详情页   点用户头像查看口述: 用户id={},咨询类型checktype={}", memberId, checktype);
         return consultationService.findConsultationAllByTouxiang(page, rows, memberId, checktype);
     }
 
     /**
+     * @param page     页码
+     * @param rows     每页行数
+     * @param memberId 用户id
      * @description ：访谈详情页   点用户头像查看求助
      * @Created by  : gaoge
      * @Creation Date ： 2018/1/16 11:05
      * @version 1.0.0
-     * @param page 页码
-     * @param rows 每页行数
-     * @param memberId 用户id
      */
     @RequestMapping(value = "findconsultationbyqiuzhu", method = RequestMethod.POST)
     @ResponseBody
@@ -124,24 +143,28 @@ public class ConsultationViewController {
             @RequestParam(value = "memberId") String memberId) {
 
         String checktype = "3";//checktype  1 访谈  2 口述   3 求助   4 分享
-
+        logger.info("访谈详情页   点用户头像查看求助: 用户id={},咨询类型checktype={}", memberId, checktype);
         return consultationService.findConsultationAllByTouxiang(page, rows, memberId, checktype);
     }
 
     /**
-     * 访谈详情页   点用户头像查看分享
-     *
-     * @return
+     * @param page     页码
+     * @param rows     每页行数
+     * @param memberId 用户id
+     * @description ：访谈详情页   点用户头像查看分享
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 11:34
+     * @version 1.0.0
      */
     @RequestMapping(value = "findconsultationbyfengxiang", method = RequestMethod.POST)
     @ResponseBody
     public Result findconsultationbyfengxiang(
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
-            @RequestParam(value = "memberId") String memberId) {//checktype  1 访谈  2 口述   3 求助   4 分享
+            @RequestParam(value = "memberId") String memberId) {
 
         String checktype = "4";//checktype  1 访谈  2 口述   3 求助   4 分享
-
+        logger.info("访谈详情页   点用户头像查看分享: 用户id={},咨询类型checktype={}", memberId, checktype);
         return consultationService.findConsultationAllByTouxiang(page, rows, memberId, checktype);
     }
 

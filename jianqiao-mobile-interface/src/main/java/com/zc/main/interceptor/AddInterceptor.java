@@ -21,6 +21,6 @@ public class AddInterceptor extends WebMvcConfigurerAdapter {
           //PC端token防爆拦截器
 
 
-         registry.addInterceptor(new AvoidDuplicateSubmissionInterceptor());
+//         registry.addInterceptor(new AvoidDuplicateSubmissionInterceptor());
     }
 }

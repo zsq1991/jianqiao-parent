@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.zc.mybatis.dao.ShareAppMapper">
+
+    <select id="getConsultationnow" resultType="Map">
+        SELECT * FROM alq_consultation c where c.status =2 and c.is_delete =0
+		and c.id = #{id}
+    </select>
+
+    <select id="getConsultation"  resultType="Map">
+      SELECT
+		acsss.title,acsss.comment_num,acsss.detail_summary,aca.address FROM
+		alq_consultation acsss
+		LEFT JOIN alq_consultation_attachment aca on
+		acsss.id =
+		aca.consultation_id
+		where cover=1 and acsss.id =#{id} and
+		status =2 AND is_delete =0 OR null
+    </select>
+</mapper>

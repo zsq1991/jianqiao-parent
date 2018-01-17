@@ -1,6 +1,8 @@
 package com.zc.main.controller.main.mobile.after.consultationfabulous;
 
 
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.common.core.annotation.Explosionproof;
 import com.zc.common.core.result.Result;
 import com.zc.main.service.consultationfabulous.ConsultationFabulousService;
@@ -22,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ConsultationfabulousController {
 	
 	private static Logger logger = LoggerFactory.getLogger(ConsultationfabulousController.class);
-	
-	@Autowired
+
+	@DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
 	private ConsultationFabulousService consultationFabulousService;
 	
 	@Explosionproof

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口com.alqsoft.dao.consultationcomment.ConsultationCommentDao -->
+<mapper namespace="com.zc.mybatis.dao.ConsultationCommentMapper">
+	
+	<select id="getCommentList" parameterType="Map" resultType="Map">
+
+      <!--   SELECT DISTINCT cm.member_id,cm.id,cm.content,cm.created_time,cm.fabulous_num,cm.reply_num,cm.first_reply_comment,
+       	CASE WHEN cm.member_id= cm.consultation_member_id THEN '作者回复' ELSE (SELECT IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id) END  AS nickname,
+        <if test="mid != 0">
+        IFNULL((SELECT cf.type FROM alq_consultation_comment_fabulous cf WHERE cf.consultation_comment_id=cm.id and cf.member_id= #{mid}),2) flag,
+        </if>
+         <if test="mid == 0">
+         '2' as flag,
+         </if>
+        (SELECT a.address  FROM alq_member m ,alq_attachment a WHERE a.id= m.logo_attachment_id AND m.id= cm.member_id) address
+          FROM alq_consultation_comment cm WHERE  cm.comment_info_id  IS NULL  AND (cm.is_delete =0 Or cm.is_delete)  AND cm.consultation_id=#{cid,jdbcType=BIGINT}
+          ORDER BY cm.created_time DESC
+
+          <if test="page != null and size != null ">
+                 LIMIT ${page} , ${size}
+          </if>
+        <if test = " type == 1 " >
+           limit 10
+        </if> -->
+        SELECT DISTINCT cm.member_id,cm.id,cm.content,DATE_FORMAT(cm.created_time,'%Y/%m/%d %H:%i:%s') created_time,cm.fabulous_num,cm.reply_num,cm.first_reply_comment,
+       	 (SELECT IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id)   AS nickname,
+        <if test="mid != 0">
+        IFNULL((SELECT cf.type FROM alq_consultation_comment_fabulous cf WHERE cf.consultation_comment_id=cm.id and cf.member_id= #{mid}),2) flag,
+        </if>
+         <if test="mid == 0">
+         '2' as flag,
+         </if>
+        (SELECT IFNULL(ams.user_type,0) as user_type FROM  alq_member ams WHERE ams.id= cm.member_id)  user_type,
+        (SELECT a.address  FROM alq_member m ,alq_attachment a WHERE a.id= m.logo_attachment_id AND m.id= cm.member_id) address
+          FROM alq_consultation_comment cm WHERE  cm.comment_info_id  IS NULL  AND (cm.is_delete =0 Or cm.is_delete)  AND cm.consultation_id=#{cid,jdbcType=BIGINT}
+          ORDER BY cm.created_time DESC
+
+          <if test="page != null and size != null ">
+                 LIMIT ${page} , ${size}
+          </if>
+        <if test = " type == 1 " >
+           limit 10
+        </if>
+
+    </select>
+
+    <select id="getSonCommentList" resultType="Map">
+     <!--  SELECT cm.member_id as reply_id,cm.id,cm.content,DATE_FORMAT(cm.created_time,'%Y-%m-%d %H:%i:%s') created_time,cm.fabulous_num,cm.reply_num,c.member_id,
+     CASE  WHEN c.member_id= cm.member_id THEN '作者回复' ELSE (SELECT IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id)  END nickname,
+     (SELECT a.address  FROM alq_member m ,alq_attachment a WHERE a.id= m.logo_attachment_id AND m.id= cm.member_id) address
+     FROM alq_consultation_comment cm,alq_consultation c  WHERE  cm.consultation_id=c.id  AND  IFNULL(cm.is_delete,0) =0   AND cm.id=#{cid} -->
+     SELECT cm.member_id as reply_id,cm.id,cm.content,DATE_FORMAT(cm.created_time,'%Y/%m/%d %H:%i:%s') created_time,cm.fabulous_num,cm.reply_num,c.member_id,
+     (SELECT IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id)   nickname,
+     (SELECT IFNULL(ams.user_type,0) as user_type FROM  alq_member ams WHERE ams.id= cm.member_id)  user_type,
+     (SELECT a.address  FROM alq_member m ,alq_attachment a WHERE a.id= m.logo_attachment_id AND m.id= cm.member_id) address
+     FROM alq_consultation_comment cm,alq_consultation c  WHERE  cm.consultation_id=c.id  AND  IFNULL(cm.is_delete,0) =0  AND cm.id=#{cid}
+    </select>
+
+	<select id="findHasConsultationCommentById" resultType="int" parameterType="java.lang.Long" >
+		SELECT count(*) FROM  alq_consultation_comment c WHERE c.id = #{commentid} AND c.`is_delete`=0
+	</select>
+	
+	<!-- 根据咨询顶级评论id获取顶级评论详情 -->
+	<select id="getTopConsultationCommentDetailById" resultType="Map" parameterType="Map">
+		<!-- SELECT 
+		    IFNULL(con.title,"") as title,
+			cm.id,cm.content,DATE_FORMAT(cm.created_time,'%Y-%m-%d %H:%i:%s') AS created_time,IFNULL(cm.fabulous_num,0) AS fabulous,IFNULL(cm.reply_num,0) AS reply_num,cm.first_reply_comment,cm.member_id,
+     		CASE WHEN cm.member_id= cm.consultation_member_id THEN '作者回复' ELSE (SELECT IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id) END  AS nickname,
+     		<if test="memberid != 0">
+     		IFNULL((SELECT cf.type FROM alq_consultation_comment_fabulous cf WHERE cf.consultation_comment_id=cm.id AND cf.member_id=#{memberid}),2) AS flag,
+           (select count(1)  from alq_member_follow as fol where fol.member_id=cm.member_id and fol.member_following_id =#{memberid} and IFNULL(fol.is_delete,0)=0) as follow,
+            </if>
+            <if test="memberid == 0">
+            '2' as flag,
+            '0' as follow,
+            </if>
+            (SELECT a.address  FROM alq_member m ,alq_attachment a WHERE a.id= m.logo_attachment_id AND m.id= cm.member_id) address
+       FROM 
+       		alq_consultation_comment cm left join alq_consultation as con on con.id=cm.consultation_id
+       WHERE
+       		cm.comment_info_id  IS NULL  AND cm.is_delete=0  AND cm.`id`=#{topcommentid} -->
+       		SELECT 
+		    IFNULL(con.title,"") as title,
+			cm.id,cm.content,DATE_FORMAT(cm.created_time,'%Y/%m/%d %H:%i:%s') AS created_time,IFNULL(cm.fabulous_num,0) AS fabulous,IFNULL(cm.reply_num,0) AS reply_num,cm.first_reply_comment,cm.member_id,
+     		(SELECT IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id)  AS nickname,
+     		<if test="memberid != 0">
+     		IFNULL((SELECT cf.type FROM alq_consultation_comment_fabulous cf WHERE cf.consultation_comment_id=cm.id AND cf.member_id=#{memberid}),2) AS flag,
+           (select count(1)  from alq_member_follow as fol where fol.member_id=cm.member_id and fol.member_following_id =#{memberid} and IFNULL(fol.is_delete,0)=0) as follow,
+            </if>
+            <if test="memberid == 0">
+            '2' as flag,
+            '0' as follow,
+            </if>
+            (SELECT IFNULL(ams.user_type,0) as user_type FROM  alq_member ams WHERE ams.id= cm.member_id)  user_type,
+            (SELECT a.address  FROM alq_member m ,alq_attachment a WHERE a.id= m.logo_attachment_id AND m.id= cm.member_id) address
+       FROM 
+       		alq_consultation_comment cm left join alq_consultation as con on con.id=cm.consultation_id
+       WHERE
+       		cm.comment_info_id  IS NULL  AND cm.is_delete=0  AND cm.`id`=#{topcommentid}
+	</select>
+	<!-- 根据咨询顶级评论id获取其下的回复评论列表 ，没有关联其父级评论-->
+	<select id="findTopAfterCommentListByTopId" resultType="Map" parameterType="Map">
+		<!--  SELECT 
+			 cm.id,
+			 IFNULL(cm.content,'') as content,
+			 cm.parent_id,
+			 cm.member_id,
+			 DATE_FORMAT(cm.created_time,'%Y-%m-%d %H:%i:%s') created_time,IFNULL(cm.fabulous_num,0) AS fabulous,
+			 <if test="memberid != 0">
+			 IFNULL((SELECT cf.type FROM alq_consultation_comment_fabulous cf WHERE cf.consultation_comment_id=cm.id AND cf.member_id=#{memberid}),2)  AS  flag,
+			 </if>
+			 <if test="memberid == 0">
+			  '2' as flag,
+             </if>
+			 CASE  WHEN cm.consultation_member_id= cm.member_id THEN '作者回复' ELSE (SELECT IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id)  END nickname,
+			(SELECT a.address  FROM alq_member m ,alq_attachment a WHERE a.id= m.logo_attachment_id AND m.id= cm.member_id) address
+		FROM 
+			alq_consultation_comment cm 
+		WHERE 
+			cm.is_delete=0 AND cm.comment_info_id=#{topcommentid} ORDER BY cm.created_time ASC 
+		LIMIT #{startIndex},#{endIndex} -->
+		SELECT 
+			 cm.id,
+			 IFNULL(cm.content,'') as content,
+			 cm.parent_id,
+			 cm.member_id,
+			 DATE_FORMAT(cm.created_time,'%Y/%m/%d %H:%i:%s') created_time,IFNULL(cm.fabulous_num,0) AS fabulous,
+			 <if test="memberid != 0">
+			 IFNULL((SELECT cf.type FROM alq_consultation_comment_fabulous cf WHERE cf.consultation_comment_id=cm.id AND cf.member_id=#{memberid}),2)  AS  flag,
+			 </if>
+			 <if test="memberid == 0">
+			  '2' as flag,
+             </if>
+             (SELECT IFNULL(ams.user_type,0) as user_type FROM  alq_member ams WHERE ams.id= cm.member_id)  user_type,
+			 (SELECT IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id)  nickname,
+			 (SELECT a.address  FROM alq_member m ,alq_attachment a WHERE a.id= m.logo_attachment_id AND m.id= cm.member_id) address
+		FROM 
+			alq_consultation_comment cm 
+		WHERE 
+			cm.is_delete=0 AND cm.comment_info_id=#{topcommentid} ORDER BY cm.created_time ASC 
+		LIMIT #{startIndex},#{endIndex}
+	</select>
+	<!-- 这个是顶级评论下的相互评论回复，给回复评论显示效果需要拼接//@昵称：父级评论内容，此sql查询的就是需要拼接的父级评论与findTopAfterCommentListByTopId使用 -->
+	<select id="getCommentByParentIdDetail" resultType="Map" parameterType="java.lang.Long">
+		SELECT 
+			 cm.id,
+			 IFNULL(cm.content,'') as content,
+			 CASE  WHEN cm.consultation_member_id= cm.member_id THEN '作者回复' ELSE (SELECT  IFNULL(am.nickname,'匿名用户') as nickname FROM alq_member am WHERE am.id= cm.member_id)  END nickname
+		FROM 
+			alq_consultation_comment cm 
+		WHERE 
+			cm.id=#{parentid}
+	</select>
+	<!-- 通过consulationacomment中的id获取2个子类的id -->
+	<select id="getCommentSonIdByPid" resultType="Map" parameterType="java.lang.Long" >
+		
+	  select member_id,id from alq_consultation_comment
+	  where comment_info_id=#{id} and is_delete=0 
+	  ORDER BY
+		created_time ASC
+	  LIMIT 0,
+	  2
+
+	</select>
+</mapper>
