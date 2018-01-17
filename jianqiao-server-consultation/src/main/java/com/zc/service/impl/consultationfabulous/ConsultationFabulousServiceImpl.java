@@ -1,4 +1,4 @@
-package com.zc.impl.consultationfabulous;
+package com.zc.service.impl.consultationfabulous;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
@@ -8,7 +8,6 @@ import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.consultationfabulous.ConsultationFabulous;
 import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membermsg.MemberMsg;
-import com.zc.main.entity.power.Power;
 import com.zc.main.service.consultationfabulous.ConsultationFabulousService;
 import com.zc.mybatis.dao.ConsultationMapper;
 import com.zc.mybatis.dao.ConsultationfabulousMapper;
@@ -52,7 +51,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
     @Transactional
     public Result getConsultationFabulousByIdAndMemberId(Long id, Long memberId, Integer type) {
         logger.info("咨询内容点赞取消赞开始执行，入参参数{}" + "咨询内容id:" + id + "点赞1取消2:" + type + "用户id:" + memberId);
-        Power power = new Power();
+        //Power power = new Power();
         Consultation consultationDTO = new Consultation();
 
         if (StringUtils.isBlank(type + "")) {
