@@ -5,12 +5,12 @@ import com.zc.common.core.annotation.MemberAnno;
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.member.MemberService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -32,10 +32,10 @@ import java.util.Map;
 @Component
 @Aspect
 @Order
-public class AdviceMemberLogin {  
-	
-	private static Log logger = LogFactory
-			.getLog(AdviceMemberLogin.class);
+public class AdviceMemberLogin {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(AdviceMemberLogin.class);
 
 	@DubboConsumer(version = "1.0.0",timeout = 300000)
 	private MemberService memberService;
@@ -54,7 +54,7 @@ public class AdviceMemberLogin {
     public Object around(ProceedingJoinPoint point) throws Throwable {
     	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
-    	logger.info(Thread.currentThread().getName()+"登录=========线程名称===========");
+    	logger.info(Thread.currentThread().getName()+"登录拦截开始=========线程名称===========");
     	Result result = new Result();
     	String phone = request.getParameter("phone");
     	String uuid = request.getParameter("uuid");
@@ -91,7 +91,7 @@ public class AdviceMemberLogin {
 	        	}
 			}
         }
-        //执行方法
+		logger.info(Thread.currentThread().getName()+"登录拦截结束，执行方法=========线程名称===========");
         Object object = point.proceed();
 		return object;
     }  
