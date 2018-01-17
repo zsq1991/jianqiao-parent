@@ -65,4 +65,17 @@ public interface MemberFollowMapper {
      */
     Map getConsulatationTitleByMId(Long id);
 
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     *
+     * @param mId   登录者的id
+     * @param pages 页码
+     * @param sizes 页大小
+     * @return
+     * @create: 2018/1/17 11:14
+     * @desc: 获取关注登录者的id集合
+     * @version 1.0.0
+     */
+    List<Map> getMIdList(@Param("mId") Long mId, @Param("pages") int pages, @Param("sizes") int sizes);
+
 }

@@ -44,8 +44,42 @@ public class MemberFolloServiceImpl implements MemberFollowService {
     @Override
     public Result getFansList(Long mId, int page, int size) {
         logger.info("获取粉丝列表传入参数==》mid:" + mId + " page:" + page + " size:" + size);
-
-        return null;
+        Result result = new Result();
+        try {
+            if (mId == null) {
+                return ResultUtils.returnError("请传入用户id");
+            }
+            List<Map> mIdList = memberFollowMapper.getMIdList(mId, page, size);
+            if (mIdList.size() <= 0) {
+                return ResultUtils.returnError("还没有粉丝");
+            }
+            List list = new ArrayList();
+            for (int i = 0; mIdList.size() > i; i++) {
+                String id = mIdList.get(i).get("member_following_id").toString();//关注者
+                long longValue = Long.valueOf(id).longValue();
+                //longValue被关注者id，mId是关注者id
+                MemberFollow focusById = memberFollowMapper.getFocusById(longValue, mId);//第一个参数是被关注，第二个参数关注者
+                Map fanList = memberFollowMapper.getFanList(longValue);
+                Map title = memberFollowMapper.getConsulatationTitleByMId(longValue);
+                String titles = title == null ? "" : (String) title.get("title");
+                fanList.put("title", titles);
+                if (focusById == null) {
+                    fanList.put("focus", "加关注");
+                    fanList.put("focusType", 1);
+                } else {
+                    fanList.put("focus", "互相关注");
+                    fanList.put("focusType", 2);
+                }
+                list.add(fanList);
+            }
+            result.setContent(list);
+            logger.info("获取粉丝列表成功");
+        } catch (Exception e) {
+            logger.info("获取粉丝列表异常:" + e.getMessage());
+            e.printStackTrace();
+            return ResultUtils.returnError("获取粉丝列表异常");
+        }
+        return result;
     }
 
     @Override
@@ -82,7 +116,7 @@ public class MemberFolloServiceImpl implements MemberFollowService {
             result.setContent(list);
             logger.info("查询会员关注列表成功！");
         } catch (Exception e) {
-            logger.info("查询会员关注列表异常"+e.getMessage());
+            logger.info("查询会员关注列表异常" + e.getMessage());
             e.printStackTrace();
             return ResultUtils.returnError("获取会员关注列表异常!");
         }

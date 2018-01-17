@@ -49,4 +49,16 @@
           member_id = #{id}
         ORDER BY created_time DESC LIMIT 0,1
     </select>
+    <!-- 获取关注登录者的id集合 -->
+    <select id="getMIdList" resultType="Map">
+        SELECT
+          member_following_id
+        FROM
+          alq_member_follow
+        WHERE
+          member_id = #{mId}
+        AND IFNULL(is_delete,0)!=1
+        ORDER BY created_time DESC
+        LIMIT #{pages},#{sizes}
+    </select>
 </mapper>
