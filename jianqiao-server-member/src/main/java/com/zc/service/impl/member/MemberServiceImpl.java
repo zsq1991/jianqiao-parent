@@ -103,4 +103,43 @@ public class MemberServiceImpl implements MemberService {
         logger.info("============根据手机号和UUID查询用户结束,member={}", JSON.toJSONString(member));
         return member;
     }
+    @Override
+    public Member getMemberByIdAndUuid(Map<String, Object> params) {
+        Member member = new Member();
+        Map<String,Object> map = memberMapper.getMemberByIdAndUuid(params);
+        if (!Objects.isNull(map)){
+            Object id = map.get("id");
+            if (Objects.isNull(id)){
+                return member;
+            }
+            member.setId(Long.valueOf(String.valueOf(id)));
+            Object nickname = map.get("nickname");
+            if (!Objects.isNull(nickname)){
+                member.setNickname(String.valueOf(nickname));
+            }
+            Object name = map.get("name");
+            if (!Objects.isNull(name)){
+                member.setName(String.valueOf(name));
+            }
+            Object userType = map.get("user_type");
+            if (!Objects.isNull(userType)){
+                member.setUserType(Integer.valueOf(String.valueOf(userType)));
+            }
+            Object phone = map.get("phone");
+            if (!Objects.isNull(phone)){
+                member.setPhone(String.valueOf(phone));
+            }
+
+            Object card = map.get("card");
+            if (!Objects.isNull(card)){
+                member.setCard(String.valueOf(card));
+            }
+
+            Object status = map.get("status");
+            if (!Objects.isNull(status)){
+                member.setStatus(Integer.valueOf(status.toString()));
+            }
+        }
+        return member;
+    }
 }
