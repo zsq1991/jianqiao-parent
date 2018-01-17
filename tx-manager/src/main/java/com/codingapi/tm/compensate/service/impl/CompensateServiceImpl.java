@@ -120,6 +120,7 @@ public class CompensateServiceImpl implements CompensateService {
     }
 
 
+    @Override
     public void autoCompensate(final String compensateKey, TransactionCompensateMsg transactionCompensateMsg) {
         final String json = JSON.toJSONString(transactionCompensateMsg);
         logger.info("Auto Compensate->" + json);
