@@ -6,6 +6,11 @@
       <artifactId>druid</artifactId>
       <version>1.0.26</version>
     </dependency>
+    <dependency>
+      <groupId>jianqiao-parent</groupId>
+      <artifactId>jianqiao-common-core</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <parent>
     <groupId>jianqiao-parent</groupId>

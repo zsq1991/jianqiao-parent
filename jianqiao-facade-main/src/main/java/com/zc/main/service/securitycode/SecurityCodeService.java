@@ -20,4 +20,19 @@ public interface SecurityCodeService {
      */
     public Result sendCodeRegisterByPhone(String phone, String codeType);
 
+    /**
+     * @description ：获取手机验证码
+     * @Created by  : tenghui
+     * @Creation Date ： 2018/1/17 9:31
+     * @version : 1.0.0
+     */
+    public Result sendMessageCode(String phone,String codeType);
+    /**
+     * @description ：验证手机验证码
+     * @Created by  : tenghui
+     * @Creation Date ： 2018/1/17 9:31
+     * @version : 1.0.0
+     */
+    public Result checkMessageCode(String phone,String code,String codeType);
+
 }

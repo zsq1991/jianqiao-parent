@@ -28,4 +28,9 @@
             </if>
         </where>
     </select>
+    <!-- 通过手机号获取member实体 -->
+    <select id="getMemberByPhone" resultType="com.zc.main.entity.member.Member" parameterType="String">
+        select * from alq_member where phone=#{phone}
+    </select>
+
 </mapper>

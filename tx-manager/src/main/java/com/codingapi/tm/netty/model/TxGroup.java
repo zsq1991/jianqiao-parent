@@ -132,7 +132,7 @@ public class TxGroup {
                 info.setUniqueKey(object.getString("u"));
 
                 info.setModel(object.getString("mn"));
-                info.setModelIpAddress(object.getString("ip"));
+                info.setModelIpAddress(object.getString("http"));
                 info.setMethodStr(object.getString("ms"));
 
                 txGroup.getList().add(info);
@@ -166,7 +166,7 @@ public class TxGroup {
                 item.put("u", info.getUniqueKey());
 
                 item.put("mn", info.getModel());
-                item.put("ip", info.getModelIpAddress());
+                item.put("http", info.getModelIpAddress());
                 item.put("ms", info.getMethodStr());
 
 

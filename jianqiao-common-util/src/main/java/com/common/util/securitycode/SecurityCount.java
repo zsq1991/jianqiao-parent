@@ -97,28 +97,28 @@ public class SecurityCount {
         int x = 0;
         if ("+".equals(subString)) {
             String one = verifyCode.toString().substring(0,1);
-            System.out.println("生成的前一个字符："+one);
+            logger.info("生成的前一个字符："+one);
             String two = verifyCode.toString().substring(2,3);
-            System.out.println("生成的后一个字符："+two);
+            logger.info("生成的后一个字符："+two);
 
             x = Integer.parseInt(one) + Integer.parseInt(two);
-            System.out.println("相加——计算出的数字："+ x);
+            logger.info("相加——计算出的数字："+ x);
         }else if("-".equals(subString)) {
             //如果是减号，，判断大小，然后从新生成
 
             String one = verifyCode.toString().substring(0,1);
-            System.out.println("生成的前一个字符："+one);
+            logger.info("生成的前一个字符："+one);
             String two = verifyCode.toString().substring(2,3);
-            System.out.println("生成的后一个字符："+two);
+            logger.info("生成的后一个字符："+two);
 
             if (Integer.parseInt(one) < Integer.parseInt(two)){
                 verifyCode = new StringBuffer().append(two).append("-").append(one).append("=").toString();
                 x = Integer.parseInt(two) - Integer.parseInt(one);
-                System.out.println("减号替换后的："+verifyCode);
+                logger.info("减号替换后的："+verifyCode);
             }else {
                 x = Integer.parseInt(one) - Integer.parseInt(two);
             }
-            System.out.println("相减——计算出的数字："+ x);
+            logger.info("相减——计算出的数字："+ x);
 
         }
         outputImage(w, h, os, verifyCode);
