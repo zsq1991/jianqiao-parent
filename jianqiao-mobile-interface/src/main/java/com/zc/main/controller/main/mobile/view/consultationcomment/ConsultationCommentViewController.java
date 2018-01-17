@@ -28,7 +28,10 @@ public class ConsultationCommentViewController {
 
     /**
      * 首页获取咨询评论列表
-     *
+     *@description:
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/17 17:26
+     * @version: 1.0.0
      * @param id    咨询ID
      * @param uuid  用户uuid
      * @param phone 用户phone
@@ -42,21 +45,22 @@ public class ConsultationCommentViewController {
                                             @RequestParam(value = "phone", required = false) String phone,
                                             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                             @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
-
         return consultationInfoService.getConsultationDetail(id, uuid, phone, page, size);
     }
 
     /**
-     * 点击顶级评论的评论详情页面
-     *
-     * @param id    顶级评论id
-     * @param uuid
-     * @param phone
-     * @param page
-     * @param size
+     * @description: 点击顶级评论的评论详情页面（回复列表）
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/17 17:21
+     * @version: 1.0.0
+     * @param id 顶级的评论的id
+     * @param uuid 唯一标识
+     * @param phone 登陆者的手机号
+     * @param page  当前页
+     * @param size  当前页的数据
      * @return
      */
-   /* @RequestMapping(value = "getCommentDetailList", method = RequestMethod.POST)
+    @RequestMapping(value = "getCommentDetailList", method = RequestMethod.POST)
     public Result getTopAndTopAfterCommentList(@RequestParam("id") String id,
                                                @RequestParam(value = "uuid", required = false) String uuid,
                                                @RequestParam(value = "phone", required = false) String phone,
@@ -64,5 +68,5 @@ public class ConsultationCommentViewController {
                                                @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
 
         return consultationInfoService.getTopAndTopAfterCommentByTopIdList(id, uuid, phone, page, size);
-    }*/
+    }
 }

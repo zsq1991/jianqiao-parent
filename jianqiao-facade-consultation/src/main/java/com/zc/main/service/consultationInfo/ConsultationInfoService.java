@@ -12,4 +12,6 @@ import com.zc.common.core.result.Result;
 public interface ConsultationInfoService {
 
     Result getConsultationDetail(String id, String uuid, String phone, Integer page, Integer size);
+
+    Result getTopAndTopAfterCommentByTopIdList(String id, String uuid, String phone, Integer page, Integer size);
 }
