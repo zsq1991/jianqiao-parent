@@ -99,8 +99,9 @@ public class MShiroFilterFactoryBean extends ShiroFilterFactoryBean {
             int idx = 0;
             if ((idx = str.indexOf(".")) > 0) {
                 str = str.substring(idx);
-                if (ignoreExt.contains(str.toLowerCase()))
+                if (ignoreExt.contains(str.toLowerCase())) {
                     flag = false;
+                }
             }
             // 判断是否是信任的url
             if(isTrustResource(str)){

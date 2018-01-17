@@ -22,20 +22,22 @@ public class CheckDataUtils {
 
 	public static String checkString(String start) {
 		String end = null;
-		if (start == null)
-			return "";
+		if (start == null) {
+            return "";
+        }
 		int length = start.length();
 		int sub = start.indexOf("'");
-		if (sub == -1)
-			end = start;
-		else if (length == sub)
-			end = (new StringBuilder(String.valueOf(start))).append("'")
-					.toString();
-		else
-			end = (new StringBuilder(
-					String.valueOf(start.substring(0, sub + 1)))).append("'")
-					.append(checkString(start.substring(sub + 1, length)))
-					.toString();
+		if (sub == -1) {
+            end = start;
+        } else if (length == sub) {
+            end = (new StringBuilder(String.valueOf(start))).append("'")
+                    .toString();
+        } else {
+            end = (new StringBuilder(
+                    String.valueOf(start.substring(0, sub + 1)))).append("'")
+                    .append(checkString(start.substring(sub + 1, length)))
+                    .toString();
+        }
 		return end;
 	}
 

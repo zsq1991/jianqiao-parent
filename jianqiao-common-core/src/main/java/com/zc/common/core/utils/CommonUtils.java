@@ -40,8 +40,9 @@ public class CommonUtils {
 	   * @throws Exception
 	   */
 	    private static byte[] getKeyBytes(String strKey) throws Exception {  
-	        if (null == strKey || strKey.length() < 1)  
-	            throw new Exception("key is null or empty!");  
+	        if (null == strKey || strKey.length() < 1) {
+                throw new Exception("key is null or empty!");
+            }
 	        MessageDigest alg = MessageDigest.getInstance("MD5");
 	        alg.update(strKey.getBytes());  
 	        byte[] bkey = alg.digest();  
@@ -117,12 +118,14 @@ public class CommonUtils {
 	        String stmp = "";  
 	        for (int n = 0; n < b.length; n++) {  
 	            stmp = (Integer.toHexString(b[n] & 0XFF));
-	            if (stmp.length() == 1)  
-	                hs = hs + "0" + stmp;  
-	            else  
-	                hs = hs + stmp;  
-	            if (n < b.length - 1)  
-	                hs = hs + ":";  
+	            if (stmp.length() == 1) {
+                    hs = hs + "0" + stmp;
+                } else {
+                    hs = hs + stmp;
+                }
+	            if (n < b.length - 1) {
+                    hs = hs + ":";
+                }
 	        }  
 	        return hs.toUpperCase();  
 	    }  

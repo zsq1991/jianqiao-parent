@@ -191,7 +191,8 @@ public class UserTServiceImpl implements IUserService {
         return ResultUtil.getResult(PermissionEnum.Code.SUCCESS,null);
     }
 
-    public Result getUserListByPage(PageBean page,UserDTO userDto) {
+    @Override
+    public Result getUserListByPage(PageBean page, UserDTO userDto) {
     	PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<UserVO> list = userMapper.getUserByPage(userDto);
         PageInfo<UserVO> pageInfo = new PageInfo<>(list);

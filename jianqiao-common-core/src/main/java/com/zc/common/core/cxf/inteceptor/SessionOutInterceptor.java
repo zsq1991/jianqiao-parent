@@ -27,7 +27,8 @@ public class SessionOutInterceptor extends AbstractPhaseInterceptor<SoapMessage>
 	public SessionOutInterceptor(String phase) {
 		super(phase);
 	}
-	@SuppressWarnings("unchecked")
+	@Override
+    @SuppressWarnings("unchecked")
 	public void handleMessage(SoapMessage arg0) throws Fault {
 		Map<String, List<String>> headers = (Map<String, List<String>>) arg0.get(Message.PROTOCOL_HEADERS);
 		headers.put("Cookie", Collections.singletonList("JSESSIONID="+Sessionvalue.getInstance().getSessionId()));

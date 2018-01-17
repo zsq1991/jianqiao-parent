@@ -50,12 +50,14 @@ public enum ErrorCodeEnum implements RespCode {
         this.msg = msg;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
     public void setCode(String code) {
         this.code = code;
     }
+    @Override
     public String getMsg() {
         return msg;
     }

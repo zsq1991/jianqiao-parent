@@ -37,7 +37,8 @@ public class DelegatingServletProxy extends GenericServlet {
 		proxy.service(req, res);
 	}
 
-	public void init() throws ServletException {
+	@Override
+    public void init() throws ServletException {
 		this.targetBean = getServletName();
 		getServletBean();
 		proxy.init(getServletConfig());
