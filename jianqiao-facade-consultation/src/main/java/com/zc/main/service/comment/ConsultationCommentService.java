@@ -3,6 +3,9 @@ package com.zc.main.service.comment;
 
 import com.zc.common.core.result.Result;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 咨询评论
  * @author Administrator
@@ -40,8 +43,8 @@ public interface ConsultationCommentService {
 	 * @return :
 	 */
 	 public int findHasConsultationCommentById(Long commentid);
-	 
-	 /**
+
+    /**
 	  * 删除资讯评论
 	  * @param commentid
 	  * @param memberid
@@ -56,4 +59,37 @@ public interface ConsultationCommentService {
 	  * @return
 	  *//*
 	 public Result getConsultationDetailInfo(Long id, int page, int size);*/
+
+	/**
+	 * 评论列表,getCommentList获取到的时顶级评论，firt_reply_comment是第一评论的id
+	 * @author huangxin
+	 * @data 2018/1/18 16:14
+	 * @Description: 评论列表,getCommentList获取到的时顶级评论，firt_reply_comment是第一评论的id
+	 * @Version: 3.2.0
+	 * @param paramMap
+	 * @return
+	 */
+	List<Map<String,Object>> getCommentList(Map<String, Object> paramMap);
+
+	/**
+	 * 通过父类id获取子的2个id
+	 * @author huangxin
+	 * @data 2018/1/18 16:16
+	 * @Description: 通过父类id获取子的2个id
+	 * @Version: 3.2.0
+	 * @param id 资讯id
+	 * @return
+	 */
+	public List<Map> getCommentSonIdByPid(Long id);
+
+	/**
+	 * 查询评论
+	 * @author huangxin
+	 * @data 2018/1/18 16:18
+	 * @Description: 查询评论
+	 * @Version: 3.2.0
+	 * @param id 资讯id
+	 * @return
+	 */
+	Map<String,Object> getSonCommentList(Long id);
 }

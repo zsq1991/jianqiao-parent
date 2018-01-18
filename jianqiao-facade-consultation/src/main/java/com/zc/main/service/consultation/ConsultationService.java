@@ -133,8 +133,7 @@ public interface ConsultationService {
     Result backConsultation(String cid, Member member);
 
     /**
-     * 咨询信息详情
-     *
+     * 信息详情<访谈、口述、求助、分享>
      * @param cid    资讯id
      * @param member 用户信息
      * @param row
@@ -142,7 +141,7 @@ public interface ConsultationService {
      * @return
      * @author huangxin
      * @data 2018/1/9 15:35
-     * @Description: 咨询信息详情
+     * @Description: 信息详情<访谈、口述、求助、分享>
      * @Version: 1.0.0
      */
     Result getConsultationDetail(String cid, Member member, int row, String type);
@@ -155,5 +154,17 @@ public interface ConsultationService {
     Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid,
                                   String checktype);
 
+    /**
+     * 信息详情 分页加载专题下信息
+     * @author huangxin
+     * @data 2018/1/18 14:42
+     * @Description: 信息详情 分页加载专题下信息
+     * @Version: 1.0.0
+     * @param cid 专题ID或求助ID
+     * @param page
+     * @param row
+     * @param member 用户
+     * @return
+     */
     Result getConsultationSubjectByPage(String cid, int page, int row, Member member);
 }

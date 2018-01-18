@@ -2,6 +2,8 @@ package com.zc.service.impl.consultation;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.common.util.statuscodeenums.StatusCodeEnums;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
@@ -10,12 +12,15 @@ import com.zc.main.entity.collectionconsultation.CollectionConsultation;
 import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.collectioncontent.CollectionContentService;
+import com.zc.main.service.comment.ConsultationCommentService;
 import com.zc.main.service.consultation.ConsultationService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.main.service.member.MemberService;
+import com.zc.main.service.membermessage.MemberMessageService;
 import com.zc.mybatis.dao.CollectionContentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
 import com.zc.mybatis.dao.collectionConsulation.CollectionConsulationMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +48,10 @@ public class ConsultationServiceImpl implements ConsultationService {
     private CollectionContentService collectionContentService;
     @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private ConsultationAttachmentService consultationAttachmentService;
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private MemberMessageService memberMessageService;
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private ConsultationCommentService consultationCommentService;
 
     @Override
     public Result deleteConsultationById(Long id, Member member) {
@@ -924,9 +933,383 @@ public class ConsultationServiceImpl implements ConsultationService {
         return null;
     }
 
+    /**
+     * 信息详情<访谈、口述、求助、分享>
+     * @author huangxin
+     * @data 2018/1/18 15:52
+     * @Description: 信息详情<访谈、口述、求助、分享>
+     * @Version: 3.2.0
+     * @param cid    资讯id
+     * @param member 用户信息
+     * @param row
+     * @param inType 类型
+     * @return
+     */
     @Override
-    public Result getConsultationDetail(String cid, Member member, int row, String type) {
-        return null;
+    public Result getConsultationDetail(String cid, Member member, int row, String inType){
+        logger.info("===============咨询信息详情开始===============");
+        if (StringUtils.isBlank(cid)){
+            return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+        }
+        /**
+         * 1. 获取专题信息
+         */
+        Map<String,Object> consultation = consultationMapper.getConsultationById(cid);
+        if (Objects.isNull(consultation)){
+            logger.info("===============信息不存在===============");
+            return ResultUtils.returnError("信息不存在");
+        }
+
+        Long mid = (Long) consultation.get("mid");
+        if (Objects.isNull(mid)){
+            logger.info("===============咨询用户信息不存在===============");
+            return ResultUtils.returnError("咨询用户信息不存在");
+        }
+        //状态
+        Integer status = (Integer) consultation.get("status");
+
+        //未发布
+        if (!"2".equals(String.valueOf(status)) && Objects.isNull(member)){
+            logger.info("===============信息异常===============");
+            return ResultUtils.returnError("信息异常");
+        }
+
+        Map<String,Object> map = Maps.newHashMap();
+        //操作类型
+        Integer type = (Integer) consultation.get("type");
+
+        String lastId=cid;
+        Integer lastType=type;
+        String commentId =cid;
+
+        //驳回原因
+        String reject="";
+
+        /**
+         * 健桥三期需求，暂时注释代码
+         */
+		/*//点击阅读的时候维护权重值
+		rpcConsultationService.saveConsultationByRead(Long.valueOf(cid), member);*/
+
+        //访谈、口述内容
+        if ("1".equals(String.valueOf(type)) || "3".equals(String.valueOf(type))){
+            lastId = String.valueOf(consultation.get("pid"));
+            Map<String,Object> parentConsultation = consultationMapper.getConsultationById(lastId);
+
+            if (!Objects.isNull(parentConsultation)){
+                //对应主题 操作类型
+                logger.info("===============对应主题 操作类型===============");
+                lastType = (Integer) parentConsultation.get("type");
+            }
+        }
+        //包含专题
+        if ("0".equals(String.valueOf(type)) || "2".equals(String.valueOf(type))
+                || "1".equals(String.valueOf(type)) || "3".equals(String.valueOf(type))){
+            //专题
+            logger.info("===============包含专题===============");
+            Map<String,Object> parentConsultation = consultationAttachmentService.getParentConsultationDetail(Long.parseLong(lastId),lastType);
+            map.put("subject",parentConsultation);
+        }
+
+        /**
+         * 2. 获取推荐信息
+         */
+        //专题类型
+        if ( "0".equals(String.valueOf(type)) || "2".equals(String.valueOf(type))){
+            Map<String,Object> paramMap = Maps.newHashMap();
+            paramMap.put("pid",cid);
+            if (Objects.isNull(member)){
+                //已发布
+                paramMap.put("status",2);
+            }
+            if (!Objects.isNull(member) && !Objects.equals(member.getId(),mid)){
+                //已发布
+                paramMap.put("status",2);
+            }
+            if (!Objects.isNull(member)){
+                paramMap.put("mid",member.getId());
+            }
+            //首页点击进入
+            if ("1".equals(inType)){
+                //已发布
+                paramMap.put("status",2);
+            }
+            List<Map<String,Object>>  defaultConsultation = consultationMapper.getConsultationByMap(paramMap);
+            if (!Objects.isNull(defaultConsultation) && defaultConsultation.size()>0){
+                Map<String,Object> firstConsultation = defaultConsultation.get(0);
+                Long sid = Long.parseLong(firstConsultation.get("id").toString());
+                //驳回原因
+                logger.info("===============咨询信息详情开始===============");
+                String statuss=firstConsultation.get("status").toString();
+                if("3".equals(statuss)){
+                    Map<String, Object> map3=memberMessageService.getContentById(sid);
+                    if(map3.size()>0){
+                        reject=map3.get("content").toString();
+                    }
+                    firstConsultation.put("reject", reject);
+                }else{
+                    firstConsultation.put("reject", reject);
+                }
+                //评论咨询ID
+                commentId = String.valueOf(sid);
+                //封面图
+                firstConsultation.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                //详情
+                firstConsultation.put("content",consultationAttachmentService.getConsultationAttachmentDetailByConsultation(sid));
+                //视频地址
+                firstConsultation.put("video", consultationAttachmentService.findConsultationAttachmentVideoAddressByConsultationId(sid));
+            }
+            map.put("recommend",defaultConsultation);
+        }
+        //驳回原因
+        if ("1".equals(String.valueOf(type)) || "3".equals(String.valueOf(type))){
+            logger.info("===============咨询信息驳回原因===============");
+            Map<String,Object> paramMap = Maps.newHashMap();
+            paramMap.put("pid",lastId);
+            if (Objects.isNull(member)){
+                //已发布
+                paramMap.put("status",2);
+            }
+            if (!Objects.isNull(member) && !Objects.equals(member.getId(),mid)){
+                //已发布
+                paramMap.put("status",2);
+            }
+            if (!Objects.isNull(member)){
+                paramMap.put("mid",member.getId());
+            }
+            //首页点击进入
+            if ("1".equals(inType)){
+                //已发布
+                paramMap.put("status",2);
+            }
+            List<Map<String,Object>>  detailConsultation =consultationMapper.getConsultationByMap(paramMap);
+            List<Map<String,Object>> subjectConsultation = Lists.newArrayList();
+            if (!Objects.isNull(detailConsultation)){
+
+                for (Map<String,Object> e_:detailConsultation) {
+                    Long sid = Long.parseLong(e_.get("id").toString());
+                    //驳回原因
+                    logger.info("===============咨询信息驳回原因===============");
+                    String statuss=e_.get("status").toString();
+                    if("3".equals(statuss)){
+                        Map<String, Object> map3=memberMessageService.getContentById(sid);
+                        if(map3.size()>0){
+                            reject=map3.get("content").toString();
+                        }
+                        e_.put("reject", reject);
+                    }else{
+                        e_.put("reject", reject);
+                    }
+
+                    if (cid.equals(String.valueOf(sid))) {
+                        //封面图
+                        e_.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(sid));
+
+                        e_.put("content", consultationAttachmentService.getConsultationAttachmentDetailByConsultation(sid));
+                        //视频地址
+                        e_.put("video", consultationAttachmentService.findConsultationAttachmentVideoAddressByConsultationId(sid));
+                        subjectConsultation.add(e_);
+                    }
+                }
+                for (Map<String,Object> e_:detailConsultation) {
+                    Long sid = Long.parseLong(e_.get("id").toString());
+                    if (!cid.equals(String.valueOf(sid))) {
+                        subjectConsultation.add(e_);
+                    }
+                }
+            }
+            map.put("recommend",subjectConsultation);
+        }
+        logger.info("===============分享===============");
+        if ("6".equals(String.valueOf(type))){
+            Map<String,Object> paramMap = Maps.newHashMap();
+            paramMap.put("id",cid);
+            paramMap.put("type",type);
+            if (!Objects.isNull(member)){
+                paramMap.put("mid",member.getId());
+            }
+            //已发布
+            if (Objects.isNull(member)){
+                paramMap.put("status",2);
+            }
+            if (!Objects.isNull(member) && !Objects.equals(member.getId(),mid)){
+                //已发布
+                paramMap.put("status",2);
+            }
+            List<Map<String,Object>>  shareConsultation = consultationMapper.getConsultationByMap(paramMap);
+            if (!Objects.isNull(shareConsultation) && shareConsultation.size()>0){
+                Map<String,Object> firstConsultation = shareConsultation.get(0);
+                //封面图
+                firstConsultation.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(Long.parseLong(cid)));
+                //详情
+                firstConsultation.put("content",consultationAttachmentService.getConsultationAttachmentDetailByConsultation(Long.parseLong(cid)));
+                logger.info("===============分享驳回原因===============");
+                Long conid = Long.parseLong(firstConsultation.get("id").toString());
+                String statuss=firstConsultation.get("status").toString();
+                if("3".equals(statuss)){
+                    Map<String, Object> map3=memberMessageService.getContentById(conid);
+                    if(map3.size()>0){
+                        reject=map3.get("content").toString();
+                    }
+                    firstConsultation.put("reject", reject);
+                }else{
+                    firstConsultation.put("reject", reject);
+                }
+            }
+            map.put("share",shareConsultation);
+        }
+        logger.info("===============求助 (问答列表)开始===============");
+        if ("4".equals(String.valueOf(type))){
+            Map<String,Object> paramMap = Maps.newHashMap();
+            paramMap.put("id",cid);
+            paramMap.put("type",type);
+            if (!Objects.isNull(member)){
+                paramMap.put("mid",member.getId());
+            }
+            //已发布
+            if (Objects.isNull(member)){
+                paramMap.put("status",2);
+            }
+            if (!Objects.isNull(member) && !Objects.equals(member.getId(),mid)){
+                //已发布
+                paramMap.put("status",2);
+            }
+            List<Map<String,Object>>  shareConsultation =  consultationMapper.getConsultationByMap(paramMap);
+            if (!Objects.isNull(shareConsultation) && shareConsultation.size()>0){
+                Map<String,Object> firstConsultation = shareConsultation.get(0);
+                //封面图
+                firstConsultation.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(Long.parseLong(cid)));
+                //详情
+                firstConsultation.put("content",consultationAttachmentService.getConsultationAttachmentDetailByConsultation(Long.parseLong(cid)));
+                Map<String,Object> sonParamMap = Maps.newHashMap();
+                sonParamMap.put("page",0);
+                sonParamMap.put("size",10);
+                sonParamMap.put("pid",cid);
+                //已发布
+                if (Objects.isNull(member)){
+                    sonParamMap.put("status",2);
+                }
+                if (!Objects.isNull(member) && !Objects.equals(member.getId(),mid)){
+                    //已发布
+                    sonParamMap.put("status",2);
+                }
+                if (!Objects.isNull(member)){
+                    sonParamMap.put("mid",member.getId());
+                }
+                List<Map<String,Object>>  askConsultation =  consultationMapper.getConsultationByMap(sonParamMap);
+                askConsultation.forEach(a->{
+                    Long sid = Long.parseLong(a.get("id").toString());
+                    //封面图
+                    a.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                    //详情
+                    a.put("content",consultationAttachmentService.getConsultationAttachmentDetailByConsultation(sid));
+                });
+                firstConsultation.put("rows",askConsultation);
+                logger.info("===============求助 (问答列表)驳回原因===============");
+                Long conid = Long.parseLong(firstConsultation.get("id").toString());
+                String statuss=firstConsultation.get("status").toString();
+                if("3".equals(statuss)){
+                    Map<String, Object> map3=memberMessageService.getContentById(conid);
+                    if(map3.size()>0){
+                        reject=map3.get("content").toString();
+                    }
+                    firstConsultation.put("reject", reject);
+                }else{
+                    firstConsultation.put("reject", reject);
+                }
+                map.put("help",firstConsultation);
+            }
+        }
+        logger.info("===============回答===============");
+        if ("5".equals(String.valueOf(type))){
+            Map<String,Object> paramMap = Maps.newHashMap();
+            paramMap.put("id",cid);
+            if (!Objects.isNull(member)){
+                paramMap.put("mid",member.getId());
+            }
+            List<Map<String,Object>>  askConsultation =  consultationMapper.getConsultationByMap(paramMap);
+            if (!Objects.isNull(askConsultation) && askConsultation.size()>0){
+                Map<String,Object> firstConsultation = askConsultation.get(0);
+                String  pid =firstConsultation.get("pid").toString();
+                Map<String,Object> helpconsultation = consultationMapper.getConsultationById(pid);
+                if (!Objects.isNull(helpconsultation)){
+                    firstConsultation.put("ptitle",helpconsultation.get("title").toString());
+                }
+                //详情
+                firstConsultation.put("content",consultationAttachmentService.getConsultationAttachmentDetailByConsultation(Long.parseLong(cid)));
+                logger.info("===============回答驳回原因===============");
+                Long conid = Long.parseLong(firstConsultation.get("id").toString());
+                String statuss=firstConsultation.get("status").toString();
+                if("3".equals(statuss)){
+                    Map<String, Object> map3=memberMessageService.getContentById(conid);
+                    if(map3.size()>0){
+                        reject=map3.get("content").toString();
+                    }
+                    firstConsultation.put("reject", reject);
+                }else{
+                    firstConsultation.put("reject", reject);
+                }
+                map.put("ask",firstConsultation);
+            }
+        }
+        /**
+         * 3. 获取评论列表
+         */
+        //非求助 且 为发布状态
+        logger.info("===============获取评论列表===============");
+        if (!"4".equals(String.valueOf(type)) && "2".equals(String.valueOf(status)) ){
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            String dateString = formatter.format(new Date());
+            Map<String, Object> paramMap = Maps.newHashMap();
+            paramMap.put("cid", commentId);
+            //登录/非登录 区分
+            if (Objects.isNull(member)){
+                paramMap.put("mid",0);
+            } else {
+                paramMap.put("mid",member.getId());
+            }
+            paramMap.put("type",1);
+            //评论列表,getCommentList获取到的时顶级评论，firt_reply_comment是第一评论的id
+            List<Map<String, Object>> commentList = consultationCommentService.getCommentList(paramMap);
+            if (!Objects.isNull(commentList)){
+                commentList.forEach(e -> {
+                    //获取时间,当天时间保存是时间，不是当天保存的时时间
+                    if(!Objects.isNull(e.get("created_time")) && e.get("created_time").toString().contains(dateString)){
+                        e.put("created_time", (e.get("created_time").toString().substring(11,16)));
+                    }else  {
+                        if (!Objects.isNull(e.get("created_time"))) {
+                            e.put("created_time", (e.get("created_time").toString().substring(0,11)));
+                        }
+                    }
+                    if (!Objects.isNull(e.get("id"))){
+                        //子类评论展示2条
+                        //获取前2条的数据
+                        logger.info("===============获取前2条的数据===============");
+                        List arr = new ArrayList();
+                        List<Map> commentSonIdByPid = consultationCommentService.getCommentSonIdByPid((Long)e.get("id"));
+                        if(commentSonIdByPid!=null &&commentSonIdByPid.size()>0 ){
+                            for(int i=0;commentSonIdByPid.size()>i;i++){
+                                Map<String, Object> sonCommentList = consultationCommentService.getSonCommentList((Long)commentSonIdByPid.get(i).get("id"));
+                                if(!Objects.isNull(sonCommentList) && !Objects.isNull(sonCommentList.get("created_time")) && sonCommentList.get("created_time").toString().contains(dateString)){
+                                    sonCommentList.put("created_time", (sonCommentList.get("created_time").toString().substring(11,16)));
+                                    String cString=sonCommentList.get("created_time").toString();
+                                }else  {
+                                    if (!Objects.isNull(sonCommentList) && !Objects.isNull(sonCommentList.get("created_time"))) {
+                                        sonCommentList.put("created_time", (sonCommentList.get("created_time").toString().substring(0,11)));
+                                    }
+                                }
+                                arr.add(sonCommentList);
+                            }
+                        }
+                        logger.info("son comment list :{}",arr);
+                        e.put("firstComment", arr);
+                    }
+                });
+            }
+            map.put("comment", commentList);
+        }
+        logger.info("===============咨询信息详情end===============");
+        return ResultUtils.returnSuccess(StatusCodeEnums.SUCCESS.getMsg(),map);
     }
 
     @Override
@@ -934,8 +1317,73 @@ public class ConsultationServiceImpl implements ConsultationService {
         return null;
     }
 
+    /**
+     * 信息详情 分页加载专题下信息
+     * @author huangxin
+     * @data 2018/1/18 14:42
+     * @Description: 信息详情 分页加载专题下信息
+     * @Version: 1.0.0
+     * @param cid 专题ID或求助ID
+     * @param page
+     * @param row
+     * @param member 用户
+     * @return
+     */
     @Override
     public Result getConsultationSubjectByPage(String cid, int page, int row, Member member) {
-        return null;
+        logger.info("=============信息详情 分页加载专题下信息开始=============");
+        try {
+            Map<String,Object> consultation = consultationMapper.getConsultationById(cid);
+            if (Objects.isNull(consultation)){
+                logger.info("=============查询的资讯不存在=============");
+                return ResultUtils.returnError("信息不存在");
+            }
+            Long mid = (Long) consultation.get("mid");
+            if (Objects.isNull(mid)){
+                logger.info("=============查询资讯的用户信息错误=============");
+                return ResultUtils.returnError("咨询用户信息不存在");
+            }
+            Map<String,Object> map = Maps.newHashMap();
+            //操作类型
+            Integer type = (Integer) consultation.get("type");
+            Map<String,Object> paramMap = Maps.newHashMap();
+            paramMap.put("pid",cid);
+            paramMap.put("page",(page-1)*row);
+            paramMap.put("size",row);
+            if (!Objects.isNull(member) && !Objects.equals(mid,member.getId())){
+                //已发布
+                paramMap.put("status",2);
+            }
+            if (!Objects.isNull(member)){
+                paramMap.put("mid",member.getId());
+            }
+            logger.info("=============开始查询=============");
+            List<Map<String,Object>>  defaultConsultation = consultationMapper.getConsultationByMap(paramMap);
+            if ("0".equals(String.valueOf(type)) || "2".equals(String.valueOf(type))){
+                if (!Objects.isNull(defaultConsultation) && defaultConsultation.size()>0){
+                    Map<String,Object> firstConsultation = defaultConsultation.get(0);
+                    Long sid = Long.parseLong(firstConsultation.get("id").toString());
+                    //评论咨询ID
+                    //详情
+                    firstConsultation.put("content",consultationAttachmentService.getConsultationAttachmentDetailByConsultation(sid));
+                }
+            }
+            if ("4".equals(String.valueOf(type))){
+                logger.info("=============查询资讯状态为4的信息=============");
+                defaultConsultation.forEach(a->{
+                    Long sid = Long.parseLong(a.get("id").toString());
+                    //封面图
+                    a.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                    //详情
+                    a.put("content",consultationAttachmentService.getConsultationAttachmentDetailByConsultation(sid));
+                });
+            }
+            logger.info("=============信息详情 分页加载专题下信息结束=============");
+            return ResultUtils.returnSuccess("成功",defaultConsultation);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            logger.info("=============信息详情 分页加载专题下信息失败=============");
+            return ResultUtils.returnError("失败");
+        }
     }
 }

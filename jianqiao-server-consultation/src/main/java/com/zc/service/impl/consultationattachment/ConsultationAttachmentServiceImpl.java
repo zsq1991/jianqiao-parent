@@ -182,4 +182,50 @@ public class ConsultationAttachmentServiceImpl implements ConsultationAttachment
         return null;
     }
 
+    /**
+     * 封面图片
+     * @author huangxin
+     * @data 2018/1/18 15:18
+     * @Description: 封面图片
+     * @Version: 1.0.0
+     * @param sid 资讯id
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getConsultationAttachmentDetailByConsultation(Long sid) {
+        logger.info("=============封面图片=============");
+        return consultationAttachmentDao.getConsultationAttachmentDetailByConsultation(sid);
+    }
+
+    /**
+     * 内容详情
+     * @author huangxin
+     * @data 2018/1/18 15:21
+     * @Description: 内容详情
+     * @Version: 3.2.0
+     * @param mid 资讯id
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getConsultationAttachmentCoverAddressByConsultationId(Long mid) {
+        logger.info("=============内容详情=============");
+        return consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(mid);
+    }
+
+    /**
+     * 专题
+     * @author huangxin
+     * @data 2018/1/18 16:35
+     * @Description: 专题
+     * @Version: 3.2.0
+     * @param pid id
+     * @param lastType 类型
+     * @return
+     */
+    @Override
+    public Map<String, Object> getParentConsultationDetail(long pid, Integer lastType) {
+        logger.info("=============专题=============");
+        return consultationAttachmentDao.getParentConsultationDetail(pid,lastType);
+    }
+
 }
