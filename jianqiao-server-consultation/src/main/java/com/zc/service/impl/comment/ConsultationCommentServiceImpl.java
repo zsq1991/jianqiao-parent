@@ -62,9 +62,9 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
             if(parentConsultationCommentdb.getConsultationId()==null){
                 return ResultUtils.returnError("该评论信息异常，未关联资讯信息");
             }
-            if(parentConsultationCommentdb.getConsultation().getIsDelete()==1) {
+           /* if(parentConsultationCommentdb.getConsultation().getIsDelete()==1) {
                 return ResultUtils.returnError("该资讯已删除，无法进行回复");
-            }
+            }*/
             ConsultationComment consultationComment = new ConsultationComment();
             consultationComment.setConsultationId(parentConsultationCommentdb.getConsultationId());
             //consultationComment.setHunter(parentConsultationCommentdb.getHunter());

@@ -4,20 +4,21 @@
 <!-- namespace必须指向Dao接口com.alqsoft.dao.consultationcomment.ConsultationCommentDao -->
 <mapper namespace="com.zc.mybatis.dao.ConsultationCommentMapper">
 
-    <resultMap id="consultationMap" type="com.zc.main.vo.consultationcomment.ConsultationCommentDTO">
-        <id column="id" property="id" />
-        <result column="consultation_member_id" property="consultationMemberId" />
-        <result column="member_id" property="memberId" />
-        <result column="content" property="content" />
-        <result column="comment_info_id" property="commentInfoId" />
-        <result column="parent_id" property="parentId" />
-        <result column="reply_num" property="replyNum" />
-        <result column="fabulous_num" property="fabulousNum" />
-        <result column="is_delete" property="isDelete" javaType="java.lang.Integer" />
-        <result column="first_reply_comment" property="firstReplyCommentId" />
-        <association  property="consultation" autoMapping="true" foreignColumn="id"  column="consultation_id" javaType="com.zc.main.entity.consultation.Consultation" select="selectConsultationById" />
+    <resultMap id="consultationMap" type="com.zc.main.entity.consultationcomment.ConsultationComment">
+        <id column="id" property="id"/>
+        <result column="consultation_member_id" property="consultationMemberId"/>
+        <result column="member_id" property="memberId"/>
+        <result column="content" property="content"/>
+        <result column="comment_info_id" property="commentInfoId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="reply_num" property="replyNum"/>
+        <result column="fabulous_num" property="fabulousNum"/>
+        <result column="is_delete" property="isDelete" javaType="java.lang.Integer"/>
+        <result column="first_reply_comment" property="firstReplyCommentId"/>
+        <association property="consultation" autoMapping="true" foreignColumn="id" column="consultation_id"
+                     javaType="com.zc.main.entity.consultation.Consultation" select="selectConsultationById"/>
     </resultMap>
-    
+
     <select id="getCommentList" parameterType="Map" resultType="Map">
 
         <!--   SELECT DISTINCT cm.member_id,cm.id,cm.content,cm.created_time,cm.fabulous_num,cm.reply_num,cm.first_reply_comment,
@@ -192,7 +193,7 @@
 
 	</select>
 
-	<select id="getRowLock" resultMap="consultationMap" parameterType="java.lang.Long">
+    <select id="getRowLock" resultMap="consultationMap" parameterType="java.lang.Long">
 		SELECT * FROM alq_consultation_comment WHERE id = #{parentid} FOR UPDATE
 	</select>
 
@@ -234,4 +235,20 @@
         FROM
 	    alq_consultation c WHERE c.id = #{consultation_id}
     </select>
+
+    <update id="updateConsultaionComment" parameterType="com.zc.main.entity.consultationcomment.ConsultationComment">
+        UPDATE alq_consultation_comment c
+        <set>
+            <if test="consultationId!=null and consultationId!=''">c.consultation_id =#{consultationId},</if>
+            <if test="consultationMemberId!=null">c.consultation_member_id=#{consultationMemberId},</if>
+            <if test="memberId!=null">c.member_id =#{memberId} ,</if>
+            <if test="content!=null">c.content=#{content},</if>
+            <if test="commentInfoId!=null">c.comment_info_id=#{commentInfoId},</if>
+            <if test="parentId!=null">c.parent_id=#{parentId},</if>
+            <if test="replyNum!=null">c.reply_num=#{replyNum},</if>
+            <if test="fabulousNum!=null">c.fabulous_num=#{fabulousNum},</if>
+            <if test="isDelete!=null">c.is_delete=#{isDelete},</if>
+            <if test="firstReplyCommentId!=null">c.first_reply_comment=#{firstReplyCommentId},</if>
+        </set>WHERE id=#{id}
+    </update>
 </mapper>
