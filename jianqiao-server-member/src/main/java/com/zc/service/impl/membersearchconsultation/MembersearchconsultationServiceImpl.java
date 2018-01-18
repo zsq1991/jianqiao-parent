@@ -9,6 +9,8 @@ import com.zc.main.entity.membersearchconsultation.MemberSearchConsultation;
 import com.zc.main.service.member.MemberService;
 import com.zc.main.service.membersearchconsultation.MembersearchconsultationService;
 import com.zc.mybatis.dao.MemberSearchConsultationMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,8 @@ import java.util.Map;
 @Service(version = "1.0.0", interfaceClass = MembersearchconsultationService.class)
 @Transactional(readOnly = true)
 public class MembersearchconsultationServiceImpl implements MembersearchconsultationService {
+
+    private Logger logger = LoggerFactory.getLogger(MembersearchconsultationServiceImpl.class);
 
     @Autowired
     private MemberSearchConsultationMapper memberSearchConsultationMapper;
@@ -68,5 +72,16 @@ public class MembersearchconsultationServiceImpl implements Membersearchconsulta
             return ResultUtils.returnError("保存历史搜索关键词失败");
         }
         return result;
+    }
+
+    @Override
+    public Result deleteKeys(Member member) {
+        try {
+            memberSearchConsultationMapper.deleteAll(member.getId());
+            return ResultUtils.returnSuccess("删除成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            return ResultUtils.returnError("删除失败");
+        }
     }
 }

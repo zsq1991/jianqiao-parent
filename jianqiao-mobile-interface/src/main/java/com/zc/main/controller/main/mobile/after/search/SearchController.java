@@ -44,4 +44,17 @@ public class SearchController {
                                  @RequestParam(value = "size",defaultValue = "6",required = false)int size){
         return searchService.getHistoryKeys(member,page,size);
     }
+
+    /**
+     * @description: 清空历史关键词
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/18 15:33
+     * @version: 1.0.0
+     * @param member
+     * @return
+     */
+    @RequestMapping(value = "clear",method = RequestMethod.POST)
+    public Result  clearKeys(@MemberAnno Member member){
+        return searchService.clearKeys(member);
+    }
 }

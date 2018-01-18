@@ -95,9 +95,9 @@ public class SearchServiceImpl implements SearchService {
     }
 
 
-    /*@Override
+    @Override
     public Result clearKeys(Member member) {
-        log.info("member:{}",member);
-        return rpcMemberSearchConsultationService.deleteKeys(member) ;
-    }*/
+        log.info("清空历史关键词接口调用开始，方法入参:",member.toString());
+        return membersearchconsultationService.deleteKeys(member) ;
+    }
 }
