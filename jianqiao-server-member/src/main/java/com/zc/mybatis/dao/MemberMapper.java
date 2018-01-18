@@ -15,6 +15,15 @@ import java.util.Map;
 @MyBatisRepository
 public interface MemberMapper extends BasicMapper<Member> {
 	/**
+	 * @description 接口说明 修改收藏内容数量
+	 * @author 王鑫涛
+	 * @date 8:28 2018/1/18
+	 * @version 版本号
+	 * @param member 用户
+	 * @return
+	 */
+	int updateByConNum(@Param("id") Long id,@Param("num") Long num);
+	/**
 	 * @description 接口说明 根据id获取用户信息
 	 * @author 王鑫涛
 	 * @date 17:08 2018/1/17

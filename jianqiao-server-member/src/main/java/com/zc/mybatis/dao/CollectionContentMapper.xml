@@ -14,5 +14,7 @@
 			created_time DESC
 	    LIMIT #{startIndex},#{endIndex}
     </select>
-
+	<select id="findOne" parameterType="java.lang.Long" resultType="com.zc.main.entity.collectionconsultation.CollectionConsultation">
+		SELECT * from alq_collection_consultation where consultation_id=#{consulationId}
+	</select>
 </mapper>
