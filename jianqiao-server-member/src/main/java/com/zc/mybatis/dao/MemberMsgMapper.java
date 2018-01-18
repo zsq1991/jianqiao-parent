@@ -2,6 +2,7 @@ package com.zc.mybatis.dao;
 
 
 import com.common.util.mybatis.BasicMapper;
+import com.zc.main.dto.attachment.AttachmentDTO;
 import com.zc.main.entity.membermsg.MemberMsg;
 import org.apache.cxf.message.Attachment;
 import org.apache.ibatis.annotations.Param;

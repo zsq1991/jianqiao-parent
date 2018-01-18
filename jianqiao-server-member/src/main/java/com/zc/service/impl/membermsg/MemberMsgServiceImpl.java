@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = MemberMsgService.class)
-@Transactional(readOnly = true)
+@Transactional
 public class MemberMsgServiceImpl implements MemberMsgService{
 
 	private static Logger logger = LoggerFactory.getLogger(MemberMsgServiceImpl.class);
