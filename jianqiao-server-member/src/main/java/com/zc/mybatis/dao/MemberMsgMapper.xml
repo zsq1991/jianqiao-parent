@@ -3,9 +3,247 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.zc.mybatis.dao.MemberMsgMapper">
+    <!-- 获取求助回答的数据 -->
+    <select id="getReplyDiscussInformList" resultType="Map" parameterType="Map">
+        SELECT
+        ment.detail_content as content,                              <!-- 新增评论内容 -->
+        conre.id as comId,                                           <!-- 评论的id -->
+        IFNULL(con.type, 0) AS type,                                 <!-- 资讯类型 -->
+        mm.nickname AS nickname,                                      <!-- 评论者的昵称的昵称 -->
+        mm.id   as userId,                                            <!-- 评论者的id -->
+        msg.id as msgId,                                              <!-- MemberMsg中的id -->
+        (case when mm.user_type = 2 then 0 else mm.user_type end )as userType,                                         <!-- 用户的等级 -->
+        att.address AS address ,                                      <!-- 头像的地址 -->
+        DATE_FORMAT(msg.created_time,'%Y/%m/%d %H:%i:%s') AS date ,   <!-- 评论的时间 -->
+        con.title as message,                                         <!-- 资讯标题 -->
+        con.id as messageId  ,                                        <!-- 资讯的id -->
+        IFNULL(msg.read_type,0) as readType ,                         <!-- 读取readType，0未读取，1是已经读取 -->
+        con.type as conType       ,                           <!--资讯的类型 -->
+        mm.id   as pId  ,                                       <!-- 评论者的id -->
+        con.id as conId
+        from
+        alq_consultation as con left join
+        alq_consultation as conre  on conre.consulatation_id=con.id LEFT JOIN
+        alq_member as mm on mm.id =conre.member_id LEFT JOIN
+        alq_member_msg AS msg on msg.member_base_id =mm.id ,
+        alq_attachment as att ,
+        alq_consultation_attachment as ment
+        WHERE
+        att.id = mm.logo_attachment_id and ment.consultation_id = conre.id and ment.address is null
+        and
+        msg.member_id=#{mLId} and msg.member_base_id=#{memId} and msg.consulatation_id=#{conId} and msg.created_time = conre.created_time
+    </select>
+    <!-- 通过资讯的id获取关联的数据 -->
+    <select id="getAttachmentByconId" resultType="com.zc.main.entity.consultationattachment.ConsultationAttachment" parameterType="Long">
+        select * from alq_consultation_attachment where consultation_id =#{id} and detail_content is not null
+    </select>
+    <!-- 获取资讯的评论 -->
+    <select id="getConsulatationDiscussInformList" resultType="Map" parameterType="Long">
+        SELECT
+        COMMEN.content as content,                                    <!-- 新增评论的内容 -->
+        (case when COMMEN.comment_info_id is null then 0 else 1 end) AS info,                    <!-- 判断是评论还是回复，info为0时是顶级评论，如果是给咨询评论者回复是0，给咨询评论者回复的人进行回复是1 -->
+        COMMEN.id as comId,                                           <!-- 评论的id -->
+        IFNULL(con.type, 0) AS type,                                  <!-- 资讯类型 -->
+        mm.nickname AS nickname,                                      <!-- 评论者的昵称的昵称 -->
+        mm.id   as userId,                                            <!-- 评论者的id -->
+        msg.id as msgId,                                              <!-- MemberMsg中的id -->
+        (case when mm.user_type = 2 then 0 else mm.user_type end )as userType,                                         <!-- 用户的等级 -->
+        att.address AS address,                                       <!-- 头像的地址 -->
+        DATE_FORMAT(msg.created_time,'%Y/%m/%d %H:%i:%s') AS date ,   <!-- 点赞的时间 -->
+        con.title as message,                                         <!-- 资讯标题 -->
+        con.id as messageId  ,                                        <!-- 资讯的id -->
+        IFNULL(msg.read_type,0) as readType ,                         <!-- 读取readType，0未读取，1是已经读取 -->
+        con.type as conType       ,                                   <!--资讯的类型 -->
+        mm.id   as pId         ,                                      <!-- 评论者的id -->
+        con.consulatation_id   as   consulatationId ,                   <!-- 关联的资讯id -->
+        con.id as conId
+
+        FROM   alq_consultation_comment COMMEN,
+        alq_consultation as con,
+        alq_member AS mm Left JOIN alq_attachment AS att ON att.id = mm.logo_attachment_id,
+        alq_member_msg AS msg
+        WHERE
+        msg.consulatation_comment_id = COMMEN.id
+        AND msg.type=4
+        AND con.id =#{conId}
+        AND COMMEN.id = #{comId}
+        <!-- AND (msg.read_type IS NULL	OR msg.read_type = 0) -->
+        AND msg.member_base_id = mm.id
+        AND mm.id = #{memId}
+        AND msg.member_id = #{mLId}
+    </select>
+    <!-- 获取评论的回复 -->
+    <select id="getCommentDiscussInformList" resultType="Map" parameterType="Long">
+        SELECT
+        COMMEN.content,                                               <!-- 评论的内容 -->
+        COMMEN.id as comId,                                           <!-- 评论的id -->
+        (case when COMMEN.comment_info_id is null then 0 else 1 end) AS info,                    <!-- 判断是评论还是回复，info为0时是顶级评论，如果是给咨询评论者回复是0，给咨询评论者回复的人进行回复是1 -->
+        mm.nickname AS nickname,                                      <!-- 评论者的昵称的昵称 -->
+        mm.id   as userId,                                            <!-- 评论者的id -->
+        msg.id as msgId,                                              <!-- MemberMsg中的id -->
+        (case when mm.user_type = 2 then 0 else mm.user_type end )as userType,                                        <!-- 用户的等级 -->
+        att.address AS address,                                       <!-- 头像的地址 -->
+        mm.id   as pId,                                               <!-- 评论者的id -->
+        IFNULL(msg.read_type,0) as readType ,                         <!-- 读取readType，0未读取，1是已经读取 -->
+        DATE_FORMAT(msg.created_time,'%Y/%m/%d %H:%i:%s') AS date,    <!-- 点赞的时间 -->
+        (CASE WHEN COMMEN.parent_id IS NULL THEN (
+        SELECT ment.content
+        FROM alq_consultation_comment AS ment
+        WHERE ment.id = COMMEN.comment_info_id
+        )ELSE	(
+        SELECT	ment2.content
+        FROM alq_consultation_comment AS ment2
+        WHERE ment2.id = COMMEN.parent_id
+        )END) message,                                         <!--被评论的内容  -->
+        (CASE WHEN COMMEN.parent_id IS NULL THEN (
+        SELECT ment.id
+        FROM alq_consultation_comment AS ment
+        WHERE ment.id = COMMEN.comment_info_id
+        )ELSE	(
+        SELECT	ment2.id
+        FROM alq_consultation_comment AS ment2
+        WHERE ment2.id = COMMEN.parent_id
+        )END) messageId	                      ,                 <!-- 被评论的id -->
+        conn.id as conId,                                       <!-- 资讯id -->
+        conn.type as conType                                   <!--  资讯的类型-->
+
+
+        FROM   alq_consultation_comment COMMEN LEFT JOIN alq_consultation as conn on COMMEN.consultation_id = conn.id,
+        alq_member AS mm
+        LEFT JOIN alq_attachment AS att ON att.id = mm.logo_attachment_id,
+        alq_member_msg AS msg
+        WHERE
+        msg.consulatation_comment_id = COMMEN.id
+        AND msg.type=4
+        AND COMMEN.id = #{comId}
+        <!-- AND (msg.read_type IS NULL	OR msg.read_type = 0) -->
+        AND msg.member_base_id = mm.id
+        AND mm.id = #{memId}
+        AND msg.member_id = #{mLId}
+    </select>
+    <!-- 获取评论列表的数据 -->
+    <select id="getCommentInformList" resultType="Map">
+        SELECT
+        IFNULL(consulatation_id,0) AS conId,                     <!-- 资讯Id -->
+        type AS type,                                            <!-- 标识 -->
+        IFNULL(consulatation_comment_id,0) AS comId,             <!-- 评论Id -->
+        member_base_id AS memId ,                                <!-- 评论者的id -->
+        member_id as mLId                                        <!-- 被评论者id -->
+        FROM
+        alq_member_msg
+        WHERE
+        member_id = #{mId}
+        <!--   AND (read_type IS NULL
+             OR read_type = 0) -->
+        AND type= 4
+        ORDER BY created_time  DESC
+        LIMIT #{page},#{rows}
+    </select>
+    <!-- 获取资讯赞的评论列表 -->
+    <select id="getConsulatationSupportInformList" resultType="Map" parameterType="Long">
+        SELECT
+        mm.id   as pId,                                      <!-- 评论者的id -->
+        COMMEN .title as content,                            <!-- 点赞的内容 -->
+        COMMEN.id as comId,                                  <!-- 资讯id -->
+        IFNULL(COMMEN .type, 0) AS info,                     <!-- 资讯类型-->
+        mm.nickname AS nickname,                             <!-- 点赞者的昵称 -->
+        mm.id   as userId,                                   <!-- 评论者的id -->
+        msg.id as msgId,                                     <!-- MemberMsg中的id -->
+        IFNULL(msg.read_type,0) as readType,                 <!-- 读取readType，0未读取，1是已经读取 -->
+        (case when mm.user_type = 2 then 0 else mm.user_type end )as userType,                                 <!-- 用户的等级 -->
+        att.address AS address,                              <!-- 头像的地址 -->
+        DATE_FORMAT(msg.created_time,'%Y/%m/%d %H:%i:%s')    AS date , <!-- 点赞的时间 -->
+        COMMEN.type as conType                           ,      <!--  资讯的类型-->
+        COMMEN.id as conId                                     <!--资讯的id  -->
+        FROM
+        alq_consultation COMMEN LEFT JOIN
+        alq_member_msg AS msg on COMMEN.id=msg.consulatation_id LEFT JOIN
+        alq_member AS mm ON  mm.id =msg.member_base_id LEFT JOIN
+        alq_attachment AS att ON att.id = mm.logo_attachment_id
+        WHERE
+        COMMEN.id = #{conId}
+        AND msg.type =5
+        AND msg.member_base_id = mm.id
+        AND mm.id =  #{memId}
+        AND msg.member_id = #{mLId}
+    </select>
+    <!-- 获取评论赞的通知列表 -->
+    <select id="getCommentSupportInformList" resultType="Map" parameterType="Long">
+        SELECT
+        COMMEN .content,                                     <!-- 点赞的内容 -->
+        IFNULL(COMMEN .comment_info_id, 0) AS info,          <!-- 判断是评论还是回复，info为0时是顶级品论 -->
+        mm.nickname AS nickname,                             <!-- 点赞者的昵称 -->
+        mm.id   as userId,                                   <!-- 评论者的id -->
+        msg.id as msgId,                                     <!-- MemberMsg中的id -->
+        COMMEN.id as comId,                                  <!-- 评论id -->
+        (case when mm.user_type = 2 then 0 else mm.user_type end )as userType,                                 <!-- 用户的等级 -->
+        att.address AS address,                              <!-- 头像的地址 -->
+        IFNULL(msg.read_type,0) as readType    ,             <!-- 读取readType，0未读取，1是已经读取 -->
+        DATE_FORMAT(msg.created_time,'%Y/%m/%d %H:%i:%s')    AS date   ,                                        <!-- 点赞的时间 -->
+        conn.id as conId,                                    <!-- 资讯id -->
+        conn.type as conType                                 <!--  资讯的类型-->
+        FROM
+        alq_consultation_comment COMMEN LEFT JOIN alq_consultation as conn on COMMEN.consultation_id = conn.id,
+        alq_member AS mm
+        LEFT JOIN alq_attachment AS att ON att.id = mm.logo_attachment_id,
+        alq_member_msg AS msg
+        WHERE
+        msg.consulatation_comment_id = COMMEN .id
+        AND COMMEN.id = #{comId}
+        AND msg.type=5
+        AND msg.member_base_id = mm.id
+        AND mm.id =  #{memId}
+        AND msg.member_id = #{mLId}
+
+    </select>
+
+    <!-- 获取赞的通知列表 -->
+    <select id="getSupportInformList" resultType="Map">
+        SELECT
+        IFNULL(consulatation_id,0) AS conId,                     <!-- 资讯Id -->
+        type AS type,                                            <!-- 标识 -->
+        IFNULL(consulatation_comment_id,0) AS comId,             <!-- 评论Id -->
+        member_base_id AS memId ,                                <!-- 点赞者的id -->
+        member_id as mLId                                        <!-- 被点赞者id -->
+        FROM
+        alq_member_msg
+        WHERE
+        member_id = #{mId}
+        <!--  AND (read_type IS NULL
+            OR read_type = 0) -->
+        AND type= 5
+        ORDER BY created_time  DESC
+        LIMIT #{page},#{rows}
+
+    </select>
+    <!-- 获取审核通知列表 -->
+    <select id="getCheckInformList" resultType="Map">
+        SELECT
+        id as msgId,                                          <!-- memberMsg中的id -->
+        type as type,                                         <!-- 审核的结果 -->
+        IFNULL(consulatation_id, 0) as conId,                 <!-- 资讯id -->
+        IFNULL (member_id,0)    as     mId    ,               <!-- 通知者id -->
+        IFNULL(read_type,0) as readType   ,                   <!-- 读取readType，0未读取，1是已经读取 -->
+        content_type as contentType  ,                        <!--0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享  -->
+        DATE_FORMAT(created_time,'%Y/%m/%d %H:%i:%s')    AS date                               <!-- 创建的时间 -->
+        FROM
+        alq_member_msg
+        WHERE
+        <!-- (
+         read_type IS NULL
+         OR read_type = 0
+         )
+      AND  -->
+        member_id = #{mId} and type in(0,1,2,3)
+        ORDER BY created_time  DESC
+        LIMIT #{page},#{rows}
+    </select>
+
     <update id="updateMemberMsgReadType">
-        update  alq_member_msg set read_type=#{readType} where member_id=#{mId} and (read_type is null or 0) and type=#{types}
+        update  alq_member_msg set read_type=#{readType} WHERE member_id=#{mId} and type=#{types}
+        <!-- and (read_type is null or 0)-->
     </update>
+
     <!--获取消息信息-->
     <select id="findOne" parameterType="java.lang.Long" resultType="com.zc.main.entity.membermsg.MemberMsg">
         SELECT * from alq_member_msg where id=#{id}

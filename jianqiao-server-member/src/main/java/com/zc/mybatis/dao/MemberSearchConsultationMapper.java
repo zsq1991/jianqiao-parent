@@ -1,5 +1,6 @@
 package com.zc.mybatis.dao;
 
+import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membersearchconsultation.MemberSearchConsultation;
 
 import java.util.HashMap;
@@ -38,4 +39,13 @@ public interface MemberSearchConsultationMapper {
      * @return
      */
     Integer insertSearchConsultation(MemberSearchConsultation memberSearchConsultation);
+
+    /**
+     * @description: 清空历史关键词
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/18 15:46
+     * @version: 1.0.0
+     * @param memberId
+     */
+    void deleteAll(Long  memberId);
 }

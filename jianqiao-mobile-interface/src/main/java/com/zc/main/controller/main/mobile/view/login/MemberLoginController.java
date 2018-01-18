@@ -28,8 +28,10 @@ public class MemberLoginController {
     /**
      * @description ：用户登录 使用密码登录
      * @Created by  : tenghui
-     * @Creation Date ： 2018/1/18 13:39
+     * @Creation Date ： 2018/1/18 14:34
      * @version : 1.0.0
+     * @param phone 手机号
+     * @param password 密码
      * @param request
      * @return
      */
@@ -48,5 +50,27 @@ public class MemberLoginController {
         return result;
     }
 
+    /**
+     * @description ：验证码登录
+     * @Created by  : tenghui
+     * @Creation Date ： 2018/1/18 15:06
+     * @version : 1.0.0
+     * @param phone
+     * @param code
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "imagecode", method = RequestMethod.POST)
+    @ResponseBody
+    public Result loginPhoneAndCode(
+            @RequestParam(value = "phone") String phone,
+            @RequestParam(value = "code") String code,
+            HttpServletRequest request){
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("phone",phone);
+        params.put("code",code);
+        Result result = loginService.loginPhoneAndCode(params);
+        return result;
+    }
 
 }

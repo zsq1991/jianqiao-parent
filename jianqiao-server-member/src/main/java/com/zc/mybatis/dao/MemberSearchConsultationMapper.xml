@@ -16,4 +16,8 @@
         values
             (null,#{keyword},#{memberId})
     </insert>
+
+    <delete id="deleteAll">
+          DELETE  FROM  alq_member_search_consultation WHERE member_id = #{memberId}
+    </delete>
 </mapper>

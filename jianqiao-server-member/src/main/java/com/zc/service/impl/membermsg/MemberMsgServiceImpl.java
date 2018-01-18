@@ -3,6 +3,7 @@ package com.zc.service.impl.membermsg;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.consultationattachment.ConsultationAttachment;
 import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membermsg.MemberMsg;
 import com.zc.main.service.membermsg.MemberMsgService;
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -108,6 +110,415 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 			logger.error("修改memberMsg系统通知状态：" + e);
 			result.setCode(0);
 			result.setMsg("修改数据异常");
+		}
+		return result;
+	}
+
+	/**
+	 * @description 接口说明 阅读通知信息
+	 * @author 王鑫涛
+	 * @date 14:29 2018/1/18
+	 * @version 版本号
+	 * @param members
+	 * @param msgId 只有当type为1时，msgId时必须填写，MemberMsg的id
+	 * @param type 1审核通知，2赞通知，3评论通知
+	 * @return
+	 */
+	@Override
+	public Result getReadInformList(Member members, Long msgId, Integer type) {
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		if (members == null) {
+			return ResultUtils.returnError("请先登录");
+		} else if (type == null) {
+			return ResultUtils.returnError("请输入选中的那个通知");
+		}
+		// 1审核通知，2赞通知，3评论通知
+		Long mId = members.getId();
+		//==========================================符合此条件的时候，读取阅读通知===============================
+		if (mId != null && msgId==0 && type ==0) {
+			try {
+				Long member_id=mId;
+				List<MemberMsg> rowLock = memberMsgMapper.getRowLockList(member_id);
+				for (int i = 0; i < rowLock.size(); i++) {
+
+					MemberMsg findOne = memberMsgMapper.findOne(rowLock.get(i).getId());
+					findOne.setCountType(1);
+					memberMsgMapper.updateById(findOne);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				logger.info("数据异常："+e);
+				TransactionAspectSupport.currentTransactionStatus().isRollbackOnly();
+				return ResultUtils.returnError("修改数据异常");
+			}
+			result.setCode(1);
+			result.setMsg("修改成功");
+			return result;
+		}
+
+		//=========================================修改接口=============================================
+		try {
+
+			if (type == 3 && mId != null) {
+				Integer types = 4;
+				Integer readType = 1;
+				int updateMemberMsgReadType = memberMsgMapper.updateMemberMsgReadType(types, readType, mId);
+				if (updateMemberMsgReadType>0) {
+					result.setCode(1);
+					result.setMsg("成功");
+				}
+			} else if (type == 2 && mId != null) {
+				Integer types = 5;
+				Integer readType = 1;
+				int updateMemberMsgReadType = memberMsgMapper.updateMemberMsgReadType(types, readType, mId);
+				if (updateMemberMsgReadType >0) {
+					result.setCode(1);
+					result.setMsg("成功");
+				}
+			} else if (type == 1 && mId != null && msgId != null && msgId != 0) {
+				MemberMsg findOne = memberMsgMapper.findOne(msgId);
+				if (findOne == null) {
+					return ResultUtils.returnError("没有此参数");
+				}
+				findOne.setReadType(1);
+				int save = memberMsgMapper.updateById(findOne);
+				if (save>0) {
+					result.setCode(1);
+					result.setMsg("成功");
+				}
+
+			} else {
+				result.setCode(0);
+				result.setMsg("参数数据有误");
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("修改memberMsg系统通知状态：" + e);
+			result.setCode(0);
+			result.setMsg("修改数据异常");
+		}
+		return result;
+	}
+
+	@Override
+	public Result getInformList(Member member, Integer page, Integer rows, Integer type) {
+		Result result = new Result();
+		// TODO Auto-generated method stub
+		if (member == null) {
+			return ResultUtils.returnError("请先登录");
+		} else if (type == null) {
+			return ResultUtils.returnError("请输入数据");
+		}
+		Long mId = member.getId();
+
+		List list = new ArrayList();
+		SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+		String chidNowTime = chiddf.format(new Date());
+
+		try {// type 1审核通知，2赞通知，3评论通知
+			if (type == 1) {
+				List<Map> checkInformList = memberMsgMapper.getCheckInformList(mId, (page - 1) * rows, rows, type);
+				// =============================================修改时间=========================================================
+				for (Map map : checkInformList) {
+					String date = (String) map.get("date");
+					String chidTime1 = date.subSequence(0, 10).toString();
+					String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+					if (chidTime1.equals(chidTime2)) {// 同一天
+						String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+						// 时，分
+						map.put("date", chidcreatedTime);
+					} else {// 不同一天
+						String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+						// 年，月，日
+						map.put("date", chidcreatedTime);
+					}
+					list.add(map);
+				}
+				result.setCode(1);
+				result.setContent(list);
+				result.setMsg("成功");
+			} else if (type == 2) {
+				List<Map> supportInformList = memberMsgMapper.getSupportInformList(mId, (page - 1) * rows, rows);
+				if (supportInformList == null) {
+					result.setCode(1);
+					result.setMsg("没有人点赞");
+				} else {
+					for (Map maps : supportInformList) {
+						Long conId = (Long) maps.get("conId");
+						Long comId = (Long) maps.get("comId");
+						Long memId = (Long) maps.get("memId");
+						Long mLId = (Long) maps.get("mLId");
+						Map map = new HashMap();
+						if ((conId == null || conId == 0) && comId != null && comId != 0) {// 评论点赞
+							List<Map> mapsss = memberMsgMapper.getCommentSupportInformList(comId, memId, mLId);
+							if (mapsss.size() == 0) {
+								return ResultUtils.returnError("获取的数据有脏数据");
+							}
+
+							map = mapsss.get(0);
+							map.put("result", 0);
+							map.put("type", "赞了这条评论");
+							map.put("content", "你的评论：" + map.get("content"));
+							// =============================================修改时间=========================================================
+							String date = (String) map.get("date");
+							String chidTime1 = date.subSequence(0, 10).toString();
+							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+							if (chidTime1.equals(chidTime2)) {// 同一天
+								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+								// 时，分
+								map.put("date", chidcreatedTime);
+							} else {// 不同一天
+								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+								// 年，月，日
+								map.put("date", chidcreatedTime);
+							}
+						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {// 资讯点赞
+							// ===============================================//0是访谈主题
+							// 1访谈内容 2口述主题 3口述内容 4求助 5回答 6分享==========
+							List<Map> mapss = memberMsgMapper.getConsulatationSupportInformList(conId, memId, mLId);
+							if (mapss.size() == 0) {
+								return ResultUtils.returnError("获取的数据有脏数据");
+							}
+							map = mapss.get(0);
+							map.put("result", 1);
+							String info = (Long) map.get("info") + "";// 获取类型
+							String types = null;
+							switch (info) {
+								case "0":
+									types = "赞了 你的访谈";
+									break;
+								case "1":
+									types = "赞了你的文章";
+									break;
+								case "2":
+									types = "赞了你的口述";
+									break;
+								case "3":
+									types = "赞了你的文章";
+									break;
+								case "4":
+									types = "赞了你的求助";
+									break;
+								case "5":
+									types = "赞了你的回答";
+									break;
+								case "6":
+									types = "赞了你的分享";
+									break;
+								default:
+									break;
+							}
+							map.put("type", types);
+							map.put("content", types.substring(2, types.length()) + ":" + map.get("content"));
+							// =============================================修改时间=========================================================
+							String date = (String) map.get("date");
+							String chidTime1 = date.subSequence(0, 10).toString();
+							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+							if (chidTime1.equals(chidTime2)) {// 同一天
+								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+								// 时，分
+								map.put("date", chidcreatedTime);
+							} else {// 不同一天
+								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+								// 年，月，日
+								map.put("date", chidcreatedTime);
+							}
+						}
+						// =================================================添加到数组中==========================================================
+						list.add(map);
+					}
+				}
+				result.setCode(1);
+				result.setContent(list);
+				result.setMsg("成功");
+			} else if (type == 3) {
+				List<Map> commentInform = memberMsgMapper.getCommentInformList(mId, (page - 1) * rows, rows);
+				if (commentInform == null) {
+					result.setCode(1);
+					result.setMsg("没有人评论");
+				} else {
+					for (Map map2 : commentInform) {
+						Long conId = (Long) map2.get("conId");
+						Long comId = (Long) map2.get("comId");
+						Long memId = (Long) map2.get("memId");
+						Long mLId = (Long) map2.get("mLId");
+						Map map = new HashMap();
+						String message = (String) map2.get("message");
+						if ((conId == null || conId == 0) && comId != null && comId != 0) {// 评论的回复
+							List<Map> maps = memberMsgMapper.getCommentDiscussInformList(comId, memId, mLId);
+							if (maps.size() == 0) {
+								return ResultUtils.returnError("获取的数据有脏数据");
+							}
+							map = maps.get(0);
+							map.put("result", 0);
+							map.put("content", "回复了你：" + map.get("content"));// 新评论的内容
+							if (map.get("message") == null) {
+								// 通过资讯id获取关联的附件。conId
+								map.get("conId");
+
+							} else {
+								map.put("message", "你的评论:" + map.get("message"));
+							}
+
+							// =============================================修改时间=========================================================
+							String date = (String) map.get("date");
+							String chidTime1 = date.subSequence(0, 10).toString();
+							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+							if (chidTime1.equals(chidTime2)) {// 同一天
+								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+								// 时，分
+								map.put("date", chidcreatedTime);
+							} else {// 不同一天
+								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+								// 年，月，日
+								map.put("date", chidcreatedTime);
+							}
+						} else if (comId != null && comId != 0 && conId != null && conId != 0) {// 资讯的评论
+							// 查询资讯id，通过资讯id判断是回答还是consulation_id,回答是没有title
+							// ===============================================//0是访谈主题
+							// 1访谈内容 2口述主题 3口述内容 4求助 5回答 6分享==========
+							List<Map> maps = memberMsgMapper.getConsulatationDiscussInformList(comId, conId, memId, mLId);
+							if (maps.size() == 0) {
+								return ResultUtils.returnError("获取的数据有脏数据");
+							}
+							map = maps.get(0);
+							map.put("result", 1);
+							String type2 = (Long) map.get("type") + "";// 获取类型
+							String types = null;
+							switch (type2) {
+								case "0":
+									types = " 你的访谈";
+									break;
+								case "1":
+									types = "你的文章";
+									break;
+								case "2":
+									types = "你的口述";
+									break;
+								case "3":
+									types = "你的文章";
+									break;
+								case "4":
+									types = "你的求助";
+									break;
+								case "5":
+									types = "你的回答";
+									break;
+								case "6":
+									types = "你的分享";
+									break;
+								default:
+									break;
+							}
+							// =================================当message为空时是对回答的评论===================================================================================================//
+							if (map.get("message") == null) {
+								Long id = (Long) map.get("conId");
+								ConsultationAttachment attachmentByconId = memberMsgMapper.getAttachmentByconId(id);
+								map.put("message", types + ":" + attachmentByconId.getDetailContent());
+								map.put("conId", map.get("messageId"));
+							} else {
+								map.put("message", types + ":" + map.get("message"));
+							}
+							map.put("content", "评论了你：" + map.get("content"));
+
+							// =============================================修改时间==================================================================================================//
+							String date = (String) map.get("date");
+							String chidTime1 = date.subSequence(0, 10).toString();
+							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+							if (chidTime1.equals(chidTime2)) {// 同一天
+								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+								// 时，分
+								map.put("date", chidcreatedTime);
+							} else {// 不同一天
+								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+								// 年，月，日
+								map.put("date", chidcreatedTime);
+							}
+
+						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {// 对求助的评论就是回答
+
+							List<Map> maps = memberMsgMapper.getReplyDiscussInformList(conId, memId, mLId);
+							if (maps.size() == 0) {
+								return ResultUtils.returnError("获取的数据有脏数据");
+							}
+							map = maps.get(0);
+							map.put("result", 1);
+							String type2 = (Long) map.get("type") + "";// 获取类型
+							String types = null;
+							switch (type2) {
+								case "0":
+									types = " 你的访谈";
+									break;
+								case "1":
+									types = "你的文章";
+									break;
+								case "2":
+									types = "你的口述";
+									break;
+								case "3":
+									types = "你的文章";
+									break;
+								case "4":
+									types = "你的求助";
+									break;
+								case "5":
+									types = "你的回答";
+									break;
+								case "6":
+									types = "你的分享";
+									break;
+								default:
+									break;
+							}
+							// =================================当message为空时是对回答的评论，===================================================================================================//
+							if (map.get("message") == null) {
+								Long id = (Long) map.get("conId");
+								ConsultationAttachment attachmentByconId = memberMsgMapper.getAttachmentByconId(id);
+								map.put("message", types + ":" + attachmentByconId.getDetailContent());
+								map.put("result", 0);// result为0时是评论的回复，资讯的评论
+								map.put("conId", map.get("messageId"));// 回答的的资讯id
+								map.put("conType", 5);
+								map.put("info", 0);// info为0时就是评论资讯
+								map.put("content", "回答了你：" + map.get("content"));
+							} else {
+								map.put("message", types + ":" + map.get("message"));
+								map.put("content", "评论了你：" + map.get("content"));
+								map.put("info", 0);// info为0时就是评论资讯，1时是评论的回复
+
+							}
+
+							// =============================================修改时间==================================================================================================//
+							String date = (String) map.get("date");
+							String chidTime1 = date.subSequence(0, 10).toString();
+							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+							if (chidTime1.equals(chidTime2)) {// 同一天
+								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+								// 时，分
+								map.put("date", chidcreatedTime);
+							} else {// 不同一天
+								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+								// 年，月，日
+								map.put("date", chidcreatedTime);
+							}
+						}
+						// =================================================添加到数组中==========================================================
+						list.add(map);
+					}
+
+				}
+				result.setCode(1);
+				result.setContent(list);
+				result.setMsg("成功");
+			} else {
+				return ResultUtils.returnError("请输入type数据类型");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("审核通知列表：" + e);
+			result.setCode(0);
+			result.setMsg("获取审核列表数据异常");
 		}
 		return result;
 	}
