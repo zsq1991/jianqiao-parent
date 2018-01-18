@@ -65,5 +65,5 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @param id
      * @return
      */
-    Attachment getAttamentById(String id);
+    AttachmentDTO getAttamentById(String id);
 }

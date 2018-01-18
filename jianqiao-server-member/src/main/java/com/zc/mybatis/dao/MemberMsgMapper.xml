@@ -23,7 +23,7 @@
     </delete>
 
     <!-- 查病例图片 -->
-    <select id="getAttamentById" resultType="com.zc.main.entity.attachment.Attachment" >
+    <select id="getAttamentById" resultType="com.zc.main.dto.attachment.AttachmentDTO" >
         select * from alq_attachment where id=#{id}
     </select>
 </mapper>
