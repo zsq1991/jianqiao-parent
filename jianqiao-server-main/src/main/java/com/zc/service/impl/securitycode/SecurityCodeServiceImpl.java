@@ -69,4 +69,37 @@ public class SecurityCodeServiceImpl implements SecurityCodeService {
         Result sendMsg = sms.checkMsg(phone, code, codeType);
         return sendMsg;
     }
+
+    @Override
+    public Result sendCodeLoginByPhone(String phone, String codeType) {
+        logger.info("============进入登录或修改密码的发送短信方法===============");
+        Result result = null;
+        logger.info("============参数校验===============");
+        Pattern p = Pattern.compile("^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-8])|(147))\\d{8}$");
+        Matcher m = p.matcher(phone);
+        if ( StringUtils.isEmptyOrWhitespaceOnly(phone) ) {
+            logger.info("============登录或修改密码的发送短信方法结束===============");
+            return ResultUtils.returnError("手机号不合法");
+        }
+        if ( !m.matches() ) {
+            logger.info("============登录或修改密码的发送短信方法结束===============");
+            return ResultUtils.returnError("手机号不合法");
+        }
+        // 判断数据库中是否存在
+        logger.info("============检验用户是否存在=================");
+        Member memberByPhone = memberMapper.getMemberByPhone(phone);
+        if ( memberByPhone == null ) {
+            logger.info("============登录或修改密码的发送短信方法结束===============");
+            return ResultUtils.returnError("该手机号未注册，请先注册",-620);
+        }else if ( memberByPhone != null ) {//0或null未禁用，1禁用
+            Integer number = memberByPhone.getIsDelete()==null?0:memberByPhone.getIsDelete();
+            if(number==1){
+                logger.info("============登录或修改密码的发送短信方法结束===============");
+                return ResultUtils.returnError("该用户已禁用请联系客服");
+            }
+        }
+        result = this.sendMessageCode(phone, codeType);
+        logger.info("============登录或修改密码的发送短信方法结束===============");
+        return result;
+    }
 }

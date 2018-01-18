@@ -7,6 +7,7 @@ import com.zc.common.core.result.ResultUtils;
 import com.zc.common.core.utils.MD5Util;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.login.LoginService;
+import com.zc.main.service.securitycode.SecurityCodeService;
 import com.zc.mybatis.dao.MemberMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +34,11 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private MemberMapper memberMapper;
 
+    @Autowired
+    private SecurityCodeService securityCodeService;
+
     @Override
-    public Result loginPhoneAndPassword(Map<String,Object> params) {
+    public Result loginPhoneAndPassword( Map<String,Object> params ) {
         logger.info("=========进入密码登录方法==========");
         Result result = new Result();
         Map map = new HashMap();
@@ -44,12 +47,15 @@ public class LoginServiceImpl implements LoginService {
         String userbrowser = "未知";
         logger.info("=========获取参数并校验==========");
         if( ObjectUtils.isEmpty(params.get("phone")) ){
+            logger.info("=========密码登录方法结束==========");
             return ResultUtils.returnError("参数异常");
         }
         if( ObjectUtils.isEmpty(params.get("password")) ){
+            logger.info("=========密码登录方法结束==========");
             return ResultUtils.returnError("参数异常");
         }
         if( ObjectUtils.isEmpty(params.get("agent")) ){
+            logger.info("=========密码登录方法结束==========");
             return ResultUtils.returnError("参数异常");
         }
         String phone = params.get("phone").toString();
@@ -59,26 +65,29 @@ public class LoginServiceImpl implements LoginService {
         // 获取ipgetClientIp
 //        String clientIP = params.get("ip").toString();
 
-        if (StringUtils.isEmptyOrWhitespaceOnly(phone)) {
+        if ( StringUtils.isEmptyOrWhitespaceOnly(phone) ) {
+            logger.info("=========密码登录方法结束==========");
             return ResultUtils.returnError("手机号不合法");
         }
-        if (StringUtils.isEmptyOrWhitespaceOnly(password)) {
+        if ( StringUtils.isEmptyOrWhitespaceOnly(password) ) {
+            logger.info("=========密码登录方法结束==========");
             return ResultUtils.returnError("密码格式有误");
-        } else if (password.length() > 12 || password.length() < 6) {
+        } else if ( password.length() > 12 || password.length() < 6 ) {
+            logger.info("=========密码登录方法结束==========");
             return ResultUtils.returnError("密码格式有误");
         }
-        if (null != agent) {
-            if (agent.contains("Chrome")) {
+        if ( null != agent ) {
+            if ( agent.contains("Chrome") ) {
                 userbrowser = "Chrome";
-            } else if (agent.contains("Firefox")) {
+            } else if ( agent.contains("Firefox") ) {
                 userbrowser = "Firefox";
-            } else if (agent.contains("Safari")) {
+            } else if ( agent.contains("Safari") ) {
                 userbrowser = "Safari";
-            } else if (agent.contains("Trident")) {
+            } else if ( agent.contains("Trident") ) {
                 userbrowser = "Trident";
-            } else if (agent.contains("IE")) {
+            } else if ( agent.contains("IE") ) {
                 userbrowser = "IE";
-            } else if (agent.contains("360")) {
+            } else if ( agent.contains("360") ) {
                 userbrowser = "360";
             }
         }
@@ -88,18 +97,18 @@ public class LoginServiceImpl implements LoginService {
         if (loginData != null) {
             logger.info("=========用户存在,进行密码匹配==========");
             isDelete = loginData.getIsDelete() == null ? "0" : loginData.getIsDelete().toString();
-            if (isDelete.equals("1")) {
+            if ( isDelete.equals("1") ) {
                 logger.info("=========密码登录方法结束==========");
                 return ResultUtils.returnError("该用户已禁用请联系客服");
             }
             // 加密密码
             String passwordMD5 = MD5Util.MD5Encode(MD5Util.MD5Encode(password, "utf-8") + loginData.getUuid(), "utf-8");
 
-            if (loginData.getPassword().equals(passwordMD5)) {
+            if ( loginData.getPassword().equals(passwordMD5) ) {
                 logger.info("=========记录登录信息，用户id,登录的次数count,updateTime,creteaIp,sessionId==========");
-                if (loginData.getLogoAttachmentId() != null) {
+                if ( loginData.getLogoAttachmentId() != null ) {
                     String number = loginData.getLogoAttachmentId() == null ? "flase" : "true";
-                    if (number.equals("true")) {
+                    if ( number.equals("true") ) {
                         address = memberMapper.getAddressByPhone(loginData.getLogoAttachmentId());
                     }
                 }
@@ -136,7 +145,71 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Result loginPhoneAndCode(HttpServletRequest request, String codeType) {
-        return null;
+    public Result loginPhoneAndCode( Map<String,Object> params ) {
+        logger.info("=========进入验证码登录方法==========");
+        Result result = new Result();
+        Map map = new HashMap();
+        String codeType = "JQ2017613";
+        String address = null;
+        String isDelete ="0";
+        logger.info("=========获取参数并校验==========");
+        if( ObjectUtils.isEmpty(params.get("phone")) ){
+            logger.info("=========验证码登录方法结束==========");
+            return ResultUtils.returnError("参数异常");
+        }
+        if( ObjectUtils.isEmpty(params.get("code")) ){
+            logger.info("=========验证码登录方法结束==========");
+            return ResultUtils.returnError("参数异常");
+        }
+        String phone = params.get("phone").toString();
+        String code = params.get("code").toString();
+
+        // 获取验证码结果
+        Result imageCode = securityCodeService.checkMessageCode(phone, code, codeType);
+
+        // 通过手机号，查询是否有这个用户就查询这个用户
+        if ( StringUtils.isEmptyOrWhitespaceOnly(phone) ) {
+            logger.info("=========验证码登录方法结束==========");
+            return ResultUtils.returnError("手机号不合法");
+        } else if ( code == null ) {
+            logger.info("=========验证码登录方法结束==========");
+            return ResultUtils.returnError("验证码错误，请输入正确的验证码");
+        }
+        // 验证码
+        if ( !(imageCode.getCode() == 1) ) {
+            logger.info("=========验证码登录方法结束==========");
+            return ResultUtils.returnError("验证码错误,请重新获取验证码");
+        } else {
+            logger.info("=========登录成功==========");
+            Member loginData = memberMapper.getMemberByPhone(phone);
+
+            if ( loginData != null ) {
+                isDelete = loginData.getIsDelete() == null ? "0" : loginData.getIsDelete().toString();
+                if (isDelete.equals("1")) {
+                    return ResultUtils.returnError("该用户已禁用请联系客服");
+                }
+                if ( loginData.getLogoAttachmentId() != null ) {
+                    String number = loginData.getLogoAttachmentId() == null ? "flase" : "true";
+                    if ( number.equals("true") ) {
+                        address = memberMapper.getAddressByPhone(loginData.getLogoAttachmentId());
+                    }
+                }
+
+                map.put("id", loginData.getId());
+                map.put("uuid", loginData.getUuid());
+                map.put("phone", loginData.getPhone());
+                map.put("address", address);
+                Integer number = loginData.getStatus()==null?0:loginData.getStatus();
+                map.put("status", number);
+                map.put("nickname", loginData.getNickname());
+                String userType = loginData.getUserType() == null ? "0" : loginData.getUserType().toString();
+                map.put("userType", userType);// 0普通 1认证后用户可以发布访谈 口述
+                result.setCode(1);
+                result.setMsg("成功");
+                result.setContent(map);
+            }
+        }
+        logger.info("=========验证码登录方法结束==========");
+        return result;
     }
 }

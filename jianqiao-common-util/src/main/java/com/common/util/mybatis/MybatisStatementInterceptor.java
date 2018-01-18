@@ -72,7 +72,7 @@ public class MybatisStatementInterceptor implements Interceptor {
         }else {
             if ("UPDATE".equals(sqlCommandType)) {//如果是“增加”或“更新”操作
                 String updateCreatdTime = ",update_time = " + "'"+s1+"'";
-                String[] orgSql = sql.split("\nWHERE");
+                String[] orgSql = sql.split("WHERE");
                 String fristSql = orgSql[0];
                 String secondSql = orgSql[1];
                 String newSql = fristSql + updateCreatdTime + "\nWHERE" + secondSql;
