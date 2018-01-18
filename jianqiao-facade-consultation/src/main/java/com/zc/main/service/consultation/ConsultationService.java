@@ -147,12 +147,19 @@ public interface ConsultationService {
     Result getConsultationDetail(String cid, Member member, int row, String type);
 
     /**
-     * APP首页搜索接口
-     *
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 13:51
+     * @desc:APP首页搜索接口
+     * @version 1.0.0
+     * @param page 页码
+     * @param rows 页大小
+     * @param info 关键词
+     * @param phone 手机号
+     * @param uuid uuid
+     * @param checktype 1精选(全部) 2口述  3分享   4求助   5访谈
      * @return
      */
-    Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid,
-                                  String checktype);
+    Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid,String checktype);
 
     /**
      * 信息详情 分页加载专题下信息
