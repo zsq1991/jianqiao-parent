@@ -29,7 +29,7 @@ import java.util.Map;
 @Component
 @Service(version = "1.0.0", interfaceClass = MembersearchconsultationService.class)
 @Transactional(readOnly = true)
-public class MembersearchconsultationServiceServiceImpl implements MembersearchconsultationService {
+public class MembersearchconsultationServiceImpl implements MembersearchconsultationService {
 
     @Autowired
     private MemberSearchConsultationMapper memberSearchConsultationMapper;
