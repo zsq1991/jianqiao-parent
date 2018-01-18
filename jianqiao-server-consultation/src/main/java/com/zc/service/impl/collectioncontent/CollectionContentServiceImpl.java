@@ -1,6 +1,5 @@
 package com.zc.service.impl.collectioncontent;
 
-import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
@@ -8,8 +7,8 @@ import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.collectioncontent.CollectionContentService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
-import com.zc.mybatis.dao.CollectionContentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
+import com.zc.mybatis.dao.CollectionContentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
     @Autowired
     private ConsultationMapper consultationMapper;
 
-    @DubboConsumer(version = "1.0.0")
+    @Autowired
     private ConsultationAttachmentService consultationAttachmentService;
 
     @Override
