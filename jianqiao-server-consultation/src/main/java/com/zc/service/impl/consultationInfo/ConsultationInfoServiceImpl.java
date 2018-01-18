@@ -27,7 +27,7 @@ import java.util.*;
  * @Created by :ZhaoJunBiao
  * @Creation Date ：2018年01月17日16:59
  */
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",interfaceClass =ConsultationInfoService.class )
 @Transactional(readOnly = true)
 @Component
 public class ConsultationInfoServiceImpl implements ConsultationInfoService {

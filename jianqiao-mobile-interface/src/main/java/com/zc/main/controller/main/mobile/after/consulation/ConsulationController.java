@@ -33,4 +33,19 @@ public class ConsulationController {
 
 		return this.consultationService.deleteConsultationById(id, member);
 	}
+
+	/**
+	 * 获取父级主题
+	 * @param type
+	 * @param member
+	 * @return
+	 */
+	@RequestMapping(value="getParentConsultation",method=RequestMethod.POST)
+	public Result getParentConsultation(@RequestParam("type")String type,
+										@MemberAnno Member member,
+										@RequestParam(value = "page",defaultValue ="1",required = false)Integer page,
+										@RequestParam(value="size",defaultValue ="10",required = false)Integer size){
+
+		return consultationService.getParentConsultation(type, member,page,size);
+	}
 }

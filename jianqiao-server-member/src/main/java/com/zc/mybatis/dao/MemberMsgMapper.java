@@ -2,6 +2,7 @@ package com.zc.mybatis.dao;
 
 
 import com.zc.main.entity.membermsg.MemberMsg;
+import org.apache.cxf.message.Attachment;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.BaseMapper;
 
@@ -22,4 +23,14 @@ public interface MemberMsgMapper extends BaseMapper<MemberMsg> {
      * @version 1.0.0
      */
     public void deleteMemberMsgBycontentId(@Param("mId") Long mId, @Param("type") Integer type, @Param("commentid") Long commentid);
+
+    /**
+     * @description:  查病例图片
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/17 18:14
+     * @version: 1.0.0
+     * @param id
+     * @return
+     */
+    Attachment getAttamentById(String id);
 }

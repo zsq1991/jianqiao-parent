@@ -2,6 +2,7 @@
 package com.zc.main.entity.consultationcomment;
 
 import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.main.entity.consultation.Consultation;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.*;
@@ -47,6 +48,8 @@ public class ConsultationComment extends IdEntity implements Serializable {
 
     @Column(name = "first_reply_comment")
     private Long firstReplyCommentId;//这条评论回复最早的评论
+
+    private Consultation consultation;
 
     public Long getConsultationId() {
         return consultationId;
@@ -126,6 +129,14 @@ public class ConsultationComment extends IdEntity implements Serializable {
 
     public void setFirstReplyCommentId(Long firstReplyCommentId) {
         this.firstReplyCommentId = firstReplyCommentId;
+    }
+
+    public Consultation getConsultation() {
+        return consultation;
+    }
+
+    public void setConsultation(Consultation consultation) {
+        this.consultation = consultation;
     }
 }
 
