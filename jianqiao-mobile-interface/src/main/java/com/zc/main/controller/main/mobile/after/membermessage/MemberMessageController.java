@@ -38,8 +38,8 @@ public class MemberMessageController {
      * @version: 1.0.0
      * @param member
      * @param memberhelp
-     * @param caseId
-     * @param imgId
+     * @param caseId   病例id
+     * @param imgId    影像id
      * @return
      */
     @Explosionproof

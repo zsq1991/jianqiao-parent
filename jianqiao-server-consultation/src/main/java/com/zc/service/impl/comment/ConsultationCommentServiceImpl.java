@@ -8,6 +8,7 @@ import com.zc.main.entity.consultationcomment.ConsultationComment;
 import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membermsg.MemberMsg;
 import com.zc.main.service.comment.ConsultationCommentService;
+import com.zc.main.vo.consultationcomment.ConsultationCommentDTO;
 import com.zc.mybatis.dao.ConsultationCommentMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
         }
        try {
 
-            ConsultationComment parentConsultationCommentdb = consultationCommentMapper.getRowLock(parentid);
+           ConsultationCommentDTO parentConsultationCommentdb = consultationCommentMapper.getRowLock(parentid);
             if(parentConsultationCommentdb==null){
                 return ResultUtils.returnError("该评论信息不存在");
             }
@@ -78,7 +79,7 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 consultationComment.setCommentInfoId(parentConsultationCommentdb.getCommentInfoId());
                 consultationComment.setParentId(null);
                 parentConsultationCommentdb.setReplyNum(parentConsultationCommentdb.getReplyNum()==null?1:parentConsultationCommentdb.getReplyNum()+1);
-                //ConsultationComment newConsultationCommentdb = this.saveAndModify(consultationComment);//保存新增回复评论
+                //ConsultationComment newConsultationCommentdb = consultationCommentMapper.saveConsultationComment(consultationComment);//保存新增回复评论
                 if(parentConsultationCommentdb.getFirstReplyCommentId()==null){
                     //parentConsultationCommentdb.setFirstReplyCommentId(newConsultationCommentdb.getFirstReplyCommentId());//维护此咨询最早的回复用于方便查询使用
                 }
@@ -100,7 +101,7 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 if(parentConsultationCommentdb.getCommentInfoId()==null){
                     return ResultUtils.returnError("无法回复，该评论记录异常未关联顶级评论信息");
                 }
-                ConsultationComment	topConsulattionCommentdb = consultationCommentMapper.getRowLock(parentConsultationCommentdb.getCommentInfoId());
+                ConsultationCommentDTO	topConsulattionCommentdb = consultationCommentMapper.getRowLock(parentConsultationCommentdb.getCommentInfoId());
                 if(topConsulattionCommentdb==null){
                     return ResultUtils.returnError("资讯评论记录异常，顶级评论记录不存在");
                 }
