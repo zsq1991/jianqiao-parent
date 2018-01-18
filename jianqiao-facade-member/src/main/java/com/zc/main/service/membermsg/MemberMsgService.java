@@ -2,6 +2,7 @@ package com.zc.main.service.membermsg;
 
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
+import com.zc.main.entity.membermsg.MemberMsg;
 
 /**
  * @package : com.zc.main.service.membermsg
@@ -11,6 +12,15 @@ import com.zc.main.entity.member.Member;
  * @Creation Date ：2018年01月18日10:40
  */
 public interface MemberMsgService{
+	/**
+	 * @description 接口说明 添加用户消息
+	 * @author 王鑫涛
+	 * @date 17:01 2018/1/18
+	 * @version 版本号
+	 * @param memberMsg
+	 * @return
+	 */
+	int insert(MemberMsg memberMsg);
 	/**
 	 *
 	 * @description 接口说明 读取通知信息的接口

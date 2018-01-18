@@ -3,7 +3,17 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.zc.mybatis.dao.ConsultationMapper">
+	<!--添加资讯-->
+	<insert id="save" parameterType="com.zc.main.entity.consultation.Consultation">
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT into alq_consultation (detail_summary,topic_type,model_type,
+		consulatation_id,type,is_delete,member_id,title,status,author_info)
+		VALUE (#{detailSummary},#{topicType},#{modelType},#{consultationId},
+		#{type},#{isDelete},#{memberId},#{title},#{status},#{authorInfo})
 
+	</insert>
 	<update id="updateByType1" parameterType="Long">
 		UPDATE alq_consultation SET is_delete =1 WHERE consulatation_id = #{cid}
 	</update>

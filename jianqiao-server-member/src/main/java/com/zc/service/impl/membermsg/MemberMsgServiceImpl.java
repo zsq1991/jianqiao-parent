@@ -38,6 +38,11 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 
 
 	@Override
+	public int insert(MemberMsg memberMsg) {
+		return memberMsgMapper.insert(memberMsg);
+	}
+
+	@Override
 	public Result getMemberMsgReadInform(Member members) {
 		Result result = new Result();
 		if (members == null) {

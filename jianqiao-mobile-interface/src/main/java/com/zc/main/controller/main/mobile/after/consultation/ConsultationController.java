@@ -49,5 +49,40 @@ public class ConsultationController {
         return consultationService.findConsultationAllByMember(page,rows,member,checktype);
     }
 
+    @Explosionproof
+    @RequestMapping(value="deleteconsultation",method= RequestMethod.POST)
+    public Result deleteConsultationById(@RequestParam("id")Long id,
+                                         @MemberAnno Member member){
 
+        return this.consultationService.deleteConsultationById(id, member);
+    }
+
+    /**
+     * 获取父级主题
+     * @param type
+     * @param member
+     * @return
+     */
+    @RequestMapping(value="getParentConsultation",method=RequestMethod.POST)
+    public Result getParentConsultation(@RequestParam("type")String type,
+                                        @MemberAnno Member member,
+                                        @RequestParam(value = "page",defaultValue ="1",required = false)Integer page,
+                                        @RequestParam(value="size",defaultValue ="10",required = false)Integer size){
+
+        return consultationService.getParentConsultation(type, member,page,size);
+    }
+
+    /**
+     * 添加咨询
+     * @param content
+     * @param member
+     * @return
+     */
+    @Explosionproof
+    @RequestMapping(value="addConsultation",method=RequestMethod.POST)
+    public Result addConsultation(@RequestParam("json")String content,
+                                  @MemberAnno Member member){
+
+        return consultationService.addConsultation(content, member);
+    }
 }

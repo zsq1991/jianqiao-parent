@@ -2,6 +2,7 @@ package com.zc.mybatis.dao;
 
 import com.common.util.mybatis.BasicMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
+import com.zc.main.entity.consultationattachment.ConsultationAttachment;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,8 +17,9 @@ import java.util.Map;
  */
 
 @MyBatisRepository
-public interface ConsultationAttachmentMapper   {
+public interface ConsultationAttachmentMapper  extends BasicMapper<ConsultationAttachment> {
 
+	Long save(ConsultationAttachment consultationAttachment);
 
 	 List<Map<String, Object>> findConsultationAttachmentByConsultationId(@Param("id") Long id);
 

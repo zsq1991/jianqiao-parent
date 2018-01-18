@@ -2,25 +2,36 @@ package com.zc.service.impl.consultation;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.common.util.statuscodeenums.StatusCodeEnums;
 import com.google.common.collect.Maps;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.attachment.Attachment;
 import com.zc.main.entity.collectionconsultation.CollectionConsultation;
 import com.zc.main.entity.consultation.Consultation;
+import com.zc.main.entity.consultationattachment.ConsultationAttachment;
 import com.zc.main.entity.member.Member;
+import com.zc.main.entity.membermsg.MemberMsg;
 import com.zc.main.service.collectioncontent.CollectionContentService;
 import com.zc.main.service.consultation.ConsultationService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.main.service.member.MemberService;
-import com.zc.mybatis.dao.CollectionContentMapper;
+import com.zc.main.service.membermsg.MemberMsgService;
+import com.zc.mybatis.dao.Attachment.AttachmentMapper;
+import com.zc.mybatis.dao.ConsultationAttachmentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
+import com.zc.mybatis.dao.MemberMsgMapper;
 import com.zc.mybatis.dao.collectionConsulation.CollectionConsulationMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -43,6 +54,12 @@ public class ConsultationServiceImpl implements ConsultationService {
     private CollectionContentService collectionContentService;
     @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private ConsultationAttachmentService consultationAttachmentService;
+    @Autowired
+    private AttachmentMapper attachmentMapper;
+    @Autowired
+    private ConsultationAttachmentMapper consultationAttachmentMapper;
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private MemberMsgService memberMsgService;
 
     @Override
     public Result deleteConsultationById(Long id, Member member) {
@@ -174,9 +191,275 @@ public class ConsultationServiceImpl implements ConsultationService {
         }
     }
 
+    private static boolean  checkConsultation(String content,String opType){
+        boolean flag = true;
+        JSONObject jsonObject = JSONObject.parseObject(content);
+        if (Objects.isNull(jsonObject)){
+            return false;
+        }
+        //修改
+        if("2".equals(opType)){
+            Long id = jsonObject.getLong("id");
+            if (Objects.isNull(id)){
+                return false;
+            }
+        }
+        //获取保存类型 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+        String type =jsonObject.getString("type");
+        if (StringUtils.isBlank(type)){
+            return false;
+        }
+        JSONArray jsonArray = jsonObject.getJSONArray("content");
+        if (!"0,2".contains(type)){
+            //内容
+            if (Objects.isNull(jsonArray)){
+                return false;
+            }
+        }
+        String title = jsonObject.getString("title");
+        if (!"5".equals(String.valueOf(type)) && StringUtils.isBlank(title)){
+            return false;
+        }
+        //0是访谈主题  2口述主题
+        if ("0,2".contains(type)){
+            //封面主题
+            String covers = jsonObject.getString("covers");
+            if (StringUtils.isBlank(covers)){
+                return false;
+            }
+            if(covers.split(",").length!=1){
+                return false;
+            }
+            //简介
+            String descr =jsonObject.getString("descr");
+            if (StringUtils.isBlank(descr)){
+                return false;
+            }
+        }
+
+        //对应咨询ID
+        Long id = jsonObject.getLong("id");
+        if ("1,3,5".contains(type)) {
+            if (Objects.isNull(id)){
+                return false;
+            }
+        }
+        //关联咨询ID
+		/*Long pid = jsonObject.getLong("pid");
+		if ("2".equals(opType) && "1,3,5".contains(type)) {
+			if (Objects.isNull(pid)){
+				return false;
+			}
+		}*/
+        //图片类型 0 ,1,2
+        String modelType =jsonObject.getString("modelType");
+        //4求助 5回答  6分享
+        if ("1,3,4,5,6".contains(type)){
+            if (StringUtils.isBlank(modelType)){
+                return false;
+            }
+
+            // 图片类型 0 ,1,2
+            if (!"0,1,2".contains(modelType)){
+                return false;
+            }
+            //封面主题
+            String covers = jsonObject.getString("covers");
+            //单、三图模式
+            if ("1,2".contains(modelType)){
+                //封面主题
+                if (StringUtils.isBlank(covers)){
+                    return false;
+                }
+            }
+        }
+        if (!Objects.isNull(jsonArray)){
+            int size = jsonArray.size();
+            for (int i=0;i<size;i++){
+                JSONObject detail = jsonArray.getJSONObject(i);
+                if (!Objects.isNull(detail)){
+                    //内容类型
+                    String contentType = detail.getString("type");
+                    if (StringUtils.isBlank(contentType)){
+                        return false;
+                    }
+                    Integer sortNum= detail.getInteger("sortNum");
+                    if (Objects.isNull(sortNum)){
+                        return false;
+                    }
+                    String text = detail.getString("detail");
+                    String attachmentId = detail.getString("attachmentId");
+                    //文本
+                    if ("0".equals(contentType) && StringUtils.isBlank(text)){
+                        return false;
+                    }
+                    //图片、视频
+                    if ("1,3".contains(contentType) && StringUtils.isBlank(attachmentId)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return flag;
+    }
     @Override
     public Result addConsultation(String content, Member member) {
-        return null;
+        //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
+        //topicType : 1 :图文 2：视频
+        logger.info("content:{},member:{}",content,member);
+        logger.info("判断参数是否为空");
+        if (StringUtils.isBlank(content) || Objects.isNull(member)){
+            return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+        }
+        try {
+            if (!checkConsultation(content,"1")){
+                return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+            }
+            JSONObject jsonObject = JSONObject.parseObject(content);//获取总的数据
+            if (Objects.isNull(jsonObject)){
+                return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+            }
+            //获取保存类型 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+            String type =jsonObject.getString("type");
+            JSONArray contentArray = jsonObject.getJSONArray("content");
+            if (!"0,2".contains(type)){
+                if (Objects.isNull(contentArray)){
+                    return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+                }
+            }
+            logger.info("获取用户类型");
+            Integer userType = member.getUserType();//0普通 1认证后用户可以发布访谈 口述 2:认证中
+            //非高级用户
+            if (!"1".equals(String.valueOf(userType)) && "0,1,2,3".contains(type)){
+                return ResultUtils.returnError("非高级用户,不能发布信息.");
+            }
+            String title=null;
+            //获取保存类型 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+            if (!"5".equals(String.valueOf(type))){
+                title = jsonObject.getString("title");
+            }
+            Consultation consultation = new Consultation();
+
+            consultation.setAuthorInfo(member.getNickname());
+            if ("5".equals(type)){//给求助的评论是回答
+                //审核通过
+                consultation.setStatus(2);
+                //求助ID
+                Long helpId = jsonObject.getLong("id");
+                Consultation helpConsultation = consultationMapper.getOne(helpId);
+                if (!Objects.isNull(helpConsultation)){
+                    Integer num = Objects.isNull(helpConsultation.getNum())?0:helpConsultation.getNum();
+                    helpConsultation.setNum(num+1);
+                    consultationMapper.updateById(helpConsultation);
+                }
+
+
+            } else {
+                //审核中
+                consultation.setStatus(1);
+            }
+            if (StringUtils.isNotBlank(title)){
+                consultation.setTitle(title);
+            }
+            consultation.setMemberId(member.getId());
+            consultation.setIsDelete(0);
+            consultation.setType(Integer.valueOf(type));
+            Long id = jsonObject.getLong("id");
+            if (!Objects.isNull(id)){
+                Consultation sonConsultation =consultationMapper.getOne(id);
+                logger.info("获取资讯"+sonConsultation);
+                consultation.setConsultationId(sonConsultation.getId());
+            }
+            Integer modelType = jsonObject.getInteger("modelType");//模式类型  0无图  1单图 2三图
+            if (!Objects.isNull(modelType)){
+                consultation.setModelType(modelType);
+            }
+            Integer topicType = jsonObject.getInteger("topicType");
+            if (!Objects.isNull(topicType)){
+                consultation.setTopicType(topicType);
+            }
+            String descr = jsonObject.getString("descr");
+            if (StringUtils.isNotBlank(descr)){
+                consultation.setDetailSummary(descr);
+            }
+            //==============================================资讯的添加返回的json，covers封面，维护到consultation附件表中==============================================================
+           logger.info("添加到资讯表中");
+            Long save = consultationMapper.save(consultation);
+            logger.info("获得添加后的信息"+save);
+            String covers= jsonObject.getString("covers");
+            if (StringUtils.isNotBlank(covers)){
+                String[] ids = covers.split(",");
+                Arrays.stream(ids).forEach(e->{
+                    logger.info("根据id获取附件表中的信息");
+                    Attachment attachment = attachmentMapper.findOne(Long.valueOf(e));
+                    if (!Objects.isNull(attachment)){
+                        ConsultationAttachment consultationAttachment = new ConsultationAttachment();
+                        consultationAttachment.setAddress(attachment.getAddress());
+                        consultationAttachment.setName(attachment.getName());
+                        consultationAttachment.setConsultation(consultation.getId());
+                        consultationAttachment.setAttachment(attachment.getId());
+                        if (!Objects.isNull(topicType) && "2".equals(topicType)){
+                            consultationAttachment.setCover(2);
+                        }else{
+                            consultationAttachment.setCover(1);
+                        }
+
+                        consultationAttachmentMapper.insert(consultationAttachment);
+                    }
+                });
+            }
+//=====================================================资讯的添加contentArray来自返回json。content==========================================================================
+            if (!Objects.isNull(contentArray)){
+                int size = contentArray.size();
+                for( int i=0;i<size;i++) {
+                    ConsultationAttachment consultationAttachment = new ConsultationAttachment();
+                    JSONObject obj = contentArray.getJSONObject(i);
+                    String attachmentId = obj.getString("attachmentId");
+                    if (StringUtils.isNotBlank(attachmentId)){
+                        Attachment attachment = attachmentMapper.findOne(Long.valueOf(attachmentId));
+                        if (Objects.isNull(attachment)){
+                            return ResultUtils.returnError("附件不存在");
+                        }
+                        consultationAttachment.setAddress(attachment.getAddress());
+                        consultationAttachment.setName(attachment.getName());
+                        consultationAttachment.setAttachment(attachment.getId());
+                    }
+                    //type:  0文本  1分割线  2图片 3视频
+                    String operationType = obj.getString("type");
+                    consultationAttachment.setType(Integer.valueOf(operationType));
+                    consultationAttachment.setConsultation(consultation.getId());
+                    Integer sortNum = obj.getInteger("sortNum");
+                    consultationAttachment.setSortNum(sortNum);
+                    String text = obj.getString("detail");
+                    if (StringUtils.isNotBlank(text)){
+                        consultationAttachment.setDetailContent(text);
+                    }
+                    consultationAttachmentMapper.insert(consultationAttachment);
+                }
+            }
+            Map<String,Object> result = Maps.newHashMap();
+            result.put("cid",consultation.getId());
+            result.put("type",consultation.getType());
+            if ("5".equals(type)){
+                //==========================================================维护到MemberMsg表中===============================================
+                Long helpId = jsonObject.getLong("id");//求助的id
+                MemberMsg memberMsg = new MemberMsg();
+                memberMsg.setConsultationId(consultation.getId());
+                memberMsg.setCreatedTime(new Date());
+                memberMsg.setUpdateTime(new Date());
+                memberMsg.setMemberId(consultationMapper.getOne(helpId).getMemberId());
+                memberMsg.setMemberBaseId(member.getId());//评论者的id
+                memberMsg.setType(4);//资讯评论中状态
+                memberMsgService.insert(memberMsg);
+
+                return ResultUtils.returnSuccess("发布成功",result);
+            }
+            return ResultUtils.returnSuccess("提交成功,内容正在审核中",result);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResultUtils.returnError(StatusCodeEnums.ERROR.getMsg());
+        }
     }
 
     @Override
