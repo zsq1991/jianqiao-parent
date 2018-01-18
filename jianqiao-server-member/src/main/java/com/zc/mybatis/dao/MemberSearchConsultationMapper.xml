@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybatis.dao.MemberSearchConsultationMapper">
+    <select id="getSearchKeys" resultType="Map" parameterType="Map">
+        select n.id,n.keyword from alq_member_search_consultation n where n.member_id= #{mid}
+        order by n.created_time DESC
+        <!-- limit #{page} ,#{size} -->
+    </select>
+
+    <select id="getSearchConsultationByInfo" resultType="Integer" parameterType="Map">
+        select count(*) from alq_member_search_consultation n where n.member_id=#{memberId} AND  n.keyword = #{info}
+    </select>
+    <insert id="insertSearchConsultation">
+        insert into
+            alq_member_search_consultation (id,keyword,member_id)
+        values
+            (null,#{keyword},#{memberId})
+    </insert>
+</mapper>
