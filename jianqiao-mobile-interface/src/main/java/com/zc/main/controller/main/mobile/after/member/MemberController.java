@@ -1,13 +1,12 @@
 package com.zc.main.controller.main.mobile.after.member;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.alibaba.dubbo.config.annotation.Reference;
+import com.zc.common.core.annotation.MemberAnno;
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.member.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("mobile/after/member")
 public class MemberController {
 
-    @DubboConsumer(version="1.0.0")
+    @DubboConsumer(version = "1.0.0",timeout = 300000)
     private MemberService memberService;
 
 
@@ -29,8 +28,9 @@ public class MemberController {
      * @param member
      * @return
      */
-    @RequestMapping(value = "getAuth",method = RequestMethod.POST)
-    public Result getMemberAuth(Member member){
+    @RequestMapping(value = "getAuth")
+    @ResponseBody
+    public Result getMemberAuth(@MemberAnno Member member){
 
         return memberService.getAuthMember(member);
     }

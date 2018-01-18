@@ -1,6 +1,6 @@
 package com.zc.mybatis.dao;
 
-import com.common.util.mybatis.BasicMapper;
+import com.zc.common.core.basemapper.BaseMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
 import com.zc.main.entity.member.Member;
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +13,16 @@ import java.util.Map;
  * @Creation Date ：2018年01月15日17:25
  */
 @MyBatisRepository
-public interface MemberMapper extends BasicMapper<Member> {
+public interface MemberMapper extends BaseMapper<Member> {
+	/**
+	 * @description 接口说明 根据id获取用户信息
+	 * @author 王鑫涛
+	 * @date 17:08 2018/1/17
+	 * @version 版本号
+	 * @param id 用户id
+	 * @return
+	 */
+	Member findOne(Long id);
 	/**
 	 * @description 接口说明 获得用户信息通过id和uuid
 	 * @author 王鑫涛

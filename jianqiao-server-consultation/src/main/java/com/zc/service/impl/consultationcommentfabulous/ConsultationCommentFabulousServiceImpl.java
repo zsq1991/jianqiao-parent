@@ -3,7 +3,6 @@ package com.zc.service.impl.consultationcommentfabulous;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
-import com.codingapi.tx.annotation.TxTransaction;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.consultationcomment.ConsultationComment;
@@ -12,10 +11,10 @@ import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membermsg.MemberMsg;
 import com.zc.main.service.comment.ConsultationCommentService;
 import com.zc.main.service.consultationcommentfabulous.ConsultationCommentFabulousService;
+import com.zc.mybatis.dao.ConsultationCommentFabulousMapper;
 import com.zc.mybatis.dao.ConsultationCommentMapper;
 import com.zc.mybatis.dao.MemberMapper;
 import com.zc.mybatis.dao.MemberMsgMapper;
-import com.zc.mybatis.dao.ConsultationCommentFabulousMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,9 +104,7 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
                 consultationComment2.setId(commentid);
                 ConsultationComment findOne = consultationCommentMapper.findTById(consultationComment2);
                 //查询评论的用户
-                Member member1 = new Member();
-                member1.setId(memberid);
-                Member findOne2 = memberMapper.findTById(member1);
+                Member findOne2 = memberMapper.selectByPrimaryKey(memberid);
                 //保存系统消息
                 MemberMsg memberMsg = new MemberMsg();
                 memberMsg.setConsultationCommentId(commentid);
