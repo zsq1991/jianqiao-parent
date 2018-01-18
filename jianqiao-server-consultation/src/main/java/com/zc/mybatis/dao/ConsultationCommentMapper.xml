@@ -4,7 +4,7 @@
 <!-- namespace必须指向Dao接口com.alqsoft.dao.consultationcomment.ConsultationCommentDao -->
 <mapper namespace="com.zc.mybatis.dao.ConsultationCommentMapper">
 
-    <resultMap id="consultationMap" type="com.zc.main.entity.consultationcomment.ConsultationComment">
+    <resultMap id="consultationMap" type="com.zc.main.vo.consultationcomment.ConsultationCommentDTO">
         <id column="id" property="id" />
         <result column="consultation_member_id" property="consultationMemberId" />
         <result column="member_id" property="memberId" />
