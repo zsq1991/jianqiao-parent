@@ -18,12 +18,12 @@ public interface LoginService {
      * @Creation Date ： 2018/1/18 13:41
      * @version : 1.0.0
      */
-    public Result loginPhoneAndPassword(Map<String,Object> params);
+    public Result loginPhoneAndPassword( Map<String,Object> params );
     /**
      * @description ：验证码登录
      * @Created by  : tenghui
      * @Creation Date ： 2018/1/18 13:41
      * @version : 1.0.0
      */
-    public Result loginPhoneAndCode(HttpServletRequest request,String codeType);
+    public Result loginPhoneAndCode( Map<String,Object> params );
 }
