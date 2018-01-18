@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * @Creation Date ：2018年01月17日13:45
  */
 @Component
-@Transactional
+@Transactional(readOnly = true)
 @Service(version = "1.0.0",interfaceClass=MemberRegisterService.class)
 public class MemberRegisterServiceImpl implements MemberRegisterService {
 
@@ -43,6 +43,7 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
     private MemberMapper memberMapper;
 
     @Override
+    @Transactional
     public Result memberRegisterByPhone(Map<String,Object> params) {
         logger.info("=========进入用户注册方法==========");
         Result result = new Result();

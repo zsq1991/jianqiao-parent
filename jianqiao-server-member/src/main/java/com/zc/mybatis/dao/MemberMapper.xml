@@ -7,7 +7,7 @@
     <select id="findOne" parameterType="Long" resultType="com.zc.main.entity.member.Member">
         SELECT * from alq_member where id=#{id}
     </select>
-    <select id="getMemberByPhoneAndUuid" resultType="com.zc.main.entity.member.Member"  parameterType="map">
+    <select id="getMemberByPhoneAndUuid" resultType="com.zc.main.entity.member.Member" parameterType="map">
         SELECT * FROM alq_member m
         <where>
             <if test="phone != null ">
@@ -20,9 +20,9 @@
         </where>
     </select>
     <!--获得用户信息通过id和uuid-->
-    <select id="getMemberByIdAndUuid" resultType="Map"  parameterType="map">
+    <select id="getMemberByIdAndUuid" resultType="Map" parameterType="map">
         SELECT id,phone,nickname,ifnull(user_type,0) user_type,card,name,ifnull(status,0) status,
-        (select g.content from alq_member_msg  g where g.type=1 and g.member_id=m.id ) rejectMsg
+        (select g.content from alq_member_msg g where g.type=1 and g.member_id=m.id ) rejectMsg
         FROM alq_member m
         <where>
             <if test="phone != null ">
@@ -35,12 +35,21 @@
         </where>
     </select>
 
-    <select id="checkMemberById" resultType="com.zc.main.entity.member.Member"  parameterType="Long">
+    <select id="checkMemberById" resultType="com.zc.main.entity.member.Member" parameterType="Long">
         SELECT * FROM alq_member WHERE id=#{memberId}
     </select>
     <!-- 通过手机号获取member实体 -->
     <select id="getMemberByPhone" resultType="com.zc.main.entity.member.Member" parameterType="String">
         select * from alq_member where phone=#{phone}
+    </select>
+    <!--通过lId获取用的头像 -->
+    <select id="getAddressByPhone" resultType="String" parameterType="Long">
+        SELECT
+        address                    <!-- 头像地址 -->
+        FROM
+        alq_attachment
+        WHERE
+        id = #{id};                       <!-- alq_attachment中的id -->
     </select>
 
 </mapper>
