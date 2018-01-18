@@ -29,14 +29,22 @@ public interface ConsultationAttachmentMapper  extends BasicMapper<ConsultationA
 
 	/**
 	 * 封面图片
-	 * @param mid
+	 * @author huangxin
+	 * @data 2018/1/18 15:22
+	 * @Description: 封面图片
+	 * @Version: 3.2.0
+	 * @param mid 资讯id
 	 * @return
 	 */
 	List<Map<String,Object>> getConsultationAttachmentCoverAddressByConsultationId(Long mid);
 
 	/**
 	 * 内容详情
-	 * @param mid
+	 * @author huangxin
+	 * @data 2018/1/18 15:22
+	 * @Description: 内容详情
+	 * @Version: 3.2.0
+	 * @param mid 资讯id
 	 * @return
 	 */
 	List<Map<String,Object>> getConsultationAttachmentDetailByConsultation(Long mid);

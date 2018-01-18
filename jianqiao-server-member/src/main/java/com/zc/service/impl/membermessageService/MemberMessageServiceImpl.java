@@ -21,6 +21,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.Map;
+
 /**
  * @package : com.zc.service.impl.membermessageService
  * @progect : jianqiao-parent
@@ -132,5 +134,19 @@ public class MemberMessageServiceImpl implements MemberMessageService{
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
             return ResultUtils.returnError("求助信息保存失败");
         }
+    }
+
+    /**
+     * 查询啊驳回原因
+     * @author huangxin
+     * @data 2018/1/18 16:30
+     * @Description: 查询啊驳回原因
+     * @Version: 3.2.0
+     * @param conid 资讯id
+     * @return
+     */
+    @Override
+    public Map<String, Object> getContentById(Long conid) {
+        return memberMessageMapper.getContentById(conid);
     }
 }

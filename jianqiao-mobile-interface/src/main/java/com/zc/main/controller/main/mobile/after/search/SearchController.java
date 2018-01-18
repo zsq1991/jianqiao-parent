@@ -44,4 +44,34 @@ public class SearchController {
                                  @RequestParam(value = "size",defaultValue = "6",required = false)int size){
         return searchService.getHistoryKeys(member,page,size);
     }
+
+    /**
+     * @description: 清空历史关键词
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/18 15:33
+     * @version: 1.0.0
+     * @param member
+     * @return
+     */
+    @RequestMapping(value = "clear",method = RequestMethod.POST)
+    public Result  clearKeys(@MemberAnno Member member){
+        return searchService.clearKeys(member);
+    }
+
+    /**
+     * @description:  热搜关键词和历史关键词列表(登录)
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/18 16:09
+     * @version: 1.0.0
+     * @param member
+     * @param page
+     * @param size
+     * @return
+     */
+    @RequestMapping(value = "getKeys",method = RequestMethod.POST)
+    public Result  getkeys(@MemberAnno Member member,
+                           @RequestParam(value = "page",defaultValue = "1",required = false)int page,
+                           @RequestParam(value = "size",defaultValue = "6",required = false)int size){
+        return searchService.getSearchKeys(member,page,size);
+    }
 }

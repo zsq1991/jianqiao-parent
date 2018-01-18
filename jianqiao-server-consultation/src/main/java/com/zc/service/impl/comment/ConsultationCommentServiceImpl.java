@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 咨询评论
@@ -143,5 +145,47 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
     @Override
     public int findHasConsultationCommentById(Long commentid) {
         return consultationCommentMapper.findHasConsultationCommentById(commentid);
+    }
+
+    /**
+     * 评论列表,getCommentList获取到的时顶级评论，firt_reply_comment是第一评论的id
+     * @author huangxin
+     * @data 2018/1/18 16:15
+     * @Description: 评论列表,getCommentList获取到的时顶级评论，firt_reply_comment是第一评论的id
+     * @Version: 3.2.0
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getCommentList(Map<String, Object> paramMap) {
+        return consultationCommentMapper.getCommentList(paramMap);
+    }
+
+    /**
+     * 通过父类id获取子的2个id
+     * @author huangxin
+     * @data 2018/1/18 16:16
+     * @Description: 通过父类id获取子的2个id
+     * @Version: 3.2.0
+     * @param id 资讯id
+     * @return
+     */
+    @Override
+    public List<Map> getCommentSonIdByPid(Long id) {
+        return consultationCommentMapper.getCommentSonIdByPid(id);
+    }
+
+    /**
+     * 查询评论
+     * @author huangxin
+     * @data 2018/1/18 16:19
+     * @Description: 查询评论
+     * @Version: 3.2.0
+     * @param id 资讯id
+     * @return
+     */
+    @Override
+    public Map<String, Object> getSonCommentList(Long id) {
+        return consultationCommentMapper.getSonCommentList(id);
     }
 }

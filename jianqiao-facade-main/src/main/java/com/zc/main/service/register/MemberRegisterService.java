@@ -29,6 +29,12 @@ public interface MemberRegisterService {
      */
     public Result saveMemberRegister(Member member);
 
-
+    /**
+     * @description ：修改密码 业务逻辑
+     * @Created by  : tenghui
+     * @Creation Date ： 2018/1/18 15:53
+     * @version : 1.0.0
+     */
+    public Result updatePasswordByPhone(Map<String,Object> params);
 
 }

@@ -142,4 +142,15 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @return
      */
     public List<Map> getReplyDiscussInformList(@Param("conId")Long conId,@Param("memId")Long memId,@Param("mLId")Long mLId);
+
+    /**
+     * 查询啊驳回原因
+     * @author huangxin
+     * @data 2018/1/18 16:32
+     * @Description: 查询啊驳回原因
+     * @Version: 3.2.0
+     * @param conid 资讯id
+     * @return
+     */
+    Map<String,Object> getContentById(Long conid);
 }

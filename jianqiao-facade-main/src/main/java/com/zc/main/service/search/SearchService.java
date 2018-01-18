@@ -25,5 +25,5 @@ public interface SearchService {
 
     Result getHistoryKeys(Member member, int page, int size);
 
-    /*Result clearKeys(Member member);*/
+    Result clearKeys(Member member);
 }

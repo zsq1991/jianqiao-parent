@@ -1,6 +1,7 @@
 package com.zc.main.service.membersearchconsultation;
 
 import com.zc.common.core.result.Result;
+import com.zc.main.entity.member.Member;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,4 +20,6 @@ public interface MembersearchconsultationService {
 
     Integer getSearchConsultationByInfo(HashMap<String, Object> map);
     Result saveMemberSearchConsultation(Long id, String info);
+
+    Result deleteKeys(Member member);
 }
