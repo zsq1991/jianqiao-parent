@@ -1,8 +1,8 @@
 package com.zc.mybatis.dao;
 
 
+import com.zc.main.dto.attachment.AttachmentDTO;
 import com.zc.main.entity.membermsg.MemberMsg;
-import org.apache.cxf.message.Attachment;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.BaseMapper;
 
@@ -32,5 +32,5 @@ public interface MemberMsgMapper extends BaseMapper<MemberMsg> {
      * @param id
      * @return
      */
-    Attachment getAttamentById(String id);
+    AttachmentDTO getAttamentById(String id);
 }

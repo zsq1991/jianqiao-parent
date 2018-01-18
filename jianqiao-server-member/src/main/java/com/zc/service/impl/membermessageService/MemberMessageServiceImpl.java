@@ -3,6 +3,7 @@ package com.zc.service.impl.membermessageService;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.dto.attachment.AttachmentDTO;
 import com.zc.main.entity.member.Member;
 import com.zc.main.entity.memberhelp.MemberHelp;
 import com.zc.main.entity.memberhelpcase.MemberHelpCase;
@@ -13,7 +14,6 @@ import com.zc.mybatis.dao.MemberHelpImageMapper;
 import com.zc.mybatis.dao.MemberHelpMapper;
 import com.zc.mybatis.dao.MemberMsgMapper;
 import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.message.Attachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,27 +49,7 @@ public class MemberMessageServiceImpl implements MemberMessageService{
     public Result saveMemberHelp(Member member, MemberHelp memberhelp, String caseId, String imgId) {
         logger.info("求助信息发布接口调用，方法入参{"+"病例id："+caseId +"，影像id："+imgId+"}");
         Result result = new Result();
-        if(StringUtils.isNotBlank(caseId)){
-            // 查看caseId图片
-            String[] split = caseId.split(",");
-            for (int i=0;split.length>i;i++) {
-                Attachment attachment = memberMessageMapper.getAttamentById(split[i]);
-                if(null==attachment){
-                    return ResultUtils.returnError("没有此病历图片！");
-                }
-            }
-        }
-        if(StringUtils.isNotBlank(imgId)){
-            // 查看imgId图片
-            String[] split2 = imgId.split(",");
-            for (int i=0;split2.length>i;i++) {
-                Attachment attachment2 = memberMessageMapper.getAttamentById(split2[i]);
-                if(null==attachment2){
-                    return ResultUtils.returnError("没有此影像图片！");
-                }
-            }
-        }
-
+        try{
         if(null==member){
             return ResultUtils.returnError("对不起,您不是会员,请先申请");
         }
@@ -105,39 +85,47 @@ public class MemberMessageServiceImpl implements MemberMessageService{
         if(type!=0 && type!=1 && type!=2 && type !=3){
             return ResultUtils.returnError("参数非法");
         }
-
-        try{
+        //处理病例的id
+        if(StringUtils.isNotBlank(caseId)){
             memberhelp.setMemberId(member.getId());
             //memberhelp.setPhone(phone1);
             memberhelp.setPhone(helpPhone);
             memberHelpMapper.insert(memberhelp);
-            //处理病例的id
-            if(StringUtils.isNotBlank(caseId)){
+            // 查看caseId图片
+            String[] split = caseId.split(",");
+            for (int i=0;split.length>i;i++) {
+                AttachmentDTO attachment = memberMessageMapper.getAttamentById(split[i]);
+                if(null==attachment){
+                    return ResultUtils.returnError("没有此病历图片！");
+                }
+                MemberHelpCase memberHelpCase = new MemberHelpCase();
+                AttachmentDTO attachmentcase = new AttachmentDTO();
+                attachmentcase.setId(Long.valueOf(split[i]));
+                memberHelpCase.setAttachmentId(attachment.getId());
+                memberHelpCase.setMemberHelpId(memberhelp.getId());
+                memberHelpCase.setMemberId(member.getId());
+                memberHelpCaseMapper.insert(memberHelpCase);
+            }
+        }
+        if(StringUtils.isNotBlank(imgId)){
+            // 查看imgId图片
+            String[] split2 = imgId.split(",");
+            for (int i=0;split2.length>i;i++) {
+                AttachmentDTO attachment2 = memberMessageMapper.getAttamentById(split2[i]);
+                if(null==attachment2){
+                    return ResultUtils.returnError("没有此影像图片！");
+                }
+                //处理影像资料的id
+                MemberHelpImage memberHelpImage = new MemberHelpImage();
+                AttachmentDTO attachmentImg = new AttachmentDTO();
+                attachmentImg.setId(Long.valueOf(split2[i]));
+                memberHelpImage.setAttachmentId(attachmentImg.getId());
+                memberHelpImage.setMemberHelpId(memberhelp.getId());
+                memberHelpImage.setMemberId(member.getId());
+                memberHelpImageMapper.insert(memberHelpImage);
+            }
+        }
 
-                String[] split_case = caseId.split(",");
-                for(int i=0;split_case.length>i;i++){
-                    MemberHelpCase memberHelpCase = new MemberHelpCase();
-                   /* Attachment attachmentcase = new Attachment();
-                    attachmentcase.setId(Long.valueOf(split_case[i]));
-                    memberHelpCase.setAttachmentId(attachmentcase);
-                    memberHelpCase.setMemberHelpId(memberhelp.getId());
-                    memberHelpCase.setMemberId(member.getId());
-                    memberHelpCaseMapper.insert(memberHelpCase);*/
-                }
-            }
-            if(org.apache.commons.lang3.StringUtils.isNotBlank(imgId)){
-                String[] split_img = imgId.split(",");
-                for(int a=0;split_img.length>a;a++){
-                    //处理影像资料的id
-                    MemberHelpImage memberHelpImage = new MemberHelpImage();
-                 /*   Attachment attachmentImg = new Attachment();
-                    attachmentImg.setId(Long.valueOf(split_img[a]));
-                    memberHelpImage.setAttachmentId(attachmentImg.getId());
-                    memberHelpImage.setMemberHelpId(memberhelp.getId());
-                    memberHelpImage.setMemberId(member.getId());
-                    memberHelpImageMapper.insert(memberHelpImage);*/
-                }
-            }
             return ResultUtils.returnSuccess("求助信息保存成功");
         }catch (Exception e) {
             e.printStackTrace();
