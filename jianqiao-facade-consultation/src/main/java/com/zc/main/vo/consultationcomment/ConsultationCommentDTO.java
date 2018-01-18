@@ -1,20 +1,23 @@
 
-package com.zc.main.entity.consultationcomment;
+package com.zc.main.vo.consultationcomment;
 
 import com.zc.common.core.orm.hibernate.IdEntity;
 import com.zc.main.entity.consultation.Consultation;
 import org.apache.ibatis.type.Alias;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import java.io.Serializable;
 
 /**
- * @author sunhuijie
- *         内容评论 回复记录表
- * @date 2017年5月9日
+ * @package : com.zc.main.vo.consultationcomment
+ * @className : ConsultationCommentDTO
+ * @description ：内容评论 回复记录表
+ * @Created by  : 朱军
+ * @Creation Date ： 2018/1/18 11:06
+ * @version
  */
 @Alias("alq_consultation_comment")
-public class ConsultationComment extends IdEntity implements Serializable {
+public class ConsultationCommentDTO extends IdEntity implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +52,7 @@ public class ConsultationComment extends IdEntity implements Serializable {
     @Column(name = "first_reply_comment")
     private Long firstReplyCommentId;//这条评论回复最早的评论
 
+    private Consultation consultation;
 
     public Long getConsultationId() {
         return consultationId;
@@ -130,5 +134,12 @@ public class ConsultationComment extends IdEntity implements Serializable {
         this.firstReplyCommentId = firstReplyCommentId;
     }
 
+    public Consultation getConsultation() {
+        return consultation;
+    }
+
+    public void setConsultation(Consultation consultation) {
+        this.consultation = consultation;
+    }
 }
 
