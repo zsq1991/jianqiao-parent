@@ -12,7 +12,33 @@ import java.util.Map;
  * @version 1.0.0
  */
 public interface MemberService {
-
+	/**
+	 * @description 接口说明 修改收藏内容数量
+	 * @author 王鑫涛
+	 * @date 8:28 2018/1/18
+	 * @version 版本号
+	 * @param member 用户
+	 * @return
+	 */
+	int updateByConNum(Long id,Long num);
+	/**
+	 * @description 接口说明 修改用户信息
+	 * @author 王鑫涛
+	 * @date 17:14 2018/1/17
+	 * @version 版本号
+	 * @param member 用户
+	 * @return
+	 */
+	int updateById(Member member);
+	/**
+	 * @description 接口说明 根据id获取用户信息
+	 * @author 王鑫涛
+	 * @date 17:08 2018/1/17
+	 * @version 版本号
+	 * @param id 用户id
+	 * @return
+	 */
+	Member findOne(Long id);
 	/**
 	 * @description ：根据id来查询用户
 	 * @Created by  : gaoge
@@ -45,4 +71,6 @@ public interface MemberService {
 	 * @return
 	 */
 	Member checkMemberById(Long memberId);
+
+    Member getMemberByIdAndUuid(Map<String, Object> params);
 }

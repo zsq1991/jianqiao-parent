@@ -11,4 +11,9 @@
         delete from alq_member_msg where type=#{type}  and member_base_id=#{mId} and consulatation_comment_id=#{commentid}
 
     </delete>
+
+    <!-- 查病例图片 -->
+    <select id="getAttamentById" resultType="com.zc.main.entity.attachment.Attachment" >
+        select * from alq_attachment where id=#{id}
+    </select>
 </mapper>

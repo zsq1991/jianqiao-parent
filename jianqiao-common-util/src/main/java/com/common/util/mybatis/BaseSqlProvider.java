@@ -83,13 +83,13 @@ public class BaseSqlProvider<T> {
 				 if(!"".equals(filedValue)){
 					 SET(key + "=" + table.getField(key));
 				 }
-				 if("update_time".equals(key)){
+				 /*if("update_time".equals(key)){
 					 SET(key + "= now()" );
-					} 
+					} */
 			}
 
 		}
-		//SET("update_time =" + "= now()");
+		SET("update_time = now()");
 		WHERE("id = " + table.getField("id"));
 
 		sql=SQL();
@@ -110,7 +110,6 @@ public class BaseSqlProvider<T> {
 	}
 
 	public String insert(T t) throws Exception {
-
 		String sql="";
 		
 		Table table;

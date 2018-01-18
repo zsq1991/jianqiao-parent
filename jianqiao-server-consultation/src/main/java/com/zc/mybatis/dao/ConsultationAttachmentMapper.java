@@ -18,6 +18,7 @@ import java.util.Map;
 @MyBatisRepository
 public interface ConsultationAttachmentMapper   {
 
+
 	 List<Map<String, Object>> findConsultationAttachmentByConsultationId(@Param("id") Long id);
 
 	 List<Map<String, Object>> findConsultationAttachmentMVByConsultationId(@Param("id") Long id);
