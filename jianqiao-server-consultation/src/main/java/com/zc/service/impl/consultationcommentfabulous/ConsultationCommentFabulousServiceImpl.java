@@ -92,9 +92,9 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
                 consultationCommentdb.setFabulousNum(fabulousnum - 1 < 0 ? 0 : fabulousnum - 1);
             }
 
-            int saveAndModify = consultationCommentMapper.updateById(consultationCommentdb);
+            int saveAndModify = consultationCommentMapper.updateConsultaionComment(consultationCommentdb);
 //@wudi=================================维护MemberMsg表进行点赞===========================================
-            if(saveAndModify<=0){
+            if (saveAndModify <= 0) {
                 return ResultUtils.returnError("操作失败");
             }
             logger.info("点赞类型为type:" + type);
@@ -104,7 +104,7 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
                 consultationComment2.setId(commentid);
                 ConsultationComment findOne = consultationCommentMapper.findTById(consultationComment2);
                 //查询评论的用户
-                Member findOne2 = memberMapper.selectByPrimaryKey(memberid);
+                Member findOne2 = memberMapper.selectOne(member);
                 //保存系统消息
                 MemberMsg memberMsg = new MemberMsg();
                 memberMsg.setConsultationCommentId(commentid);
@@ -116,7 +116,7 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
                 memberMsg.setMemberBaseId(findOne2.getId());
                 memberMsg.setCreatedTime(new Date());
                 memberMsg.setUpdateTime(new Date());
-                memberMsgMapper.insert(memberMsg);
+                memberMsgMapper.insertSelective(memberMsg);
 
             } else if (type == 2) {//取消点赞的时删除对应的memberMsg表格
                 Integer types = 5;

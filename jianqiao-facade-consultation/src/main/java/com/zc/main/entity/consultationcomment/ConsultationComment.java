@@ -14,6 +14,7 @@ import java.io.Serializable;
  * @date 2017年5月9日
  */
 @Alias("alq_consultation_comment")
+@MappedSuperclass
 public class ConsultationComment extends IdEntity implements Serializable {
 
 
@@ -49,7 +50,6 @@ public class ConsultationComment extends IdEntity implements Serializable {
     @Column(name = "first_reply_comment")
     private Long firstReplyCommentId;//这条评论回复最早的评论
 
-    private Consultation consultation;
 
     public Long getConsultationId() {
         return consultationId;
@@ -131,12 +131,5 @@ public class ConsultationComment extends IdEntity implements Serializable {
         this.firstReplyCommentId = firstReplyCommentId;
     }
 
-    public Consultation getConsultation() {
-        return consultation;
-    }
-
-    public void setConsultation(Consultation consultation) {
-        this.consultation = consultation;
-    }
 }
 
