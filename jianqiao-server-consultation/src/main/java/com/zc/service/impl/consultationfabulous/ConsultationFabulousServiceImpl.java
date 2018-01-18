@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 @Component
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",interfaceClass = ConsultationFabulousService.class)
 @Transactional(readOnly = true)
 public class ConsultationFabulousServiceImpl implements ConsultationFabulousService {
     private static Logger logger = LoggerFactory.getLogger(ConsultationFabulousServiceImpl.class);
