@@ -122,7 +122,8 @@ public class ConsultationViewController {
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
             @RequestParam(value = "memberId") String memberId) {
 
-        String checktype = "2";//checktype  1 访谈  2 口述   3 求助   4 分享
+        //checktype  1 访谈  2 口述   3 求助   4 分享
+        String checktype = "2";
         logger.info("访谈详情页   点用户头像查看口述: 用户id={},咨询类型checktype={}", memberId, checktype);
         return consultationService.findConsultationAllByTouxiang(page, rows, memberId, checktype);
     }

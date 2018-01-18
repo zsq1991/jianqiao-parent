@@ -1,6 +1,9 @@
 package com.zc.main.service.consultationattachment;
 
 
+import com.zc.common.core.result.Result;
+import com.zc.main.entity.member.Member;
+
 import java.util.List;
 import java.util.Map;
 
@@ -59,4 +62,18 @@ public interface ConsultationAttachmentService {
      * @version 1.0.0
      */
     public String findConsultationAttachmentVideoAddressByConsultationId(Long id);
+
+    /**
+     * 个人中心 <我的发布>
+     * @author huangxin
+     * @data 2018/1/17 11:28
+     * @Description: 个人中心 <我的发布>
+     * @Version: 1.0.0
+     * @param type 类型
+     * @param member 用户
+     * @param page
+     * @param size
+     * @return
+     */
+    Result getConsultationAttachmentByConsultation(String type, Member member, Integer page, Integer size);
 }

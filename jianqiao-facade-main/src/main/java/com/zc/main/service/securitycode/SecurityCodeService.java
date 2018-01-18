@@ -10,7 +10,7 @@ import com.zc.common.core.result.Result;
 public interface SecurityCodeService {
 
     /**
-     * @description ：发送短信
+     * @description ：发送短信 注册
      * @Created by  : tenghui
      * @Creation Date ： 2018/1/16 17:29
      * @version : 1.0.0
@@ -34,5 +34,12 @@ public interface SecurityCodeService {
      * @version : 1.0.0
      */
     public Result checkMessageCode(String phone,String code,String codeType);
+    /**
+     * @description ：发送验证码 登录 修改密码
+     * @Created by  : tenghui
+     * @Creation Date ： 2018/1/18 15:23
+     * @version : 1.0.0
+     */
+    public Result sendCodeLoginByPhone(String  phone,String codeType);
 
 }
