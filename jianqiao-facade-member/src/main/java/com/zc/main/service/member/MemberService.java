@@ -35,4 +35,6 @@ public interface MemberService {
 	Member getMemberByPhoneAndUuid(Map<String, Object> params);
 
 	Result getAuthMember(Member member);
+
+
 }

@@ -2,8 +2,15 @@ package com.zc.service.impl.consultationattachment;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.common.util.statuscodeenums.StatusCodeEnums;
+import com.google.common.collect.Maps;
+import com.zc.common.core.result.Result;
+import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.member.Member;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.mybatis.dao.ConsultationAttachmentMapper;
+import com.zc.mybatis.dao.ConsultationMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -27,10 +35,13 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class ConsultationAttachmentServiceImpl implements ConsultationAttachmentService {
 
-    private static Logger log = LoggerFactory.getLogger(ConsultationAttachmentServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(ConsultationAttachmentServiceImpl.class);
 
     @Autowired
     private ConsultationAttachmentMapper consultationAttachmentDao;
+
+    @Autowired
+    private ConsultationMapper consultationMapper;
 
     @Override
     public List<Map<String, Object>> findConsultationAttachmentByConsultationId(Long id) {
@@ -49,6 +60,121 @@ public class ConsultationAttachmentServiceImpl implements ConsultationAttachment
     public String findConsultationAttachmentVideoAddressByConsultationId(Long id) {
         // TODO Auto-generated method stub
         return consultationAttachmentDao.findConsultationAttachmentVideoAddressByConsultationId(id);
+    }
+
+    /**
+     * 个人中心 <我的发布>
+     * @author huangxin
+     * @data 2018/1/17 11:30
+     * @Description: 个人中心 <我的发布>
+     * @Version: 1.0.0
+     * @param type 类型
+     * @param member 用户
+     * @param page
+     * @param size
+     * @return
+     */
+    @Override
+    public Result getConsultationAttachmentByConsultation(String type, Member member, Integer page, Integer size) {
+        logger.info("===============进入个人中心我的发布列方法===============");
+        if (StringUtils.isBlank(type) || Objects.isNull(member)){
+            logger.info("===============用户信息异常===============");
+            return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+        }
+        if (!"1,2,3,4".contains(type)){
+            logger.info("===============type值类型异常===============");
+            return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+        }
+        Integer curPage = (page-1)*size;
+        logger.info("===============针对type值进行操作===============");
+        switch (type){
+            //访谈
+            case "1":
+                logger.info("===============进入访谈列表查询===============");
+                Map<String,Object> map = Maps.newHashMap();
+                map.put("page",curPage);
+                map.put("size",size);
+                map.put("mid",member.getId());
+                map.put("type","0");
+                //已发布
+                List<Map<String,Object>> pconsultations= consultationAttachmentDao.getConsultationAttachmentByConsultationType(map);
+                pconsultations.stream().forEach(e->{
+                    Long id = Long.parseLong(e.get("id").toString());
+                    Map<String,Object> map_ = Maps.newHashMap();
+                    map_.put("pid",id);
+                    map_.put("page",0);
+                    map_.put("size",3);
+                    List<Map<String,Object>> sconsultations= consultationMapper.getConsultationByMap(map_);
+                    sconsultations.forEach(e_->{
+                        Long sid = Long.parseLong(e_.get("id").toString());
+                        //封面图
+                        e_.put("covers",consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                    });
+                    e.put("rows",sconsultations);
+                });
+                logger.info("===============访谈列表查询结束===============");
+                return ResultUtils.returnSuccess(StatusCodeEnums.SUCCESS.getMsg(),pconsultations);
+            //口述
+            case "2":
+                logger.info("===============进入口述列表查询===============");
+                Map<String,Object> map2 = Maps.newHashMap();
+                map2.put("page",curPage);
+                map2.put("size",size);
+                map2.put("mid",member.getId());
+                map2.put("type","2");
+                //已发布
+                List<Map<String,Object>> pconsultations2= consultationAttachmentDao.getConsultationAttachmentByConsultationType(map2);
+                pconsultations2.stream().distinct().forEach(e->{
+                    Long id = Long.parseLong(e.get("id").toString());
+                    Map<String,Object> map_ = Maps.newHashMap();
+                    map_.put("pid",id);
+                    map_.put("page",0);
+                    map_.put("size",3);
+                    List<Map<String,Object>> sconsultations= consultationMapper.getConsultationByMap(map_);
+                    sconsultations.stream().distinct().forEach(e_->{
+                        Long sid = Long.parseLong(e_.get("id").toString());
+                        //封面图
+                        e_.put("covers",consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                    });
+                    e.put("rows",sconsultations);
+                });
+                logger.info("===============口述列表查询结束===============");
+                return ResultUtils.returnSuccess(StatusCodeEnums.SUCCESS.getMsg(),pconsultations2);
+            //求助
+            case "3":
+                logger.info("===============进入求助列查询方法===============");
+                Map<String,Object> map3 = Maps.newHashMap();
+                map3.put("page",curPage);
+                map3.put("size",size);
+                map3.put("mid",member.getId());
+                map3.put("type","4");
+                List<Map<String,Object>> helpConsultations= consultationMapper.getConsultationByMap(map3);
+                helpConsultations.forEach(e->{
+                    Long sid = Long.parseLong(e.get("id").toString());
+                    //封面图
+                    e.put("covers",consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                });
+                logger.info("===============求助列表查询结束===============");
+                return ResultUtils.returnSuccess(StatusCodeEnums.SUCCESS.getMsg(),helpConsultations);
+            //分享
+            case "4":
+                logger.info("===============进入分享查询方法===============");
+                Map<String,Object> map4 = Maps.newHashMap();
+                map4.put("page",curPage);
+                map4.put("size",size);
+                map4.put("mid",member.getId());
+                map4.put("type","6");
+                List<Map<String,Object>> shareConsultations= consultationMapper.getConsultationByMap(map4);
+                shareConsultations.forEach(e->{
+                    Long sid = Long.parseLong(e.get("id").toString());
+                    //封面图
+                    e.put("covers",consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                    //详情
+                });
+                logger.info("===============分享列表查询结束=============== ");
+                return ResultUtils.returnSuccess(StatusCodeEnums.SUCCESS.getMsg(),shareConsultations);
+        }
+        return null;
     }
 
 }

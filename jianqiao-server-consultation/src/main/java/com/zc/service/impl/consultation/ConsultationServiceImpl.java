@@ -348,9 +348,22 @@ public class ConsultationServiceImpl implements ConsultationService {
         }
     }
 
+    /**
+     * 个人中心 <我的发布>
+     * @author huangxin
+     * @data 2018/1/17 11:28
+     * @Description: 个人中心 <我的发布>
+     * @Version: 1.0.0
+     * @param type   类型
+     * @param member 用户
+     * @param page
+     * @param size
+     * @return
+     */
     @Override
     public Result getMemberConsultation(String type, Member member, Integer page, Integer size) {
-        return null;
+        logger.info("===============个人中心，我的发布列表===============");
+        return consultationAttachmentService.getConsultationAttachmentByConsultation(type, member, page, size);
     }
 
     @Override
@@ -514,7 +527,117 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public Result findConsultationAllByMember(Integer page, Integer rows, Member member, String checktype) {
-        return null;
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        Long memberId=member.getId();
+        if(null==memberId){
+            return ResultUtils.returnError("用户未登录，请先登录");
+        }
+        //checktype  1 访谈  2 口述   3 求助   4 分享
+        if (null == checktype || "".equals(checktype)) {
+            return ResultUtils.returnError("类型不能为空");
+        }
+        //验证用户是否存在
+        Member member1=memberService.getMerberById(memberId);
+        if(null==member1){
+            return ResultUtils.returnError("用户不存在");
+        }
+        //查询资讯列表
+        param.put("memberId", memberId);
+        param.put("checktype", checktype);
+        param.put("startIndex", (page - 1) * rows);
+        param.put("endIndex", rows);
+        List<Map<String, Object>> consultationAllTypeList = consultationMapper.findConsultationAllByMember(param);
+        if (consultationAllTypeList.size() > 0) {
+            for (Map<String, Object> consultationInfo : consultationAllTypeList) {
+                //处理时间格式
+                String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
+                //设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
+                String nowTime = df.format(new Date());
+                String time1 = alreadyTime.subSequence(0, 10).toString();
+                String time2 = nowTime.subSequence(0, 10).toString();
+                //同一天
+                if (time1.equals(time2)) {
+                    //截取当天   时，分
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
+                    consultationInfo.put("createdTime", createdTime);
+                } else {
+                    //不同一天
+                    //截取当天   年，月，日
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
+                    consultationInfo.put("createdTime", createdTime);
+                }
+                //图片地址
+                String address = "";
+                //处理咨询图片
+                List<Map<String, Object>> consultationAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                consultationInfo.put("address", consultationAttachmentList);
+                //按类型查询
+                String type = consultationInfo.get("type").toString();
+                //取详情内容
+                Object detailContent="";
+                if(type.equals("4") || type.equals("6")){
+                    Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                    if(null==map || map.size()==0){
+                        detailContent="";
+                    }else{
+                        detailContent=map.get("detailContent");
+                    }
+                }
+                consultationInfo.put("detailContent", detailContent);
+                //是否是主题或访谈的标识 false 不是   true 是
+                boolean isMore = false;
+                List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
+                //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                if (type.equals("0") || type.equals("2")) {
+                    isMore = true;
+                    //根据访谈或口述的id查询其子类
+                    consultationChidList = consultationMapper.findConsultationChidByIdByMember(Long.valueOf(consultationInfo.get("id").toString()));
+                    Integer count=consultationChidList.size();
+                    consultationInfo.put("count", count);
+                    //取详情内容
+                    Object detailContentChid="";
+                    if (consultationChidList.size() > 0) {
+                        for (Map<String, Object> consultationChidInfo : consultationChidList) {
+                            //处理时间格式
+                            String chidAlreadyTime = DateUtils.dateFormat((Date) consultationChidInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
+                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                            String chidNowTime = chiddf.format(new Date());
+                            String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
+                            String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+                            if (chidTime1.equals(chidTime2)) {//同一天
+                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                                consultationChidInfo.put("createdTime", chidcreatedTime);
+                            } else {//不同一天
+                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                                consultationChidInfo.put("createdTime", chidcreatedTime);
+                            }
+                            //图片地址
+                            String addressChid = "";
+                            //处理咨询图片
+                            List<Map<String, Object>> consultationChidAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationChidInfo.get("id").toString()));
+                            consultationChidInfo.put("address", consultationChidAttachmentList);
+                            //处理访谈和口述专题的详情内容
+                            Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                            if(null==map || map.size()==0){
+                                detailContentChid="";
+                            }else{
+                                detailContentChid=map.get("detailContent");
+                            }
+                            consultationChidInfo.put("detailContentChid", detailContentChid);
+                        }
+                    }
+                    consultationInfo.put("isMore", isMore);
+                    consultationInfo.put("consultationChidList", consultationChidList);
+                } else {
+                    consultationInfo.put("isMore", isMore);
+                    consultationInfo.put("consultationChidList", consultationChidList);
+                }
+            }
+            return ResultUtils.returnSuccess("请求成功", consultationAllTypeList);
+        } else {
+            return ResultUtils.returnError("没有数据");
+        }
     }
 
     @Override
