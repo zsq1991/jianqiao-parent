@@ -15,9 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
-
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Component
@@ -32,6 +31,20 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberAttachmentMapper memberAttachmentMapper;
     /**
+     * @description 接口说明 修改收藏内容数量
+     * @author 王鑫涛
+     * @date 8:28 2018/1/18
+     * @version 版本号
+     * @param member 用户
+     * @return
+     */
+    @Override
+    public int updateByConNum(Long id,Long num) {
+        int i = memberMapper.updateByConNum(id,num);
+        return i;
+    }
+
+    /**
      * @description 接口说明 修改用户信息
      * @author 王鑫涛
      * @date 17:14 2018/1/17
@@ -41,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public int updateById(Member member) {
-        int i = memberMapper.updateById(member);
+        int i = memberMapper.updateByPrimaryKeySelective(member);
         return i;
     }
     /**
@@ -61,9 +74,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member getMerberById(Long memberId) {
         logger.info("----------查询用户开始----------");
-        Member m = new Member();
-        m.setId(memberId);
-        Member member = memberMapper.findTById(m);
+        Member member = memberMapper.selectByPrimaryKey(memberId);
         logger.info("----------查询用户结束----------");
         return member;
     }
@@ -77,6 +88,7 @@ public class MemberServiceImpl implements MemberService {
         if (!Objects.isNull(result)){
             List<Map<String,Object>> resultAttachment = memberAttachmentMapper.getMemberAttachment(member.getId());
             result.put("pics",resultAttachment);
+            result.put("member",member);
         }
         return ResultUtils.returnSuccess("成功",result);
     }
@@ -97,6 +109,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public Member getMemberByPhoneAndUuid(Map<String, Object> params) {
         logger.info("============根据手机号和UUID查询用户开始,params={}", JSON.toJSONString(params));
         Member member = memberMapper.getMemberByPhoneAndUuid(params);
