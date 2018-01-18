@@ -78,7 +78,7 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 consultationComment.setCommentInfoId(parentConsultationCommentdb.getCommentInfoId());
                 consultationComment.setParentId(null);
                 parentConsultationCommentdb.setReplyNum(parentConsultationCommentdb.getReplyNum()==null?1:parentConsultationCommentdb.getReplyNum()+1);
-                //ConsultationComment newConsultationCommentdb = this.saveAndModify(consultationComment);//保存新增回复评论
+                //ConsultationComment newConsultationCommentdb = consultationCommentMapper.saveConsultationComment(consultationComment);//保存新增回复评论
                 if(parentConsultationCommentdb.getFirstReplyCommentId()==null){
                     //parentConsultationCommentdb.setFirstReplyCommentId(newConsultationCommentdb.getFirstReplyCommentId());//维护此咨询最早的回复用于方便查询使用
                 }
