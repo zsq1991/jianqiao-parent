@@ -1,16 +1,19 @@
 package com.zc.service.impl.consultation;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.google.common.collect.Maps;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.collectionconsultation.CollectionConsultation;
 import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.member.Member;
+import com.zc.main.service.collectioncontent.CollectionContentService;
 import com.zc.main.service.consultation.ConsultationService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.main.service.member.MemberService;
+import com.zc.mybatis.dao.CollectionContentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
 import com.zc.mybatis.dao.collectionConsulation.CollectionConsulationMapper;
 import org.slf4j.Logger;
@@ -24,7 +27,7 @@ import java.util.*;
 
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationService.class)
-@Transactional(readOnly = true)
+@Transactional
 public class ConsultationServiceImpl implements ConsultationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsultationServiceImpl.class);
@@ -36,7 +39,8 @@ public class ConsultationServiceImpl implements ConsultationService {
     private ConsultationMapper consultationMapper;
     @Autowired
     private CollectionConsulationMapper collectionConsulationMapper;
-
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private CollectionContentService collectionContentService;
     @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private ConsultationAttachmentService consultationAttachmentService;
 
@@ -87,10 +91,9 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                         Long	 collectionId =(Long)map.get("collectionId");
                         logger.info("删除资讯的时候获取需要修改的收藏的资讯id："+collectionId);
-//                        int collection = collectionContentMapper.findOne(collectionId);
-//                        collection.setType(1);//0收藏   1取消收藏
-                        //修改资讯收藏状态
-                        consultationMapper.updateByType1(collectionId);
+                        CollectionConsultation collection = collectionContentService.findOne(collectionId);
+                        collection.setType(1);//0收藏   1取消收藏
+                        collectionContentService.updateById(collection);
                     }
                 }
                 parentConsultation.setCollectNum(collectNum-sonCollectNum);
@@ -121,9 +124,9 @@ public class ConsultationServiceImpl implements ConsultationService {
                                 }
                                 logger.info("获取资讯id");
                                 Long	 collectionId =(Long)map.get("collectionId");
-//                                CollectionConsultation collection = collectionContentDao.findOne(collectionId);
-//                                collection.setType(1);//0收藏   1取消收藏
-                                consultationMapper.updateByType1(collectionId);
+                                CollectionConsultation collection = collectionContentService.findOne(collectionId);
+                                collection.setType(1);//0收藏   1取消收藏
+                                collectionContentService.updateById(collection);
                             }
                         }
                     }
@@ -155,9 +158,9 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                         Long	 collectionId =(Long)map.get("collectionId");
                         logger.info("删除资讯的时候获取需要修改的收藏的资讯id："+collectionId);
-//                        CollectionConsultation collection = collectionContentDao.findOne(collectionId);
-//                        collection.setType(1);//0收藏   1取消收藏
-                        consultationMapper.updateByType1(collectionId);
+                        CollectionConsultation collection = collectionContentService.findOne(collectionId);
+                        collection.setType(1);//0收藏   1取消收藏
+                        collectionContentService.updateById(collection);
                     }
                 }
             }
@@ -482,10 +485,38 @@ public class ConsultationServiceImpl implements ConsultationService {
     public Result getMemberConsultation(String type, Member member, Integer page, Integer size) {
         return null;
     }
-
+    /**
+     * 获取父级专题信息
+     * @param type
+     * @param member
+     * @param page
+     * @param size
+     * @return
+     */
     @Override
     public Result getParentConsultation(String type, Member member, Integer page, Integer size) {
-        return null;
+        Map<String,Object> map = Maps.newHashMap();
+        map.put("mid",member.getId());
+        Integer curPage = (page-1)*size;
+        map.put("page",curPage);
+        map.put("size",size);
+        //已发布
+        map.put("status","2");
+        List<Map<String,Object>> result ;
+        //访谈
+        try {
+            if ("1".equals(type)){
+                map.put("type","0");
+                result = consultationAttachmentService.getConsultationAttachmentByConsultationType(map);
+            }  else {
+                map.put("type","2");
+                result = consultationAttachmentService.getConsultationAttachmentByConsultationType(map);
+            }
+            return ResultUtils.returnSuccess("成功",result);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            return ResultUtils.returnError("失败");
+        }
     }
 
     @Override

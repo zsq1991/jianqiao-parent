@@ -1,15 +1,15 @@
 package com.zc.service.impl.collectioncontent;
 
-import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.collectionconsultation.CollectionConsultation;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.collectioncontent.CollectionContentService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
-import com.zc.mybatis.dao.CollectionContentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
+import com.zc.mybatis.dao.CollectionContentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
     @Autowired
     private ConsultationMapper consultationMapper;
 
-    @DubboConsumer(version = "1.0.0")
+    @Autowired
     private ConsultationAttachmentService consultationAttachmentService;
 
     @Override
@@ -181,5 +181,29 @@ public class CollectionContentServiceImpl implements CollectionContentService {
         }
         logger.info("获取收藏列表成功!");
         return ResultUtils.returnSuccess("请求成功", consultationInfoList);
+    }
+    /**
+     * @description 接口说明 根据资讯id查询收藏记录
+     * @author 王鑫涛
+     * @date 9:24 2018/1/18
+     * @version 版本号
+     * @param consulationId 资讯id
+     * @return
+     */
+    @Override
+    public CollectionConsultation findOne(Long consulationId) {
+        return collectionContentMapper.findOne(consulationId);
+    }
+    /**
+     * @description 接口说明 修改收藏资讯状态
+     * @author 王鑫涛
+     * @date 9:33 2018/1/18
+     * @version 版本号
+     * @param collectionConsultation 收藏资讯
+     * @return
+     */
+    @Override
+    public int updateById(CollectionConsultation collectionConsultation) {
+        return collectionContentMapper.updateById(collectionConsultation);
     }
 }
