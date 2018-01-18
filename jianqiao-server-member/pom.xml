@@ -68,6 +68,11 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>jianqiao-parent</groupId>
+            <artifactId>jianqiao-facade-main</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!--分布式事物-->
         <dependency>
             <groupId>com.codingapi</groupId>

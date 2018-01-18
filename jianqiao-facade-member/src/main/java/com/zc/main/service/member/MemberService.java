@@ -73,4 +73,6 @@ public interface MemberService {
 	Member checkMemberById(Long memberId);
 
     Member getMemberByIdAndUuid(Map<String, Object> params);
+
+
 }

@@ -71,4 +71,11 @@ public interface ConsultationCommentMapper extends BasicMapper<ConsultationComme
      * @return
      */
     public Long saveConsultation(ConsultationComment consultationComment);
+
+    /**
+     * 更新 咨询评论
+     * @param consultationComment
+     * @return
+     */
+    public int  updateConsultaionComment(ConsultationComment consultationComment);
 }

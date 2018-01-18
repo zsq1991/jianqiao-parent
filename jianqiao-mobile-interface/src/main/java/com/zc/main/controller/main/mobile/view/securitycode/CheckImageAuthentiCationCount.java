@@ -26,9 +26,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Controller
 @RequestMapping("mobile/view/checkimagecount")
-public class SecurityCodeController {
+public class CheckImageAuthentiCationCount {
 
-    private static Logger logger = LoggerFactory.getLogger(SecurityCodeController.class);
+    private static Logger logger = LoggerFactory.getLogger(CheckImageAuthentiCationCount.class);
 
     @DubboConsumer( version = "1.0.0" , timeout = 30000)
     private SecurityCodeService securityCodeService;

@@ -49,9 +49,11 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
     @Override
     public Result saveConsultationCommentFabulous(Long commentid, Long memberid, Integer type) {
         // TODO Auto-generated method stub
+        logger.info("============咨询回复评论内容点赞开始=============，咨询id={},用户id={}，type={}", commentid, memberid, type);
         if (commentid == null || memberid == null || type == null) {
             return ResultUtils.returnError("参数错误,commentid不能为空");
         }
+        //type 1 点赞；2 取消点赞
         if (type != 1 && type != 2) {
             return ResultUtils.returnError("点赞参数非法值错误");
         }
@@ -91,10 +93,9 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
             } else {
                 consultationCommentdb.setFabulousNum(fabulousnum - 1 < 0 ? 0 : fabulousnum - 1);
             }
-
-            int saveAndModify = consultationCommentMapper.updateById(consultationCommentdb);
-//@wudi=================================维护MemberMsg表进行点赞===========================================
-            if(saveAndModify<=0){
+            int saveAndModify = consultationCommentMapper.updateConsultaionComment(consultationCommentdb);
+            //==========维护MemberMsg表进行点赞===========================================
+            if (saveAndModify <= 0) {
                 return ResultUtils.returnError("操作失败");
             }
             logger.info("点赞类型为type:" + type);
@@ -104,7 +105,7 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
                 consultationComment2.setId(commentid);
                 ConsultationComment findOne = consultationCommentMapper.findTById(consultationComment2);
                 //查询评论的用户
-                Member findOne2 = memberMapper.selectByPrimaryKey(memberid);
+                Member findOne2 = memberMapper.selectOne(member);
                 //保存系统消息
                 MemberMsg memberMsg = new MemberMsg();
                 memberMsg.setConsultationCommentId(commentid);
@@ -122,10 +123,12 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
                 Integer types = 5;
                 memberMsgMapper.deleteMemberMsgBycontentId(memberid, types, commentid);
             }
+            logger.info("================咨询回复评论内容点赞结束================");
             return ResultUtils.returnSuccess(type == 1 ? "点赞成功" : "取消点赞");
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
+            logger.info(e.getMessage(), e);
             logger.error("资讯评论回复点赞异常：commentid:" + commentid + "=memberid:" + memberid + "=" + e.getMessage());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
             return ResultUtils.returnError("失败");

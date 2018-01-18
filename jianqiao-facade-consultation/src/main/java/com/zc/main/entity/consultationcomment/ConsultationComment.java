@@ -14,6 +14,7 @@ import java.io.Serializable;
  * @date 2017年5月9日
  */
 @Alias("alq_consultation_comment")
+@MappedSuperclass
 public class ConsultationComment extends IdEntity implements Serializable {
 
 
