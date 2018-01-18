@@ -76,4 +76,12 @@ public interface MemberMapper extends BaseMapper<Member> {
 	 * @version : 1.0.0
 	 */
 	public String getAddressByPhone(@Param("id") Long id);
+
+	/**
+	 * @description ：根据会员id更改密码及uuid
+	 * @Created by  : tenghui
+	 * @Creation Date ： 2018/1/18 16:26
+	 * @version : 1.0.0
+	 */
+	public int updateByMemberId(Map<String,Object> params);
 }

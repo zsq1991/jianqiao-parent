@@ -1,6 +1,7 @@
 package com.zc.main.controller.main.mobile.view.register;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.zc.common.core.annotation.Explosionproof;
 import com.zc.common.core.result.Result;
 import com.zc.main.service.register.MemberRegisterService;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,19 @@ public class MemberRegisterController {
     @DubboConsumer( version = "1.0.0" , timeout = 30000)
     private MemberRegisterService memberRegisterService;
 
-//    @Explosionproof
+    /**
+     * @description ：用户注册
+     * @Created by  : tenghui
+     * @Creation Date ： 2018/1/18 15:52
+     * @version : 1.0.0
+     * @param phone 手机号
+     * @param password 密码
+     * @param imageCode 验证码
+     * @param twicePassword 二次密码
+     * @param request
+     * @return
+     */
+    @Explosionproof
     @RequestMapping(value = "register",method = RequestMethod.POST)
     @ResponseBody
     public Result memberRegisterByPhone(@RequestParam(value = "phone") String phone,
@@ -46,6 +59,37 @@ public class MemberRegisterController {
         params.put("twicePassword",twicePassword);
         Result result = memberRegisterService.memberRegisterByPhone(params);
 
+        return result;
+
+    }
+
+    /**
+     * @description ：修改密码
+     * @Created by  : tenghui
+     * @Creation Date ： 2018/1/18 16:19
+     * @version : 1.0.0
+     * @param phone 手机号
+     * @param password 密码
+     * @param passwordR 确认密码
+     * @param imageCode 验证码
+     * @param request
+     * @return
+     */
+    @Explosionproof
+    @RequestMapping(value = "updatepassword",method = RequestMethod.POST)
+    @ResponseBody()
+    public Result updatePasswordByPhone(
+            @RequestParam(value = "phone") String phone,
+            @RequestParam(value = "password") String password,
+            @RequestParam(value = "passwordR") String passwordR,
+            @RequestParam(value = "imageCode") String imageCode,
+            HttpServletRequest request){
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("phone",phone);
+        params.put("password",password);
+        params.put("passwordR",passwordR);
+        params.put("imageCode",imageCode);
+        Result result = memberRegisterService.updatePasswordByPhone(params);
         return result;
 
     }
