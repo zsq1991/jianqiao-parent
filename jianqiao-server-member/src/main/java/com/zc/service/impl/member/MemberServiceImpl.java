@@ -88,7 +88,6 @@ public class MemberServiceImpl implements MemberService {
         if (!Objects.isNull(result)){
             List<Map<String,Object>> resultAttachment = memberAttachmentMapper.getMemberAttachment(member.getId());
             result.put("pics",resultAttachment);
-            result.put("member",member);
         }
         return ResultUtils.returnSuccess("成功",result);
     }
