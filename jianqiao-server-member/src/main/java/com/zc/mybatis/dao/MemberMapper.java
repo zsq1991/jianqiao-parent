@@ -69,4 +69,11 @@ public interface MemberMapper extends BaseMapper<Member> {
 	 * @version : 1.0.0
 	 */
 	public Member getMemberByPhone(@Param("phone")String phone);
+	/**
+	 * @description ：通过id获取图片地址
+	 * @Created by  : tenghui
+	 * @Creation Date ： 2018/1/18 14:21
+	 * @version : 1.0.0
+	 */
+	public String getAddressByPhone(@Param("id") Long id);
 }
