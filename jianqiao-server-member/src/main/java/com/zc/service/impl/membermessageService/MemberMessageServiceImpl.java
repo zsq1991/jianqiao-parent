@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @Created by :ZhaoJunBiao
  * @Creation Date ：2018年01月17日17:58
  */
-@Service(version = "1.0.0")
+@Service(version = "1.0.0",interfaceClass = MemberMessageService.class)
 @Component
 @Transactional(readOnly = true)
 public class MemberMessageServiceImpl implements MemberMessageService{
