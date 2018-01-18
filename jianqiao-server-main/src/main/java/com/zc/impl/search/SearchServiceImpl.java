@@ -51,7 +51,7 @@ public class SearchServiceImpl implements SearchService {
      */
     @Override
     public Result getSearchKeys(Member member, int page, int size) {
-        log.info("member={}", member);
+        log.info("===================获取所有关键词开始=========，member={}", member);
         Map<String, Object> result = Maps.newHashMap();
         List<Map<String, Object>> searchHistory = Lists.newArrayList();
         result.put("history", searchHistory);
@@ -67,25 +67,29 @@ public class SearchServiceImpl implements SearchService {
 
             List<Map<String, Object>> searchKeys = searchKeywordService.getKeys();
             result.put("hots", searchKeys);
+            log.info("==================获取关键词结束===============");
             return ResultUtils.returnSuccess("成功", result);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            log.info("==================获取关键词结束===============");
             return ResultUtils.returnError("接口调用失败");
         }
     }
 
     @Override
     public Result getHistoryKeys(Member member, int page, int size) {
-        log.info("member={}", member);
+        log.info("==================获取历史关键词开始==============，member={}", member);
         try {
             Map<String, Object> param = Maps.newHashMap();
             param.put("page", (page - 1) * size);
             param.put("size", size);
             param.put("mid", member.getId());
             List<Map<String, Object>> searchKeys = membersearchconsultationService.findSearchKeywordByMember(param);
+            log.info("=============获取历史关键词结束==================");
             return ResultUtils.returnSuccess("成功", searchKeys);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            log.info("=============获取历史关键词结束==================");
             return ResultUtils.returnError("接口调用失败");
         }
     }
