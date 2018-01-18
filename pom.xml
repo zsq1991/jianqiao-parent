@@ -87,7 +87,7 @@
 		<module>jianqiao-facade-shiro</module>
 		<module>jianqiao-web-shiro</module>
 		<!--分布式事物-->
-		<module>tx-manager</module>
+		<module>jianqiao-tx-manager</module>
 		<module>jianqiao-dbconfig-read</module>
 		<module>jianqiao-dbconfig-write</module>
         <module>jianqiao-facade-member</module>
@@ -241,6 +241,11 @@
 				<groupId>com.aliyun.oss</groupId>
 				<artifactId>aliyun-sdk-oss</artifactId>
 				<version>${oss.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>jstl</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>

@@ -9,6 +9,8 @@
 <!--     <setting name="cacheEnabled" value="true"/> -->
     <!-- 在null时也调用 setter,适应于返回Map,3.2版本以上可用 -->
       <setting name="callSettersOnNulls" value="true"/>
+	  <!-- mybatis开启数据库字段自动映射驼峰命名规则java属性   -->
+	  <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
 	<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
 	<typeAliases>

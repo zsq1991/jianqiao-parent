@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.zc.mybatis.dao.collectionConsulation.CollectionConsulationMapper">
+    <!-- 通过资讯id获取数据 -->
+    <select id="getMemberIdByConsultationId" resultType="Map" parameterType="Long">
+        select member_id as mId    ,                  <!-- 收藏者的id -->
+        id as collectionId                            <!-- 收藏质询id -->
+        from alq_collection_consultation
+        where
+        consultation_id = #{id}                      <!-- 资讯的id -->
+        and type = 0                                 <!-- 0收藏   1取消收藏 -->
+    </select>
+    <!-- 通过资讯id获取自诩主题下所有的数据 -->
+    <select id="getConsultationIdAllByconsultationId" resultType="Map" parameterType="Long">
+        select id  from alq_consultation where consulatation_id = #{id}
+    </select>
+
+</mapper>

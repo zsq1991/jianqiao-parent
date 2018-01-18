@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.zc.mybatis.dao.doctor.DoctorMapper">
+
+
+	<!-- 推荐高手地址列表 -->
+	<resultMap id="consultationMap" type="com.zc.main.entity.doctor.Doctor">
+		<id column="id" property="id"/>
+		<result column="title" property="title" />
+		<result column="created_time" property="createdTime" />
+		<collection property="addressList" ofType="com.zc.main.entity.specialists.SpecialistDTO">
+			<id column="caId" property="id"/>
+			<result  column="address" property="address"/>
+		</collection>
+	</resultMap>
+
+	<!-- 根据id获取高手信息 -->
+	<select id="getDoctorInfo" resultType="map" parameterType="java.lang.Long">
+		SELECT
+			d.id,
+			d.name,
+			d.sex,
+			d.head_url,
+			d.doctor_detail,
+			concat(d.province_name,d.city_name,d.address) AS doctorAddress,
+			sp.name AS pacageName
+		FROM
+			alq_doctor AS d LEFT JOIN alq_service_package sp ON d.id = sp.doctor_id
+		WHERE d.id = #{doctorId}
+	</select>
+
+	<!-- 根据高手ID获取荣誉图片集合 -->
+	<select id="getDoctorAttachment" resultType="java.lang.String"
+			parameterType="java.lang.Long">
+		SELECT
+			da.address
+		FROM
+			alq_doctor_attachment AS da
+		WHERE
+			da.user_id = #{id}
+		AND da.type = 2
+		AND da.user_type = 0
+	</select>
+
+	<!-- 根据高手id获取推荐信息列表 -->
+	<select id="queryConsultationList" resultMap="consultationMap" parameterType="java.lang.Long">
+		SELECT
+			c.id,
+			c.title,
+			c.created_time,
+			ca.id caId,
+			ca.address
+		FROM
+			alq_doctor d
+		LEFT JOIN alq_member AS m ON d.phone = m.phone
+		LEFT JOIN alq_consultation AS c ON c.member_id = m.id
+		LEFT JOIN alq_consultation_attachment AS ca ON c.id = ca.consultation_id
+		WHERE
+			d.id = #{doctorId}
+	</select>
+
+</mapper>

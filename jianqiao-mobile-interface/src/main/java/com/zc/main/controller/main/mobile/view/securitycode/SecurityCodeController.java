@@ -1,7 +1,7 @@
 package com.zc.main.controller.main.mobile.view.securitycode;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.common.util.ip.IPUtil;
+import com.common.util.http.IPUtil;
 import com.common.util.securitycode.SecurityCount;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
@@ -30,7 +30,7 @@ public class SecurityCodeController {
 
     private static Logger logger = LoggerFactory.getLogger(SecurityCodeController.class);
 
-    @DubboConsumer( version = "1.0.0" , timeout = 30000,check = false)
+    @DubboConsumer( version = "1.0.0" , timeout = 30000)
     private SecurityCodeService securityCodeService;
 
     @Autowired

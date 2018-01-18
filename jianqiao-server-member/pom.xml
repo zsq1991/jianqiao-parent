@@ -68,6 +68,11 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>jianqiao-parent</groupId>
+            <artifactId>jianqiao-facade-main</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!--分布式事物-->
         <dependency>
             <groupId>com.codingapi</groupId>
@@ -101,6 +106,11 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
             <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>jianqiao-parent</groupId>
+            <artifactId>jianqiao-facade-consultation</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>

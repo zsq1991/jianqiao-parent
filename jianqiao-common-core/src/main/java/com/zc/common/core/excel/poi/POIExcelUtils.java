@@ -94,9 +94,9 @@ public class POIExcelUtils {
 	 */
 	public static Workbook createExportWorkBook(final ExcelVersion excelVersion) {
 		Workbook workbook = null;
-		if (excelVersion.getName().equals("2003")) {
+		if ("2003".equals(excelVersion.getName())) {
 			workbook = new HSSFWorkbook();
-		} else if (excelVersion.getName().equals("2007")) {
+		} else if ("2007".equals(excelVersion.getName())) {
 			workbook = new XSSFWorkbook();
 		}
 		return workbook;

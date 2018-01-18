@@ -44,36 +44,41 @@ public class MapValidate {
 			for (String string2 : valiss) {
 				// 是否不为空
 				if (StringUtils.indexOf(string2, "required") != -1) {
-					if (StringUtils.isNotBlank(value))
-						j++;
+					if (StringUtils.isNotBlank(value)) {
+                        j++;
+                    }
 				}
 				// 最大值判断
 				else if (StringUtils.indexOf(string2, "max") != -1) {
 					String max = StringUtils.substringAfter(string2, ":");
 					if (NumberUtils.isNumber(value)) {
-						if (NumberUtils.toInt(value) - NumberUtils.toInt(max) <= 0)
-							j++;
+						if (NumberUtils.toInt(value) - NumberUtils.toInt(max) <= 0) {
+                            j++;
+                        }
 					}
 				}
 				// 最小值判断
 				else if (StringUtils.indexOf(string2, "min") != -1) {
 					String min = StringUtils.substringAfter(string2, ":");
 					if (NumberUtils.isNumber(value)) {
-						if (NumberUtils.toInt(value) - NumberUtils.toInt(min) >= 0)
-							j++;
+						if (NumberUtils.toInt(value) - NumberUtils.toInt(min) >= 0) {
+                            j++;
+                        }
 					}
 				}
 				// 最大长度判断
 				else if (StringUtils.indexOf(string2, "maxleng") != -1) {
 					String maxleng = StringUtils.substringAfter(string2, ":");
-					if (StringUtils.length(value) <= NumberUtils.toInt(maxleng))
-						j++;
+					if (StringUtils.length(value) <= NumberUtils.toInt(maxleng)) {
+                        j++;
+                    }
 				}
 				// 最小长度判断
 				else if (StringUtils.indexOf(string2, "minleng") != -1) {
 					String minleng = StringUtils.substringAfter(string2, ":");
-					if (StringUtils.length(value) >= NumberUtils.toInt(minleng))
-						j++;
+					if (StringUtils.length(value) >= NumberUtils.toInt(minleng)) {
+                        j++;
+                    }
 				}
 				// 不做处理判断
 				else if (StringUtils.indexOf(string2, "norequired") != -1) {
@@ -107,7 +112,8 @@ public class MapValidate {
 		// 过滤出验证的的集合
 		CollectionUtils.filter(maps, new Predicate() {
 
-			@SuppressWarnings("unchecked")
+			@Override
+            @SuppressWarnings("unchecked")
 			public boolean evaluate(Object arg0) {
 				// 验证数据
 				boolean result = validatorMap((Map<String, String>) arg0, valis, valiRegexps);

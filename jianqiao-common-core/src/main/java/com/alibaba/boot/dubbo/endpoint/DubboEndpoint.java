@@ -99,7 +99,7 @@ public class DubboEndpoint extends AbstractEndpoint<Map<String, Object>> {
     for (ClassIdBean classIdBean : publishedInterfaceSet) {
       Class<?> clazz = classIdBean.getClazz();
       String interfaceClassCanonicalName = clazz.getCanonicalName();
-      if (!interfaceClassCanonicalName.equals("void")) {
+      if (!"void".equals(interfaceClassCanonicalName)) {
         Map<String, Long> methodNames = new HashMap<String, Long>();
         for (Method method : clazz.getMethods()) {
           methodNames.put(method.getName(),

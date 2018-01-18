@@ -4,7 +4,6 @@ import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -65,15 +64,39 @@ public class Table {
 		table.setName(alias.value());
 
 		Field[ ] fields = clazz.getFields( );
-		String type="";
 		for ( Field field : fields ){
-
-			Column column = field.getAnnotation(Column.class);
-			String name = column.name();
-			type = getType(name,field.getType());
+			String fieldName=field.getName();
+			if("id".equals(fieldName)){
+				Column column=field.getAnnotation(Column.class);
+				if(column==null){
+					continue;
+				}
+				String name=column.name();
+				Class typeClazz=field.getType();
+				if(name==null || "".equals(name)){
+					throw new Exception(fieldName
+							+ ": not name @Column");
+				}
+				String type=getType(fieldName,typeClazz);
+				table.setField(fieldName,type);
+			}
+		}
+		Field[] declaredFields = clazz.getDeclaredFields();
+		for (Field field:declaredFields) {
+			Column column=field.getAnnotation(Column.class);
+			if(column==null){
+				continue;
+			}
+			String name=column.name();
+			String fieldName=field.getName();
+			Class typeClazz=field.getType();
+			if(name==null || "".equals(name)){
+				throw new Exception(fieldName
+						+ ": not name @Column");
+			}
+			String type=getType(fieldName,typeClazz);
 			table.setField(name,type);
 		}
-
 		return table;
 	}
 
@@ -91,30 +114,22 @@ public class Table {
 		}
 
 		table.setName(alias.value());
-
-		Method[] methods = clazz.getDeclaredMethods();
-
-		for (Method method : methods) {
-
-			String column =null;
-
-			String type="";
-
-			if (method.getName().startsWith("get")) {
-
-				column = getFieldName(method.getName().substring(3));
-
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field:fields) {
+			Column column=field.getAnnotation(Column.class);
+			if(column==null){
+				continue;
 			}
-
-		if(column!=null){
-
-				type=getType(column,method.getReturnType());
-
-				table.setField(column,type);
-
+			String name=column.name();
+			String fieldName=field.getName();
+			Class typeClazz=field.getType();
+			if(name==null || "".equals(name)){
+				throw new Exception(fieldName
+						+ ": not name @Column");
+			}
+			String type=getType(fieldName,typeClazz);
+			table.setField(name,type);
 		}
-
-	}
 		return table;
 	}
 
@@ -147,35 +162,35 @@ public class Table {
 		
 		String txt = null;
 		
-		if(clazz.getName().equals("int") || clazz.getName().equals("java.lang.Integer")){
+		if("int".equals(clazz.getName()) || "java.lang.Integer".equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=Integer,jdbcType=INTEGER}";
 			
-		}else if(clazz.getName().equals("float") || clazz.getName().equals("java.lang.Float")){
+		}else if("float".equals(clazz.getName()) || "java.lang.Float".equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=float,jdbcType=FLOAT}";
 			
-		}else if(clazz.getName().equals("long") || clazz.getName().equals("java.lang.Long")){
+		}else if("long".equals(clazz.getName()) || "java.lang.Long".equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=long,jdbcType=INTEGER}";
 			
-		}else if(clazz.getName().equals("double") || clazz.getName().equals("java.lang.Double")){
+		}else if("double".equals(clazz.getName()) || "java.lang.Double".equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=double,jdbcType=DOUBLE}";
 			
-		}else if(clazz.getName().equals("boolean") || clazz.getName().equals("java.lang.Boolean")){
+		}else if("boolean".equals(clazz.getName()) || "java.lang.Boolean".equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=boolean,jdbcType=BOOLEAN}";
 			
-		}else if(clazz.getName().equals("java.lang.String")){
+		}else if("java.lang.String".equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=string,jdbcType=VARCHAR}";
 			
-		}else if(clazz.getName().equals("java.util.Date")){
+		}else if("java.util.Date".equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=java.util.Date,jdbcType=TIMESTAMP}";
 			
-		}else if(clazz.getName().equals("void")){
+		}else if("void".equals(clazz.getName())){
 			
 			System.out.println(column + " is void");
 			

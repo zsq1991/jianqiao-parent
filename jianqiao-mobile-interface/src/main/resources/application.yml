@@ -1,0 +1,14 @@
+#jsp配置
+spring:
+  mvc:
+    view:
+      prefix: classpath:/jsp/
+      suffix: .jsp
+
+  #thymeleaf配置
+  thymeleaf:
+     prefix: classpath:/templates/
+     suffix: .html
+     mode: HTML5
+     cache: false
+

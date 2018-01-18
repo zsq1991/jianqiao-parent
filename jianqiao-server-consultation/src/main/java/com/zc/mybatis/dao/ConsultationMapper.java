@@ -17,6 +17,34 @@ import java.util.Map;
  */
 @MyBatisRepository
 public interface ConsultationMapper extends BasicMapper<Consultation> {
+	/***
+	 *
+	 * @description 接口说明 修改主题下所有关联的内容
+	 * @author 王鑫涛
+	 * @date 17:36 2018/1/17
+	 * @version 版本号
+	 * @param cid 资讯id
+	 */
+
+	void updateConsultationByParentId(Long cid);
+	/**
+	 * @description 接口说明 根据资讯id修改收藏状态
+	 * @author 王鑫涛
+	 * @date 17:23 2018/1/17
+	 * @version 版本号
+	 * @param id 资讯id
+	 * @return
+	 */
+	int updateByType1(Long id);
+	/**
+	 * @description 接口说明 根据id获取资讯信息
+	 * @author 王鑫涛
+	 * @date 16:40 2018/1/17
+	 * @version 版本号
+	 * @param id 资讯id
+	 * @return
+	 */
+	Consultation getOne(Long id);
 
 	/**
 	 * APP首页咨询搜索

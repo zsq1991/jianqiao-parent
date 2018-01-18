@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public interface ConsultationAttachmentService {
 
+    List<Map<String,Object>> getConsultationAttachmentByConsultationType(Map<String, Object> map);
     /**
      * @param id 资讯id
      * @description ：处理资讯图片

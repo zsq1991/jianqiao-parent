@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.zc.mybatis.dao.MemberMsgMapper">
+    <update id="updateMemberMsgReadType">
+        update  alq_member_msg set read_type=#{readType} where member_id=#{mId} and (read_type is null or 0) and type=#{types}
+    </update>
+    <!--获取消息信息-->
+    <select id="findOne" parameterType="java.lang.Long" resultType="com.zc.main.entity.membermsg.MemberMsg">
+        SELECT * from alq_member_msg where id=#{id}
+    </select>
+    <!--获取总数据-->
+    <select id="getRowLockList" resultType="com.zc.main.entity.membermsg.MemberMsg">
+        select * from alq_member_msg as m where m.member_id=#{member_id} and (m.count_type is null or m.count_type =0)
+    </select>
+    <delete id="deleteMemberMsgByConsulatationId">
+        delete from alq_member_msg where type=#{types}  and member_base_id=#{memberId} and consulatation_id=#{Id}
+    </delete>
+    <delete id="deleteMemberMsgBycontentId">
+        delete from alq_member_msg where type=#{type}  and member_base_id=#{mId} and consulatation_comment_id=#{commentid}
+
+    </delete>
+
+    <!-- 查病例图片 -->
+    <select id="getAttamentById" resultType="com.zc.main.dto.attachment.AttachmentDTO" >
+        select * from alq_attachment where id=#{id}
+    </select>
+</mapper>

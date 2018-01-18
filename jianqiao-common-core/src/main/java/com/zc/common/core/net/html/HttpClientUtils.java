@@ -85,9 +85,9 @@ public class HttpClientUtils {
         //进行头部参数和一般参数集合
         HttpEntity<MultiValueMap<String, String>> bodyAndHeader=new HttpEntity<MultiValueMap<String, String>>(multiValueMap,headerRequest);
         
-        if (StringUtils.upperCase(type).equals("GET")) {
+        if ("GET".equals(StringUtils.upperCase(type))) {
           responseEntity = restTemplate.exchange(url, HttpMethod.GET, bodyAndHeader, String.class);
-        }else if(StringUtils.upperCase(type).equals("POST")){
+        }else if("POST".equals(StringUtils.upperCase(type))){
           responseEntity = restTemplate.exchange(url, HttpMethod.POST, bodyAndHeader, String.class);
         }
         String jsonResult = responseEntity.getBody();
@@ -112,9 +112,9 @@ public class HttpClientUtils {
         ResponseEntity<String> responseEntity=null;
         //进行头部参数和一般参数集合
         HttpEntity<MultiValueMap<String, String>> bodyAndHeader=new HttpEntity<MultiValueMap<String, String>>(multiValueMap,headerRequest);
-        if (StringUtils.upperCase(type).equals("GET")) {
+        if ("GET".equals(StringUtils.upperCase(type))) {
           responseEntity = restTemplate.exchange(url, HttpMethod.GET, bodyAndHeader, String.class);
-        }else if(StringUtils.upperCase(type).equals("POST")){
+        }else if("POST".equals(StringUtils.upperCase(type))){
           responseEntity = restTemplate.exchange(url, HttpMethod.POST, bodyAndHeader, String.class);
         }
         return responseEntity;

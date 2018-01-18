@@ -1,10 +1,9 @@
 package com.zc.common.core.utils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName: CheckDataUtils
@@ -22,20 +21,22 @@ public class CheckDataUtils {
 
 	public static String checkString(String start) {
 		String end = null;
-		if (start == null)
-			return "";
+		if (start == null) {
+            return "";
+        }
 		int length = start.length();
 		int sub = start.indexOf("'");
-		if (sub == -1)
-			end = start;
-		else if (length == sub)
-			end = (new StringBuilder(String.valueOf(start))).append("'")
-					.toString();
-		else
-			end = (new StringBuilder(
-					String.valueOf(start.substring(0, sub + 1)))).append("'")
-					.append(checkString(start.substring(sub + 1, length)))
-					.toString();
+		if (sub == -1) {
+            end = start;
+        } else if (length == sub) {
+            end = (new StringBuilder(String.valueOf(start))).append("'")
+                    .toString();
+        } else {
+            end = (new StringBuilder(
+                    String.valueOf(start.substring(0, sub + 1)))).append("'")
+                    .append(checkString(start.substring(sub + 1, length)))
+                    .toString();
+        }
 		return end;
 	}
 
@@ -47,10 +48,11 @@ public class CheckDataUtils {
 	 */
 	public static boolean isCn(String str) {
 
-		if (str == null || str.equals("")) {
+		if (str == null || "".equals(str)) {
 			return false;
 		}
-		Pattern pattern = Pattern.compile("^[\u4e00-\u9fa5]+$");
+		String reg = "^[\u4e00-\u9fa5]+$";
+		Pattern pattern = Pattern.compile(reg);
 		Matcher isNum = pattern.matcher(str);
 		if (!isNum.matches()) {
 			return false;
@@ -66,10 +68,11 @@ public class CheckDataUtils {
 	 * @return
 	 */
 	public static boolean isNumer(String str) {
-		if (str == null || str.equals("")) {
+		if (str == null || "".equals(str)) {
 			return false;
 		}
-		Pattern pattern = Pattern.compile("[0-9]*");
+		String reg = "[0-9]*";
+		Pattern pattern = Pattern.compile(reg);
 		Matcher isNum = pattern.matcher(str);
 		if (!isNum.matches()) {
 			return false;
@@ -84,10 +87,11 @@ public class CheckDataUtils {
 	 * @return
 	 */
 	public static boolean isLetters(String str) {
-		if (str == null || str.equals("")) {
+		if (str == null || "".equals(str)) {
 			return false;
 		}
-		Pattern pattern = Pattern.compile("[a-zA-Z]+");
+		String reg = "[a-zA-Z]+";
+		Pattern pattern = Pattern.compile(reg);
 		Matcher isNum = pattern.matcher(str);
 		if (!isNum.matches()) {
 			return false;
@@ -98,7 +102,7 @@ public class CheckDataUtils {
 
 	/****************** 数据类型转换 ********************/
 	public static Long getLong(String str) {
-		if (str != null && !str.equals("")) {
+		if (str != null && !"".equals(str)) {
 			return Long.parseLong(str);
 		} else {
 			return null;
@@ -106,7 +110,7 @@ public class CheckDataUtils {
 	}
 	
 	public static Integer getInteger(String str) {
-		if (str != null && !str.equals("")) {
+		if (str != null && !"".equals(str)) {
 			return Integer.parseInt(str);
 		} else {
 			return null;

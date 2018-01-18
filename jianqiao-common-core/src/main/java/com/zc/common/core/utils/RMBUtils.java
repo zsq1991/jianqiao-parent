@@ -20,9 +20,9 @@ public class RMBUtils {
 	 * @param n 小写数字金额
 	 */
 	public static String digitUppercase(double n) {
-		String fraction[] = { "角", "分" };
-		String digit[] = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
-		String unit[][] = { { "元", "万", "亿" }, { "", "拾", "佰", "仟" } };
+        String[] fraction = {"角", "分"};
+        String[] digit = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
+        String[][] unit = {{"元", "万", "亿"}, {"", "拾", "佰", "仟"}};
 
 		String head = n < 0 ? "负" : "";
 		n = Math.abs(n);

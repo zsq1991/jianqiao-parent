@@ -1,16 +1,21 @@
 package com.zc.service.impl.consultation;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.google.common.collect.Maps;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.collectionconsultation.CollectionConsultation;
+import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.member.Member;
+import com.zc.main.service.collectioncontent.CollectionContentService;
 import com.zc.main.service.consultation.ConsultationService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.main.service.member.MemberService;
+import com.zc.mybatis.dao.CollectionContentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
+import com.zc.mybatis.dao.collectionConsulation.CollectionConsulationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +27,7 @@ import java.util.*;
 
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationService.class)
-@Transactional(readOnly = true)
+@Transactional
 public class ConsultationServiceImpl implements ConsultationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsultationServiceImpl.class);
@@ -32,13 +37,141 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Autowired
     private ConsultationMapper consultationMapper;
-
+    @Autowired
+    private CollectionConsulationMapper collectionConsulationMapper;
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private CollectionContentService collectionContentService;
     @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private ConsultationAttachmentService consultationAttachmentService;
 
     @Override
     public Result deleteConsultationById(Long id, Member member) {
-        return null;
+        try {
+            Consultation ct = consultationMapper.getOne(id);
+            if (Objects.isNull(ct)){
+                return ResultUtils.returnError("信息不存在");
+            }
+            if(!Objects.equals(ct.getMemberId(),member.getId())){
+                return ResultUtils.returnError("操作异常");
+            }
+            //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+            Integer type = ct.getType();
+            if ("5".equals(String.valueOf(type)) || "1".equals(String.valueOf(type)) || "3".equals(String.valueOf(type))){
+                Consultation parentConsultation = consultationMapper.getOne(ct.getConsultationId());
+                if (Objects.isNull(parentConsultation)){
+                    return ResultUtils.returnError("信息不存在");
+                }
+                //收藏
+                Long collectNum = Objects.isNull(parentConsultation.getCollectNum())?0L:parentConsultation.getCollectNum();
+                Long sonCollectNum = Objects.isNull(ct.getCollectNum())?0L:ct.getCollectNum();
+                //点赞
+                Long fabulousNum = Objects.isNull(parentConsultation.getFabulousNum())?0L:parentConsultation.getFabulousNum();
+                Long sonFabulousNum = Objects.isNull(ct.getFabulousNum())?0L:ct.getFabulousNum();
+                if ("5".equals(String.valueOf(type))){
+                    Integer num = Objects.isNull(parentConsultation.getNum())?1:parentConsultation.getNum();
+                    parentConsultation.setNum(num-1);
+                }
+                //============================================================修改所有的有关咨询的收藏数@author wudi============================================================	//
+                List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId(id);//获取所有的memberId
+                logger.info("通过资讯id："+id);
+                logger.info("进入删除循环通过资讯ID获取关联数据："+memberIdByConsultationId);
+                if (memberIdByConsultationId.size()>0) {
+
+                    for (Map map : memberIdByConsultationId) {
+
+                        Long mId =(Long)map.get("mId");
+                        logger.info("删除资讯的时候获取的mId"+mId);
+                        Member findOne = memberService.findOne(mId);
+                        Long conNumber=findOne.getConsulationNum()==null?0:(Long)(findOne.getConsulationNum());
+
+                        if (conNumber>0) {
+                            findOne.setConsulationNum(conNumber-1);
+                            memberService.updateById(findOne);
+                        }
+
+                        Long	 collectionId =(Long)map.get("collectionId");
+                        logger.info("删除资讯的时候获取需要修改的收藏的资讯id："+collectionId);
+                        CollectionConsultation collection = collectionContentService.findOne(collectionId);
+                        collection.setType(1);//0收藏   1取消收藏
+                        collectionContentService.updateById(collection);
+                    }
+                }
+                parentConsultation.setCollectNum(collectNum-sonCollectNum);
+                parentConsultation.setFabulousNum(fabulousNum-sonFabulousNum);
+                consultationMapper.updateById(parentConsultation);
+            }
+            //@wudi update
+            if("2".equals(String.valueOf(type)) || "0".equals(String.valueOf(type))){
+                //主题删除时，删除对应的内容
+                try {
+                    //============================================================修改所有的有关咨询的收藏数包含主题下所有的资讯@author wudi============================================================	//
+                    logger.info("删除主题的资讯："+id);
+                    List<Map> consultationIdAllByconsultationId = collectionConsulationMapper.getConsultationIdAllByconsultationId(id);//id
+                    if (consultationIdAllByconsultationId.size()>0) {
+                        for (Map maps : consultationIdAllByconsultationId) {
+
+                            List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId((Long)maps.get("id"));//获取所有的memberId
+                            for (Map map : memberIdByConsultationId) {
+
+                                Long mId =(Long)map.get("mId");
+                                logger.info("删除收藏时关联的用户id："+mId);
+                                Member findOne = memberService.findOne(mId);
+                                Long conNumber=findOne.getConsulationNum()==null?0:(Long)(findOne.getConsulationNum());
+
+                                if (conNumber>0) {
+                                    findOne.setConsulationNum(conNumber-1);
+                                    memberService.updateById(findOne);
+                                }
+                                logger.info("获取资讯id");
+                                Long	 collectionId =(Long)map.get("collectionId");
+                                CollectionConsultation collection = collectionContentService.findOne(collectionId);
+                                collection.setType(1);//0收藏   1取消收藏
+                                collectionContentService.updateById(collection);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ResultUtils.returnError("删除资讯信息失败");
+                }
+                //主题的时候删除关联的收藏
+                consultationMapper.updateConsultationByParentId(ct.getId());
+            }
+            if ("4".equals(String.valueOf(type)) || "6".equals(String.valueOf(type))) {//分享和求助
+                //============================================================修改所有的有关咨询的收藏数@author wudi============================================================	//
+                List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId(id);//获取所有的memberId
+                logger.info("通过资讯id："+id);
+                logger.info("进入删除循环通过资讯ID获取关联数据："+memberIdByConsultationId);
+                if (memberIdByConsultationId.size()>0) {
+
+                    for (Map map : memberIdByConsultationId) {
+
+                        Long mId =(Long)map.get("mId");
+                        logger.info("删除资讯的时候获取的mId"+mId);
+                        Member findOne = memberService.findOne(mId);
+                        Long conNumber=findOne.getConsulationNum()==null?0:(Long)(findOne.getConsulationNum());
+
+                        if (conNumber>0) {
+                            findOne.setConsulationNum(conNumber-1);
+                            memberService.updateById(findOne);
+                        }
+
+                        Long	 collectionId =(Long)map.get("collectionId");
+                        logger.info("删除资讯的时候获取需要修改的收藏的资讯id："+collectionId);
+                        CollectionConsultation collection = collectionContentService.findOne(collectionId);
+                        collection.setType(1);//0收藏   1取消收藏
+                        collectionContentService.updateById(collection);
+                    }
+                }
+            }
+
+            ct.setIsDelete(1);
+            consultationMapper.updateById(ct);
+            return ResultUtils.returnSuccess("删除成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            return ResultUtils.returnError("删除失败");
+        }
     }
 
     @Override
@@ -84,7 +217,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //是否是主题或访谈的标识
                 boolean isMore = false;//是否是主题或访谈的标识    false 不是   true 是
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String, Object>>();
-                if (type.equals("0") || type.equals("2")) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                if ("0".equals(type) || "2".equals(type)) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
                     //判断访谈和口述是否有内容
                     Integer count = consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
                     if (count == 0) {
@@ -174,7 +307,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                 //取详情内容
                 Object detailContent = "";
-                if (type.equals("4") || type.equals("6")) {
+                if ("4".equals(type) || "6".equals(type)) {
                     Map<String, Object> map = consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                     if (null == map || map.size() == 0) {
                         detailContent = "";
@@ -365,10 +498,38 @@ public class ConsultationServiceImpl implements ConsultationService {
         logger.info("===============个人中心，我的发布列表===============");
         return consultationAttachmentService.getConsultationAttachmentByConsultation(type, member, page, size);
     }
-
+    /**
+     * 获取父级专题信息
+     * @param type
+     * @param member
+     * @param page
+     * @param size
+     * @return
+     */
     @Override
     public Result getParentConsultation(String type, Member member, Integer page, Integer size) {
-        return null;
+        Map<String,Object> map = Maps.newHashMap();
+        map.put("mid",member.getId());
+        Integer curPage = (page-1)*size;
+        map.put("page",curPage);
+        map.put("size",size);
+        //已发布
+        map.put("status","2");
+        List<Map<String,Object>> result ;
+        //访谈
+        try {
+            if ("1".equals(type)){
+                map.put("type","0");
+                result = consultationAttachmentService.getConsultationAttachmentByConsultationType(map);
+            }  else {
+                map.put("type","2");
+                result = consultationAttachmentService.getConsultationAttachmentByConsultationType(map);
+            }
+            return ResultUtils.returnSuccess("成功",result);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            return ResultUtils.returnError("失败");
+        }
     }
 
     @Override
@@ -410,7 +571,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 boolean isMore = false;
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String, Object>>();
                 //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
-                if (type.equals("0") || type.equals("2")) {
+                if ("0".equals(type) || "2".equals(type)) {
                     //判断访谈和口述是否有内容
                     Integer count = consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
                     if (count == 0) {
@@ -504,7 +665,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                 //取详情内容
                 Object detailContent = "";
-                if (type.equals("4") || type.equals("6")) {
+                if ("4".equals(type) || "6".equals(type)) {
                     Map<String, Object> map = consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                     if (null == map || map.size() == 0) {
                         detailContent = "";
@@ -640,14 +801,117 @@ public class ConsultationServiceImpl implements ConsultationService {
         }
     }
 
+    /**
+     * @description ：检测是否是高级用户
+     * @Created by  : 朱军
+     * @version
+     * @Creation Date ： 2018/1/17 13:44
+     * @param memberId
+     * @return
+     */
     @Override
     public Result checkIsUserType(String memberId) {
-        return null;
+
+        Map<String, Object> memberMap=new HashMap<>();
+
+        if (null == memberId || "".equals(memberId)) {
+            return ResultUtils.returnError("用户id不能为空");
+        }
+
+        //验证用户是否存在
+        Member member=memberService.checkMemberById(Long.valueOf(memberId));
+        if(null==member){
+            return ResultUtils.returnError("用户不存在");
+        }
+        Object isDelete=member.getIsDelete();//0或null未禁用，1禁用
+        if(null==isDelete){isDelete=0;}
+        if("1".equals(isDelete)){
+            return ResultUtils.returnError("此用户已被禁用");
+        }
+        Object userType=member.getUserType();//0普通  1认证后用户可以发布访谈 口述
+        if(null==userType){userType=0;}
+        boolean isUserType=false;
+        if("1".equals(userType.toString())){
+            isUserType=true;
+        }
+        memberMap.put("isUserType", isUserType);
+        return ResultUtils.returnSuccess("请求成功", memberMap);
     }
 
+    /**
+     * @description ：查看全部  分页加载
+     * @Created by  : 朱军
+     * @version
+     * @Creation Date ： 2018/1/17 11:46
+     * @param page
+     * @param rows
+     * @param typeId
+     * @return
+     */
     @Override
     public Result findConsultationAllByFive(Integer page, Integer rows, String typeId) {
-        return null;
+
+        HashMap<String, Object> param = new HashMap<String, Object>();
+
+        if (null == typeId || "".equals(typeId)) {
+            return ResultUtils.returnError("资讯id不能为空");
+        }
+        List<Map<String, Object>> consultationAllList = consultationAllList = consultationMapper.findConsultationByIdAll(Long.valueOf(typeId));//根据访谈或口述的id查询其子类列表
+        if(consultationAllList.size() <3){
+            return ResultUtils.returnError("没有更多数据");
+        }
+        String id1=consultationAllList.get(0).get("id").toString();
+        String id2=consultationAllList.get(1).get("id").toString();
+        String id3=consultationAllList.get(2).get("id").toString();
+        if(null !=id1 && !"".equals(id1) && null !=id2 && !"".equals(id2) && null !=id3 && !"".equals(id3) ){
+            param.put("id1", id1);
+            param.put("id2", id2);
+            param.put("id3", id3);
+            param.put("typeId", typeId);
+            param.put("startIndex", (page - 1) * rows);
+            param.put("endIndex", rows);
+        }
+
+        List<Map<String, Object>> consultationList = consultationAllList = consultationMapper.findConsultationAllByFive(param);
+        if (consultationList.size() > 0) {
+            for (Map<String, Object> consultationInfo : consultationList) {
+                //处理时间格式
+                String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
+                SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                String chidNowTime = chiddf.format(new Date());
+                String chidTime1 = alreadyTime.subSequence(0, 10).toString();
+                String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+                if (chidTime1.equals(chidTime2)) {//同一天
+                    String chidcreatedTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                    consultationInfo.put("createdTime", chidcreatedTime);
+                } else {//不同一天
+                    String chidcreatedTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                    consultationInfo.put("createdTime", chidcreatedTime);
+                }
+
+                //图片地址
+                String addressChid = "";
+
+                //处理咨询图片
+                List<Map<String, Object>> consultationChidAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                consultationInfo.put("address", consultationChidAttachmentList);
+						/*if (consultationChidAttachmentList.size() > 0) {
+							//循环拼接图片地址
+							for (Map<String, Object> consultationChidAttachment : consultationChidAttachmentList) {
+								Object addrs=consultationChidAttachment.get("address");
+								if(null==addrs){addrs="";};
+								addressChid += addrs.toString() + ",";
+							}
+							consultationInfo.put("address", addressChid);
+						} else {
+							consultationInfo.put("address", "");
+						}*/
+            }
+
+            return ResultUtils.returnSuccess("请求成功", consultationList);
+        } else {
+            return ResultUtils.returnError("没有数据");
+        }
     }
 
     @Override

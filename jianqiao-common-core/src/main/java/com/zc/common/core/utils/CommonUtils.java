@@ -40,8 +40,9 @@ public class CommonUtils {
 	   * @throws Exception
 	   */
 	    private static byte[] getKeyBytes(String strKey) throws Exception {  
-	        if (null == strKey || strKey.length() < 1)  
-	            throw new Exception("key is null or empty!");  
+	        if (null == strKey || strKey.length() < 1) {
+                throw new Exception("key is null or empty!");
+            }
 	        MessageDigest alg = MessageDigest.getInstance("MD5");
 	        alg.update(strKey.getBytes());  
 	        byte[] bkey = alg.digest();  
@@ -117,18 +118,20 @@ public class CommonUtils {
 	        String stmp = "";  
 	        for (int n = 0; n < b.length; n++) {  
 	            stmp = (Integer.toHexString(b[n] & 0XFF));
-	            if (stmp.length() == 1)  
-	                hs = hs + "0" + stmp;  
-	            else  
-	                hs = hs + stmp;  
-	            if (n < b.length - 1)  
-	                hs = hs + ":";  
+	            if (stmp.length() == 1) {
+                    hs = hs + "0" + stmp;
+                } else {
+                    hs = hs + stmp;
+                }
+	            if (n < b.length - 1) {
+                    hs = hs + ":";
+                }
 	        }  
 	        return hs.toUpperCase();  
 	    }  
    public final static String MD5(String s) {
-		char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-				'A', 'B', 'C', 'D', 'E', 'F' };
+	   char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+			   'A', 'B', 'C', 'D', 'E', 'F'};
 		try {
 			byte[] btInput = s.getBytes();
 			// 获得MD5摘要算法的 MessageDigest 对象
@@ -139,7 +142,7 @@ public class CommonUtils {
 			byte[] md = mdInst.digest();
 			// 把密文转换成十六进制的字符串形式
 			int j = md.length;
-			char str[] = new char[j * 2];
+			char[] str = new char[j * 2];
 			int k = 0;
 			for (int i = 0; i < j; i++) {
 				byte byte0 = md[i];

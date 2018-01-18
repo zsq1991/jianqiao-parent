@@ -81,8 +81,10 @@ public class StringAndByteUtils {
 
 		for (int i = 0; i < bytes.length(); i += 2)
 
-			baos.write((hexString.indexOf(bytes.charAt(i)) << 4 | hexString.indexOf(bytes
-					.charAt(i + 1))));
+        {
+            baos.write((hexString.indexOf(bytes.charAt(i)) << 4 | hexString.indexOf(bytes
+                    .charAt(i + 1))));
+        }
 
 		return new String(baos.toByteArray());
 
@@ -171,7 +173,7 @@ public class StringAndByteUtils {
 
 	public static byte[] hexStringToBytes(String hexString) {
 
-		if (hexString == null || hexString.equals("")) {
+		if (hexString == null || "".equals(hexString)) {
 
 			return null;
 

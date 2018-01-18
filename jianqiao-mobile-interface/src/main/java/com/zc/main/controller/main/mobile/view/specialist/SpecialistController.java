@@ -4,6 +4,8 @@ import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.service.specialist.SpecialistService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +29,9 @@ import java.util.Map;
 public class SpecialistController {
 
 
-    @DubboConsumer(version="1.0.0",timeout = 30000,check = false)
+    private static Logger logger = LoggerFactory.getLogger(SpecialistController.class);
+
+    @DubboConsumer(version="1.0.0")
     private SpecialistService specialistService;
 
 
@@ -81,7 +85,15 @@ public class SpecialistController {
     @RequestMapping(value = "getSpecialistDetail",method = RequestMethod.POST)
     @ResponseBody
     public Result getSpecialistDetail(@RequestParam("specialistId")Long specialistId){
-        return specialistService.getSpecialistDetail(specialistId);
+
+        logger.info("===========开始调用【获取专家详情】接口===========");
+        try {
+            return specialistService.getSpecialistDetail(specialistId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("===========调用【获取专家详情】接口异常===========");
+            return ResultUtils.returnError("接口异常");
+        }
     }
 
 }

@@ -115,11 +115,13 @@ public class IpUtils {
 	 * @return
 	 */
 	public static boolean isLocal(String strIp) {
-		if ("127.0.0.1".equals(strIp))
-			return true;
+		if ("127.0.0.1".equals(strIp)) {
+            return true;
+        }
 		long l = ipToLong(strIp);
-		if (l >= 3232235520L)
-			return l <= 3232301055L;
+		if (l >= 3232235520L) {
+            return l <= 3232301055L;
+        }
 		return (l >= 167772160L) && (l <= 184549375L);
 	}
 

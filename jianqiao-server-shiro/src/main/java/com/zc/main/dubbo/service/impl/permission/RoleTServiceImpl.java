@@ -101,8 +101,9 @@ public class RoleTServiceImpl implements IRoleService {
 			UserRole userRole = new UserRole();
 			userRole.setRoleId(role.getId());
 			if (CollectionUtils.isNotEmpty(userRoleMapper.selectUserRole(userRole))
-					|| null != RoleIDEnum.getRoleEnumByCode(role.getId()))
-				return ResultUtil.getResult(PermissionEnum.ROLE_CAN_NOT_DELETE);
+					|| null != RoleIDEnum.getRoleEnumByCode(role.getId())) {
+                return ResultUtil.getResult(PermissionEnum.ROLE_CAN_NOT_DELETE);
+            }
 			roleMapper.delete(role);
             roleMenuMapper.deleteRoleMenuByRoleId(role.getId());
             return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);

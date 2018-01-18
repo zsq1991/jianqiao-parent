@@ -1,93 +1,64 @@
 
 package com.zc.main.entity.member;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zc.common.core.orm.hibernate.IdEntity;
-import org.apache.ibatis.type.Alias;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * @author sunhuijie 用户表
  * @date 2017年6月12日
  */
-@Alias("alq_member")
-public class Member extends IdEntity implements Serializable {
+@Table(name="alq_member")
+public class Member extends IdEntity {
 
-
-    private static final long serialVersionUID = 1L;
-
-
-    @Column(name = "phone")
     private String phone;// 手机号
 
-    @Column(name = "password")
     private String password;// 密码
 
-    @Column(name = "logo_attachment_id")
     private Long logoAttachmentId;// 上传头像
 
-    @Column(name = "nickname")
     private String nickname;// 昵称
 
-    @Column(name = "consulation_num")
     private Long consulationNum;// 收藏内容数量
 
-    @Column(name = "focus_num")
     private Long focusNum;// 关注的用户数量
 
-    @Column(name = "following_num")
     private Long followingNum;// 粉丝数量
 
-    @Column(name = "uuid")
     private String uuid;//
 
-    @Column(name = "name")
     private String name;// 真实姓名
 
-    @Column(name = "card")
     private String card;// 身份证号
 
-    @Column(name = "user_type")
     private Integer userType;// 0普通 1认证后用户可以发布访谈 口述 2:认证中
 
-    @Column(name = "label_num")
     private Integer labelNum;// 用户拥有的标签个数
 
-    @Column(name = "is_delete")
     private Integer isDelete;// 0或null未禁用，1禁用
 
-    @Column(name = "sex")
     private Integer sex;// 性别
 
-    @Column(name = "audit_user_name")
     private String auditUserName;// 审核人员名称
 
-    @Column(name = "status")
     private Integer status;//0 未申请  1审核中 2已发布 3驳回
-
-    @Column(name = "audittime")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date audittime;//认证审核的时间
 
     //阅读咨询积分
-    @Column(name = "read_num")
     private Integer readNum;
     //发布咨询积分
-    @Column(name = "release_num")
     private Integer releaseNum;
     //邀请好友积分
-    @Column(name = "invite_num")
     private Integer inviteNum;
     //分享咨询积分
-    @Column(name = "share_num")
     private Integer shareNum;
     //认证积分
-    @Column(name = "authentication_num")
     private Integer authenticationNum;
     //总积分
-    @Column(name = "integral_num")
     private Integer integralNum;
 
     public Long getLogoAttachmentId() {

@@ -1,6 +1,7 @@
 package com.lorne.tx.mq.service.impl;
 
 import com.lorne.tx.Constants;
+import com.lorne.tx.config.ConfigReader;
 import com.lorne.tx.mq.handler.TxCoreServerHandler;
 import com.lorne.tx.mq.service.MQTxManagerService;
 import com.lorne.tx.mq.service.NettyServerService;
@@ -19,7 +20,6 @@ import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -43,15 +43,15 @@ public class NettyServerServiceImpl implements NettyServerService {
     private TxCoreServerHandler txCoreServerHandler;
 
 
-    @Value("${transaction_netty_heart_time}")
-    private int transaction_netty_heart_time;
+    @Autowired
+    private ConfigReader configReader;
 
 
 
 
     @Override
     public void start() {
-        int heartTime = transaction_netty_heart_time+10;
+        int heartTime = configReader.getTransactionNettyHeartTime()+10;
         txCoreServerHandler = new TxCoreServerHandler(mqTxManagerService);
         bossGroup = new NioEventLoopGroup(50); // (1)
         workerGroup = new NioEventLoopGroup();

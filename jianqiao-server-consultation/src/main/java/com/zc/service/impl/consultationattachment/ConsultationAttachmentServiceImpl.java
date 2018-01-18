@@ -44,6 +44,11 @@ public class ConsultationAttachmentServiceImpl implements ConsultationAttachment
     private ConsultationMapper consultationMapper;
 
     @Override
+    public List<Map<String, Object>> getConsultationAttachmentByConsultationType(Map<String, Object> map) {
+        return consultationAttachmentDao.getConsultationAttachmentByConsultationType(map);
+    }
+
+    @Override
     public List<Map<String, Object>> findConsultationAttachmentByConsultationId(Long id) {
 
         return consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(id);

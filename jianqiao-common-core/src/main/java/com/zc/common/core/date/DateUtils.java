@@ -35,7 +35,7 @@ public class DateUtils {
 	 */
 	public static String getWeekDayStrByDate(Date date) {
 		String weekString = "";
-		final String dayNames[] = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        final String[] dayNames = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -51,7 +51,7 @@ public class DateUtils {
 	 */
 	public static int getWeekDayIntByDate(Date date) {
 		int weekInt = 0;
-		final int dayNameInts[] = { 7, 1, 2, 3, 4, 5, 6 };
+        final int[] dayNameInts = {7, 1, 2, 3, 4, 5, 6};
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -67,8 +67,9 @@ public class DateUtils {
 	 * @return
 	 */
 	public static long DaysBetween(Date date1, Date date2) {
-		if (date2 == null)
-			date2 = new Date();
+		if (date2 == null) {
+            date2 = new Date();
+        }
 		long day = (date2.getTime() - date1.getTime()) / (24 * 60 * 60 * 1000);
 		return day;
 	}
@@ -100,8 +101,9 @@ public class DateUtils {
 	 * @return
 	 */
 	public static Date dateFormat(String date, String dateFormat) {
-		if (date == null)
-			return null;
+		if (date == null) {
+            return null;
+        }
 		SimpleDateFormat format = new SimpleDateFormat(dateFormat);
 		if (date != null) {
 			try {
@@ -130,8 +132,9 @@ public class DateUtils {
 	 * @return
 	 */
 	public static String dateFormat(Date date, String dateFormat) {
-		if (date == null)
-			return null;
+		if (date == null) {
+            return null;
+        }
 		SimpleDateFormat format = new SimpleDateFormat(dateFormat);
 		return format.format(date);
 	}
@@ -227,12 +230,13 @@ public class DateUtils {
 	 */
 	public static Date getBeforeDate(String range) {
 		Calendar today = Calendar.getInstance();
-		if ("week".equalsIgnoreCase(range))
-			today.add(Calendar.WEEK_OF_MONTH, -1);
-		else if ("month".equalsIgnoreCase(range))
-			today.add(Calendar.MONTH, -1);
-		else
-			today.clear();
+		if ("week".equalsIgnoreCase(range)) {
+            today.add(Calendar.WEEK_OF_MONTH, -1);
+        } else if ("month".equalsIgnoreCase(range)) {
+            today.add(Calendar.MONTH, -1);
+        } else {
+            today.clear();
+        }
 		return today.getTime();
 	}
 
@@ -326,8 +330,9 @@ public class DateUtils {
 	 * @Date Apr 24, 2008
 	 */
 	public static int getUserAge(Date birthday) {
-		if (birthday == null)
-			return 0;
+		if (birthday == null) {
+            return 0;
+        }
 		Calendar cal = Calendar.getInstance();
 		if (cal.before(birthday)) {
 			return 0;

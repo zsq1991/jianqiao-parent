@@ -18,4 +18,22 @@ public interface ShareAppMapper {
     Map<String,Object> getConsultationTop(String id);
 
     List<Map<String,Object>> getConsultationList(String consultaionId);
+
+    List<Map<String,Object>> getFTDetailList(String id);
+
+    List<Map<String,Object>> getConsultationDetail(String consultaionId);
+
+    List<Map<String,Object>> getreplyDetail(String commentId);
+
+    Map<String,Object> getFTPLNum(String id);
+
+    Map<String,Object> getHelpAuthor(String id);
+
+    List<Map<String,Object>> getImageList(String id);
+
+    List<Map<String,Object>> getHelpAuthorIdList(String id);
+
+    Map<String,Object> getAuthorUserList(String id);
+
+    List<Map<String,Object>> getAuthorList(String id);
 }

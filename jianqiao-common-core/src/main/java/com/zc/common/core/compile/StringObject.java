@@ -23,7 +23,8 @@ public class StringObject extends SimpleJavaFileObject {
 		this.contents = contents;
 	}
 
-	public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
+	@Override
+    public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
 		return contents;
 	}
 }

@@ -29,6 +29,7 @@ import java.util.Map;
 public class RedisCacheBean extends CachingConfigurerSupport {
 
 
+   @Override
    @Bean
   public KeyGenerator keyGenerator() {
       return new KeyGenerator() {
