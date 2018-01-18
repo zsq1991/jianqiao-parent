@@ -12,6 +12,15 @@ import java.util.Map;
 @MyBatisRepository
 public interface ConsultationCommentMapper extends BasicMapper<ConsultationComment> {
 
+    /**
+     * 评论列表,getCommentList获取到的时顶级评论，firt_reply_comment是第一评论的id
+     * @author huangxin
+     * @data 2018/1/18 16:17
+     * @Description: 评论列表,getCommentList获取到的时顶级评论，firt_reply_comment是第一评论的id
+     * @Version: 3.2.0
+     * @param paramMap
+     * @return
+     */
     List<Map<String, Object>> getCommentList(Map<String, Object> paramMap);
 
     Map<String, Object> getSonCommentList(Long cid);
@@ -56,7 +65,10 @@ public interface ConsultationCommentMapper extends BasicMapper<ConsultationComme
 
     /**
      * 通过父类id获取子的2个id
-     *
+     * @author huangxin
+     * @data 2018/1/18 16:17
+     * @Description: 通过父类id获取子的2个id
+     * @Version: 3.2.0
      * @param id
      * @return
      */

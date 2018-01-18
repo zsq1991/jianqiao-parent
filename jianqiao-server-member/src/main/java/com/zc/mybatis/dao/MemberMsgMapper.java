@@ -8,6 +8,7 @@ import org.apache.cxf.message.Attachment;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wudi
@@ -67,4 +68,15 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @return
      */
     AttachmentDTO getAttamentById(String id);
+
+    /**
+     * 查询啊驳回原因
+     * @author huangxin
+     * @data 2018/1/18 16:32
+     * @Description: 查询啊驳回原因
+     * @Version: 3.2.0
+     * @param conid 资讯id
+     * @return
+     */
+    Map<String,Object> getContentById(Long conid);
 }

@@ -26,4 +26,10 @@
     <select id="getAttamentById" resultType="com.zc.main.dto.attachment.AttachmentDTO" >
         select * from alq_attachment where id=#{id}
     </select>
+
+    <!-- 查询驳回原因 -->
+    <select id="getContentById" resultType="map" parameterType="Long">
+        SELECT m.content AS content FROM alq_member_msg AS m WHERE  m.type=2 AND m.consulatation_id=#{conid}
+    </select>
+
 </mapper>
