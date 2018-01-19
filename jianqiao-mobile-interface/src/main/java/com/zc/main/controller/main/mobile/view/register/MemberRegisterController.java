@@ -50,7 +50,7 @@ public class MemberRegisterController {
                                         ){
         String ip = getClientIp(request);
         String agent = request.getHeader("User-Agent");
-        Map<String,Object> params = new HashMap<String,Object>();
+        Map<String,Object> params = new HashMap<String,Object>(16);
         params.put("ip",ip);
         params.put("agent",agent);
         params.put("phone",phone);
@@ -84,7 +84,7 @@ public class MemberRegisterController {
             @RequestParam(value = "passwordR") String passwordR,
             @RequestParam(value = "imageCode") String imageCode,
             HttpServletRequest request){
-        Map<String,Object> params = new HashMap<String,Object>();
+        Map<String,Object> params = new HashMap<String,Object>(16);
         params.put("phone",phone);
         params.put("password",password);
         params.put("passwordR",passwordR);
@@ -103,14 +103,16 @@ public class MemberRegisterController {
      */
     public String getClientIp(HttpServletRequest request) {
 
+        String key = "unknown";
+        String key1 = "unknown";
         String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || "unknown".equalsIgnoreCase(ip) || ip.length() == 0) {
+        if (ip == null || key.equalsIgnoreCase(ip) || ip.length() == 0) {
             ip = request.getHeader("Proxy-Client-IP");
         }
-        if (ip == null || "unknown".equalsIgnoreCase(ip) || ip.length() == 0) {
+        if (ip == null || key.equalsIgnoreCase(ip) || ip.length() == 0) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (ip == null || "unknown".equalsIgnoreCase("ip") || ip.length() == 0) {
+        if (ip == null || key.equalsIgnoreCase(key1) || ip.length() == 0) {
             ip = request.getRemoteAddr();
         }
         return ip;
