@@ -4,6 +4,7 @@ package com.zc.service.impl.comment;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.consultationcomment.ConsultationComment;
 import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membermsg.MemberMsg;
@@ -35,6 +36,20 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
     private static Logger logger = LoggerFactory.getLogger(ConsultationCommentService.class);
     @Autowired
     private ConsultationCommentMapper consultationCommentMapper;
+
+    @Override
+    public Result saveDirectConsultationComment(Long memberid, Long consultationid, String content) {
+        if(consultationid==null){
+            return ResultUtils.returnError("咨询传入异常");
+        }
+        if(!StringUtils.isNotBlank(content)){
+            return ResultUtils.returnError("请填写评论内容");
+        }
+        if (content.length()>3000) {
+            return ResultUtils.returnError("字数已达上限");
+        }
+        return null;
+    }
 
     @Override
     @Transactional(readOnly = false)
