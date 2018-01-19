@@ -90,5 +90,19 @@ public class ConsultationController {
         return consultationService.getConsultationDetail(cid, member,row,type);
     }
 
+    /**
+     * 编辑回显咨询信息
+     * @author huangxin
+     * @data 2018/1/19 15:47
+     * @Description: 编辑回显咨询信息
+     * @Version: 3.2.0
+     * @param cid 咨询ID
+     * @param member 用户
+     * @return
+     */
+    @RequestMapping(value="backConsultation",method=RequestMethod.POST)
+    public Result backConsultation(@RequestParam("id")String cid,@MemberAnno Member member){
 
+        return consultationService.backConsultation(cid, member);
+    }
 }

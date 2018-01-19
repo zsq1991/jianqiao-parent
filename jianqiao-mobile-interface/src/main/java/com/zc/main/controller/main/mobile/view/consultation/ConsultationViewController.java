@@ -217,9 +217,14 @@ public class ConsultationViewController {
     }
 
     /**
-     * 咨询信息详情
-     *
-     * @param cid 咨询ID
+     * 信息详情<访谈、口述、求助、分享> （未登录）
+     * @author huangxin
+     * @data 2018/1/19 15:39
+     * @Description: 信息详情<访谈、口述、求助、分享> （未登录）
+     * @Version: 3.2.0
+     * @param cid 资讯id
+     * @param row
+     * @param type
      * @return
      */
     @RequestMapping(value = "detail", method = RequestMethod.POST)
@@ -251,8 +256,14 @@ public class ConsultationViewController {
     }
 
     /**
-     * 咨询信息详情 查看全部
-     *
+     * 信息详情 分页加载专题下信息(未登录)
+     * @author huangxin
+     * @data 2018/1/19 15:36
+     * @Description: 信息详情 分页加载专题下信息(未登录)
+     * @Version: 3.2.0
+     * @param cid 资讯id
+     * @param page
+     * @param row
      * @return
      */
     @RequestMapping(value = "getSubjectByPage", method = RequestMethod.POST)
