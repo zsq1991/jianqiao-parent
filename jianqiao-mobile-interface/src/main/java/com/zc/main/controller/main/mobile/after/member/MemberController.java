@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户认证
- * @author xwolf
+ * @author 王鑫涛
  * @date 2017-06-19 9:33
  * @since 1.8
  */
@@ -24,7 +24,11 @@ public class MemberController {
 
 
     /**
-     *  获取用户认证信息
+     *
+     *  @description方法说明 获取用户认证信息
+     * @author 王鑫涛
+     * @date  16:16  2018/1/19
+     * @version 版本号
      * @param member
      * @return
      */
