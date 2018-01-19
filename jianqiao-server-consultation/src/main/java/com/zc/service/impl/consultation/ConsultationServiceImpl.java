@@ -93,7 +93,14 @@ public class ConsultationServiceImpl implements ConsultationService {
             }
             //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
             Integer type = ct.getType();
-            if ("5".equals(String.valueOf(type)) || "1".equals(String.valueOf(type)) || "3".equals(String.valueOf(type))){
+            String type6 = "6";
+            String type5 = "5";
+            String type4 = "4";
+            String type3 = "3";
+            String type2 = "2";
+            String type1 = "1";
+            String type0 = "0";
+            if (type5.equals(String.valueOf(type)) || type1.equals(String.valueOf(type)) || type3.equals(String.valueOf(type))){
                 Consultation parentConsultation = consultationMapper.getOne(ct.getConsultationId());
                 if (Objects.isNull(parentConsultation)){
                     return ResultUtils.returnError("信息不存在");
@@ -104,7 +111,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //点赞
                 Long fabulousNum = Objects.isNull(parentConsultation.getFabulousNum())?0L:parentConsultation.getFabulousNum();
                 Long sonFabulousNum = Objects.isNull(ct.getFabulousNum())?0L:ct.getFabulousNum();
-                if ("5".equals(String.valueOf(type))){
+                if (type5.equals(String.valueOf(type))){
                     Integer num = Objects.isNull(parentConsultation.getNum())?1:parentConsultation.getNum();
                     parentConsultation.setNum(num-1);
                 }
@@ -141,7 +148,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 consultationMapper.updateById(parentConsultation);
             }
             //@wudi update
-            if("2".equals(String.valueOf(type)) || "0".equals(String.valueOf(type))){
+            if(type2.equals(String.valueOf(type)) || type0.equals(String.valueOf(type))){
                 //主题删除时，删除对应的内容
                 try {
                     //============================================================修改所有的有关咨询的收藏数包含主题下所有的资讯@author wudi============================================================	//
@@ -177,7 +184,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //主题的时候删除关联的收藏
                 consultationMapper.updateConsultationByParentId(ct.getId());
             }
-            if ("4".equals(String.valueOf(type)) || "6".equals(String.valueOf(type))) {//分享和求助
+            if (type4.equals(String.valueOf(type)) || type6.equals(String.valueOf(type))) {//分享和求助
                 //============================================================修改所有的有关咨询的收藏数@author wudi============================================================	//
                 List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId(id);//获取所有的memberId
                 logger.info("通过资讯id："+id);
