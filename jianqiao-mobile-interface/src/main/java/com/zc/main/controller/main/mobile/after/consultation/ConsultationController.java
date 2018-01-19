@@ -126,4 +126,17 @@ public class ConsultationController {
 
         return consultationService.addConsultation(content, member);
     }
+    /**
+     * 修改咨询
+     * @param content
+     * @param member
+     * @return
+     */
+    @Explosionproof
+    @RequestMapping(value="updateConsultation",method=RequestMethod.POST)
+    public Result updateConsultation(@RequestParam("json")String content,
+                                     @MemberAnno Member member){
+
+        return consultationService.updateConsultation(content, member);
+    }
 }

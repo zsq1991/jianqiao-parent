@@ -270,4 +270,42 @@
         SELECT m.content AS content FROM alq_member_msg AS m WHERE  m.type=2 AND m.consulatation_id=#{conid}
     </select>
 
+    <insert id="save">
+        INSERT INTO alq_member_msg (
+                id,
+                create_user,
+                created_ip,
+                created_time,
+                update_time,
+                content,
+                content_type,
+                `type`,
+                consulatation_id,
+                member_id,
+                read_type,
+                consulatation_comment_id,
+                member_base_id,
+                count_type,
+                consultation_comment,
+                member_base
+            ) VALUES (
+            NULL,
+            #{createUser},
+            #{createdIp},
+            NOW(),
+            #{updateTime},
+            #{content},
+            #{countType},
+            #{type},
+            #{consultationId},
+            #{memberId},
+            #{readType},
+            #{consultationCommentId},
+            #{memberBaseId},
+            #{countType},
+            NULL,
+            NULL
+        )
+    </insert>
+
 </mapper>

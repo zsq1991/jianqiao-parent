@@ -43,6 +43,11 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	}
 
 	@Override
+	public int save(MemberMsg memberMsg) {
+		return memberMsgMapper.save(memberMsg);
+	}
+
+	@Override
 	public Result getMemberMsgReadInform(Member members) {
 		Result result = new Result();
 		if (members == null) {

@@ -52,6 +52,6 @@
         id = #{id};                       <!-- alq_attachment中的id -->
     </select>
     <update id="updateByMemberId" parameterType="java.util.Map">
-        UPDATE alq_member set uuid = #{uuid},password = #{password} where id=#{id}
+        UPDATE alq_member set uuid = #{uuid},password = #{password} WHERE id=#{id}
     </update>
 </mapper>

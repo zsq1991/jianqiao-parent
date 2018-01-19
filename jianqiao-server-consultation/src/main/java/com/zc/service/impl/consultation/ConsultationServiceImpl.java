@@ -41,7 +41,7 @@ import java.util.*;
 
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationService.class)
-@Transactional
+@Transactional(readOnly = true)
 public class ConsultationServiceImpl implements ConsultationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsultationServiceImpl.class);
@@ -72,6 +72,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     private MembersearchconsultationService membersearchconsultationService;
 
     @Override
+    @Transactional(readOnly = false)
     public Result deleteConsultationById(Long id, Member member) {
         try {
             Consultation ct = consultationMapper.getOne(id);
@@ -313,6 +314,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         return flag;
     }
     @Override
+    @Transactional(readOnly = false)
     public Result addConsultation(String content, Member member) {
         //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
         //topicType : 1 :图文 2：视频
@@ -473,8 +475,180 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Result updateConsultation(String content, Member member) {
-        return null;
+        try {
+//            return rpcConsultationService.updateConsultation(content,member);
+            logger.info("content:{},member:{}",content,member);
+            if (StringUtils.isBlank(content) || Objects.isNull(member)){
+                return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+            }
+            try {
+                if (!checkConsultation(content,"2")){
+                    return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+                }
+                JSONObject jsonObject = JSONObject.parseObject(content);
+                if (Objects.isNull(jsonObject)){
+                    return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+                }
+                Long id = jsonObject.getLong("id");
+                Consultation consultation = consultationMapper.getConsultationByIdAndMember(id,member.getId());
+                if (Objects.isNull(consultation)){
+                    return ResultUtils.returnError("信息不存在");
+                }
+
+
+                //获取保存类型 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                String type =jsonObject.getString("type");
+
+                JSONArray contentArray = jsonObject.getJSONArray("content");
+                if (!"0,2".contains(type)){
+                    if (Objects.isNull(contentArray)){
+                        return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+                    }
+                }
+                String title=null;
+                if (!"5".equals(String.valueOf(type))){
+                    title = jsonObject.getString("title");
+                }
+                Integer cstatus = consultation.getStatus();
+                //驳回 编辑主题
+                if (Objects.equals(cstatus,3) && "0,2".contains(String.valueOf(consultation.getType()))){
+                    consultationMapper.updateConsultationByConsultation(consultation.getId());//修改主题的内容
+                    //@wudi,删除通知中的资讯,资讯id，memberId，资讯审核状态type为 1认证驳回  2内容驳回,有关咨询中的所有的资讯内容id
+                    Long mId = member.getId();
+                    Integer msgType =2;
+                    List<Map> consultationListByParentId = consultationMapper.getConsultationListByParentId(consultation.getId(),mId,3);
+                    if (consultationListByParentId.size()>0) {
+                        for (int i = 0; i < consultationListByParentId.size(); i++) {
+
+                            Long conId= (Long)consultationListByParentId.get(i).get("id");
+                            logger.info("删除MemberMsg的基本信息："+msgType+"===:"+conId+"===:"+mId);
+                            consultationMapper.deleteMemberMsgByConId(conId,mId,msgType);
+                        }
+
+                    }
+
+                }
+                //驳回 编辑内容0未发布  1审核中 2已发布 3驳回 @wudi
+                if(Objects.equals(cstatus,3) && "1,3".contains(String.valueOf(consultation.getType()))){
+                    if (consultation.getConsultationId()!=0) {
+                        Consultation findOne = consultationMapper.findOne(consultation.getConsultationId());
+                        if (findOne==null) {
+                            return ResultUtils.returnError("主题数据错误");
+                        }
+                        Integer status=	findOne.getStatus()==null?0:findOne.getStatus();
+                        if(Objects.equals(status,3)){
+                            consultationMapper.updateConsultationStatusById(consultation.getConsultationId());//修改主题
+                            //@wudi,删除通知中的资讯,资讯id，memberId，资讯审核状态type为 1认证驳回  2内容驳回
+                            Integer msgType =2;
+                            Long conId= consultation.getId();
+                            Long mId = member.getId();
+                            logger.info("删除MemberMsg的基本信息："+msgType+"===:"+conId+"===:"+mId);
+                            consultationMapper.deleteMemberMsgByConId(conId,mId,msgType);
+                        }
+
+                    }
+
+                }
+
+                consultation.setAuthorInfo(member.getNickname());
+                if ("5".equals(type)){
+                    //审核通过
+                    consultation.setStatus(2);
+                } else {
+                    //审核中
+                    consultation.setStatus(1);
+                    Integer msgType =2;
+                    Long conId= consultation.getId();
+                    Long mId = member.getId();
+                    logger.info("删除MemberMsg的基本信息："+msgType+"===:"+conId+"===:"+mId);
+                    consultationMapper.deleteMemberMsgByConId(conId,mId,msgType);
+                }
+                if (StringUtils.isNotBlank(title)){
+                    consultation.setTitle(title);
+                }
+                consultation.setType(Integer.valueOf(type));
+                Integer modelType = jsonObject.getInteger("modelType");
+                if (!Objects.isNull(modelType)){
+                    consultation.setModelType(modelType);
+                }
+                Integer topicType = jsonObject.getInteger("topicType");
+                if (!Objects.isNull(topicType)){
+                    consultation.setTopicType(topicType);
+                }
+                String descr = jsonObject.getString("descr");
+                if (StringUtils.isNotBlank(descr)){
+                    consultation.setDetailSummary(descr);
+                }
+                consultation.setCreatedTime(new Date());
+                //父ID
+                Long pid = jsonObject.getLong("pid");
+                if (!Objects.isNull(pid)){
+                    Consultation sonConsultation = consultationMapper.findOne(pid);
+                    consultation.setConsultationId(sonConsultation.getId());
+                }
+                consultationMapper.updateById(consultation);
+                //删除
+                consultationAttachmentMapper.deleteConsultationAttachmentByConsultation(consultation);
+                String covers= jsonObject.getString("covers");
+                if (StringUtils.isNotBlank(covers)){
+                    String[] ids = covers.split(",");
+                    Arrays.stream(ids).forEach(e->{
+                        Attachment attachment = attachmentMapper.findOne(Long.valueOf(e));
+                        if (!Objects.isNull(attachment)){
+                            ConsultationAttachment consultationAttachment = new ConsultationAttachment();
+                            consultationAttachment.setAddress(attachment.getAddress());
+                            consultationAttachment.setName(attachment.getName());
+                            consultationAttachment.setConsultation(consultation.getId());
+                            consultationAttachment.setAttachment(attachment.getId());
+                            consultationAttachment.setCover(1);
+                            consultationAttachmentMapper.save(consultationAttachment);
+                        }
+                    });
+                }
+                if (!Objects.isNull(contentArray)){
+                    int size = contentArray.size();
+                    for( int i=0;i<size;i++) {
+                        ConsultationAttachment consultationAttachment = new ConsultationAttachment();
+                        JSONObject obj = contentArray.getJSONObject(i);
+                        String attachmentId = obj.getString("attachmentId");
+                        if (StringUtils.isNotBlank(attachmentId)){
+                            Attachment attachment = attachmentMapper.findOne(Long.valueOf(attachmentId));
+                            if (Objects.isNull(attachment)){
+                                return ResultUtils.returnError("附件不存在");
+                            }
+                            consultationAttachment.setAddress(attachment.getAddress());
+                            consultationAttachment.setName(attachment.getName());
+                            consultationAttachment.setAttachment(attachment.getId());
+                        }
+                        String operationType = obj.getString("type");
+                        consultationAttachment.setType(Integer.valueOf(operationType));
+                        consultationAttachment.setConsultation(consultation.getId());
+                        Integer sortNum = obj.getInteger("sortNum");
+                        consultationAttachment.setSortNum(sortNum);
+                        String text = obj.getString("detail");
+                        if (StringUtils.isNotBlank(text)){
+                            consultationAttachment.setDetailContent(text);
+                        }
+                        consultationAttachmentMapper.insert(consultationAttachment);
+                    }
+                }
+                Map<String,Object> result = Maps.newHashMap();
+                result.put("cid",consultation.getId());
+                if ("5".equals(type)){
+                    return ResultUtils.returnSuccess("发布成功",result);
+                }
+                return ResultUtils.returnSuccess("提交成功,内容正在审核中",result);
+            } catch (Exception e) {
+                logger.error(e.getMessage(),e);
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return ResultUtils.returnError(StatusCodeEnums.ERROR.getMsg());
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            return ResultUtils.returnError(StatusCodeEnums.ERROR.getMsg());
+        }
     }
 
     @Override
@@ -1226,7 +1400,7 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @param cid    资讯id
      * @param member 用户信息
      * @param row
-     * @param type 类型
+     * @param inType 类型
      * @return
      */
     @Override
