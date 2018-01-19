@@ -118,7 +118,7 @@ public class TencentSms {
 		Result result = new Result();
 		try{
 			//二要素地址
-			String element = two_element_url;
+			String element = TWO_ELEMENT_URL;
 			logger.info("二要素地址："+element);
 			Map<String, String> params = new HashedMap();
 			params.put("name",name);
