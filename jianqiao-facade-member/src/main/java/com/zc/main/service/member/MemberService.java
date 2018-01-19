@@ -82,5 +82,20 @@ public interface MemberService {
 
     Member getMemberByIdAndUuid(Map<String, Object> params);
 
-
+	/**
+	 * 用户认证
+	 * @author huangxin
+	 * @data 2018/1/19 16:35
+	 * @Description: 用户认证
+	 * @Version: 3.2.0
+	 * @param name 姓名
+	 * @param card 身份证号
+	 * @param phone 手机号
+	 * @param member 用户信息
+	 * @param code 验证码
+	 * @param pics 附件ID ,多个ID用,拼接
+	 * @param type 修改认证信息时传入此参数
+	 * @return
+	 */
+    Result authMember(String name, String card, String phone, String code, String pics, Member member, String type);
 }

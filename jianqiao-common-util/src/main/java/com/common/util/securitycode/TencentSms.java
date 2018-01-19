@@ -25,7 +25,9 @@ public class TencentSms {
 
 	private final static String SEND_MSG_URL="http://123.207.175.228:9999/four/mobile/view/check/sendMsg";
 	private final static String CHECK_MSG_URL="http://123.207.175.228:9999/four/mobile/view/check/checkMsg";
-    /**
+	private final static String TWO_ELEMENT_URL="http://123.207.175.228:5200/mobile/view/checkInfoCard/checkUserInfo";
+
+	/**
      * @description ：发送验证码
      * @Created by  : tenghui
      * @Creation Date ： 2018/1/17 10:00
