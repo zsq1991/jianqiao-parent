@@ -9,17 +9,35 @@ import java.util.Map;
 public interface ConsultationService {
 
     /**
-     * @param id     咨询id
+     * @description 接口说明 删除资讯===用户中心
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param id 资讯id
      * @param member 用户
-     * @description ：根据id删除咨询
-     * @Created by  : gaoge
-     * @Creation Date ： 2018/1/16 10:56
-     * @version 1.0.0
+     * @return
      */
     Result deleteConsultationById(Long id, Member member);
-
+    /**
+     * @description 接口说明 发布资讯===用户中心
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param content 资讯内容
+     * @param member 用户
+     * @return
+     */
     Result addConsultation(String content, Member member);
 
+    /**
+     * @description 接口说明 修改资讯
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param content 资讯内容
+     * @param member 用户
+     * @return
+     */
     Result updateConsultation(String content, Member member);
 
     Result publishConsultation(String id, String type, Member member);
@@ -75,6 +93,18 @@ public interface ConsultationService {
      */
     Result getMemberConsultation(String type, Member member, Integer page, Integer size);
 
+    /**
+     *
+     * @description 接口说明 获取父级主题
+     * @author 王鑫涛
+     * @date 15:55 2018/1/19
+     * @version 版本号
+     * @param type  资讯类型
+     * @param member    用户
+     * @param page  当前页
+     * @param size  每页显示的数量
+     * @return
+     */
     Result getParentConsultation(String type, Member member, Integer page, Integer size);
 
     Result getMemberConsultationByType(String cid, Member member, Integer page, Integer size);
@@ -157,12 +187,19 @@ public interface ConsultationService {
     Result getConsultationDetail(String cid, Member member, int row, String type);
 
     /**
-     * APP首页搜索接口
-     *
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 13:51
+     * @desc:APP首页搜索接口
+     * @version 1.0.0
+     * @param page 页码
+     * @param rows 页大小
+     * @param info 关键词
+     * @param phone 手机号
+     * @param uuid uuid
+     * @param checktype 1精选(全部) 2口述  3分享   4求助   5访谈
      * @return
      */
-    Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid,
-                                  String checktype);
+    Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid,String checktype);
 
     /**
      * 信息详情 分页加载专题下信息

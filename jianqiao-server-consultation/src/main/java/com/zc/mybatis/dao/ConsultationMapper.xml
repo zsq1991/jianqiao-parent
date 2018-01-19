@@ -3,7 +3,42 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.zc.mybatis.dao.ConsultationMapper">
+	<update id="updateConsultationByParentId" parameterType="java.lang.Long">
+		UPDATE alq_consultation SET is_delete = 1 WHERE consulatation_id = #{cid}
+	</update>
+	<select id="getConsultationByIdAndMember" resultType="com.zc.main.entity.consultation.Consultation">
+		SELECT * FROM alq_consultation where id = #{id} and member_id =#{member}
+	</select>
+	<update id="updateConsultationStatusById" parameterType="java.lang.Long">
+		UPDATE alq_consultation SET status = 1 WHERE id = #{id}
+	</update>
+	<!--根据id获取资讯内容-->
+	<select id="findOne" parameterType="java.lang.Long" resultType="com.zc.main.entity.consultation.Consultation">
+		SELECT * from alq_consultation where id = #{id}
+	</select>
+	<!--在修改编辑资讯的时候删除审核失败通知信息-->
+	<delete id="deleteMemberMsgByConId">
+		DELETE FROM alq_member_msg WHERE type=#{msgType} AND consulatation_id=#{conId} AND member_id=#{mId}
+	</delete>
+	<!--通过父类的资讯id获取资讯未审核资讯内容-->
+	<select id="getConsultationListByParentId" resultType="map">
+		select id from alq_consultation where consulatation_id=#{pId}  and status =#{status} and member_id =#{mId}
+	</select>
+	<!--修改资讯内容状态-->
+	<update id="updateConsultationByConsultation" parameterType="java.lang.Long">
+		UPDATE alq_consultation SET status = 1 WHERE consulatation_id = #{cid}
+	</update>
+	<!--添加资讯-->
+	<insert id="save" parameterType="com.zc.main.entity.consultation.Consultation">
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT into alq_consultation (detail_summary,topic_type,model_type,
+		consulatation_id,type,is_delete,member_id,title,status,author_info)
+		VALUE (#{detailSummary},#{topicType},#{modelType},#{consultationId},
+		#{type},#{isDelete},#{memberId},#{title},#{status},#{authorInfo})
 
+	</insert>
 	<update id="updateByType1" parameterType="Long">
 		UPDATE alq_consultation SET is_delete =1 WHERE consulatation_id = #{cid}
 	</update>

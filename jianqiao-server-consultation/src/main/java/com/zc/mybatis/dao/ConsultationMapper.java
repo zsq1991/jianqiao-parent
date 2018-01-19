@@ -4,6 +4,7 @@ package com.zc.mybatis.dao;
 import com.common.util.mybatis.BasicMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
 import com.zc.main.entity.consultation.Consultation;
+import org.springframework.data.repository.query.Param;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,74 @@ import java.util.Map;
  */
 @MyBatisRepository
 public interface ConsultationMapper extends BasicMapper<Consultation> {
+	/**
+	 * @description 接口说明 修改资讯主题状态
+	 * @author 王鑫涛
+	 * @date 15:41 2018/1/19
+	 * @version 版本号
+	 * @param cid 资讯id
+	 */
+	void updateConsultationStatusById(Long cid);
+	/**
+	 * @description 接口说明 根据id获取资讯内容
+	 * @author 王鑫涛
+	 * @date 10:09 2018/1/19
+	 * @version 版本号
+	 * @param id 资讯id
+	 * @return
+	 */
+	Consultation findOne(Long id);
+	/**
+	 *
+	 * @description 接口说明 在修改编辑资讯的时候删除审核失败通知信息
+	 * @author 王鑫涛
+	 * @date 15:41 2018/1/19
+	 * @version 版本号
+	 * @param conId  资讯id
+	 * @param mId  y用户id
+	 * @param msgType
+	 */
+	public void deleteMemberMsgByConId(@org.apache.ibatis.annotations.Param("conId")Long conId,@org.apache.ibatis.annotations.Param("mId") Long mId, @org.apache.ibatis.annotations.Param("msgType")Integer msgType);
+	/**
+	 *
+	 * @description 接口说明 通过父类的资讯id获取资讯未审核资讯内容
+	 * @author 王鑫涛
+	 * @date 15:41 2018/1/19
+	 * @version 版本号
+	 * @param pId 资讯主题的id
+	 * @param mId  登陆者的id
+	 * @param status 驳回的审核状态
+	 * @return
+	 */
+	public List<Map> getConsultationListByParentId(@Param("pId")Long pId, @Param("mId")Long mId, @org.apache.ibatis.annotations.Param("status")Integer status);
+	/**
+	 *
+	 * @description 接口说明 修改资讯内容状态
+	 * @author 王鑫涛
+	 * @date 15:40 2018/1/19
+	 * @version 版本号
+	 * @param cid 资讯id
+	 */
+	void updateConsultationByConsultation(Long cid);
+	/**
+	 * @description 接口说明 根据资讯id和用户查询资讯
+	 * @author 王鑫涛
+	 * @date 9:49 2018/1/19
+	 * @version 版本号
+	 * @param id
+	 * @param member
+	 * @return
+	 */
+	Consultation getConsultationByIdAndMember(@org.apache.ibatis.annotations.Param("id") Long id, @org.apache.ibatis.annotations.Param("member") Long member);
+	/**
+	 * @description 接口说明 添加资讯
+	 * @author 王鑫涛
+	 * @date 16:22 2018/1/18
+	 * @version 版本号
+	 * @param consultation 资讯
+	 * @return
+	 */
+	Long save(Consultation consultation);
 	/***
 	 *
 	 * @description 接口说明 修改主题下所有关联的内容

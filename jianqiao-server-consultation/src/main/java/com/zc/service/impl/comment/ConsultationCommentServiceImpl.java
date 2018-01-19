@@ -1,15 +1,20 @@
 package com.zc.service.impl.comment;
 
 
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.codingapi.tx.annotation.TxTransaction;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.consultationcomment.ConsultationComment;
 import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membermsg.MemberMsg;
 import com.zc.main.service.comment.ConsultationCommentService;
+import com.zc.main.service.membermsg.MemberMsgService;
 import com.zc.main.vo.consultationcomment.ConsultationCommentDTO;
 import com.zc.mybatis.dao.ConsultationCommentMapper;
+import com.zc.mybatis.dao.ConsultationMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +40,68 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
     private static Logger logger = LoggerFactory.getLogger(ConsultationCommentService.class);
     @Autowired
     private ConsultationCommentMapper consultationCommentMapper;
+
+    @Autowired
+    private ConsultationMapper consultationMapper;
+
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private MemberMsgService memberMsgService;
+
+    @Override
+    @Transactional(readOnly = false)
+    public Result saveDirectConsultationComment(Long memberid, Long consultationid, String content) {
+        logger.info("评论咨询传入参数 --> memberid:"+memberid+" consultationid:"+consultationid+" content:"+content);
+        if(consultationid==null){
+            return ResultUtils.returnError("咨询传入异常");
+        }
+        if(!StringUtils.isNotBlank(content)){
+            return ResultUtils.returnError("请填写评论内容");
+        }
+        if (content.length()>3000) {
+            return ResultUtils.returnError("字数已达上限");
+        }
+        try {
+            Consultation consultation = consultationMapper.getOne(consultationid);
+            if (consultation == null || consultation.getIsDelete()==1){
+                logger.info("该咨询"+ consultationid +"已删除");
+                return ResultUtils.returnError("该咨询已删除，无法评论");
+            }
+            Integer consultationdbDelete =	consultation.getIsDelete()==null?0:consultation.getIsDelete();
+            //开始保存咨询评论
+            ConsultationComment consultationComment = new ConsultationComment();
+            consultationComment.setConsultationMemberId(consultation.getMemberId());
+            consultationComment.setConsultationId(consultationid);
+            consultationComment.setMemberId(memberid);
+            consultationComment.setContent(content);
+            consultationComment.setIsDelete(0);
+            consultationComment.setCommentInfoId(null);
+            int i = consultationCommentMapper.insert(consultationComment);
+            if (i>0){
+                logger.info("保存咨询评论成功,开始更新咨询评论数量!");
+            }
+            //维护咨询评论数量
+            consultation.setCommentNum(consultation.getCommentNum()==null?1:consultation.getCommentNum()+1);
+//        维护MemberMsg系统通知通知类型  0高级用户审核通过  1认证驳回  2内容驳回 3内容通过4资讯评论通知5评论回复通知6收藏通知
+            MemberMsg memberMsg = new MemberMsg();
+            memberMsg.setCreatedTime(new Date());
+            memberMsg.setUpdateTime(new Date());
+            memberMsg.setConsultationId(consultationid);
+            memberMsg.setConsultationCommentId(consultationComment.getId());//关联新的评论
+            memberMsg.setMemberId(consultation.getMemberId());
+            memberMsg.setType(4);
+            memberMsg.setReadType(0);
+            memberMsg.setMemberBaseId(memberid);
+            if (memberMsgService.save(memberMsg)>0){
+                logger.info("保存消息成功!");
+            }
+            logger.info("保存评论成功!");
+            return ResultUtils.returnSuccess("评论成功");
+        }catch (Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+            logger.info("评论异常："+e.getMessage());
+            return ResultUtils.returnSuccess("评论异常");
+        }
+    }
 
     @Override
     @Transactional(readOnly = false)

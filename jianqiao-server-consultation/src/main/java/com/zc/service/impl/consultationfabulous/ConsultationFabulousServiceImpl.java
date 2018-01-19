@@ -48,7 +48,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
      * @version: 1.0.0
      */
     @Override
-    @Transactional
+    @Transactional(readOnly = false)
     public Result getConsultationFabulousByIdAndMemberId(Long id, Long memberId, Integer type) {
         logger.info("咨询内容点赞取消赞开始执行，入参参数{}" + "咨询内容id:" + id + "点赞1取消2:" + type + "用户id:" + memberId);
         //Power power = new Power();
@@ -99,7 +99,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
             msg.setConsultationId(consultation.getId());
             msg.setMemberBaseId(member.getId());//点赞者
             msg.setCreatedTime(new Date());
-            memberMsgMapper.insert(msg);
+            memberMsgMapper.save(msg);
             consultation.setFabulousNum(fabulousnum + 1);
 
             /**
@@ -142,10 +142,20 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
 
     }
 
+    /**
+     * @description:	根据咨询id和会员id查询点赞
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/16 14:51
+     * @param memberId 用户id
+     * @param id       咨询id
+     * @version: 1.0.0
+     * @return
+     */
     @Override
-    public Result getConsultationType(Long id, Long memberid) {
+    public Result getConsultationType(Long id, Long memberId) {
+        logger.info("查询点赞接口调用开始，方法入参"+"咨询id："+id+"用户id："+memberId);
         Integer type = null;
-        ConsultationFabulous consultationFabulous = consultationfabulousMapper.getConsultationFabulousByConsultationIdAndMemberId(id, memberid);
+        ConsultationFabulous consultationFabulous = consultationfabulousMapper.getConsultationFabulousByConsultationIdAndMemberId(id, memberId);
         if (null == consultationFabulous) {
             type = 1;
         } else {
@@ -156,6 +166,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
             }
 
         }
+        logger.info("查询点赞接口调用结束，返回"+type);
         return ResultUtils.returnSuccess(type + "");
     }
 

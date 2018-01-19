@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybatis.dao.AppVersionMapper">
+
+
+    <!-- 查询软件更新版本信息 -->
+    <select id="getAppVersion" resultType="Map">
+        SELECT
+        app.is_must_to_update AS isMustToUpdate,aa.address AS url,app.version AS version
+        FROM
+        alq_app_version AS app,alq_attachment AS aa
+        WHERE app.is_used=1 AND app.attachment_id=aa.id ORDER BY app.created_time DESC  LIMIT 0,1
+    </select>
+</mapper>

@@ -238,8 +238,16 @@ public class ConsultationViewController {
     }
 
     /**
-     * APP首页搜索接口
-     *
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 10:21
+     * @desc: APP首页搜索接口
+     * @version 1.0.0
+     * @param page 页码
+     * @param rows 页大小
+     * @param info 关键字
+     * @param phone 手机号
+     * @param uuid uuid
+     * @param checktype 1精选(全部) 2口述  3分享   4求助   5访谈
      * @return
      */
     @RequestMapping(value = "searchconsultationinfo", method = RequestMethod.POST)
@@ -250,9 +258,12 @@ public class ConsultationViewController {
             @RequestParam(value = "info") String info,
             @RequestParam(value = "phone") String phone,
             @RequestParam(value = "uuid") String uuid,
-            @RequestParam(value = "checktype", defaultValue = "1", required = false) String checktype) {//checktype  1精选(全部) 2口述  3分享   4求助   5访谈
+            @RequestParam(value = "checktype", defaultValue = "1", required = false) String checktype) {
 
-        return consultationService.searchConsultationInfo(page, rows, info, phone, uuid, checktype);
+        logger.info("APP首页搜索传入参数 ==》 page:" + page + " rows: " + rows + " info: " + info + " phone: " + phone + " uuid: " + uuid + " checktype: " + checktype);
+        Result result = consultationService.searchConsultationInfo(page, rows, info, phone, uuid, checktype);
+        logger.info("检索成功！");
+        return result;
     }
 
     /**

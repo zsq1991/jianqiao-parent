@@ -3,6 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.zc.mybatis.dao.ConsultationAttachmentMapper">
+    <delete id="deleteConsultationAttachmentByConsultation" parameterType="com.zc.main.entity.consultation.Consultation">
+        DELETE from alq_consultation_attachment where consultation_id =#{id}
+    </delete>
+    <insert id="save" parameterType="com.zc.main.entity.consultationattachment.ConsultationAttachment"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO alq_consultation_attachment (address,name,consultation_id,attachment_id,cover,type,sort_num,detail_content,header
+        ) VALUE (#{address},#{name},#{consultation},#{attachment},#{cover},#{type},#{sort_num},#{detail_content},#{header})
+    </insert>
 
     <!-- 资讯图片 -->
     <select id="findConsultationAttachmentByConsultationId" resultType="map" parameterType="long">
