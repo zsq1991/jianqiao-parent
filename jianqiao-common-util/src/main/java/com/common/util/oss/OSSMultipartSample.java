@@ -200,6 +200,7 @@ public class OSSMultipartSample {
         //为part按partnumber排序
         Collections.sort(eTags, new Comparator<PartETag>(){
 
+            @Override
             public int compare(PartETag arg0, PartETag arg1) {
                 PartETag part1= arg0;
                 PartETag part2= arg1;
@@ -262,7 +263,12 @@ public class OSSMultipartSample {
             } catch (Exception e) {
                 //e.printStackTrace();
             } finally {
-                if (in != null) try { in.close(); } catch (Exception e) {}
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (Exception e) {
+                    }
+                }
             }
         }
     }
