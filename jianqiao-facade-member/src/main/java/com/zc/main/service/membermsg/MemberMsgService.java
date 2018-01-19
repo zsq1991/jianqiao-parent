@@ -52,9 +52,9 @@ public interface MemberMsgService{
 	public Result getReadInformList(Member members,Long msgId,Integer type);
 	/**
 	 * 审核通知列表
-	 * @param member
-	 * @param page
-	 * @param rows
+	 * @param member 用户
+	 * @param page 当前页
+	 * @param rows 每页显示的数量
 	 * @param type 1审核通知，2赞通知，3评论通知
 	 * @return
 	 */

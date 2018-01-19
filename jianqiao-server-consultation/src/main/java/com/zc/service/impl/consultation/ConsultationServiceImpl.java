@@ -22,8 +22,8 @@ import com.zc.main.service.consultation.ConsultationService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.main.service.member.MemberService;
 import com.zc.main.service.membermessage.MemberMessageService;
-import com.zc.main.service.membersearchconsultation.MembersearchconsultationService;
 import com.zc.main.service.membermsg.MemberMsgService;
+import com.zc.main.service.membersearchconsultation.MembersearchconsultationService;
 import com.zc.mybatis.dao.Attachment.AttachmentMapper;
 import com.zc.mybatis.dao.ConsultationAttachmentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
@@ -75,6 +75,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Transactional(readOnly = false)
     public Result deleteConsultationById(Long id, Member member) {
         try {
+            logger.info("==============================进入删除资讯方法============================");
             Consultation ct = consultationMapper.getOne(id);
             if (Objects.isNull(ct)){
                 return ResultUtils.returnError("信息不存在");
@@ -100,6 +101,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     parentConsultation.setNum(num-1);
                 }
                 //============================================================修改所有的有关咨询的收藏数@author wudi============================================================	//
+                logger.info("-------------------------------获取所有的memberId--------------------------");
                 List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId(id);//获取所有的memberId
                 logger.info("通过资讯id："+id);
                 logger.info("进入删除循环通过资讯ID获取关联数据："+memberIdByConsultationId);
@@ -114,6 +116,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                         if (conNumber>0) {
                             findOne.setConsulationNum(conNumber-1);
+                            logger.info("``````````````````修改发布资讯数量···············");
                             memberService.updateById(findOne);
                         }
 
@@ -126,6 +129,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
                 parentConsultation.setCollectNum(collectNum-sonCollectNum);
                 parentConsultation.setFabulousNum(fabulousNum-sonFabulousNum);
+                logger.info("-----------修改发布数量和点赞数量-------------");
                 consultationMapper.updateById(parentConsultation);
             }
             //@wudi update
@@ -195,6 +199,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
             ct.setIsDelete(1);
             consultationMapper.updateById(ct);
+            logger.info("===============================删除资讯方法结束==================");
             return ResultUtils.returnSuccess("删除成功");
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
@@ -318,6 +323,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     public Result addConsultation(String content, Member member) {
         //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
         //topicType : 1 :图文 2：视频
+        logger.info("------------进入添加资讯方法------------------");
         logger.info("content:{},member:{}",content,member);
         logger.info("判断参数是否为空");
         if (StringUtils.isBlank(content) || Objects.isNull(member)){
@@ -339,7 +345,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
                 }
             }
-            logger.info("获取用户类型");
+            logger.info("=================获取用户类型===============");
             Integer userType = member.getUserType();//0普通 1认证后用户可以发布访谈 口述 2:认证中
             //非高级用户
             if (!"1".equals(String.valueOf(userType)) && "0,1,2,3".contains(type)){
@@ -358,10 +364,12 @@ public class ConsultationServiceImpl implements ConsultationService {
                 consultation.setStatus(2);
                 //求助ID
                 Long helpId = jsonObject.getLong("id");
+                logger.info("-----------------根据资讯id获取资讯信息------------------");
                 Consultation helpConsultation = consultationMapper.getOne(helpId);
                 if (!Objects.isNull(helpConsultation)){
                     Integer num = Objects.isNull(helpConsultation.getNum())?0:helpConsultation.getNum();
                     helpConsultation.setNum(num+1);
+                    logger.info("-----------------修改主题下面的内容总个数------------------");
                     consultationMapper.updateById(helpConsultation);
                 }
 
@@ -395,14 +403,14 @@ public class ConsultationServiceImpl implements ConsultationService {
                 consultation.setDetailSummary(descr);
             }
             //==============================================资讯的添加返回的json，covers封面，维护到consultation附件表中==============================================================
-           logger.info("添加到资讯表中");
+           logger.info("========================添加到资讯表中==============================");
             Long save = consultationMapper.save(consultation);
-            logger.info("获得添加后的信息"+save);
+            logger.info("========================================添加是否成功"+save);
             String covers= jsonObject.getString("covers");
             if (StringUtils.isNotBlank(covers)){
                 String[] ids = covers.split(",");
                 Arrays.stream(ids).forEach(e->{
-                    logger.info("根据id获取附件表中的信息");
+                    logger.info("===============================根据id获取附件表中的信息===============================");
                     Attachment attachment = attachmentMapper.findOne(Long.valueOf(e));
                     if (!Objects.isNull(attachment)){
                         ConsultationAttachment consultationAttachment = new ConsultationAttachment();
@@ -415,7 +423,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                         }else{
                             consultationAttachment.setCover(1);
                         }
-
+                        logger.info("===============================资讯信息放入附件表中===============================");
                         consultationAttachmentMapper.insert(consultationAttachment);
                     }
                 });
@@ -428,6 +436,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     JSONObject obj = contentArray.getJSONObject(i);
                     String attachmentId = obj.getString("attachmentId");
                     if (StringUtils.isNotBlank(attachmentId)){
+                        logger.info("------------------------获取附件信息------------------");
                         Attachment attachment = attachmentMapper.findOne(Long.valueOf(attachmentId));
                         if (Objects.isNull(attachment)){
                             return ResultUtils.returnError("附件不存在");
@@ -446,6 +455,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     if (StringUtils.isNotBlank(text)){
                         consultationAttachment.setDetailContent(text);
                     }
+                    logger.info("--------------------将资讯附件信息放入资讯附件表中-------------------");
                     consultationAttachmentMapper.insert(consultationAttachment);
                 }
             }
@@ -462,8 +472,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                 memberMsg.setMemberId(consultationMapper.getOne(helpId).getMemberId());
                 memberMsg.setMemberBaseId(member.getId());//评论者的id
                 memberMsg.setType(4);//资讯评论中状态
-                memberMsgService.insert(memberMsg);
-
+                memberMsgService.save(memberMsg);
+                logger.info("---------------------------------发布资讯方法结束----------------------------");
                 return ResultUtils.returnSuccess("发布成功",result);
             }
             return ResultUtils.returnSuccess("提交成功,内容正在审核中",result);
@@ -478,7 +488,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Transactional(readOnly = false)
     public Result updateConsultation(String content, Member member) {
         try {
-//            return rpcConsultationService.updateConsultation(content,member);
+            logger.info("------------------------------进入修改资讯方法---------------------------");
             logger.info("content:{},member:{}",content,member);
             if (StringUtils.isBlank(content) || Objects.isNull(member)){
                 return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
@@ -492,12 +502,13 @@ public class ConsultationServiceImpl implements ConsultationService {
                     return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
                 }
                 Long id = jsonObject.getLong("id");
+                logger.info("-----------------------根据用户id和资讯id获取资讯信息");
                 Consultation consultation = consultationMapper.getConsultationByIdAndMember(id,member.getId());
                 if (Objects.isNull(consultation)){
                     return ResultUtils.returnError("信息不存在");
                 }
 
-
+                logger.info("------------------------------获取保存类型 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享---------------------------");
                 //获取保存类型 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
                 String type =jsonObject.getString("type");
 
@@ -512,24 +523,30 @@ public class ConsultationServiceImpl implements ConsultationService {
                     title = jsonObject.getString("title");
                 }
                 Integer cstatus = consultation.getStatus();
+                logger.info("------------------------------驳回 编辑主题---------------------------");
                 //驳回 编辑主题
                 if (Objects.equals(cstatus,3) && "0,2".contains(String.valueOf(consultation.getType()))){
+                    logger.info("==========================修改主题的内容================================");
                     consultationMapper.updateConsultationByConsultation(consultation.getId());//修改主题的内容
                     //@wudi,删除通知中的资讯,资讯id，memberId，资讯审核状态type为 1认证驳回  2内容驳回,有关咨询中的所有的资讯内容id
+                    logger.info("==========================删除通知中的资讯,资讯id，memberId，资讯审核状态type为 1认证驳回  2内容驳回,有关咨询中的所有的资讯内容id=========");
                     Long mId = member.getId();
                     Integer msgType =2;
+                    logger.info("=====================通过父类的资讯id获取资讯未审核资讯内容==========================");
                     List<Map> consultationListByParentId = consultationMapper.getConsultationListByParentId(consultation.getId(),mId,3);
                     if (consultationListByParentId.size()>0) {
                         for (int i = 0; i < consultationListByParentId.size(); i++) {
 
                             Long conId= (Long)consultationListByParentId.get(i).get("id");
                             logger.info("删除MemberMsg的基本信息："+msgType+"===:"+conId+"===:"+mId);
+                            logger.info("在修改编辑资讯的时候删除审核失败通知信息："+msgType+"===:"+conId+"===:"+mId);
                             consultationMapper.deleteMemberMsgByConId(conId,mId,msgType);
                         }
 
                     }
 
                 }
+                logger.info("=================驳回 编辑内容0未发布  1审核中 2已发布 3驳回====================");
                 //驳回 编辑内容0未发布  1审核中 2已发布 3驳回 @wudi
                 if(Objects.equals(cstatus,3) && "1,3".contains(String.valueOf(consultation.getType()))){
                     if (consultation.getConsultationId()!=0) {
@@ -539,6 +556,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                         }
                         Integer status=	findOne.getStatus()==null?0:findOne.getStatus();
                         if(Objects.equals(status,3)){
+                            logger.info("=================修改主题===================");
                             consultationMapper.updateConsultationStatusById(consultation.getConsultationId());//修改主题
                             //@wudi,删除通知中的资讯,资讯id，memberId，资讯审核状态type为 1认证驳回  2内容驳回
                             Integer msgType =2;
@@ -585,9 +603,11 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //父ID
                 Long pid = jsonObject.getLong("pid");
                 if (!Objects.isNull(pid)){
+                    logger.info("=====================获取父资讯=================");
                     Consultation sonConsultation = consultationMapper.findOne(pid);
                     consultation.setConsultationId(sonConsultation.getId());
                 }
+                logger.info("===================修改资讯信息=================");
                 consultationMapper.updateById(consultation);
                 //删除
                 consultationAttachmentMapper.deleteConsultationAttachmentByConsultation(consultation);
@@ -603,6 +623,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                             consultationAttachment.setConsultation(consultation.getId());
                             consultationAttachment.setAttachment(attachment.getId());
                             consultationAttachment.setCover(1);
+                            logger.info("==============保存附件================");
                             consultationAttachmentMapper.save(consultationAttachment);
                         }
                     });
@@ -631,6 +652,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                         if (StringUtils.isNotBlank(text)){
                             consultationAttachment.setDetailContent(text);
                         }
+                        logger.info("维护到 consultationAttachment表中");
                         consultationAttachmentMapper.insert(consultationAttachment);
                     }
                 }
@@ -639,6 +661,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 if ("5".equals(type)){
                     return ResultUtils.returnSuccess("发布成功",result);
                 }
+                logger.info("===============结束修改资讯方法========================");
                 return ResultUtils.returnSuccess("提交成功,内容正在审核中",result);
             } catch (Exception e) {
                 logger.error(e.getMessage(),e);
@@ -967,14 +990,15 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
     /**
      * 获取父级专题信息
-     * @param type
-     * @param member
-     * @param page
-     * @param size
+     * @param type  资讯类型
+     * @param member    用户
+     * @param page  当前页数
+     * @param size  每页显示的数量
      * @return
      */
     @Override
     public Result getParentConsultation(String type, Member member, Integer page, Integer size) {
+        logger.info("==============进入获取资讯列表方法===============");
         Map<String,Object> map = Maps.newHashMap();
         map.put("mid",member.getId());
         Integer curPage = (page-1)*size;
@@ -992,6 +1016,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 map.put("type","2");
                 result = consultationAttachmentService.getConsultationAttachmentByConsultationType(map);
             }
+            logger.info("==============获取资讯列表方法结束===============");
             return ResultUtils.returnSuccess("成功",result);
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
@@ -1792,7 +1817,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 Integer searchConsultationCount = membersearchconsultationService.getSearchConsultationByInfo(map);
                 if(searchConsultationCount==0){
                     logger.info("当前检索关键词不存在，开始保存对应会员的检索关键词记录");
-                    Result result = membersearchconsultationService.saveMemberSearchConsultation(id, info);
+//                    Result result = membersearchconsultationService.saveMemberSearchConsultation(id, info);
                     logger.info("保存历史检索成功!");
                 }
             }
@@ -1813,7 +1838,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultationAllTypeListss = consultationMapper.searchConsultationInfo(param);
         List<String> list = new ArrayList<String>();
         //当查询关键词查询不出来结果的时候,开始进行分词
-       /* if(consultationAllTypeListss.size() == 0){
+        /*if(consultationAllTypeListss.size() == 0){
             logger.info("当前关键词没有查询出结果,开始进行分词操作!");
             try {
                 //创建分词对象

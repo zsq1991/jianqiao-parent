@@ -60,40 +60,47 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
         if (content.length()>3000) {
             return ResultUtils.returnError("字数已达上限");
         }
-        Consultation consultation = consultationMapper.getOne(consultationid);
-        if (consultation == null || consultation.getIsDelete()==1){
-            logger.info("该咨询"+ consultationid +"已删除");
-            return ResultUtils.returnError("该咨询已删除，无法评论");
-        }
-        Integer consultationdbDelete =	consultation.getIsDelete()==null?0:consultation.getIsDelete();
-        //开始保存咨询评论
-        ConsultationComment consultationComment = new ConsultationComment();
-        consultationComment.setConsultationMemberId(consultation.getMemberId());
-        consultationComment.setConsultationId(consultationid);
-        consultationComment.setMemberId(memberid);
-        consultationComment.setContent(content);
-        consultationComment.setIsDelete(0);
-        consultationComment.setCommentInfoId(null);
-        if (consultationMapper.save(consultation)>0){
-            logger.info("保存咨询评论成功,开始更新咨询评论数量!");
-        }
-        //维护咨询评论数量
-        consultation.setCommentNum(consultation.getCommentNum()==null?1:consultation.getCommentNum()+1);
+        try {
+            Consultation consultation = consultationMapper.getOne(consultationid);
+            if (consultation == null || consultation.getIsDelete()==1){
+                logger.info("该咨询"+ consultationid +"已删除");
+                return ResultUtils.returnError("该咨询已删除，无法评论");
+            }
+            Integer consultationdbDelete =	consultation.getIsDelete()==null?0:consultation.getIsDelete();
+            //开始保存咨询评论
+            ConsultationComment consultationComment = new ConsultationComment();
+            consultationComment.setConsultationMemberId(consultation.getMemberId());
+            consultationComment.setConsultationId(consultationid);
+            consultationComment.setMemberId(memberid);
+            consultationComment.setContent(content);
+            consultationComment.setIsDelete(0);
+            consultationComment.setCommentInfoId(null);
+            int i = consultationCommentMapper.insert(consultationComment);
+            if (i>0){
+                logger.info("保存咨询评论成功,开始更新咨询评论数量!");
+            }
+            //维护咨询评论数量
+            consultation.setCommentNum(consultation.getCommentNum()==null?1:consultation.getCommentNum()+1);
 //        维护MemberMsg系统通知通知类型  0高级用户审核通过  1认证驳回  2内容驳回 3内容通过4资讯评论通知5评论回复通知6收藏通知
-        MemberMsg memberMsg = new MemberMsg();
-        memberMsg.setCreatedTime(new Date());
-        memberMsg.setUpdateTime(new Date());
-        memberMsg.setConsultationId(consultationid);
-        memberMsg.setConsultationCommentId(consultationComment.getId());//关联新的评论
-        memberMsg.setMemberId(consultation.getMemberId());
-        memberMsg.setType(4);
-        memberMsg.setReadType(0);
-        memberMsg.setMemberBaseId(memberid);
-        if (memberMsgService.save(memberMsg)>0){
-            logger.info("保存消息成功!");
+            MemberMsg memberMsg = new MemberMsg();
+            memberMsg.setCreatedTime(new Date());
+            memberMsg.setUpdateTime(new Date());
+            memberMsg.setConsultationId(consultationid);
+            memberMsg.setConsultationCommentId(consultationComment.getId());//关联新的评论
+            memberMsg.setMemberId(consultation.getMemberId());
+            memberMsg.setType(4);
+            memberMsg.setReadType(0);
+            memberMsg.setMemberBaseId(memberid);
+            if (memberMsgService.save(memberMsg)>0){
+                logger.info("保存消息成功!");
+            }
+            logger.info("保存评论成功!");
+            return ResultUtils.returnSuccess("评论成功");
+        }catch (Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+            logger.info("评论异常："+e.getMessage());
+            return ResultUtils.returnSuccess("评论异常");
         }
-        logger.info("保存评论成功!");
-        return ResultUtils.returnSuccess("评论成功");
     }
 
     @Override
