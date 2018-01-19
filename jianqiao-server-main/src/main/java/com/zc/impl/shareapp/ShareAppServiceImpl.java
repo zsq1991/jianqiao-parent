@@ -65,7 +65,6 @@ public class ShareAppServiceImpl implements ShareAppService {
 
     @Override
     public List<Map<String, Object>> getConsultationList(String consultaionId) {
-        // TODO Auto-generated method stub
         List<Map<String, Object>> consultationList = shareAppMapper.getConsultationList(consultaionId);
         for (Map<String, Object> consultationInfo : consultationList) {
             // 处理时间格式
