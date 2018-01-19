@@ -35,7 +35,7 @@ public interface ConsultationMapper extends BasicMapper<Consultation> {
 	 * 在修改编辑资讯的时候删除审核失败通知信息
 	 * @param conId  资讯id
 	 * @param mId  y用户id
-	 * @param msgType  消息类型
+	 * @param msgType
 	 */
 	public void deleteMemberMsgByConId(@org.apache.ibatis.annotations.Param("conId")Long conId,@org.apache.ibatis.annotations.Param("mId") Long mId, @org.apache.ibatis.annotations.Param("msgType")Integer msgType);
 	/**

@@ -6,7 +6,6 @@ import com.zc.common.core.orm.hibernate.IdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -16,7 +15,7 @@ import java.io.Serializable;
  * @date 2017年6月12日
  *
  */
-@Table(name="alq_member_msg")
+@Alias("alq_member_msg")
 public class MemberMsg extends IdEntity implements Serializable {
 	
 	/**

@@ -60,6 +60,14 @@ public interface MemberService {
 	 */
 	Member getMemberByPhoneAndUuid(Map<String, Object> params);
 
+	/**
+	 * @description 接口说明 获取用户认证
+	 * @author 王鑫涛
+	 * @date 12:04 2018/1/19
+	 * @version 版本号
+	 * @param member 用户
+	 * @return
+	 */
 	Result getAuthMember(Member member);
 
 	/**

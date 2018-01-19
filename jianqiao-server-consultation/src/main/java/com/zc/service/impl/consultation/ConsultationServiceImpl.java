@@ -990,14 +990,15 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
     /**
      * 获取父级专题信息
-     * @param type
-     * @param member
-     * @param page
-     * @param size
+     * @param type  资讯类型
+     * @param member    用户
+     * @param page  当前页数
+     * @param size  每页显示的数量
      * @return
      */
     @Override
     public Result getParentConsultation(String type, Member member, Integer page, Integer size) {
+        logger.info("==============进入获取资讯列表方法===============");
         Map<String,Object> map = Maps.newHashMap();
         map.put("mid",member.getId());
         Integer curPage = (page-1)*size;
@@ -1015,6 +1016,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 map.put("type","2");
                 result = consultationAttachmentService.getConsultationAttachmentByConsultationType(map);
             }
+            logger.info("==============获取资讯列表方法结束===============");
             return ResultUtils.returnSuccess("成功",result);
         } catch (Exception e) {
             logger.error(e.getMessage(),e);

@@ -46,9 +46,18 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	public int save(MemberMsg memberMsg) {
 		return memberMsgMapper.save(memberMsg);
 	}
-
+	/**
+	 *
+	 * @description 接口说明 读取通知信息的接口
+	 * @author 王鑫涛
+	 * @date 10:46 2018/1/18
+	 * @version 版本号
+	 * @param members 用户
+	 * @return
+	 */
 	@Override
 	public Result getMemberMsgReadInform(Member members) {
+		logger.info("==========================进入读取通知信息的接口======================");
 		Result result = new Result();
 		if (members == null) {
 			return ResultUtils.returnError("请先登录");
@@ -61,11 +70,13 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		if (id != null && msgId==0 && type ==0) {
 			try {
 				Long member_id=id;
+				logger.info("====================获取总的数据======================");
 				List<MemberMsg> rowLock = memberMsgMapper.getRowLockList(member_id);
 				for (int i = 0; i < rowLock.size(); i++) {
-
+					logger.info("=====================根据id获取系统消息=================");
 					MemberMsg findOne = memberMsgMapper.findOne(rowLock.get(i).getId());
 					findOne.setCountType(1);
+					logger.info("=====================修改系统消息类型=================");
 					memberMsgMapper.updateById(findOne);
 				}
 			} catch (Exception e) {
@@ -76,29 +87,35 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 			}
 			result.setCode(1);
 			result.setMsg("修改成功");
+			logger.info("=====================进入读取通知信息的接口结束=================");
 			return result;
 		}
 
 		//=========================================修改接口=============================================
-		try {
+		try {// 1审核通知，2赞通知，3评论通知
 
 			if (type == 3 && id != null) {
+				logger.info("===================================进入通知评论============================");
 				Integer types = 4;
 				Integer readType = 1;
+				logger.info("=======================通过数据修改系统通知状态======================");
 				int updateMemberMsgReadType = memberMsgMapper.updateMemberMsgReadType(types, readType, id);
 				if (updateMemberMsgReadType>0) {
 					result.setCode(1);
 					result.setMsg("成功");
 				}
 			} else if (type == 2 && id != null) {
+				logger.info("===================================进入2赞通知============================");
 				Integer types = 5;
 				Integer readType = 1;
+				logger.info("=======================通过数据修改系统通知状态======================");
 				int updateMemberMsgReadType = memberMsgMapper.updateMemberMsgReadType(types, readType, id);
 				if (updateMemberMsgReadType >0) {
 					result.setCode(1);
 					result.setMsg("成功");
 				}
 			} else if (type == 1 && id != null && msgId != null && msgId != 0) {
+				logger.info("===================================进入审核通知============================");
 				MemberMsg findOne = memberMsgMapper.findOne(msgId);
 				if (findOne == null) {
 					return ResultUtils.returnError("没有此参数");
@@ -121,6 +138,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 			result.setCode(0);
 			result.setMsg("修改数据异常");
 		}
+		logger.info("=====================进入读取通知信息的接口结束=================");
 		return result;
 	}
 
@@ -136,6 +154,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	 */
 	@Override
 	public Result getReadInformList(Member members, Long msgId, Integer type) {
+		logger.info("====================进入阅读通知信息方法=====================================");
 		// TODO Auto-generated method stub
 		Result result = new Result();
 		if (members == null) {
@@ -149,11 +168,13 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		if (mId != null && msgId==0 && type ==0) {
 			try {
 				Long member_id=mId;
+				logger.info("--------------------------获取总的数据-------------------");
 				List<MemberMsg> rowLock = memberMsgMapper.getRowLockList(member_id);
 				for (int i = 0; i < rowLock.size(); i++) {
-
+					logger.info("---------------------根据id获取系统消息==================");
 					MemberMsg findOne = memberMsgMapper.findOne(rowLock.get(i).getId());
 					findOne.setCountType(1);
+					logger.info("===============修改通知类型=============");
 					memberMsgMapper.updateById(findOne);
 				}
 			} catch (Exception e) {
@@ -164,6 +185,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 			}
 			result.setCode(1);
 			result.setMsg("修改成功");
+			logger.info("====================阅读通知信息方法结束=====================================");
 			return result;
 		}
 
@@ -171,14 +193,17 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		try {
 
 			if (type == 3 && mId != null) {
+				logger.info("=============进入评论通知====================");
 				Integer types = 4;
 				Integer readType = 1;
+				logger.info("========================通过数据修改系统通知状态=======================");
 				int updateMemberMsgReadType = memberMsgMapper.updateMemberMsgReadType(types, readType, mId);
 				if (updateMemberMsgReadType>0) {
 					result.setCode(1);
 					result.setMsg("成功");
 				}
 			} else if (type == 2 && mId != null) {
+				logger.info("=====================进入赞通知============================");
 				Integer types = 5;
 				Integer readType = 1;
 				int updateMemberMsgReadType = memberMsgMapper.updateMemberMsgReadType(types, readType, mId);
@@ -187,6 +212,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 					result.setMsg("成功");
 				}
 			} else if (type == 1 && mId != null && msgId != null && msgId != 0) {
+				logger.info("======================进入审核通知======================");
 				MemberMsg findOne = memberMsgMapper.findOne(msgId);
 				if (findOne == null) {
 					return ResultUtils.returnError("没有此参数");
@@ -209,13 +235,23 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 			result.setCode(0);
 			result.setMsg("修改数据异常");
 		}
+		logger.info("====================阅读通知信息方法结束=====================================");
 		return result;
 	}
-
+	/**
+	 * 审核通知列表  系统消息==通知
+	 * @param member
+	 * @param page 当前页
+	 * @param rows	每页显示的数量
+	 * @param type 1审核通知，2赞通知，3评论通知
+	 * @return
+	 */
 	@Override
 	public Result getInformList(Member member, Integer page, Integer rows, Integer type) {
+		logger.info("========进入系统消息======通知方法===================");
 		Result result = new Result();
 		// TODO Auto-generated method stub
+
 		if (member == null) {
 			return ResultUtils.returnError("请先登录");
 		} else if (type == null) {
@@ -229,6 +265,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 
 		try {// type 1审核通知，2赞通知，3评论通知
 			if (type == 1) {
+				logger.info("===========进入审核通知==============");
 				List<Map> checkInformList = memberMsgMapper.getCheckInformList(mId, (page - 1) * rows, rows, type);
 				// =============================================修改时间=========================================================
 				for (Map map : checkInformList) {
@@ -250,6 +287,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 				result.setContent(list);
 				result.setMsg("成功");
 			} else if (type == 2) {
+				logger.info("---------------------进入赞通知-------------------------");
 				List<Map> supportInformList = memberMsgMapper.getSupportInformList(mId, (page - 1) * rows, rows);
 				if (supportInformList == null) {
 					result.setCode(1);
@@ -262,6 +300,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Long mLId = (Long) maps.get("mLId");
 						Map map = new HashMap();
 						if ((conId == null || conId == 0) && comId != null && comId != 0) {// 评论点赞
+							logger.info("==================获取评论资讯赞====================");
 							List<Map> mapsss = memberMsgMapper.getCommentSupportInformList(comId, memId, mLId);
 							if (mapsss.size() == 0) {
 								return ResultUtils.returnError("获取的数据有脏数据");
@@ -287,6 +326,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {// 资讯点赞
 							// ===============================================//0是访谈主题
 							// 1访谈内容 2口述主题 3口述内容 4求助 5回答 6分享==========
+							logger.info("-------------获取资讯赞-----------------");
 							List<Map> mapss = memberMsgMapper.getConsulatationSupportInformList(conId, memId, mLId);
 							if (mapss.size() == 0) {
 								return ResultUtils.returnError("获取的数据有脏数据");
@@ -344,6 +384,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 				result.setContent(list);
 				result.setMsg("成功");
 			} else if (type == 3) {
+				logger.info("==========================进入评论通知========================");
+				logger.info("=====================获取人评论者列表的数据==================");
 				List<Map> commentInform = memberMsgMapper.getCommentInformList(mId, (page - 1) * rows, rows);
 				if (commentInform == null) {
 					result.setCode(1);
@@ -357,6 +399,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Map map = new HashMap();
 						String message = (String) map2.get("message");
 						if ((conId == null || conId == 0) && comId != null && comId != 0) {// 评论的回复
+							logger.info("---------------获取评论回复--------------");
 							List<Map> maps = memberMsgMapper.getCommentDiscussInformList(comId, memId, mLId);
 							if (maps.size() == 0) {
 								return ResultUtils.returnError("获取的数据有脏数据");
@@ -389,6 +432,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							// 查询资讯id，通过资讯id判断是回答还是consulation_id,回答是没有title
 							// ===============================================//0是访谈主题
 							// 1访谈内容 2口述主题 3口述内容 4求助 5回答 6分享==========
+							logger.info("------------------------获取资讯评论------------------------");
 							List<Map> maps = memberMsgMapper.getConsulatationDiscussInformList(comId, conId, memId, mLId);
 							if (maps.size() == 0) {
 								return ResultUtils.returnError("获取的数据有脏数据");
@@ -425,6 +469,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							// =================================当message为空时是对回答的评论===================================================================================================//
 							if (map.get("message") == null) {
 								Long id = (Long) map.get("conId");
+								logger.info("-------------------------通过资讯的id获取Attachment---------------------------");
 								ConsultationAttachment attachmentByconId = memberMsgMapper.getAttachmentByconId(id);
 								map.put("message", types + ":" + attachmentByconId.getDetailContent());
 								map.put("conId", map.get("messageId"));
@@ -448,7 +493,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							}
 
 						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {// 对求助的评论就是回答
-
+							logger.info("-----------------------获取回答者的数据-------------------");
 							List<Map> maps = memberMsgMapper.getReplyDiscussInformList(conId, memId, mLId);
 							if (maps.size() == 0) {
 								return ResultUtils.returnError("获取的数据有脏数据");
@@ -485,6 +530,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							// =================================当message为空时是对回答的评论，===================================================================================================//
 							if (map.get("message") == null) {
 								Long id = (Long) map.get("conId");
+								logger.info("-------------------------通过资讯的id获取Attachment-----------------------");
 								ConsultationAttachment attachmentByconId = memberMsgMapper.getAttachmentByconId(id);
 								map.put("message", types + ":" + attachmentByconId.getDetailContent());
 								map.put("result", 0);// result为0时是评论的回复，资讯的评论
@@ -530,6 +576,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 			result.setCode(0);
 			result.setMsg("获取审核列表数据异常");
 		}
+		logger.info("------------------------进入系统消息======通知方法==============================");
 		return result;
 	}
 }

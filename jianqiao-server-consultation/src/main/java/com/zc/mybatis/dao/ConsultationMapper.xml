@@ -3,6 +3,9 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.zc.mybatis.dao.ConsultationMapper">
+	<update id="updateConsultationByParentId" parameterType="java.lang.Long">
+		UPDATE alq_consultation SET is_delete = 1 WHERE consulatation_id = #{cid}
+	</update>
 	<select id="getConsultationByIdAndMember" resultType="com.zc.main.entity.consultation.Consultation">
 		SELECT * FROM alq_consultation where id = #{id} and member_id =#{member}
 	</select>
