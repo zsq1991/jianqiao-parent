@@ -196,4 +196,15 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @return
      */
     int save(MemberMsg memberMsg);
+
+    /**
+     * 判断是否是审核失败修改状态,@wudi，如果是审核失败的修改删除通知的memberMsg,1认证驳回  2内容驳回
+     * @author huangxin
+     * @data 2018/1/19 17:51
+     * @Description: 判断是否是审核失败修改状态,@wudi，如果是审核失败的修改删除通知的memberMsg,1认证驳回  2内容驳回
+     * @Version: 3.2.0
+     * @param id
+     * @param i
+     */
+    void deleteMemberMsgByMId(Long id, int i);
 }
