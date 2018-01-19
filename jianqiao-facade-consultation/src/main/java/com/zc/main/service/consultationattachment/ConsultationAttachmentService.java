@@ -14,7 +14,14 @@ import java.util.Map;
  * @Creation Date ： 2018/1/16 11:18
  */
 public interface ConsultationAttachmentService {
-
+    /**
+     * @description 接口说明 父及资讯
+     * @author 王鑫涛
+     * @date 15:54 2018/1/19
+     * @version 版本号
+     * @param map
+     * @return
+     */
     List<Map<String,Object>> getConsultationAttachmentByConsultationType(Map<String, Object> map);
     /**
      * @param id 资讯id

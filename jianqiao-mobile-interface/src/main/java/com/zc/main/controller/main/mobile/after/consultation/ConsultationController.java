@@ -108,9 +108,13 @@ public class ConsultationController {
     }
 
     /**
-     * 获取父级主题
-     * @param type
-     * @param member
+     *
+     * @description方法说明 获取父级主题
+     * @author 王鑫涛
+     * @date  15:53  2018/1/19
+     * @version 版本号
+     * @param type 资讯类型
+     * @param member 用户
      * @return
      */
     @RequestMapping(value="getParentConsultation",method=RequestMethod.POST)
@@ -118,14 +122,18 @@ public class ConsultationController {
                                         @MemberAnno Member member,
                                         @RequestParam(value = "page",defaultValue ="1",required = false)Integer page,
                                         @RequestParam(value="size",defaultValue ="10",required = false)Integer size){
-
+        logger.info("进入 获取父级主题接口");
         return consultationService.getParentConsultation(type, member,page,size);
     }
 
     /**
-     * 添加咨询
-     * @param content
-     * @param member
+     *
+     * @description方法说明 添加咨询
+     * @author 王鑫涛
+     * @date  15:59  2018/1/19
+     * @version 版本号
+     * @param content 资讯内容
+     * @param member 用户
      * @return
      */
     @Explosionproof
@@ -136,9 +144,13 @@ public class ConsultationController {
         return consultationService.addConsultation(content, member);
     }
     /**
-     * 修改咨询
-     * @param content
-     * @param member
+     *
+     * @description方法说明 修改咨询
+     * @author 王鑫涛
+     * @date  15:59  2018/1/19
+     * @version 版本号
+     * @param content 资讯内容
+     * @param member 用户
      * @return
      */
     @Explosionproof

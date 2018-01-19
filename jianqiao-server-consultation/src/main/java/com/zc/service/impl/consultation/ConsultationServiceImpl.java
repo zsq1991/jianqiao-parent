@@ -70,7 +70,15 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private MembersearchconsultationService membersearchconsultationService;
-
+    /**
+     * @description 接口说明 删除资讯===用户中心
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param id 资讯id
+     * @param member 用户
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public Result deleteConsultationById(Long id, Member member) {
@@ -318,6 +326,15 @@ public class ConsultationServiceImpl implements ConsultationService {
         }
         return flag;
     }
+    /**
+     * @description 接口说明 发布资讯===用户中心
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param content 资讯内容
+     * @param member 用户
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public Result addConsultation(String content, Member member) {
@@ -483,7 +500,15 @@ public class ConsultationServiceImpl implements ConsultationService {
             return ResultUtils.returnError(StatusCodeEnums.ERROR.getMsg());
         }
     }
-
+    /**
+     * @description 接口说明 修改资讯
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param content 资讯内容
+     * @param member 用户
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public Result updateConsultation(String content, Member member) {
