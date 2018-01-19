@@ -33,9 +33,9 @@ public class SearchController {
      * @author:  ZhaoJunBiao
      * @date:  2018/1/18 15:23
      * @version: 1.0.0
-     * @param member
-     * @param page
-     * @param size
+     * @param member  用户信息
+     * @param page 页码
+     * @param size 每页大小
      * @return
      */
     @RequestMapping(value = "getHistoryKeys",method = RequestMethod.POST)

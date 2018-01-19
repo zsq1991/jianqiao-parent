@@ -42,15 +42,19 @@ public class AppVersionServiceImpl implements AppVersionService {
      */
     @Override
     public Result getAppVersion(String client_type, String version) {
-        logger.info("检测软件版本接口调用开始，方法入参："+client_type+version);
+        logger.info("检测软件版本接口调用开始，方法入参："+"设备标识"+client_type+"版本号"+version);
         try {
-            List<Map<String,Object>> appVersionList = appVersionMapper.getAppVersion();//查询相关版本信息
+            //查询相关版本信息
+            List<Map<String,Object>> appVersionList = appVersionMapper.getAppVersion();
             if(appVersionList.size()>0){
                 Map<String,Object> appVersion=appVersionList.get(0);
                 Integer v = (Integer) appVersion.get("version");
+                logger.info("最新版本号"+v);
                 Integer v1 = Integer.valueOf(version);
-                if("A".equals(client_type)){//设备标识（Android as A、Ios as I）
-                    if(version.equals(appVersion.get("version"))){//比较版本号是否一致
+                //设备标识（Android as A、Ios as I）
+                if("A".equals(client_type)){
+                    //比较版本号是否一致
+                    if(version.equals(appVersion.get("version"))){
                         return ResultUtils.returnSuccess("已经是最新版本");
                     }else if("1".equals(appVersion.get("isMustToUpdate"))){
                         return ResultUtils.returnSuccess("当前版本修复重大漏洞", appVersion);

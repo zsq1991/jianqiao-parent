@@ -20,6 +20,15 @@ public interface ConsultationService {
 
     Result addConsultation(String content, Member member);
 
+    /**
+     * @description 接口说明 修改资讯
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param content 资讯内容
+     * @param member 用户
+     * @return
+     */
     Result updateConsultation(String content, Member member);
 
     Result publishConsultation(String id, String type, Member member);

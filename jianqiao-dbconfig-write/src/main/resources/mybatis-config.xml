@@ -11,6 +11,8 @@
       <setting name="callSettersOnNulls" value="true"/>
 	  <!-- mybatis开启数据库字段自动映射驼峰命名规则java属性   -->
 	  <setting name="mapUnderscoreToCamelCase" value="true"/>
+	  <!-- 开启打印sql -->
+	  <setting name="logImpl" value="STDOUT_LOGGING" />
   </settings>
 	<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
 	<typeAliases>
