@@ -28,7 +28,7 @@ import java.util.*;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = MemberMsgService.class)
-@Transactional
+@Transactional(readOnly = true)
 public class MemberMsgServiceImpl implements MemberMsgService{
 
 	private static Logger logger = LoggerFactory.getLogger(MemberMsgServiceImpl.class);
@@ -56,6 +56,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	 * @return
 	 */
 	@Override
+	@Transactional(readOnly = false)
 	public Result getMemberMsgReadInform(Member members) {
 		logger.info("==========================进入读取通知信息的接口======================");
 		Result result = new Result();
@@ -69,9 +70,9 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		//==========================================符合此条件的时候，读取阅读通知===============================
 		if (id != null && msgId==0 && type ==0) {
 			try {
-				Long member_id=id;
+				Long memberId=id;
 				logger.info("====================获取总的数据======================");
-				List<MemberMsg> rowLock = memberMsgMapper.getRowLockList(member_id);
+				List<MemberMsg> rowLock = memberMsgMapper.getRowLockList(memberId);
 				for (int i = 0; i < rowLock.size(); i++) {
 					logger.info("=====================根据id获取系统消息=================");
 					MemberMsg findOne = memberMsgMapper.findOne(rowLock.get(i).getId());
@@ -153,6 +154,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	 * @return
 	 */
 	@Override
+	@Transactional(readOnly = false)
 	public Result getReadInformList(Member members, Long msgId, Integer type) {
 		logger.info("====================进入阅读通知信息方法=====================================");
 		// TODO Auto-generated method stub
