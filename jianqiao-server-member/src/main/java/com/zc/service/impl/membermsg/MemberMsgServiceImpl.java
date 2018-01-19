@@ -44,7 +44,6 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 
 	@Override
 	public int save(MemberMsg memberMsg) {
-		System.out.println("1");
 		return memberMsgMapper.save(memberMsg);
 	}
 
