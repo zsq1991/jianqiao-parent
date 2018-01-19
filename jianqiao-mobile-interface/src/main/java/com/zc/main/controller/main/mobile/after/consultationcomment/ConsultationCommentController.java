@@ -52,22 +52,23 @@ public class ConsultationCommentController {
 	/**
 	 * * @author:  wangxueyang[wxueyanghj@163.com]
 	 * @create:  2018/1/18 22:42
-	 * @desc:	用户直接评论资讯
+	 * @desc:	用户直接评论咨询
 	 * @version 1.0.0
-	 * @param consultationid 要评论的资讯id
+	 * @param consultationid 要评论的咨询id
 	 * @param content 评论的内容
 	 * @param member 评论者
 	 * @return
 	 */
-	@Explosionproof
+//	@Explosionproof
 	@RequestMapping(value="directconsultationcomment",method=RequestMethod.POST)
 	@ResponseBody
 	public Result directConsultationComment(
 			@RequestParam(value="consultationid") Long consultationid,
 			@RequestParam(value="content") String content,
 			@MemberAnno Member member){
-
-		return consultationCommentService.saveDirectConsultationComment(member.getId(),consultationid,content);
+		logger.info("用户直接评论咨询传入参数 ==》 consultationid："+ consultationid +" content:"+content);
+        Result result = consultationCommentService.saveDirectConsultationComment(member.getId(), consultationid, content);
+        return result;
 	}
 
 }

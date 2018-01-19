@@ -153,4 +153,11 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @return
      */
     Map<String,Object> getContentById(Long conid);
+
+    /**
+     * 保存 memberMsg
+     * @param memberMsg
+     * @return
+     */
+    int save(MemberMsg memberMsg);
 }

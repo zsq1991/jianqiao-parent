@@ -21,6 +21,17 @@ public interface MemberMsgService{
 	 * @return
 	 */
 	int insert(MemberMsg memberMsg);
+
+	/**
+	 * * @author:  wangxueyang[wxueyanghj@163.com]
+	 * @create:  2018/1/19 11:27
+	 * @desc: 保存信息
+	 * @version 1.0.0
+	 * @param memberMsg
+	 * @return
+	 */
+	int save(MemberMsg memberMsg);
+
 	/**
 	 *
 	 * @description 接口说明 读取通知信息的接口
