@@ -12,13 +12,16 @@ import java.util.Map;
  *
  */
 public interface ConsultationCommentService {
-	
 	/**
-	 * 直接评论咨询
-	 * @param memberid
-	 * @param consultationid
-	 * @param content
+	 * * @author:  wangxueyang[wxueyanghj@163.com]
+	 * @create:  2018/1/18 22:43
+	 * @desc:	直接评论咨询
+	 * @version 1.0.0
+	 * @param memberid 评论者id
+	 * @param consultationid 资讯id
+	 * @param content 评论内容
 	 * @return
+	 */
 	public Result saveDirectConsultationComment(Long memberid, Long consultationid, String content);
 	
 	/**

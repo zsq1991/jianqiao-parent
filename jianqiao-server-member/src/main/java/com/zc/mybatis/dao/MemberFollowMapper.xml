@@ -61,4 +61,58 @@
         ORDER BY created_time DESC
         LIMIT #{pages},#{sizes}
     </select>
+    <!-- 通过被关注者id和关注者id获取实体类 -->
+    <select id="getMemberFollowByData" resultType="com.zc.main.entity.memberfollow.MemberFollow" parameterType="Long">
+        select * from alq_member_follow
+        where member_id=#{fId} and member_following_id=#{mId}
+    </select>
+    <!--更新会员粉丝数  关注数-->
+    <update id="updateNumById">
+        UPDATE
+          alq_member
+        SET
+          update_time = #{updateTime}
+          <if test="followingNum != null">
+              ,following_num = #{followingNum}
+          </if>
+          <if test="focusNum != null">
+              ,focus_num = #{focusNum}
+          </if>
+        WHERE
+          id = #{id}
+    </update>
+
+    <!-- 判断是单向关注还是相互关注 -->
+    <select id="getDataById" resultType="com.zc.main.entity.memberfollow.MemberFollow" parameterType="Long">
+        SELECT
+          *
+        FROM
+          alq_member_follow
+        WHERE
+          member_id = #{fId}
+        AND IFNULL(is_delete,0)!=1
+        AND member_following_id = #{mId}
+    </select>
+
+    <!--更新关注记录-->
+    <update id="updateMemberFollowById">
+        UPDATE
+          alq_member_follow
+        SET
+          update_time = #{updateTime},
+          is_delete = #{isDelete}
+        WHERE
+          id = #{id}
+    </update>
+
+    <!--添加关注记录-->
+    <insert id="insertMemberFollow">
+        INSERT INTO alq_member_follow(id,created_time,update_time,is_delete,member_id,member_following_id)
+        VALUES (null,NOW(),NOW(),#{isDelete},#{memberId},#{memberFollowingId})
+    </insert>
+
+    <!--根据id获取当前关注记录-->
+    <select id="getMemberFollowById" resultType="com.zc.main.entity.memberfollow.MemberFollow" parameterType="long">
+        SELECT * FROM alq_member_follow WHERE id = #{id}
+    </select>
 </mapper>

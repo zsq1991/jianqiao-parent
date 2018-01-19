@@ -23,13 +23,13 @@ public class MemberFollow extends IdEntity implements Serializable {
      * 关注的用户id
      */
     @Column(name = "member_following_id")
-    private Member memberFollowingId;
+    private Long memberFollowingId;
 
     /**
      * 被关注的会员id
      */
     @Column(name = "member_id")
-    private Member memberId;
+    private Long memberId;
 
     /**
      * 0或者null为关注，1是取消关注
@@ -37,19 +37,19 @@ public class MemberFollow extends IdEntity implements Serializable {
     @Column(name = "is_delete")
     private Integer isDelete;
 
-    public Member getMemberFollowingId() {
+    public Long getMemberFollowingId() {
         return memberFollowingId;
     }
 
-    public void setMemberFollowingId(Member memberFollowingId) {
+    public void setMemberFollowingId(Long memberFollowingId) {
         this.memberFollowingId = memberFollowingId;
     }
 
-    public Member getMemberId() {
+    public Long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(Member memberId) {
+    public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
 

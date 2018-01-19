@@ -49,4 +49,25 @@ public class ConsultationCommentController {
 		return consultationCommentService.saveReplyconsultationCommentService(member.getId(),type,parentid,content);
 	}
 
+	/**
+	 * * @author:  wangxueyang[wxueyanghj@163.com]
+	 * @create:  2018/1/18 22:42
+	 * @desc:	用户直接评论资讯
+	 * @version 1.0.0
+	 * @param consultationid 要评论的资讯id
+	 * @param content 评论的内容
+	 * @param member 评论者
+	 * @return
+	 */
+	@Explosionproof
+	@RequestMapping(value="directconsultationcomment",method=RequestMethod.POST)
+	@ResponseBody
+	public Result directConsultationComment(
+			@RequestParam(value="consultationid") Long consultationid,
+			@RequestParam(value="content") String content,
+			@MemberAnno Member member){
+
+		return consultationCommentService.saveDirectConsultationComment(member.getId(),consultationid,content);
+	}
+
 }
