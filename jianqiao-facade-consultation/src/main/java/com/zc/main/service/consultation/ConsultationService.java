@@ -17,7 +17,14 @@ public interface ConsultationService {
      * @version 1.0.0
      */
     Result deleteConsultationById(Long id, Member member);
-
+    /**
+     * @param content     咨询内容
+     * @param member 用户
+     * @description ：发布资讯
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/16 10:56
+     * @version 1.0.0
+     */
     Result addConsultation(String content, Member member);
 
     /**

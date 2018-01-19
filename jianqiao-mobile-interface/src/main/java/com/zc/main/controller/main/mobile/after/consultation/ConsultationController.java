@@ -90,6 +90,15 @@ public class ConsultationController {
         return consultationService.getConsultationDetail(cid, member,row,type);
     }
 
+    /**
+     * @description方法说明 删除信息
+     * @author 王鑫涛
+     * @date  14:27  2018/1/19
+     * @version 版本号
+     * @param id 资讯id
+     * @param member 用户
+     * @return
+     */
     @Explosionproof
     @RequestMapping(value="deleteconsultation",method= RequestMethod.POST)
     public Result deleteConsultationById(@RequestParam("id")Long id,
