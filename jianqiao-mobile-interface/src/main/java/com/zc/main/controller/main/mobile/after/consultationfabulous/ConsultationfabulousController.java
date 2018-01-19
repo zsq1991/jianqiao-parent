@@ -4,7 +4,9 @@ package com.zc.main.controller.main.mobile.after.consultationfabulous;
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.common.core.annotation.Explosionproof;
+import com.zc.common.core.annotation.MemberAnno;
 import com.zc.common.core.result.Result;
+import com.zc.main.entity.member.Member;
 import com.zc.main.service.consultationfabulous.ConsultationFabulousService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,23 +29,43 @@ public class ConsultationfabulousController {
 
 	@DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
 	private ConsultationFabulousService consultationFabulousService;
-	
+
+
+	/**
+	 * @description:对4种内容进行点赞
+	 * @author: ZhaoJunBiao
+	 * @date: 2018/1/16 13:51
+	 * @param member 用户信息
+	 * @param id       咨询id
+	 * @param type     点赞 1   取消赞2
+	 * @version: 1.0.0
+	 * @return
+	 */
 	@Explosionproof
 	@RequestMapping(value="fabulous",method= RequestMethod.POST)
 	@ResponseBody
 	public Result consultationcfabulous(@RequestParam("id")Long id,
 										@RequestParam("type")Integer type,
-										@RequestParam("memberId")Long memberId){
-		return consultationFabulousService.getConsultationFabulousByIdAndMemberId(id, memberId, type);
+										@MemberAnno Member member){
+		return consultationFabulousService.getConsultationFabulousByIdAndMemberId(id, member.getId(), type);
 		
 	}
-	
+
+	/**
+	 * @description:	根据咨询id和会员id查询点赞
+	 * @author: ZhaoJunBiao
+	 * @date: 2018/1/16 14:51
+	 * @param member 用户信息
+	 * @param id       咨询id
+	 * @version: 1.0.0
+	 * @return
+	 */
 	@RequestMapping(value="fabulous-type",method= RequestMethod.POST)
 	@ResponseBody
 	public Result getConsultationType(@RequestParam("id")Long id,
-									  @RequestParam("memberId")Long memberId){
+									  @MemberAnno Member member){
 		
-		return consultationFabulousService.getConsultationType(id, memberId);
+		return consultationFabulousService.getConsultationType(id, member.getId());
 		 
 	}
 	

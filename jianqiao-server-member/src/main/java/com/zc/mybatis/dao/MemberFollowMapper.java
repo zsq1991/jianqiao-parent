@@ -1,8 +1,10 @@
 package com.zc.mybatis.dao;
 
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
+import com.zc.main.entity.member.Member;
 import com.zc.main.entity.memberfollow.MemberFollow;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.method.P;
 
 import java.util.List;
 import java.util.Map;
@@ -78,4 +80,65 @@ public interface MemberFollowMapper {
      */
     List<Map> getMIdList(@Param("mId") Long mId, @Param("pages") int pages, @Param("sizes") int sizes);
 
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 17:50
+     * @desc: 通过关注者id和被关注者id获取实体类
+     * @version 1.0.0
+     * @param fId 被关注者id
+     * @param mId 关注者id
+     * @return
+     */
+    MemberFollow getMemberFollowByData(@Param("fId")Long fId,@Param("mId") Long mId);
+
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 18:12
+     * @desc: 更新会员粉丝数 关注数
+     * @version 1.0.0
+     * @param member 当前更新的内容
+     * @return
+     */
+    Integer updateNumById(Member member);
+
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 21:21
+     * @desc: 获取关注信息
+     * @version 1.0.0
+     * @param fId 关注者id
+     * @param mId 被关注者id
+     * @return
+     */
+    MemberFollow getDataById(@Param("fId")Long fId,@Param("mId")Long mId );
+
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 21:28
+     * @desc: 更新关注信息
+     * @version 1.0.0
+     * @param memberFollow 关注信息
+     * @return
+     */
+    Integer updateMemberFollowById(MemberFollow memberFollow);
+
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 21:36
+     * @desc: 插入关注新纪录
+     * @version 1.0.0
+     * @param memberFollow
+     * @return
+     */
+    Integer insertMemberFollow(MemberFollow memberFollow);
+
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/18 21:58
+     * @desc: 根据id获取当前关注记录
+     * @version 1.0.0
+     * @param id
+     * @return
+     */
+    MemberFollow getMemberFollowById(@Param("id") Long id);
 }

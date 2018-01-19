@@ -1,9 +1,12 @@
 package com.zc.service.impl.memberfollow;
 
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.member.Member;
 import com.zc.main.entity.memberfollow.MemberFollow;
+import com.zc.main.service.member.MemberService;
 import com.zc.main.service.memberfollow.MemberFollowService;
 import com.zc.mybatis.dao.MemberFollowMapper;
 import com.zc.service.impl.member.MemberServiceImpl;
@@ -12,8 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +32,6 @@ import java.util.Map;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = MemberFollowService.class)
-@Transactional(readOnly = true)
 public class MemberFolloServiceImpl implements MemberFollowService {
 
     private static Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
@@ -35,10 +39,150 @@ public class MemberFolloServiceImpl implements MemberFollowService {
     @Autowired
     private MemberFollowMapper memberFollowMapper;
 
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private MemberService memberService;
+
     @Override
+    @Transactional
     public Result focusMember(Long fId, Long mId) {
         logger.info("获取关注用户传入参数");
-        return null;
+        Result result = new Result();
+        if(mId==null && fId==null){
+            return ResultUtils.returnError("请输入关注着的id");
+        }else if(fId == mId){
+            return ResultUtils.returnError("不能关注自己");
+        }
+        //检索是否存在用户身份
+        Member fMember = memberService.checkMemberById(fId);
+        if (fMember == null){
+            logger.info("被关注者不存在!");
+            return ResultUtils.returnError("您关注的用户不存在!");
+        }
+        Member member = memberService.checkMemberById(mId);
+        if (member == null){
+            logger.info("关注者不存在!");
+            return ResultUtils.returnError("当前登录身份异常!");
+        }
+        MemberFollow memberFollowByData = memberFollowMapper.getMemberFollowByData(fId, mId);
+        if(memberFollowByData != null){
+            //关注或者取消关注,第一个参数是MemberFollow的id，fId时被关注者的id，mId是关注者的id
+            try{
+                MemberFollow memberFollow = memberFollowMapper.getMemberFollowById(memberFollowByData.getId());
+                if (memberFollow != null){
+                    Integer number = memberFollow.getIsDelete() == null?0:memberFollow.getIsDelete();
+                    if(number==0){//修改为取消关注
+                        //粉丝数量，被关注者
+                        Long follwNum = fMember.getFollowingNum()==null?0:fMember.getFollowingNum();
+                        fMember.setFollowingNum(follwNum-1);
+                        fMember.setUpdateTime(new Date());
+                        if (memberFollowMapper.updateNumById(fMember)>0){
+                            logger.info("更新粉丝数成功！");
+                        }
+                        //注者数量。关注者
+                        Long focusNum = member.getFocusNum()==null?0:member.getFocusNum();
+                        member.setFocusNum(focusNum+1);
+                        member.setUpdateTime(new Date());
+                        if (memberFollowMapper.updateNumById(member)>0){
+                            logger.info("更新关注数成功！");
+                        }
+
+                        memberFollow.setUpdateTime(new Date());
+                        memberFollow.setIsDelete(1);//0或者null为关注，1是取消关注
+                        if (memberFollowMapper.updateMemberFollowById(memberFollow)>0){
+                            logger.info("更新关注记录成功！");
+                        }
+                        result.setCode(1);
+                        result.setContent(0);//取消成功
+                        result.setMsg("取消关注");
+                    }else{//修改为关注
+
+                        //粉丝数量，被关注者
+                        fMember.setFollowingNum(fMember.getFollowingNum()+1);
+                        fMember.setUpdateTime(new Date());
+
+                        if (memberFollowMapper.updateNumById(fMember)>0){
+                            logger.info("更新粉丝数成功！");
+                        }
+                        //减少关注者数量。关注者
+                        Long focusNum = member.getFocusNum()==null?0:member.getFocusNum();
+                        member.setFocusNum(focusNum+1);
+                        member.setUpdateTime(new Date());
+                        if (memberFollowMapper.updateNumById(member)>0){
+                            logger.info("更新关注数成功！");
+                        }
+
+                        memberFollow.setUpdateTime(new Date());
+                        memberFollow.setIsDelete(0);//0或者null为关注，1是取消关注
+                        if (memberFollowMapper.updateMemberFollowById(memberFollow)>0){
+                            logger.info("更新关注记录成功！");
+                        }
+                        MemberFollow dataById2 = memberFollowMapper.getDataById(mId, fId);
+                        if ( dataById2 !=null) {
+                            result.setContent(2);
+                        }else{
+                            result.setContent(1);
+                        }
+                        result.setCode(1);//0或者null为取消关注，1是关注
+                        result.setMsg("关注成功");
+                    }
+                }
+                return result;
+            }catch (Exception e){
+                logger.info("取消关注异常:"+e.getMessage());
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+                return ResultUtils.returnError("取消关注用户失败");
+            }
+        }else{
+            // 关注用户量
+            if( fId ==null || mId == null){
+                return ResultUtils.returnError("参数不能为空");
+            }
+            try {
+                //粉丝数量，被关注者
+                Long follwNum  = fMember.getFollowingNum()==null?0:fMember.getFollowingNum();
+                fMember.setFollowingNum(follwNum+1);
+                fMember.setUpdateTime(new Date());
+
+                if (memberFollowMapper.updateNumById(fMember)>0){
+                    logger.info("更新粉丝数成功！");
+                }
+                //注者数量。关注者
+                Long focusNum = member.getFocusNum()==null?0:member.getFocusNum();
+                member.setFocusNum(focusNum+1);
+                member.setUpdateTime(new Date());
+                if (memberFollowMapper.updateNumById(member)>0){
+                    logger.info("更新关注数成功！");
+                }
+                MemberFollow follow = new MemberFollow();
+                follow.setCreatedTime(new Date());
+                follow.setMemberId(mId);//被关注者
+                follow.setMemberFollowingId(fId);//关注者
+                follow.setIsDelete(0);//0为关注1为取消关注
+                follow.setUpdateTime(new Date());
+                //检索是否已存在关注信息  如果没有直接添加  如果存在则更新 判断三个状态，此接口为0添加关注,1已关注,2相互关注
+                MemberFollow dataById2 = memberFollowMapper.getDataById(mId, fId);
+                if ( dataById2 !=null) {
+                    logger.info("已存在关注记录，开始更新数据");
+                    if (memberFollowMapper.updateMemberFollowById(follow)>0){
+                        logger.info("更新关注记录成功！");
+                    }
+                    result.setContent(2);
+                }else{
+                    logger.info("不存在关注记录，开始添加数据");
+                    if (memberFollowMapper.insertMemberFollow(follow)>0){
+                        logger.info("添加关注记录成功!");
+                    }
+                    result.setContent(1);
+                    result.setMsg("关注成功");
+                }
+            } catch (Exception e) {
+                logger.info("关注异常："+e.getMessage());
+                e.printStackTrace();
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+                return ResultUtils.returnError("关注用户失败");
+            }
+            return result;
+        }
     }
 
     @Override
