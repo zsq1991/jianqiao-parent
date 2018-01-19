@@ -53,6 +53,7 @@ public class MemberServiceImpl implements MemberService {
      * @return
      */
     @Override
+    @Transactional(readOnly = false)
     public int updateById(Member member) {
         int i = memberMapper.updateByPrimaryKeySelective(member);
         return i;
@@ -165,5 +166,11 @@ public class MemberServiceImpl implements MemberService {
             }
         }
         return member;
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public Member getLockOne(Long memberId) {
+        return memberMapper.getLockOne(memberId);
     }
 }

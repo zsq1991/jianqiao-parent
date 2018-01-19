@@ -3,6 +3,7 @@ package com.zc.mybatis.dao;
 import com.common.util.mybatis.BasicMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
 import com.zc.main.entity.collectionconsultation.CollectionConsultation;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -36,5 +37,16 @@ public interface CollectionContentMapper extends BasicMapper<CollectionConsultat
      * @return
      */
     CollectionConsultation findOne(Long consulationId);
+
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/19 15:19
+     * @desc: 获取收藏记录
+     * @version 1.0.0
+     * @param memberId 会员id
+     * @param consultationId 内容id
+     * @return
+     */
+    CollectionConsultation getCollectionByMemberIdAndConsultationId(@Param("memberId")Long memberId, @Param("consultationId") Long consultationId);
     
 }

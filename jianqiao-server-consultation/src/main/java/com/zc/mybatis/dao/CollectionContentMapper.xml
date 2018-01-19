@@ -17,4 +17,14 @@
 	<select id="findOne" parameterType="java.lang.Long" resultType="com.zc.main.entity.collectionconsultation.CollectionConsultation">
 		SELECT * from alq_collection_consultation where consultation_id=#{consulationId}
 	</select>
+
+	<select id="getCollectionByMemberIdAndConsultationId" resultType="com.zc.main.entity.collectionconsultation.CollectionConsultation">
+		SELECT
+			*
+		FROM
+			alq_collection_consultation
+		WHERE
+			consultation_id = #{consultationId} AND member_id = #{memberId}
+		LIMIT 1
+	</select>
 </mapper>

@@ -45,4 +45,15 @@ public interface CollectionContentService {
      * @return
      */
     int updateById(CollectionConsultation collectionConsultation);
+
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     * @create:  2018/1/19 15:08
+     * @desc: 收藏内容
+     * @version 1.0.0
+     * @param member
+     * @param consultationId
+     * @return
+     */
+    Result collectionContent(Member member, Long consultationId);
 }

@@ -1,13 +1,16 @@
 package com.zc.service.impl.collectioncontent;
 
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.collectionconsultation.CollectionConsultation;
+import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.collectioncontent.CollectionContentService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
+import com.zc.main.service.member.MemberService;
 import com.zc.mybatis.dao.ConsultationMapper;
 import com.zc.mybatis.dao.CollectionContentMapper;
 import org.slf4j.Logger;
@@ -15,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -42,6 +46,9 @@ public class CollectionContentServiceImpl implements CollectionContentService {
 
     @Autowired
     private ConsultationAttachmentService consultationAttachmentService;
+
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private MemberService memberService;
 
     @Override
     public Result mycollection(Member member, Integer page, Integer rows) {
@@ -205,5 +212,155 @@ public class CollectionContentServiceImpl implements CollectionContentService {
     @Override
     public int updateById(CollectionConsultation collectionConsultation) {
         return collectionContentMapper.updateById(collectionConsultation);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public Result collectionContent(Member member, Long consultationId) {
+        Result result = new Result();
+        if(Objects.isNull(member.getId())||Objects.isNull(consultationId)){
+            return ResultUtils.returnError("参数为空");
+        }
+        //加锁用户
+        Member rowLock = memberService.getLockOne(member.getId());
+        //根据资讯的id获取到资讯的member的id【作者】
+        Consultation consultationinfo = consultationMapper.getOne(consultationId);
+        if(consultationinfo==null){
+            return ResultUtils.returnError("当前收藏的资讯不存在或已被删除");
+        }
+        Long consultationmemberid = consultationinfo.getMemberId();
+        logger.info("consultationmemberid : "+consultationmemberid);
+        //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享 当typeflag=1和3的时候，collectNum将对应的主题0和2也要加1，其他不变！
+        Integer typeflag = consultationinfo.getType();
+        try {
+            //判断收藏表有没有记录
+            CollectionConsultation cctype = collectionContentMapper.getCollectionByMemberIdAndConsultationId(member.getId(),consultationId);
+            //收藏	0收藏   1取消收藏
+            if(cctype==null||cctype.getType()==null){
+                //1保存type... 实例化CollectionConsultation
+                CollectionConsultation ccdb = new CollectionConsultation();
+                //2资讯的id--资讯
+                Consultation consultation = new Consultation();
+                consultation.setId(consultationId);
+                //3哪个用户发的资讯--作者
+                Member consultationMember = new Member();
+                consultationMember.setId(consultationmemberid);
+                //4哪个用户的收藏--用户
+                Member memberdb = new Member();
+                memberdb.setId(member.getId());
+                //当typeflag=1和3的时候，collectNum将对应的主题0和2也要1，其他不变！ 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                if(typeflag==1 ||typeflag==3 ){
+                    //获取到当前资讯信息-得到父级的资讯ID
+                    Long consultation_id = consultationinfo.getConsultationId();
+                    Consultation con = consultationMapper.findOne(consultation_id);//洋大侠
+                    con.setCollectNum(con.getCollectNum()==null?0+1:con.getCollectNum()+1);
+                    con.setUpdateTime(new Date());
+                    if (consultationMapper.updateConsultationById(con)>0){
+                        logger.info("更新文章收藏次数成功！");
+                    }
+                }
+                //====================================================================
+                //维护到CollectionConsultation表中
+                ccdb.setType(0);
+                ccdb.setConsultationId(consultation.getId());
+                ccdb.setConsultationMemberId(consultationMember.getId());
+                ccdb.setMemberId(memberdb.getId());
+                //维护到member表中
+                rowLock.setConsulationNum(rowLock.getConsulationNum()==null?1:rowLock.getConsulationNum()+1);
+                //做保存
+                rowLock.setUpdateTime(new Date());
+                if ( memberService.updateById(rowLock) > 0 ){
+                    logger.info("更新用户收藏咨询数量成功!");
+                }
+                //维护到Consultation表中
+                consultationinfo.setCollectNum(consultationinfo.getCollectNum()==null?1:consultationinfo.getCollectNum()+1);
+                consultationinfo.setUpdateTime(new Date());
+                if (consultationMapper.updateConsultationById(consultationinfo) > 0){
+                    logger.info("更新咨询收藏数成功");
+                }
+                ccdb.setUpdateTime(new Date());
+                if (collectionContentMapper.insert(ccdb)>0){
+                    logger.info("保存收藏记录成功!");
+                }
+                return ResultUtils.returnSuccess("收藏成功");
+            }
+            //type为1取消收藏，0是已经收藏
+            if(cctype!=null && cctype.getType()!=null){
+                Integer type = cctype.getType();
+
+                if(type==0){
+                    if(typeflag==1 ||typeflag==3 ){
+                        //获取到当前资讯信息-得到父级的资讯ID
+                        Long consultation_id = consultationinfo.getConsultationId();
+                        Consultation con = consultationMapper.findOne(consultation_id);//洋大侠
+                        Long collectNum = con.getCollectNum()==null?0L:con.getCollectNum();
+                        con.setCollectNum(collectNum-1<0?0:collectNum-1);
+                        con.setUpdateTime(new Date());
+                        if (consultationMapper.updateConsultationById(con)>0){
+                            logger.info("更新文章收藏次数成功！");
+                        }
+                    }
+                    //维护到Consultation表中
+                    consultationinfo.setCollectNum(consultationinfo.getCollectNum()==null?0:consultationinfo.getCollectNum()-1);
+                    //维护到member中
+                    Long number=rowLock.getConsulationNum()==null?0:rowLock.getConsulationNum()-1;
+                    cctype.setType(1);
+                    rowLock.setConsulationNum(number);
+                    rowLock.setUpdateTime(new Date());
+                    if ( memberService.updateById(rowLock) > 0 ){
+                        logger.info("更新用户收藏咨询数量成功!");
+                    }
+                    consultationinfo.setUpdateTime(new Date());
+                    if (consultationMapper.updateConsultationById(consultationinfo) > 0){
+                        logger.info("更新咨询收藏数成功");
+                    }
+                    cctype.setUpdateTime(new Date());
+                    if (collectionContentMapper.updateById(cctype)>0){
+                        logger.info("更新收藏记录成功!");
+                    }
+                    result.setCode(1);
+                    result.setMsg("取消收藏");
+                }else if(type==1){
+                    //type 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享 当typeflag=1和3的时候，collectNum将对应的主题0和2也要1，其他不变
+                    if(typeflag==1 ||typeflag==3 ){
+                        //获取到当前资讯信息-得到父级的资讯ID
+                        Long consultation_id = consultationinfo.getConsultationId();
+                        Consultation con = consultationMapper.findOne(consultation_id);//洋大侠
+                        Long collectNum = con.getCollectNum()==null?0L:con.getCollectNum();
+                        con.setCollectNum(collectNum-1<0?0:collectNum-1);
+                        con.setUpdateTime(new Date());
+                        if (consultationMapper.updateConsultationById(con)>0){
+                            logger.info("更新文章收藏次数成功！");
+                        }
+                    }
+                    //维护到Consultation表中
+                    consultationinfo.setCollectNum(consultationinfo.getCollectNum()==null?0+1:consultationinfo.getCollectNum()+1);
+                    //维护到member中
+                    Long number=rowLock.getConsulationNum()==null?0+1:rowLock.getConsulationNum()+1;
+                    cctype.setType(0);
+                    rowLock.setConsulationNum(number);
+                    rowLock.setConsulationNum(number);
+                    rowLock.setUpdateTime(new Date());
+                    if ( memberService.updateById(rowLock) > 0 ){
+                        logger.info("更新用户收藏咨询数量成功!");
+                    }
+                    consultationinfo.setUpdateTime(new Date());
+                    if (consultationMapper.updateConsultationById(consultationinfo) > 0){
+                        logger.info("更新咨询收藏数成功");
+                    }
+                    cctype.setUpdateTime(new Date());
+                    if (collectionContentMapper.updateById(cctype)>0){
+                        logger.info("更新收藏记录成功!");
+                    }
+                    result.setCode(1);
+                    result.setMsg("收藏成功");
+                }
+            }
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+            logger.error(e.getMessage(),e);
+            return ResultUtils.returnError("收藏内容异常");
+        }
+        return result;
     }
 }

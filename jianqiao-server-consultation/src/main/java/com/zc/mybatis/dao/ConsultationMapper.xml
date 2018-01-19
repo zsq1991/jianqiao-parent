@@ -414,6 +414,18 @@
 	
 	<select id="getConsulationByIdaaa" parameterType="Long" resultType="Map">
 		select type,member_id as memberId from alq_consultation where id = #{id}
-	
 	</select>
+
+	<!--通过id更新consultation 此处不再做全局更新 用到的请自行添加 -->
+	<update id="updateConsultationById">
+		UPDATE
+			alq_consultation
+		SET
+			update_time = #{updateTime}
+			<if test="collectNum != null">
+				,collect_num = #{collectNum}
+			</if>
+		WHERE
+			id = #{id}
+	</update>
 </mapper>

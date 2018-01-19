@@ -84,4 +84,14 @@ public interface MemberMapper extends BaseMapper<Member> {
 	 * @version : 1.0.0
 	 */
 	public int updateByMemberId(Map<String,Object> params);
+
+	/**
+	 * * @author:  wangxueyang[wxueyanghj@163.com]
+	 * @create:  2018/1/19 16:27
+	 * @desc: 更新数据加锁
+	 * @version 1.0.0
+	 * @param memberId
+	 * @return
+	 */
+	Member getLockOne(Long memberId);
 }
