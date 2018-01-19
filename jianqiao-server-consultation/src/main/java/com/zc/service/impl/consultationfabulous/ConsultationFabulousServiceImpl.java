@@ -48,7 +48,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
      * @version: 1.0.0
      */
     @Override
-    @Transactional
+    @Transactional(readOnly = false)
     public Result getConsultationFabulousByIdAndMemberId(Long id, Long memberId, Integer type) {
         logger.info("咨询内容点赞取消赞开始执行，入参参数{}" + "咨询内容id:" + id + "点赞1取消2:" + type + "用户id:" + memberId);
         //Power power = new Power();
