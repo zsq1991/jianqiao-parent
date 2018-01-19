@@ -186,6 +186,7 @@ public class ConsultationAttachmentServiceImpl implements ConsultationAttachment
                 });
                 logger.info("===============分享列表查询结束=============== ");
                 return ResultUtils.returnSuccess(StatusCodeEnums.SUCCESS.getMsg(),shareConsultations);
+            default:
         }
         return null;
     }
