@@ -10,6 +10,6 @@
 
     <!-- 根据咨询id和会员id查询点赞 -->
     <select id="getConsultationFabulousByConsultationIdAndMemberId" resultType="com.zc.main.entity.consultationfabulous.ConsultationFabulous">
-        SELECT * FROM alq_consultation_fabulous c WHERE c.`consultation_id`=#{id} AND c.`member_id`=#{memberId}
+        SELECT * FROM alq_consultation_fabulous c WHERE c.consultation_id = #{id} AND c.member_id = #{memberId}
     </select>
 </mapper>

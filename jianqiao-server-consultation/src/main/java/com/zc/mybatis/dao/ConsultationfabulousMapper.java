@@ -1,13 +1,13 @@
 package com.zc.mybatis.dao;
 
+import com.common.util.mybatis.BasicMapper;
 import com.zc.main.entity.consultationfabulous.ConsultationFabulous;
-import org.springframework.data.repository.query.Param;
-import tk.mybatis.mapper.common.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
-public interface ConsultationfabulousMapper extends BaseMapper<ConsultationFabulous> {
+public interface ConsultationfabulousMapper extends BasicMapper<ConsultationFabulous> {
 	
 	
-	 ConsultationFabulous getConsultationFabulousByIdAndMemberId(@Param("id") Long id,@Param("memberId") Long memberId);
+	 ConsultationFabulous getConsultationFabulousByIdAndMemberId(@Param("id") Long id, @Param("memberId") Long memberId);
 
 	/**
 	 * @description: 根据咨询id和会员id查询点赞
@@ -18,6 +18,6 @@ public interface ConsultationfabulousMapper extends BaseMapper<ConsultationFabul
 	 * @param memberId
 	 * @return
 	 */
-	ConsultationFabulous getConsultationFabulousByConsultationIdAndMemberId(@Param("id") Long id,@Param("memberId") Long memberId);
+	ConsultationFabulous getConsultationFabulousByConsultationIdAndMemberId(@Param("id")Long id, @Param("memberId")Long memberId);
 	
 }
