@@ -99,7 +99,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
             msg.setConsultationId(consultation.getId());
             msg.setMemberBaseId(member.getId());//点赞者
             msg.setCreatedTime(new Date());
-            memberMsgMapper.insert(msg);
+            memberMsgMapper.save(msg);
             consultation.setFabulousNum(fabulousnum + 1);
 
             /**
