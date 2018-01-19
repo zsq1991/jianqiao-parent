@@ -66,10 +66,10 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                     continue;
                 }
                 String type = (String) consulationDetail.get("type").toString();
-                if (type.equals("1") || type.equals("3")) {
+                if ("1".equals(type) || "3".equals(type)) {
                     String consultation_id = consulationDetail.get("pid").toString();
                     set.add(consultation_id);
-                } else if (type.equals("0") || type.equals("2") || type.equals("4") || type.equals("6")) {
+                } else if ("0".equals(type) || "2".equals(type) || "4".equals(type) || "6".equals(type)) {
                     String consultation_id = consulationDetail.get("id").toString();
                     set.add(consultation_id);
                 }
@@ -102,7 +102,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                 String type = (String) consulationDetail.get("type").toString();
                 boolean isMore = false;// 是否是主题或访谈的标识 false 不是 true 是
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String, Object>>();
-                if (type.equals("0") || type.equals("2")) {// 0是访谈主题 1访谈内容 2口述主题
+                if ("0".equals(type) || "2".equals(type)) {// 0是访谈主题 1访谈内容 2口述主题
                     // 3口述内容 4求助 5回答 6分享
                     // 判断访谈和口述是否有内容
                     Integer count = consultationMapper.getCountById(Long.valueOf(consulationDetail.get("id").toString()));
@@ -165,7 +165,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
 
                 // 取详情内容
                 Object detailContent = "";
-                if (type.equals("4") || type.equals("6")) {
+                if ("4".equals(type) || "6".equals(type)) {
                     Map<String, Object> map2 = consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consulationDetail.get("id").toString()));
                     if (null == map2 || map2.size() == 0) {
                         detailContent = "";

@@ -89,7 +89,7 @@ public class AttachmentServiceImpl  implements AttachmentService {
                 //文件大小
                 Double size= DoubleUtils.div(urlfile.getSize(),1024000.0, 2);//单位  M
 
-                if(type.equals("0")){
+                if("0".equals(type)){
                     //上传图片
                     if(size>2){
 
@@ -115,7 +115,7 @@ public class AttachmentServiceImpl  implements AttachmentService {
                     //上传到图片服务器
                     UpLoadUtils.alyUpload(module, sysFileName, path);
 
-                } else if(type.equals("1")){
+                } else if("1".equals(type)){
                     //上传视频
                     if(size>200){
 

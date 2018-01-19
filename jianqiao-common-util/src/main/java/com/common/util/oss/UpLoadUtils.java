@@ -49,10 +49,10 @@ public class UpLoadUtils {
 	public static boolean checkIsImage(String imgStr) {
 		boolean flag = false;
 		if (imgStr != null) {
-			if (imgStr.equalsIgnoreCase(".gif")
-					|| imgStr.equalsIgnoreCase(".jpg")
-					|| imgStr.equalsIgnoreCase(".jpeg")
-					|| imgStr.equalsIgnoreCase(".png")) {
+			if (".gif".equalsIgnoreCase(imgStr)
+					|| ".jpg".equalsIgnoreCase(imgStr)
+					|| ".jpeg".equalsIgnoreCase(imgStr)
+					|| ".png".equalsIgnoreCase(imgStr)) {
 				flag = true;
 			}
 		}
@@ -70,9 +70,9 @@ public class UpLoadUtils {
 		Result appResult = new Result();
 		appResult.setCode(0);//默认是失败
 		String extName = ".jpg"; // 保存文件拓展名
-		if(module.equals("Android")){
+		if("Android".equals(module)){
 			extName=".apk";
-		}else if(module.equals("IOS")){
+		}else if("IOS".equals(module)){
 			extName=".ipa";
 		}
 		String newFileName = ""; // 保存新的文件名

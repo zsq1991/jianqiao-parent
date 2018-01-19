@@ -97,7 +97,7 @@ public class LoginServiceImpl implements LoginService {
         if (loginData != null) {
             logger.info("=========用户存在,进行密码匹配==========");
             isDelete = loginData.getIsDelete() == null ? "0" : loginData.getIsDelete().toString();
-            if ( isDelete.equals("1") ) {
+            if ("1".equals(isDelete)) {
                 logger.info("=========密码登录方法结束==========");
                 return ResultUtils.returnError("该用户已禁用请联系客服");
             }
@@ -108,7 +108,7 @@ public class LoginServiceImpl implements LoginService {
                 logger.info("=========记录登录信息，用户id,登录的次数count,updateTime,creteaIp,sessionId==========");
                 if ( loginData.getLogoAttachmentId() != null ) {
                     String number = loginData.getLogoAttachmentId() == null ? "flase" : "true";
-                    if ( number.equals("true") ) {
+                    if ("true".equals(number)) {
                         address = memberMapper.getAddressByPhone(loginData.getLogoAttachmentId());
                     }
                 }
@@ -185,12 +185,12 @@ public class LoginServiceImpl implements LoginService {
 
             if ( loginData != null ) {
                 isDelete = loginData.getIsDelete() == null ? "0" : loginData.getIsDelete().toString();
-                if (isDelete.equals("1")) {
+                if ("1".equals(isDelete)) {
                     return ResultUtils.returnError("该用户已禁用请联系客服");
                 }
                 if ( loginData.getLogoAttachmentId() != null ) {
                     String number = loginData.getLogoAttachmentId() == null ? "flase" : "true";
-                    if ( number.equals("true") ) {
+                    if ("true".equals(number)) {
                         address = memberMapper.getAddressByPhone(loginData.getLogoAttachmentId());
                     }
                 }
