@@ -6,9 +6,17 @@ package com.common.util.exception;
  *@Date: 2017/11/27 15:53
  */
 public enum ErrorCode {
-    
+    /**
+     * 请求参数为空或参数不全
+     */
     NULL_OBJ("001","请求参数为空或参数不全"),
+    /**
+     * 未知的参数类型
+     */
     TYPE_ERROR("002","未知的参数类型"),
+    /**
+     * 系统繁忙，请稍后再试....
+     */
     UNKNOWN_ERROR("999","系统繁忙，请稍后再试....");
 
 private String value;

@@ -3,7 +3,6 @@ package com.zc.service.impl.comment;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
-import com.codingapi.tx.annotation.TxTransaction;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.consultation.Consultation;
@@ -12,7 +11,6 @@ import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membermsg.MemberMsg;
 import com.zc.main.service.comment.ConsultationCommentService;
 import com.zc.main.service.membermsg.MemberMsgService;
-import com.zc.main.vo.consultationcomment.ConsultationCommentDTO;
 import com.zc.mybatis.dao.ConsultationCommentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -119,9 +117,9 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
         if (content.length()>3000) {
             return ResultUtils.returnError("字数已达上限");
         }
-       try {
+        try {
 
-           ConsultationCommentDTO parentConsultationCommentdb = consultationCommentMapper.getRowLock(parentid);
+            ConsultationComment parentConsultationCommentdb = consultationCommentMapper.getRowLock(parentid);
             if(parentConsultationCommentdb==null){
                 return ResultUtils.returnError("该评论信息不存在");
             }
@@ -131,9 +129,10 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
             if(parentConsultationCommentdb.getConsultationId()==null){
                 return ResultUtils.returnError("该评论信息异常，未关联资讯信息");
             }
-           /* if(parentConsultationCommentdb.getConsultation().getIsDelete()==1) {
+            Consultation consultation = consultationMapper.getOne(parentConsultationCommentdb.getConsultationId());
+            if(consultation ==null || consultation.getIsDelete()==1) {
                 return ResultUtils.returnError("该资讯已删除，无法进行回复");
-            }*/
+            }
             ConsultationComment consultationComment = new ConsultationComment();
             consultationComment.setConsultationId(parentConsultationCommentdb.getConsultationId());
             //consultationComment.setHunter(parentConsultationCommentdb.getHunter());
@@ -148,12 +147,12 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 consultationComment.setCommentInfoId(parentConsultationCommentdb.getCommentInfoId());
                 consultationComment.setParentId(null);
                 parentConsultationCommentdb.setReplyNum(parentConsultationCommentdb.getReplyNum()==null?1:parentConsultationCommentdb.getReplyNum()+1);
-                //ConsultationComment newConsultationCommentdb = consultationCommentMapper.saveConsultationComment(consultationComment);//保存新增回复评论
-                if(parentConsultationCommentdb.getFirstReplyCommentId()==null){
-                    //parentConsultationCommentdb.setFirstReplyCommentId(newConsultationCommentdb.getFirstReplyCommentId());//维护此咨询最早的回复用于方便查询使用
+                int newcount = consultationCommentMapper.insert(consultationComment);//保存新增回复评论
+                if(parentConsultationCommentdb.getFirstReplyCommentId()==null){//???
+                    parentConsultationCommentdb.setFirstReplyCommentId(consultationComment.getId());//维护此咨询最早的回复用于方便查询使用
                 }
-
-                //this.saveAndModify(parentConsultationCommentdb);//更新回复数量
+                //更新回复数量
+                consultationCommentMapper.insert(parentConsultationCommentdb);
 //===========================维护MemberMsg系统通知=================================================================
                 MemberMsg memberMsg = new MemberMsg();
                 //memberMsg.setConsultationCommentId(newConsultationCommentdb.getFirstReplyCommentId());//保存新增的回复数据
@@ -163,14 +162,14 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 memberMsg.setMemberBaseId(member.getId());
                 memberMsg.setType(4);
                 memberMsg.setReadType(0);
-                //memberMsgDao.save(memberMsg);
+                memberMsgService.insert(memberMsg);
 
             }else{
                 //顶级评论下的相互回复
                 if(parentConsultationCommentdb.getCommentInfoId()==null){
                     return ResultUtils.returnError("无法回复，该评论记录异常未关联顶级评论信息");
                 }
-                ConsultationCommentDTO	topConsulattionCommentdb = consultationCommentMapper.getRowLock(parentConsultationCommentdb.getCommentInfoId());
+                ConsultationComment	topConsulattionCommentdb = consultationCommentMapper.getRowLock(parentConsultationCommentdb.getCommentInfoId());
                 if(topConsulattionCommentdb==null){
                     return ResultUtils.returnError("资讯评论记录异常，顶级评论记录不存在");
                 }
@@ -180,8 +179,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 consultationComment.setCommentInfoId(parentConsultationCommentdb.getCommentInfoId());
                 consultationComment.setParentId(parentConsultationCommentdb.getParentId());
                 topConsulattionCommentdb.setReplyNum(topConsulattionCommentdb.getReplyNum()==null?1:topConsulattionCommentdb.getReplyNum()+1);
-                //ConsultationComment saveAndModify = this.saveAndModify(consultationComment);//保存新增回复评论
-                //this.saveAndModify(topConsulattionCommentdb);//更新回复的数量
+                int savacount = this.consultationCommentMapper.insert(consultationComment);//保存新增回复评论
+                this.consultationCommentMapper.insert(topConsulattionCommentdb);//更新回复的数量
 //===============================维护MemberMsg系统通知================================================================
                 MemberMsg memberMsg = new MemberMsg();
                 //memberMsg.setConsultationCommentId(saveAndModify.getId());//保存新增的回复数据
@@ -191,7 +190,7 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 memberMsg.setMemberBaseId(member.getId());
                 memberMsg.setType(4);
                 memberMsg.setReadType(0);
-                //memberMsgDao.save(memberMsg);
+                memberMsgService.insert(memberMsg);
             }
             if(!parentConsultationCommentdb.getMemberId().equals(memberid)){
                 //添加到推送表中

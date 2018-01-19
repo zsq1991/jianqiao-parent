@@ -1,24 +1,18 @@
 package com.alibaba.boot.dubbo.endpoint;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.alibaba.boot.dubbo.DubboProperties;
+import com.alibaba.boot.dubbo.domain.ClassIdBean;
+import com.alibaba.boot.dubbo.listener.AbstractStaticsFilterHelper;
+import com.alibaba.boot.dubbo.listener.ConsumerSubscribeListener;
+import com.alibaba.boot.dubbo.listener.ProviderExportListener;
+import com.alibaba.boot.dubbo.metrics.DubboMetrics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
 import org.springframework.boot.actuate.metrics.Metric;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.boot.dubbo.DubboProperties;
-import com.alibaba.boot.dubbo.domain.ClassIdBean;
-import com.alibaba.boot.dubbo.listener.ConsumerSubscribeListener;
-import com.alibaba.boot.dubbo.listener.ProviderExportListener;
-import com.alibaba.boot.dubbo.listener.StaticsFilterHelper;
-import com.alibaba.boot.dubbo.metrics.DubboMetrics;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * dubbo endpoint for provider and subscriber
@@ -103,7 +97,7 @@ public class DubboEndpoint extends AbstractEndpoint<Map<String, Object>> {
         Map<String, Long> methodNames = new HashMap<String, Long>();
         for (Method method : clazz.getMethods()) {
           methodNames.put(method.getName(),
-              StaticsFilterHelper.getValue(classIdBean, method.getName()));
+              AbstractStaticsFilterHelper.getValue(classIdBean, method.getName()));
         }
         publishedInterfaceList.put(classIdBean, methodNames);
       }
@@ -121,7 +115,7 @@ public class DubboEndpoint extends AbstractEndpoint<Map<String, Object>> {
       Class<?> clazz = classIdBean.getClazz();
       for (Method method : clazz.getMethods()) {
         methodNames.put(method.getName(),
-            StaticsFilterHelper.getValue(classIdBean, method.getName()));
+            AbstractStaticsFilterHelper.getValue(classIdBean, method.getName()));
       }
       subscribedInterfaceList.put(classIdBean, methodNames);
     }

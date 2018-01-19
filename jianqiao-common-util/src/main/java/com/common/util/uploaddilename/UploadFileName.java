@@ -9,12 +9,18 @@ package com.common.util.uploaddilename;
  *
  */
 public enum UploadFileName {
+	/**
+	 * 用户头像上传
+	 */
 	MEMBER_HEADIMG {//用户头像上传
 		@Override
 		public String getName() {
 			return "memberheadimg";
 		}
 	},
+	/**
+	 * 内容图片
+	 */
 	CONSULTATION_IMG {//内容图片
 		@Override
 		public String getName() {
