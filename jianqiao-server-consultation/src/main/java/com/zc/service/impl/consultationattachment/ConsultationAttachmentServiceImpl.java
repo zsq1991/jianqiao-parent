@@ -43,6 +43,14 @@ public class ConsultationAttachmentServiceImpl implements ConsultationAttachment
     @Autowired
     private ConsultationMapper consultationMapper;
 
+    /**
+     * @description方法说明 父级咨询信息
+     * @author 王鑫涛
+     * @date  15:57  2018/1/19
+     * @version 版本号
+     * @param map
+     * @return
+     */
     @Override
     public List<Map<String, Object>> getConsultationAttachmentByConsultationType(Map<String, Object> map) {
         return consultationAttachmentDao.getConsultationAttachmentByConsultationType(map);
