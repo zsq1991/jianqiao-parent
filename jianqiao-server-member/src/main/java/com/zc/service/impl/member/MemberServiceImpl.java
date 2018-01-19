@@ -79,16 +79,28 @@ public class MemberServiceImpl implements MemberService {
         return member;
     }
 
+    /**
+     * @description方法说明 获取用户认证
+     * @author 王鑫涛
+     * @date  13:34  2018/1/19
+     * @version 版本号
+     * @param member 用户
+     * @return
+     */
     @Override
     public Result getAuthMember(Member member) {
+        logger.info("==============进入获取用户认证方法===============");
         Map<String,Object> map = Maps.newHashMap();
         map.put("uuid",member.getUuid());
         map.put("phone",member.getPhone());
+        logger.info("==============获得用户信息通过id和uuid================");
         Map<String,Object> result = memberMapper.getMemberByIdAndUuid(map);
         if (!Objects.isNull(result)){
+            logger.info("=================根据id获取用户附件================");
             List<Map<String,Object>> resultAttachment = memberAttachmentMapper.getMemberAttachment(member.getId());
             result.put("pics",resultAttachment);
         }
+        logger.info("==============获取用户认证方法结束===============");
         return ResultUtils.returnSuccess("成功",result);
     }
 
