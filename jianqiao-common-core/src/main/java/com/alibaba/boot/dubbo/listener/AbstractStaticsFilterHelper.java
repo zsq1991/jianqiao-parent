@@ -1,11 +1,11 @@
 package com.alibaba.boot.dubbo.listener;
 
+import com.alibaba.boot.dubbo.domain.ClassIdBean;
+import com.alibaba.dubbo.rpc.Filter;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-
-import com.alibaba.boot.dubbo.domain.ClassIdBean;
-import com.alibaba.dubbo.rpc.Filter;
 
 /**
  * statics filter
@@ -14,14 +14,14 @@ import com.alibaba.dubbo.rpc.Filter;
  * @email xionghui.xh@alibaba-inc.com
  * @since 1.0.0
  */
-public abstract class StaticsFilterHelper implements Filter {
+public abstract class AbstractStaticsFilterHelper implements Filter {
   public static final Map<ClassIdBean, Map<String, AtomicLong>> STATICS_DATA_MAP =
       new ConcurrentHashMap<ClassIdBean, Map<String, AtomicLong>>();
 
   public static void increase(ClassIdBean classIdBean, String methodName) {
     Map<String, AtomicLong> methodCountMap = STATICS_DATA_MAP.get(classIdBean);
     if (methodCountMap == null) {
-      synchronized (StaticsFilterHelper.class) {
+      synchronized (AbstractStaticsFilterHelper.class) {
         // double check
         methodCountMap = STATICS_DATA_MAP.get(classIdBean);
         if (methodCountMap == null) {
@@ -32,7 +32,7 @@ public abstract class StaticsFilterHelper implements Filter {
     }
     AtomicLong count = methodCountMap.get(methodName);
     if (count == null) {
-      synchronized (StaticsFilterHelper.class) {
+      synchronized (AbstractStaticsFilterHelper.class) {
         // double check
         count = methodCountMap.get(methodName);
         if (count == null) {
