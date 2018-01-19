@@ -102,5 +102,41 @@ public class TencentSms {
 			return ResultUtils.returnError("调用验证验证码接口异常");
 		}
 	}
-	
+
+	/**
+	 * 二要素验证（身份证和姓名）
+	 * @author huangxin
+	 * @data 2018/1/19 16:57
+	 * @Description: 二要素验证（身份证和姓名）
+	 * @Version: 3.2.0
+	 * @param name 姓名
+	 * @param carId 身份证号
+	 * @return
+	 */
+	public Result checkCarId(String name, String carId){
+		logger.info("=================进入二要素信息验证=================");
+		Result result = new Result();
+		try{
+			//二要素地址
+			String element = two_element_url;
+			logger.info("二要素地址："+element);
+			Map<String, String> params = new HashedMap();
+			params.put("name",name);
+			params.put("carId",carId);
+			logger.info("=======开始请求=========");
+			HttpResult httpResult = HttpClientUtils.sendGet(element, params);
+			logger.info("=======请求结束,即将返回响应=========");
+			JSONObject json = JSONObject.parseObject(httpResult.getResponseContent());
+			result.setCode(Integer.parseInt(json.get("code").toString()));
+			result.setMsg(json.get("msg").toString());
+			logger.info("===============连接pay验证二要素方法结束,响应已返回=================");
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("连接pay验证二要素接口异常"+e.getMessage());
+			return ResultUtils.returnError("调用二要素接口异常");
+		}
+	}
+
+
 }
