@@ -77,14 +77,14 @@ public class SearchServiceImpl implements SearchService {
     }
 
     /**
-     * @description: 查看全部历史关键词列表(已登录)
-     * @author:  ZhaoJunBiao
-     * @date:  2018/1/18 15:23
-     * @version: 1.0.0
-     * @param member  用户信息
-     * @param page 页码
-     * @param size 每页大小
+     * @param member 用户信息
+     * @param page   页码
+     * @param size   每页大小
      * @return
+     * @description: 查看全部历史关键词列表(已登录)
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/18 15:23
+     * @version: 1.0.0
      */
     @Override
     public Result getHistoryKeys(Member member, int page, int size) {
@@ -107,7 +107,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public Result clearKeys(Member member) {
-        log.info("清空历史关键词接口调用开始，方法入参:",member.toString());
-        return membersearchconsultationService.deleteKeys(member) ;
+        log.info("清空历史关键词接口调用开始，方法入参:", member.toString());
+        return membersearchconsultationService.deleteKeys(member);
     }
 }
