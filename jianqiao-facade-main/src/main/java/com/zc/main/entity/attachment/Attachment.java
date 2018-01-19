@@ -1,7 +1,7 @@
 package com.zc.main.entity.attachment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @Creation Date ： 2018/1/16 9:39
  */
 @Alias("alq_attachment")
-public class Attachment extends IdEntity implements Serializable {
+public class Attachment extends BaseIdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

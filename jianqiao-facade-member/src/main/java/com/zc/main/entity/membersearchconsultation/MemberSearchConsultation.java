@@ -1,6 +1,6 @@
 package com.zc.main.entity.membersearchconsultation;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
@@ -14,7 +14,7 @@ import javax.persistence.Column;
  * @Creation Date ：2018年01月17日17:27
  */
 @Alias("alq_member_search_consultation")
-public class MemberSearchConsultation extends IdEntity {
+public class MemberSearchConsultation extends BaseIdEntity {
 
     @Column(name = "keyword")
     private String keyword;

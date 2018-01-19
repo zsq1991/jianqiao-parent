@@ -2,7 +2,7 @@
 package com.zc.main.entity.memberhelpcase;
 
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.*;
@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @version: 1.0.0
  */
 @Alias("alq_member_help_case")
-public class MemberHelpCase extends IdEntity implements Serializable{
+public class MemberHelpCase extends BaseIdEntity implements Serializable{
 	
 	/**
 	 * 

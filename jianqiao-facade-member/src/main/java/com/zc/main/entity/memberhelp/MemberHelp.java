@@ -2,7 +2,7 @@
 package com.zc.main.entity.memberhelp;
 
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import java.io.Serializable;
  *
  */
 @Alias("alq_member_help")
-public class MemberHelp extends IdEntity implements Serializable{
+public class MemberHelp extends BaseIdEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 

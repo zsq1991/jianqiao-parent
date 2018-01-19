@@ -1,7 +1,7 @@
 package com.zc.main.entity.power;
 
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.member.Member;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  * 权重值详情记录
  *@entity
  */
-public class Power extends IdEntity implements Serializable{
+public class Power extends BaseIdEntity implements Serializable{
 		
 	/**
 	 * 

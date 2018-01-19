@@ -27,7 +27,7 @@ public class MyBatisMapperScannerConfig {
         Properties properties = new Properties();
         properties.setProperty("mappers", "com.zc.common.core.basemapper.BaseMapper");
         properties.setProperty("notEmpty", "false");
-        properties.setProperty("IDENTITY", "MYSQL");
+        properties.setProperty("BaseIdEntity", "MYSQL");
         mapperScannerConfigurer.setProperties(properties);
         return mapperScannerConfigurer;
     }

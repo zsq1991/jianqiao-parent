@@ -1,7 +1,7 @@
 package com.zc.main.entity.consultationfabulous;
 
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
@@ -15,7 +15,7 @@ import java.io.Serializable;
  *
  */
 @Alias("alq_consultation_fabulous")
-public class ConsultationFabulous extends IdEntity implements Serializable{
+public class ConsultationFabulous extends BaseIdEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 

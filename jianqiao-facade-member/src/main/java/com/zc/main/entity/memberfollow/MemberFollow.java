@@ -1,6 +1,6 @@
 package com.zc.main.entity.memberfollow;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import com.zc.main.entity.member.Member;
 import org.apache.ibatis.type.Alias;
 
@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @Creation Date ：2018年01月17日9:47
  */
 @Alias("alq_member_follow")
-public class MemberFollow extends IdEntity implements Serializable {
+public class MemberFollow extends BaseIdEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

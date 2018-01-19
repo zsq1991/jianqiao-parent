@@ -1,7 +1,7 @@
 package com.zc.main.dto.attachment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 import org.apache.solr.client.solrj.beans.Field;
 import org.hibernate.validator.constraints.NotBlank;
