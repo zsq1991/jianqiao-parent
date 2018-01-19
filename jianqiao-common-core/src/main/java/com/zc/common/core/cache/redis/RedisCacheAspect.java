@@ -1,8 +1,9 @@
 package com.zc.common.core.cache.redis;
 
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
-
+import com.zc.common.core.annotation.RedisCacheEvict;
+import com.zc.common.core.annotation.RedisCachePut;
+import com.zc.common.core.annotation.RedisCacheable;
+import com.zc.common.core.annotation.RedisCaching;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,10 +17,8 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
-import com.zc.common.core.annotation.RedisCacheEvict;
-import com.zc.common.core.annotation.RedisCachePut;
-import com.zc.common.core.annotation.RedisCacheable;
-import com.zc.common.core.annotation.RedisCaching;
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 缓存aop的切面
@@ -193,6 +192,10 @@ public class RedisCacheAspect {
 		object = pjp.proceed();
 		iscache.set(false);
 		return object;
+	}
+
+	public static void remove(){
+		iscache.remove();
 	}
 
 	/**

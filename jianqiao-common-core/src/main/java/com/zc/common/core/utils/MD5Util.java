@@ -3,7 +3,7 @@ package com.zc.common.core.utils;
 import java.security.MessageDigest;
 
 public class MD5Util {
-    private static final String[] hexDigits = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+    private static final String[] HEXDIGITS  = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
 
     public MD5Util() {
     }
@@ -26,7 +26,7 @@ public class MD5Util {
 
         int d1 = n / 16;
         int d2 = n % 16;
-        return hexDigits[d1] + hexDigits[d2];
+        return HEXDIGITS[d1] + HEXDIGITS[d2];
     }
 
     public static String MD5Encode(String origin, String charsetname) {

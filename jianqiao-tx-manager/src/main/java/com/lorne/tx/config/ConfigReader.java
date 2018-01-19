@@ -43,14 +43,14 @@ public class ConfigReader {
     /**
      * 事务默认数据的位置，有最大时间
      */
-    private final String key_prefix = "tx_manager_default_";
+    private final String KEY_PREFIX = "tx_manager_default_";
 
-    private final static String key_prefix_notify = "tx_manager_notify_";
+    private final static String KEY_PREFIX_NOTIFY = "tx_manager_notify_";
 
     /**
      * 负载均衡模块存储信息
      */
-    private final String key_prefix_loadbalance = "loadbalance_";
+    private final String KEY_PREFIX_LOADBALANCE = "loadbalance_";
 
 
     /**
@@ -60,7 +60,7 @@ public class ConfigReader {
 
 
     public String getKeyPrefixLoadbalance() {
-        return key_prefix_loadbalance;
+        return KEY_PREFIX_LOADBALANCE;
     }
 
     public String getCompensateNotifyUrl() {
@@ -68,11 +68,11 @@ public class ConfigReader {
     }
 
     public String getKeyPrefix() {
-        return key_prefix;
+        return KEY_PREFIX;
     }
 
     public String getKeyPrefixNotify() {
-        return key_prefix_notify;
+        return KEY_PREFIX_NOTIFY;
     }
 
     public String getKeyPrefixCompensate() {

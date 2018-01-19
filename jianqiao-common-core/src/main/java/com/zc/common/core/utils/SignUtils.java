@@ -6,17 +6,17 @@ import java.util.Map;
 
 
 public class SignUtils {
-    private static final String[] hexStrings;
+    private static final String[] HEX_STRINGS;
 
     static {
-        hexStrings = new String[256];
+        HEX_STRINGS = new String[256];
         for (int i = 0; i < 256; i++) {
             StringBuilder d = new StringBuilder(2);
             char ch = Character.forDigit(((byte) i >> 4) & 0x0F, 16);
             d.append(Character.toUpperCase(ch));
             ch = Character.forDigit((byte) i & 0x0F, 16);
             d.append(Character.toUpperCase(ch));
-            hexStrings[i] = d.toString();
+            HEX_STRINGS[i] = d.toString();
         }
     }
 
@@ -185,7 +185,7 @@ public class SignUtils {
     public static String hexString(byte[] b) {
         StringBuilder d = new StringBuilder(b.length * 2);
         for (byte aB : b) {
-            d.append(hexStrings[(int) aB & 0xFF]);
+            d.append(HEX_STRINGS[(int) aB & 0xFF]);
         }
         System.out.println("sign="+d.toString());
         return d.toString();
