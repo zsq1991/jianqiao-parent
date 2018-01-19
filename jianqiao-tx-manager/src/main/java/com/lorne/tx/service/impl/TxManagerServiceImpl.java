@@ -33,14 +33,14 @@ import java.util.concurrent.*;
 @Service
 public class TxManagerServiceImpl implements TxManagerService {
 
-    private final static int max_size = 100;
+    private final static int MAX_SIZE = 100;
 
     @Autowired
     private ConfigReader configReader;
 
-    private Executor threadPool = Executors.newFixedThreadPool(max_size);
+    private Executor threadPool = Executors.newFixedThreadPool(MAX_SIZE);
 
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(max_size);
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(MAX_SIZE);
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;

@@ -1,12 +1,11 @@
 package com.zc.common.core.utils;
 
-import java.security.MessageDigest;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.binary.Base64;
+import java.security.MessageDigest;
 
 
 public class CommonUtils {
@@ -56,7 +55,7 @@ public class CommonUtils {
 	        }  
 	        return bkey24;  
 	    }  
-	    private static final String Algorithm = "DESede"; //定义 加密算法,可用 DES,DESede,Blowfish         
+	    private static final String  ALGORITHM= "DESede"; //定义 加密算法,可用 DES,DESede,Blowfish
 	  /**
 	   * 加密模式
 	   * @param keybyte e为加密密钥，长度为24字节  
@@ -65,8 +64,8 @@ public class CommonUtils {
 	   */
 	    private static byte[] encryptMode(byte[] keybyte, byte[] src) {  
 	        try {  
-	            SecretKey deskey = new SecretKeySpec(keybyte, Algorithm); 
-	            Cipher c1 = Cipher.getInstance(Algorithm);  
+	            SecretKey deskey = new SecretKeySpec(keybyte, ALGORITHM);
+	            Cipher c1 = Cipher.getInstance(ALGORITHM);
 	            c1.init(Cipher.ENCRYPT_MODE, deskey);  
 	            return c1.doFinal(src);  
 	       } catch (java.security.NoSuchAlgorithmException e1) {  
@@ -86,8 +85,8 @@ public class CommonUtils {
 	   */
 	    private static byte[] decryptMode(byte[] keybyte, byte[] src) {  
 	        try { 
-	            SecretKey deskey = new SecretKeySpec(keybyte, Algorithm);  
-	            Cipher c1 = Cipher.getInstance(Algorithm);  
+	            SecretKey deskey = new SecretKeySpec(keybyte, ALGORITHM);
+	            Cipher c1 = Cipher.getInstance(ALGORITHM);
 	            c1.init(Cipher.DECRYPT_MODE, deskey);  
 	            return c1.doFinal(src);  
 	        } catch (java.security.NoSuchAlgorithmException e1) {  
