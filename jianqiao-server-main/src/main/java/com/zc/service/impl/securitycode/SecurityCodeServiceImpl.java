@@ -23,11 +23,13 @@ import java.util.regex.Pattern;
  * @Creation Date ：2018年01月16日11:29
  */
 @Component
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Service(version = "1.0.0",interfaceClass=SecurityCodeService.class)
 public class SecurityCodeServiceImpl implements SecurityCodeService {
 
     private static Logger logger = LoggerFactory.getLogger(SecurityCodeServiceImpl.class);
+
+    private static Pattern NUMBER_PATTERN = Pattern.compile("^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-8])|(147))\\d{8}$");
 
     @Autowired
     private MemberMapper memberMapper;
@@ -75,8 +77,7 @@ public class SecurityCodeServiceImpl implements SecurityCodeService {
         logger.info("============进入登录或修改密码的发送短信方法===============");
         Result result = null;
         logger.info("============参数校验===============");
-        Pattern p = Pattern.compile("^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-8])|(147))\\d{8}$");
-        Matcher m = p.matcher(phone);
+        Matcher m = NUMBER_PATTERN.matcher(phone);
         if ( StringUtils.isEmptyOrWhitespaceOnly(phone) ) {
             logger.info("============登录或修改密码的发送短信方法结束===============");
             return ResultUtils.returnError("手机号不合法");
@@ -91,7 +92,8 @@ public class SecurityCodeServiceImpl implements SecurityCodeService {
         if ( memberByPhone == null ) {
             logger.info("============登录或修改密码的发送短信方法结束===============");
             return ResultUtils.returnError("该手机号未注册，请先注册",-620);
-        }else if ( memberByPhone != null ) {//0或null未禁用，1禁用
+        }else if ( memberByPhone != null ) {
+            //0或null未禁用，1禁用
             Integer number = memberByPhone.getIsDelete()==null?0:memberByPhone.getIsDelete();
             if(number==1){
                 logger.info("============登录或修改密码的发送短信方法结束===============");
