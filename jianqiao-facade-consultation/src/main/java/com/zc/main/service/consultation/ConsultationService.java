@@ -5,7 +5,12 @@ import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 
 import java.util.Map;
-
+/**
+ * @description ：咨询信息
+ * @Created by  : gaoge
+ * @Creation Date ： 2018/1/19 15:06
+ * @version 1.0.0
+ */
 public interface ConsultationService {
 
     /**

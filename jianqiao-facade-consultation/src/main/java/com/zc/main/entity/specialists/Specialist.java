@@ -1,6 +1,6 @@
 package com.zc.main.entity.specialists;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @Creation Date ： 2018/1/9 10:23
  * @version
  */
-public class Specialist extends IdEntity implements Serializable{
+public class Specialist extends BaseIdEntity implements Serializable{
 
 	private String headUrl;//头像
 	private String phone;//专家账号

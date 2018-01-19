@@ -34,29 +34,29 @@ public class ShareAppController {
 
     private static String url = "http://yst-images.img-cn-hangzhou.aliyuncs.com/";
 
-    @DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private ShareAppService shareAppService;
-    @DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private HelpDetailsService helpDetailsService;
 
     /**
-     * @description: web分享页面
-     * @author:  ZhaoJunBiao
-     * @date:  2018/1/19 13:49
-     * @version: 1.0.0
      * @param model
      * @param response
      * @param request
-     * @param id  资讯id
-     * @param type  来源标识
+     * @param id       资讯id
+     * @param type     来源标识
      * @return
+     * @description: web分享页面
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/19 13:49
+     * @version: 1.0.0
      */
     @RequestMapping(value = "share", method = RequestMethod.GET)
     public String gotoApp(Model model,
                           HttpServletResponse response, HttpServletRequest request,
                           @RequestParam(value = "id") String id,
                           @RequestParam(value = "type") Integer type) {
-            logger.info("web分享页面执行，方法入参{" + "咨询id" + id + "来源标识" + type+"}");
+        logger.info("web分享页面执行，方法入参{" + "咨询id" + id + "来源标识" + type + "}");
         Map<String, Object> consultationnow = shareAppService.getConsultationnow(id);
         if (null == consultationnow) {
             return "view/error";

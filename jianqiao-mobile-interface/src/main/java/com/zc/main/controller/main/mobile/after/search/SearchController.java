@@ -25,53 +25,53 @@ public class SearchController {
 
     private static Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-    @DubboConsumer(version = "1.0.0",timeout = 30000)
+    @DubboConsumer(version = "1.0.0", timeout = 30000)
     private SearchService searchService;
 
     /**
-     * @description: 查看全部历史关键词列表(已登录)
-     * @author:  ZhaoJunBiao
-     * @date:  2018/1/18 15:23
-     * @version: 1.0.0
-     * @param member  用户信息
-     * @param page 页码
-     * @param size 每页大小
+     * @param member 用户信息
+     * @param page   页码
+     * @param size   每页大小
      * @return
+     * @description: 查看全部历史关键词列表(已登录)
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/18 15:23
+     * @version: 1.0.0
      */
-    @RequestMapping(value = "getHistoryKeys",method = RequestMethod.POST)
+    @RequestMapping(value = "getHistoryKeys", method = RequestMethod.POST)
     public Result getHistoryKeys(@MemberAnno Member member,
-                                 @RequestParam(value = "page",defaultValue = "1",required = false)int page,
-                                 @RequestParam(value = "size",defaultValue = "6",required = false)int size){
-        return searchService.getHistoryKeys(member,page,size);
+                                 @RequestParam(value = "page", defaultValue = "1", required = false) int page,
+                                 @RequestParam(value = "size", defaultValue = "6", required = false) int size) {
+        return searchService.getHistoryKeys(member, page, size);
     }
 
     /**
-     * @description: 清空历史关键词
-     * @author:  ZhaoJunBiao
-     * @date:  2018/1/18 15:33
-     * @version: 1.0.0
      * @param member
      * @return
+     * @description: 清空历史关键词
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/18 15:33
+     * @version: 1.0.0
      */
-    @RequestMapping(value = "clear",method = RequestMethod.POST)
-    public Result  clearKeys(@MemberAnno Member member){
+    @RequestMapping(value = "clear", method = RequestMethod.POST)
+    public Result clearKeys(@MemberAnno Member member) {
         return searchService.clearKeys(member);
     }
 
     /**
-     * @description:  热搜关键词和历史关键词列表(登录)
-     * @author:  ZhaoJunBiao
-     * @date:  2018/1/18 16:09
-     * @version: 1.0.0
      * @param member
      * @param page
      * @param size
      * @return
+     * @description: 热搜关键词和历史关键词列表(登录)
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/18 16:09
+     * @version: 1.0.0
      */
-    @RequestMapping(value = "getKeys",method = RequestMethod.POST)
-    public Result  getkeys(@MemberAnno Member member,
-                           @RequestParam(value = "page",defaultValue = "1",required = false)int page,
-                           @RequestParam(value = "size",defaultValue = "6",required = false)int size){
-        return searchService.getSearchKeys(member,page,size);
+    @RequestMapping(value = "getKeys", method = RequestMethod.POST)
+    public Result getkeys(@MemberAnno Member member,
+                          @RequestParam(value = "page", defaultValue = "1", required = false) int page,
+                          @RequestParam(value = "size", defaultValue = "6", required = false) int size) {
+        return searchService.getSearchKeys(member, page, size);
     }
 }

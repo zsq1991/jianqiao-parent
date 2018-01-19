@@ -25,7 +25,7 @@ import java.util.List;
 public class DiscoveryService {
 
 
-    private final static String  tmKey = "tx-manager";
+    private final static String  TMKEY = "tx-manager";
 
     /** logger */
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscoveryService.class);
@@ -34,7 +34,7 @@ public class DiscoveryService {
     private EurekaClient eurekaClient;
 
     public List<InstanceInfo> getConfigServiceInstances() {
-        Application application = eurekaClient.getApplication(tmKey);
+        Application application = eurekaClient.getApplication(TMKEY);
         if (application == null) {
             LOGGER.error("获取eureka服务失败！");
         }

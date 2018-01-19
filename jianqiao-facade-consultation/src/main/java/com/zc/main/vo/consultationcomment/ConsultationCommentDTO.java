@@ -1,7 +1,7 @@
 
 package com.zc.main.vo.consultationcomment;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import com.zc.main.entity.consultation.Consultation;
 import org.apache.ibatis.type.Alias;
 
@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @version
  */
 @Alias("alq_consultation_comment")
-public class ConsultationCommentDTO extends IdEntity implements Serializable {
+public class ConsultationCommentDTO extends BaseIdEntity implements Serializable {
 
 
     private static final long serialVersionUID = 1L;

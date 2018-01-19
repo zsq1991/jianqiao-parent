@@ -1,7 +1,7 @@
 
 package com.zc.main.entity.consultationcomment;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import com.zc.main.entity.consultation.Consultation;
 import org.apache.ibatis.type.Alias;
 
@@ -9,13 +9,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * @author sunhuijie
- *         内容评论 回复记录表
- * @date 2017年5月9日
+ * @description ：内容评论 回复记录表
+ * @Created by  : gaoge
+ * @Creation Date ： 2018/1/19 15:05
+ * @version 1.0.0
  */
 @Alias("alq_consultation_comment")
 @MappedSuperclass
-public class ConsultationComment extends IdEntity implements Serializable {
+public class ConsultationComment extends BaseIdEntity implements Serializable {
 
 
     private static final long serialVersionUID = 1L;

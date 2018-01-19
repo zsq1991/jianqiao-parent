@@ -1,7 +1,7 @@
 package com.zc.main.entity.appversion;
 
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @version: 1.0.0
  */
 @Alias("alq_app_version")
-public class AppVersion extends IdEntity implements Serializable{
+public class AppVersion extends BaseIdEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,7 @@
 package com.zc.main.entity.collectionconsultation;
 
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.member.Member;
 import org.apache.ibatis.type.Alias;
@@ -9,15 +9,13 @@ import org.apache.ibatis.type.Alias;
 import javax.persistence.Column;
 
 /**
- * 
- * @author sunhuijie
- *
- * @date 2017年3月10日
- *
- *	收藏内容记录
+ * @description ：收藏内容记录
+ * @Created by  : gaoge
+ * @Creation Date ： 2018/1/19 15:04
+ * @version 1.0.0
  */
 @Alias("alq_collection_consultation")
-public class CollectionConsultation extends IdEntity {
+public class CollectionConsultation extends BaseIdEntity {
 
 	/**
 	 * 

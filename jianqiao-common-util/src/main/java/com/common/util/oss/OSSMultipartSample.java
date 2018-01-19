@@ -2,6 +2,7 @@ package com.common.util.oss;
 
 import com.aliyun.oss.*;
 import com.aliyun.oss.model.*;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,9 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 该示例代码展示了如何使用OSS的Multipart上传方式进行多线程分段上传较大文件。
@@ -48,8 +47,13 @@ public class OSSMultipartSample {
     private static final long PART_SIZE = 5 * 1024 * 1024L; // 每个Part的大小，最小为5MB
     private static final int CONCURRENCIES = 2; // 上传Part的并发线程数。
 
+    private final static int CORE_POOL_SIZE = 5;
+
+    private final static int MAX_SIZE = 100;
+
+
     /**
-     * @param args
+     * @param
      */
    /* public static void main(String[] args) throws Exception {
         // 可以使用ClientConfiguration对象设置代理服务器、最大重试次数等参数。
@@ -146,7 +150,14 @@ public class OSSMultipartSample {
 
         String uploadId = initMultipartUpload(client, bucketName, key);
 
-        ExecutorService pool = Executors.newFixedThreadPool(CONCURRENCIES);
+        //ExecutorService pool = Executors.newFixedThreadPool(CONCURRENCIES);
+
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("jianqiao-pool-%d").build();
+
+        ExecutorService pool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_SIZE,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
         List<PartETag> eTags = Collections.synchronizedList(new ArrayList<PartETag>());
 
@@ -200,6 +211,7 @@ public class OSSMultipartSample {
         //为part按partnumber排序
         Collections.sort(eTags, new Comparator<PartETag>(){
 
+            @Override
             public int compare(PartETag arg0, PartETag arg1) {
                 PartETag part1= arg0;
                 PartETag part2= arg1;
@@ -262,7 +274,12 @@ public class OSSMultipartSample {
             } catch (Exception e) {
                 //e.printStackTrace();
             } finally {
-                if (in != null) try { in.close(); } catch (Exception e) {}
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (Exception e) {
+                    }
+                }
             }
         }
     }

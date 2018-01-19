@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 
 /**
  * @描述： 按钮实体表
@@ -14,7 +14,7 @@ import com.zc.common.core.orm.hibernate.IdEntity;
 @Entity
 @Table(name = "alq_permission_btn")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
-public class Btn  extends IdEntity{
+public class Btn  extends BaseIdEntity{
 
     private static final long serialVersionUID = 3409139139798172232L;
 

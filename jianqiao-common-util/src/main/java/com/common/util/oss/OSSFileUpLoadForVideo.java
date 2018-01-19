@@ -41,7 +41,7 @@ public class OSSFileUpLoadForVideo {
 		//*********test
 	    private static final String ACCESS_ID = "1kDHbQZuzf8J7gLv";
 	    private static final String ACCESS_KEY = "CJD3tZ4CXX9vFi3iaX0BQNJksxLUZd";
-	    private static final String bucketName = "tigo-main";
+	    private static final String BUCKET_NAME = "tigo-main";
 	    
 	    /**
 	     * 

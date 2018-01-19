@@ -2,7 +2,7 @@
 package com.zc.main.entity.membermsg;
 
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
@@ -16,7 +16,7 @@ import java.io.Serializable;
  *
  */
 @Alias("alq_member_msg")
-public class MemberMsg extends IdEntity implements Serializable {
+public class MemberMsg extends BaseIdEntity implements Serializable {
 	
 	/**
 	 * 

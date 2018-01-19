@@ -1,6 +1,6 @@
 package com.zc.main.entity.doctor;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import com.zc.main.entity.specialists.SpecialistDTO;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @Creation Date ： 2018/1/10 10:27
  * @version
  */
-public class Doctor extends IdEntity {
+public class Doctor extends BaseIdEntity {
 
     private String headUrl;//头像
 

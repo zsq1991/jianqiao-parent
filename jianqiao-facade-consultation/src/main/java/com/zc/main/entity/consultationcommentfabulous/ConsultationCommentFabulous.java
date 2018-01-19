@@ -1,6 +1,6 @@
 package com.zc.main.entity.consultationcommentfabulous;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.*;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Alias("alq_consultation_comment_fabulous")
 @MappedSuperclass
-public class ConsultationCommentFabulous extends IdEntity implements Serializable {
+public class ConsultationCommentFabulous extends BaseIdEntity implements Serializable {
 
 
     @Column(name = "type")

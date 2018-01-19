@@ -92,13 +92,13 @@ public class StringAndByteUtils {
 
 	private static byte uniteBytes(byte src0, byte src1) {
 
-		byte _b0 = Byte.decode("0x" + new String(new byte[] { src0 })).byteValue();
+		byte b0 = Byte.decode("0x" + new String(new byte[] { src0 })).byteValue();
 
-		_b0 = (byte) (_b0 << 4);
+		b0 = (byte) (b0 << 4);
 
-		byte _b1 = Byte.decode("0x" + new String(new byte[] { src1 })).byteValue();
+		byte b1 = Byte.decode("0x" + new String(new byte[] { src1 })).byteValue();
 
-		byte ret = (byte) (_b0 | _b1);
+		byte ret = (byte) (b0 | b1);
 
 		return ret;
 	}

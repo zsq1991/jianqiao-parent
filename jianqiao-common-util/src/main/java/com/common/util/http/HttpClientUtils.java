@@ -64,7 +64,7 @@ public class HttpClientUtils {
 		HttpResult result = new HttpResult();
 		url = url + (null == params ? "" : assemblyParameter(params));
 		HttpGet httpget = new HttpGet(url);
-		httpget.setConfig(requestConfig);
+		httpget.setConfig(REQUEST_CONFIG);
 		if (null != headers) {
             httpget.setHeaders(assemblyHeader(headers));
         }
@@ -164,7 +164,7 @@ public class HttpClientUtils {
 	public static HttpResult sendPost(String url, final Map<String, String> headers, final Map<String, String> params,
 			final String encoding) throws Exception {
 		HttpPost post = new HttpPost(url);
-		post.setConfig(requestConfig);
+		post.setConfig(REQUEST_CONFIG);
 		List<NameValuePair> paramList = new ArrayList<NameValuePair>();
 		for (Map.Entry<String, String> param : params.entrySet()) {
 			NameValuePair pair = new BasicNameValuePair(param.getKey(), param.getValue());
@@ -235,7 +235,7 @@ public class HttpClientUtils {
 	 * @author：李杰
 	 * @throws
 	 */
-	static final RequestConfig requestConfig = RequestConfig.custom()
+	static final RequestConfig REQUEST_CONFIG = RequestConfig.custom()
 	        .setConnectTimeout(HttpConstants.CONNECT_TIMEOUT)
 	        .setConnectionRequestTimeout(HttpConstants.REQUEST_TIMEOUT)
 	        .setSocketTimeout(HttpConstants.SOCKET_TIMEOUT).build();
