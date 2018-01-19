@@ -23,9 +23,11 @@ public class TencentSms {
 	
 	private static Logger logger = LoggerFactory.getLogger(TencentSms.class);
 
-	private final static String SEND_MSG_URL="http://123.207.175.228:9999/four/mobile/view/check/sendMsg";
-	private final static String CHECK_MSG_URL="http://123.207.175.228:9999/four/mobile/view/check/checkMsg";
-    /**
+	private final static String send_msg_url="http://123.207.175.228:9999/four/mobile/view/check/sendMsg";
+	private final static String check_msg_url="http://123.207.175.228:9999/four/mobile/view/check/checkMsg";
+	private final static String two_element_url="http://123.207.175.228:5200/mobile/view/checkInfoCard/checkUserInfo";
+
+	/**
      * @description ：发送验证码
      * @Created by  : tenghui
      * @Creation Date ： 2018/1/17 10:00
@@ -47,7 +49,7 @@ public class TencentSms {
 			return ResultUtils.returnError("手机号不符合要求");
 		}
 		try {
-			String msg_url = SEND_MSG_URL;//发送短信路径
+			String msg_url = send_msg_url;//发送短信路径
             logger.info("发送路径:"+msg_url);
 			Map<String, String> params = new HashedMap();
             params.put("phone",phone);
@@ -80,7 +82,7 @@ public class TencentSms {
         logger.info("===============进入连接pay验证验证码方法=================");
 		Result result = new Result();
 		try {
-			String msg_url =CHECK_MSG_URL;//发送短信路径
+			String msg_url =check_msg_url;//发送短信路径
             logger.info("发送路径:"+msg_url);
             Map<String, String> params = new HashedMap();
             params.put("phone",phone);
