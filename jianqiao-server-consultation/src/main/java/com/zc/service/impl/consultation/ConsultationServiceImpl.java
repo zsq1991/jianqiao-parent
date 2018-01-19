@@ -22,8 +22,8 @@ import com.zc.main.service.consultation.ConsultationService;
 import com.zc.main.service.consultationattachment.ConsultationAttachmentService;
 import com.zc.main.service.member.MemberService;
 import com.zc.main.service.membermessage.MemberMessageService;
-import com.zc.main.service.membersearchconsultation.MembersearchconsultationService;
 import com.zc.main.service.membermsg.MemberMsgService;
+import com.zc.main.service.membersearchconsultation.MembersearchconsultationService;
 import com.zc.mybatis.dao.Attachment.AttachmentMapper;
 import com.zc.mybatis.dao.ConsultationAttachmentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
@@ -1815,7 +1815,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 Integer searchConsultationCount = membersearchconsultationService.getSearchConsultationByInfo(map);
                 if(searchConsultationCount==0){
                     logger.info("当前检索关键词不存在，开始保存对应会员的检索关键词记录");
-                    Result result = membersearchconsultationService.saveMemberSearchConsultation(id, info);
+//                    Result result = membersearchconsultationService.saveMemberSearchConsultation(id, info);
                     logger.info("保存历史检索成功!");
                 }
             }
@@ -1836,7 +1836,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultationAllTypeListss = consultationMapper.searchConsultationInfo(param);
         List<String> list = new ArrayList<String>();
         //当查询关键词查询不出来结果的时候,开始进行分词
-       /* if(consultationAllTypeListss.size() == 0){
+        /*if(consultationAllTypeListss.size() == 0){
             logger.info("当前关键词没有查询出结果,开始进行分词操作!");
             try {
                 //创建分词对象
