@@ -1,5 +1,6 @@
 package com.zc.service.impl.collectioncontent;
 
+import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
@@ -40,7 +41,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
     @Autowired
     private ConsultationMapper consultationMapper;
 
-    @Autowired
+    @DubboConsumer(version = "1.0.0",timeout = 30000)
     private ConsultationAttachmentService consultationAttachmentService;
 
     @Override

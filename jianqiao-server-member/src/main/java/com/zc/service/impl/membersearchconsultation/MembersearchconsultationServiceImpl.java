@@ -75,6 +75,7 @@ public class MembersearchconsultationServiceImpl implements Membersearchconsulta
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Result deleteKeys(Member member) {
         try {
             memberSearchConsultationMapper.deleteAll(member.getId());

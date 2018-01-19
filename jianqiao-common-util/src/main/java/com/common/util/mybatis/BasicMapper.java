@@ -14,7 +14,7 @@ import java.util.List;
 public interface BasicMapper<T> {
 
 	@InsertProvider(type = BaseSqlProvider.class, method = "insert")  
-	//@SelectKey(statement="SELECT last_insert_id()", keyProperty="id", before=false, resultType=int.class)
+	@SelectKey(statement="SELECT last_insert_id()", keyProperty="id", before=false, resultType=long.class)
 	public int insert(T t);
 	
 	@UpdateProvider(type = BaseSqlProvider.class, method = "updateById")  

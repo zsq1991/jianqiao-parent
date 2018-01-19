@@ -15,11 +15,11 @@ import org.apache.ibatis.annotations.Param;
 @MyBatisRepository
 public interface AttachmentMapper extends BasicMapper<Attachment>{
 	/**
-	 * @description 接口说明
+	 * @description 接口说明 根据附件id获取系统附件
 	 * @author 王鑫涛
 	 * @date 16:04 2018/1/18
 	 * @version 版本号
-	 * @param id
+	 * @param id 系统附件id
 	 * @return
 	 */
 	Attachment findOne(@Param("id") Long id);

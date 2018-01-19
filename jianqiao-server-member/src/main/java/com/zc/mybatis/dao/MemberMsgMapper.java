@@ -25,8 +25,8 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @author 王鑫涛
      * @date 11:07 2018/1/18
      * @version 版本号
-     * @param types
-     * @param readType
+     * @param types 通知类型
+     * @param readType  0或者null未阅读，1阅读
      * @param mId 用户id
      * @return
      */
@@ -72,24 +72,36 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      */
     AttachmentDTO getAttamentById(String id);
     /**
-     * 获取审核的通知列表
+     *
+     * @description 接口说明 获取审核的通知列表
+     * @author 王鑫涛
+     * @date 15:49 2018/1/19
+     * @version 版本号
      * @param mId 登录者id
-     * @param page
-     * @param rows
+     * @param page  当前页
+     * @param rows  每页显示的数量
      * @param type 审核通知标识
      * @return
      */
     public List<Map> getCheckInformList(@Param("mId")Long mId, @Param("page")Integer page, @Param("rows")Integer rows, @Param("type")Integer type);
     /**
-     * 获取赞的通知列表
+     *
+     * @description 接口说明 获取赞的通知列表
+     * @author 王鑫涛
+     * @date 15:49 2018/1/19
+     * @version 版本号
      * @param mId 登陆者id
-     * @param page
-     * @param rows
+     * @param page 当前页
+     * @param rows  每页显示的数量
      * @return
      */
     public List<Map> getSupportInformList(@Param("mId")Long mId,@Param("page")Integer page,@Param("rows")Integer rows);
     /**
-     * 获取评论资讯赞
+     *
+     * @description 接口说明 获取评论资讯赞
+     * @author 王鑫涛
+     * @date 15:50 2018/1/19
+     * @version 版本号
      * @param comId 评论id
      * @param memId 点赞者id
      * @param mLId 登录者的id
@@ -97,7 +109,11 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      */
     public List<Map> getCommentSupportInformList(@Param("comId")Long comId,@Param("memId")Long memId,@Param("mLId")Long mLId);
     /**
-     * 获取资讯赞
+     *
+     * @description 接口说明 获取资讯赞
+     * @author 王鑫涛
+     * @date 15:50 2018/1/19
+     * @version 版本号
      * @param conId 资讯id
      * @param memId 点赞者id
      * @param mLId 登录者的id
@@ -105,7 +121,11 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      */
     public List<Map> getConsulatationSupportInformList(@Param("conId")Long conId,@Param("memId")Long memId,@Param("mLId")Long mLId);
     /**
-     * 获取人评论者列表的数据
+     *
+     * @description 接口说明 获取人评论者列表的数据
+     * @author 王鑫涛
+     * @date 15:50 2018/1/19
+     * @version 版本号
      * @param mId 登录者的id
      * @param page
      * @param rows
@@ -113,7 +133,11 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      */
     public List<Map> getCommentInformList(@Param("mId")Long mId,@Param("page")Integer page,@Param("rows")Integer rows);
     /**
-     * 获取评论回复
+     *
+     * @description 接口说明 获取评论回复
+     * @author 王鑫涛
+     * @date 15:50 2018/1/19
+     * @version 版本号
      * @param comId 资讯id
      * @param memId 点赞者id
      * @param mLId 登录者的id
@@ -121,21 +145,33 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      */
     public List<Map> getCommentDiscussInformList(@Param("comId")Long comId,@Param("memId")Long memId,@Param("mLId")Long mLId);
     /**
-     * 获取资讯评论
-     * @param conId
-     * @param memId
-     * @param mLId
+     *
+     * @description 接口说明 获取资讯评论
+     * @author 王鑫涛
+     * @date 15:51 2018/1/19
+     * @version 版本号
+     * @param conId 资讯id
+     * @param memId 评论者id
+     * @param mLId 登录者的id
      * @return
      */
     public List<Map> getConsulatationDiscussInformList(@Param("comId")Long comId,@Param("conId")Long conId,@Param("memId")Long memId,@Param("mLId")Long mLId);
     /**
-     * 通过资讯的id获取Attachment
+     *
+     * @description 接口说明 通过资讯的id获取Attachment
+     * @author 王鑫涛
+     * @date 15:51 2018/1/19
+     * @version 版本号
      * @param id 资讯的id
      * @return
      */
     public ConsultationAttachment getAttachmentByconId(@Param("id") Long id);
     /**
-     * 获取回答者的数据
+     *
+     * @description 接口说明 获取回答者的数据
+     * @author 王鑫涛
+     * @date 15:52 2018/1/19
+     * @version 版本号
      * @param conId  资讯id
      * @param memId  评论者的id
      * @param mLId   登录着的id

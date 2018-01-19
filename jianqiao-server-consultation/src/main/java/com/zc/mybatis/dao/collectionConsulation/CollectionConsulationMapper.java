@@ -27,9 +27,12 @@ public interface CollectionConsulationMapper extends BasicMapper<CollectionConsu
 	 */
 	public List<Map> getMemberIdByConsultationId(Long id);
 	/**
-	 * 通过资讯主题id获取所有主题下资讯的id
 	 *
-	 * @param id
+	 *@description方法说明 通过资讯主题id获取所有主题下资讯的id
+	 * @author 王鑫涛
+	 * @date  15:31  2018/1/19
+	 * @version 版本号
+	 * @param id 资讯id
 	 * @return
 	 */
 	public List<Map> getConsultationIdAllByconsultationId(Long id);

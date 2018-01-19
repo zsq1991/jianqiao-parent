@@ -136,4 +136,64 @@
 		ORDER BY aca.sort_num desc
 		LIMIT 0,4
 	</select>
+
+	<!-- 得到咨询下面第一条内容 -->
+	<select id="getConsultationTop" resultType="Map" >
+		select c.title as title,c.comment_num as
+		commentNum,(SELECT
+		aca.detail_content from alq_consultation_attachment
+		aca where
+		aca.consultation_id =c.id ORDER BY aca.created_time desc
+		LIMIT 1,1) as
+		detailSummary,(select m.nickname from alq_member m WHERE
+		m.id =
+		c.member_id) AS nickname,c.created_time AS createdTime,
+		(select
+		a.address FROM
+		alq_attachment a where a.id = (select
+		m.logo_attachment_id from alq_member m WHERE m.id
+		= (select d.member_id
+		from alq_consultation d where d.consulatation_id = c.consulatation_id
+		LIMIT 0,1)))as address,c.id,(select m.user_type from alq_member m
+		where m.id = c.member_id)as userType
+		from
+		alq_consultation
+		c
+		where
+		c.id =#{id} and c.status =2 and c.is_delete =0
+		ORDER BY
+		c.created_time desc
+		LIMIT 0,1
+	</select>
+
+	<!-- 得到当前的资讯下的详情 -->
+	<select id="getConsultationList" resultType="Map">
+
+		select c.title as title,c.comment_num as
+		commentNum,(SELECT
+		aca.detail_content from alq_consultation_attachment
+		aca where
+		aca.consultation_id =c.id ORDER BY aca.created_time desc
+		LIMIT 1,1) as
+		detailSummary,(select m.nickname from alq_member m WHERE
+		m.id =
+		c.member_id) AS nickname,
+		c.created_time AS createdTime,
+		(select
+		address FROM
+		alq_attachment a where a.id = (select m.logo_attachment_id
+		from alq_member m WHERE m.id
+		= c.member_id))as
+		address,c.id,IFNULL(c.collect_num,0) as collectNum
+		from
+		alq_consultation
+		c
+		where
+		c.consulatation_id = #{consultaionId} and c.status =2 and
+		c.is_delete =0
+		ORDER BY
+		c.created_time desc
+		LIMIT 1,4
+	</select>
+
 </mapper>

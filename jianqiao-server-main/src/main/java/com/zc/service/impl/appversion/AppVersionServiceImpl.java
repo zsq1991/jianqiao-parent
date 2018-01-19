@@ -48,7 +48,7 @@ public class AppVersionServiceImpl implements AppVersionService {
             List<Map<String,Object>> appVersionList = appVersionMapper.getAppVersion();
             if(appVersionList.size()>0){
                 Map<String,Object> appVersion=appVersionList.get(0);
-                Integer v = (Integer) appVersion.get("version");
+                Integer v = Integer.valueOf(appVersion.get("version").toString());
                 logger.info("最新版本号"+v);
                 Integer v1 = Integer.valueOf(version);
                 //设备标识（Android as A、Ios as I）
@@ -71,6 +71,8 @@ public class AppVersionServiceImpl implements AppVersionService {
                 return ResultUtils.returnError("已经是最新版本");
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("版本强更方法执行异常");
             return ResultUtils.returnError(e.getMessage());
         }
     }

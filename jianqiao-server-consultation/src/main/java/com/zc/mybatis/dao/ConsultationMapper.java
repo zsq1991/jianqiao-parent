@@ -18,8 +18,12 @@ import java.util.Map;
  */
 @MyBatisRepository
 public interface ConsultationMapper extends BasicMapper<Consultation> {
-	/***
-	 * 修改资讯主题状态
+	/**
+	 * @description 接口说明 修改资讯主题状态
+	 * @author 王鑫涛
+	 * @date 15:41 2018/1/19
+	 * @version 版本号
+	 * @param cid 资讯id
 	 */
 	void updateConsultationStatusById(Long cid);
 	/**
@@ -32,14 +36,22 @@ public interface ConsultationMapper extends BasicMapper<Consultation> {
 	 */
 	Consultation findOne(Long id);
 	/**
-	 * 在修改编辑资讯的时候删除审核失败通知信息
+	 *
+	 * @description 接口说明 在修改编辑资讯的时候删除审核失败通知信息
+	 * @author 王鑫涛
+	 * @date 15:41 2018/1/19
+	 * @version 版本号
 	 * @param conId  资讯id
 	 * @param mId  y用户id
 	 * @param msgType
 	 */
 	public void deleteMemberMsgByConId(@org.apache.ibatis.annotations.Param("conId")Long conId,@org.apache.ibatis.annotations.Param("mId") Long mId, @org.apache.ibatis.annotations.Param("msgType")Integer msgType);
 	/**
-	 * 通过父类的资讯id获取资讯未审核资讯内容
+	 *
+	 * @description 接口说明 通过父类的资讯id获取资讯未审核资讯内容
+	 * @author 王鑫涛
+	 * @date 15:41 2018/1/19
+	 * @version 版本号
 	 * @param pId 资讯主题的id
 	 * @param mId  登陆者的id
 	 * @param status 驳回的审核状态
@@ -47,8 +59,12 @@ public interface ConsultationMapper extends BasicMapper<Consultation> {
 	 */
 	public List<Map> getConsultationListByParentId(@Param("pId")Long pId, @Param("mId")Long mId, @org.apache.ibatis.annotations.Param("status")Integer status);
 	/**
-	 * 修改资讯内容状态
-	 * @param cid
+	 *
+	 * @description 接口说明 修改资讯内容状态
+	 * @author 王鑫涛
+	 * @date 15:40 2018/1/19
+	 * @version 版本号
+	 * @param cid 资讯id
 	 */
 	void updateConsultationByConsultation(Long cid);
 	/**
