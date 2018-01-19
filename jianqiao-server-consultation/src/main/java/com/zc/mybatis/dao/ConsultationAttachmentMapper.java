@@ -19,8 +19,21 @@ import java.util.Map;
 
 @MyBatisRepository
 public interface ConsultationAttachmentMapper  extends BasicMapper<ConsultationAttachment> {
+	/**
+	 * @description 接口说明 删除内容信息附件
+	 * @author 王鑫涛
+	 * @date 15:43 2018/1/19
+	 * @version 版本号
+	 * @param consultation  资讯id
+	 */
 	void deleteConsultationAttachmentByConsultation(Consultation consultation);
-
+	/**
+	 * @description 接口说明保存内容信息附件
+	 * @author 王鑫涛
+	 * @date 15:43 2018/1/19
+	 * @version 版本号
+	 * @param consultationAttachment  资讯id
+	 */
 	Long save(ConsultationAttachment consultationAttachment);
 
 	 List<Map<String, Object>> findConsultationAttachmentByConsultationId(@Param("id") Long id);
@@ -50,6 +63,15 @@ public interface ConsultationAttachmentMapper  extends BasicMapper<ConsultationA
 	 * @return
 	 */
 	List<Map<String,Object>> getConsultationAttachmentDetailByConsultation(Long mid);
+
+	/**
+	 * @description 接口说明  父级咨询信息
+	 * @author 王鑫涛
+	 * @date 15:57 2018/1/19
+	 * @version 版本号
+	 * @param map
+	 * @return
+	 */
 
 	List<Map<String,Object>> getConsultationAttachmentByConsultationType(Map<String, Object> map);
 

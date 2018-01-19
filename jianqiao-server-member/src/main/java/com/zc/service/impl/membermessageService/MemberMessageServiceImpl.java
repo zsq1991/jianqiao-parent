@@ -47,7 +47,7 @@ public class MemberMessageServiceImpl implements MemberMessageService{
     private MemberHelpImageMapper memberHelpImageMapper;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false)
     public Result saveMemberHelp(Member member, MemberHelp memberhelp, String caseId, String imgId) {
         logger.info("求助信息发布接口调用，方法入参{"+"病例id："+caseId +"，影像id："+imgId+"}");
         Result result = new Result();
@@ -96,7 +96,7 @@ public class MemberMessageServiceImpl implements MemberMessageService{
             // 查看caseId图片
             String[] split = caseId.split(",");
             for (int i=0;split.length>i;i++) {
-                AttachmentDTO attachment = memberMessageMapper.getAttamentById(split[i]);
+                    AttachmentDTO attachment = memberMessageMapper.getAttamentById(split[i]);
                 if(null==attachment){
                     return ResultUtils.returnError("没有此病历图片！");
                 }

@@ -18,7 +18,7 @@ import com.alibaba.dubbo.rpc.RpcException;
  * @since 1.0.0
  */
 @Activate(group = Constants.PROVIDER)
-public class ProviderInvokeStaticsFilter extends StaticsFilterHelper {
+public class ProviderInvokeStaticsFilter extends AbstractStaticsFilterHelper {
 
   @Override
   public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {

@@ -2,7 +2,7 @@
 package com.zc.main.entity.member;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 
 import javax.persistence.Table;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2017年6月12日
  */
 @Table(name="alq_member")
-public class Member extends IdEntity {
+public class Member extends BaseIdEntity {
 
     private String phone;// 手机号
 

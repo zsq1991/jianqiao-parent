@@ -1,6 +1,6 @@
 package com.zc.main.entity.consultationattachment;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @Creation Date ：2018年01月16日16:21
  */
 @Alias("alq_consultation_attachment")
-public class ConsultationAttachment extends IdEntity implements Serializable {
+public class ConsultationAttachment extends BaseIdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

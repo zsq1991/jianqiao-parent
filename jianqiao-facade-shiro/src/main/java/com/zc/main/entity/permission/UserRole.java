@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 
 /**
  *
@@ -16,7 +16,7 @@ import com.zc.common.core.orm.hibernate.IdEntity;
 @Entity
 @Table(name = "alq_permission_user_role")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
-public class UserRole extends IdEntity{
+public class UserRole extends BaseIdEntity{
 
     private static final long serialVersionUID = -6782858999602872500L;
     /**

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 
 /**
  *
@@ -17,7 +17,7 @@ import com.zc.common.core.orm.hibernate.IdEntity;
 @Table(name = "alq_permission_menu")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
 
-public class Menu  extends IdEntity{
+public class Menu  extends BaseIdEntity{
 
     private static final long serialVersionUID = 3409139139798172232L;
 

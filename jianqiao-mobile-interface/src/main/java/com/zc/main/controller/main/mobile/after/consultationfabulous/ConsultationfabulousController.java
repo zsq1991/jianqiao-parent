@@ -19,54 +19,53 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 咨询内容点赞
- *
  */
 @RequestMapping("mobile/after/consultationcfabulous")
 @Controller
 public class ConsultationfabulousController {
-	
-	private static Logger logger = LoggerFactory.getLogger(ConsultationfabulousController.class);
 
-	@DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
-	private ConsultationFabulousService consultationFabulousService;
+    private static Logger logger = LoggerFactory.getLogger(ConsultationfabulousController.class);
+
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private ConsultationFabulousService consultationFabulousService;
 
 
-	/**
-	 * @description:对4种内容进行点赞
-	 * @author: ZhaoJunBiao
-	 * @date: 2018/1/16 13:51
-	 * @param member 用户信息
-	 * @param id       咨询id
-	 * @param type     点赞 1   取消赞2
-	 * @version: 1.0.0
-	 * @return
-	 */
-	@Explosionproof
-	@RequestMapping(value="fabulous",method= RequestMethod.POST)
-	@ResponseBody
-	public Result consultationcfabulous(@RequestParam("id")Long id,
-										@RequestParam("type")Integer type,
-										@MemberAnno Member member){
-		return consultationFabulousService.getConsultationFabulousByIdAndMemberId(id, member.getId(), type);
-		
-	}
+    /**
+     * @param member 用户信息
+     * @param id     咨询id
+     * @param type   点赞 1   取消赞2
+     * @return
+     * @description:对4种内容进行点赞
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/16 13:51
+     * @version: 1.0.0
+     */
+    @Explosionproof
+    @RequestMapping(value = "fabulous", method = RequestMethod.POST)
+    @ResponseBody
+    public Result consultationcfabulous(@RequestParam("id") Long id,
+                                        @RequestParam("type") Integer type,
+                                        @MemberAnno Member member) {
+        return consultationFabulousService.getConsultationFabulousByIdAndMemberId(id, member.getId(), type);
 
-	/**
-	 * @description:	根据咨询id和会员id查询点赞
-	 * @author: ZhaoJunBiao
-	 * @date: 2018/1/16 14:51
-	 * @param member 用户信息
-	 * @param id       咨询id
-	 * @version: 1.0.0
-	 * @return
-	 */
-	@RequestMapping(value="fabulous-type",method= RequestMethod.POST)
-	@ResponseBody
-	public Result getConsultationType(@RequestParam("id")Long id,
-									  @MemberAnno Member member){
-		
-		return consultationFabulousService.getConsultationType(id, member.getId());
-		 
-	}
-	
+    }
+
+    /**
+     * @param member 用户信息
+     * @param id     咨询id
+     * @return
+     * @description: 根据咨询id和会员id查询点赞
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/16 14:51
+     * @version: 1.0.0
+     */
+    @RequestMapping(value = "fabulous-type", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getConsultationType(@RequestParam("id") Long id,
+                                      @MemberAnno Member member) {
+
+        return consultationFabulousService.getConsultationType(id, member.getId());
+
+    }
+
 }

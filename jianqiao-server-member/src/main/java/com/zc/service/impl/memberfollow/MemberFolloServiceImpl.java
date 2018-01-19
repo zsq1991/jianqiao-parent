@@ -17,10 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author : wangxueyang[wxueyanghj@163.com]
@@ -49,7 +46,7 @@ public class MemberFolloServiceImpl implements MemberFollowService {
         Result result = new Result();
         if(mId==null && fId==null){
             return ResultUtils.returnError("请输入关注着的id");
-        }else if(fId == mId){
+        }else if(Objects.equals(fId, mId)){
             return ResultUtils.returnError("不能关注自己");
         }
         //检索是否存在用户身份

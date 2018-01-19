@@ -2,22 +2,27 @@ package com.zc.service.impl.member;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
+import com.common.util.securitycode.TencentSms;
 import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
+import com.zc.main.entity.attachment.Attachment;
 import com.zc.main.entity.member.Member;
+import com.zc.main.entity.memberattachment.MemberAttachment;
 import com.zc.main.service.member.MemberService;
 import com.zc.mybatis.dao.MemberAttachmentMapper;
 import com.zc.mybatis.dao.MemberMapper;
+import com.zc.mybatis.dao.MemberMsgMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Component
 @Service(version = "1.0.0",interfaceClass =MemberService.class )
@@ -30,6 +35,10 @@ public class MemberServiceImpl implements MemberService {
     private MemberMapper memberMapper;
     @Autowired
     private MemberAttachmentMapper memberAttachmentMapper;
+    @Autowired
+    private MemberMsgMapper memberMsgMapper;
+
+
     /**
      * @description 接口说明 修改收藏内容数量
      * @author 王鑫涛
@@ -53,7 +62,6 @@ public class MemberServiceImpl implements MemberService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
     public int updateById(Member member) {
         int i = memberMapper.updateByPrimaryKeySelective(member);
         return i;
@@ -172,5 +180,133 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = false)
     public Member getLockOne(Long memberId) {
         return memberMapper.getLockOne(memberId);
+    }
+
+    /**
+     * 用户认证
+     * @author huangxin
+     * @data 2018/1/19 16:37
+     * @Description: 用户认证
+     * @Version: 3.2.0
+     * @param name 姓名
+     * @param card 身份证号
+     * @param phone 手机号
+     * @param code 验证码
+     * @param pics 附件ID ,多个ID用,拼接
+     * @param member 用户信息
+     * @param type 修改认证信息时传入此参数
+     * @return
+     */
+    @Override
+    public Result authMember(String name, String card, String phone, String code, String pics, Member member, String type) {
+        logger.info("****authMember**name={},card={},pics={},type={}**",name,card,pics,type);
+        // 验证
+        if (StringUtils.isBlank(name)) {
+            return ResultUtils.returnError("姓名不能为空");
+        }
+        if (StringUtils.isBlank(card)) {
+            return ResultUtils.returnError("身份证号不能为空");
+        }
+        if (StringUtils.isBlank(phone)) {
+            return ResultUtils.returnError("电话不能为空");
+        }
+        if (StringUtils.isBlank(code)) {
+            return ResultUtils.returnError("验证码不能为空.");
+        }
+        if (StringUtils.isBlank(pics)) {
+            return ResultUtils.returnError("附件不能为空");
+        }
+        try {
+            if (!"0".equals(String.valueOf(member.getStatus())) && !"3".equals(String.valueOf(member.getStatus()))){
+                return ResultUtils.returnError("非待认证状态,无法认证");
+            }
+            if (!"0".equals(String.valueOf(member.getUserType()))){
+                return ResultUtils.returnError("非待认证状态,无法认证");
+            }
+            String[] picsAry = pics.split(",");
+            if (!Objects.isNull(picsAry) && picsAry.length!=4){
+                return ResultUtils.returnError("图片只能上传四张");
+            }
+            TencentSms sms = new TencentSms();
+            String codeType ="JQ2017613";
+            Result msgResult =  sms.checkMsg(phone,code,codeType);
+            if (!Objects.isNull(msgResult)){
+                Integer msgCode = msgResult.getCode();
+                if ("0".equals(String.valueOf(msgCode))){
+                    return ResultUtils.returnError("验证码错误");
+                }
+            } else {
+                return ResultUtils.returnError("验证码验证失败");
+            }
+
+            // 调用接口验证二要素
+
+            Result elementResult = sms.checkCarId(name,card);
+            logger.info("用户ID={},返回参数={}",member.getId(),elementResult.toString());
+
+            if (("0").equals(elementResult.getCode())) {
+                if ("1".equals(type)){
+                    memberAttachmentMapper.deleteAttachment(member.getId());
+                }
+                String[] pic = pics.split(",");
+                Arrays.stream(pic).forEach(e->{
+                    if (StringUtils.isNotBlank(e)){
+                        Attachment attachment = memberAttachmentMapper.getAttachmentById(Long.parseLong(e));
+                        if (!Objects.isNull(attachment)){
+                            MemberAttachment memberAttachment = new MemberAttachment();
+                            memberAttachment.setMemberId(member.getId());
+                            logger.info("当前member:"+member);
+                            memberAttachment.setAddress(attachment.getAddress());
+                            logger.info("当前图片的地址:"+attachment.getAddress());
+                            memberAttachment.setName(attachment.getName());
+                            memberAttachment.setAttachmentId(attachment.getId());
+                            memberAttachmentMapper.save(memberAttachment);
+                        }
+                    }
+                });
+                member.setName(name);
+                member.setCard(card);
+                //认证中
+                member.setUserType(2);
+                //待审核
+                member.setStatus(1);
+                // 保存身份证信息
+                return this.saveMember(member);
+            }
+            return ResultUtils.returnError("验证姓名身份证失败,请核对信息!");
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            return ResultUtils.returnError("姓名身份证验证失败");
+        }
+    }
+
+    /**
+     * 保存用户认证信息
+     * @author huangxin
+     * @data 2018/1/19 17:38
+     * @Description: 保存用户认证信息
+     * @Version: 3.2.0
+     * @param pmember 用户信息
+     * @return
+     */
+    private Result saveMember(Member pmember) {
+        try {
+            logger.info("pmember:{}",pmember);
+            Member member = memberMapper.findOne(pmember.getId());
+            member.setUserType(pmember.getUserType());
+            //待审核
+            member.setStatus(pmember.getStatus());
+            member.setName(pmember.getName());
+            member.setCard(pmember.getCard());
+            logger.info("重新认证的member:"+member);
+            memberMapper.updateByPrimaryKeySelective(member);
+            logger.info("member的status值:================{}",member.getStatus());
+            //判断是否是审核失败修改状态,@wudi，如果是审核失败的修改删除通知的memberMsg,1认证驳回  2内容驳回
+            memberMsgMapper.deleteMemberMsgByMId(member.getId(),1);
+            return ResultUtils.returnSuccess("提交成功,资料正在审核中");
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            return ResultUtils.returnSuccess("认证失败");
+        }
     }
 }

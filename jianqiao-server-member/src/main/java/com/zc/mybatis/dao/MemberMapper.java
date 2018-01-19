@@ -2,6 +2,7 @@ package com.zc.mybatis.dao;
 
 import com.zc.common.core.basemapper.BaseMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
+import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 import org.apache.ibatis.annotations.Param;
 
@@ -84,6 +85,10 @@ public interface MemberMapper extends BaseMapper<Member> {
 	 * @version : 1.0.0
 	 */
 	public int updateByMemberId(Map<String,Object> params);
+
+
+
+	Result authMember(Member member);
 
 	/**
 	 * * @author:  wangxueyang[wxueyanghj@163.com]

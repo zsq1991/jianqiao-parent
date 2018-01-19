@@ -11,12 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @package : com.zc.main.controller.main.mobile.after.membermsg
- * @progect : jianqiao-parent
- * @Description :
- * @Created by : asus 王鑫涛
- * @Creation Date ：2018年01月18日10:37
+ * 我的消息
+ * @author 王鑫涛
+ * @date 2017-06-19 9:33
+ * @since 1.8
  */
+@SuppressWarnings("AlibabaClassMustHaveAuthor")
 @RequestMapping("mobile/after/membermsg")
 @RestController
 public class MemberMsgController {

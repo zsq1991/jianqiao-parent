@@ -4,7 +4,6 @@ package com.zc.mybatis.dao;
 import com.common.util.mybatis.BasicMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
 import com.zc.main.entity.consultationcomment.ConsultationComment;
-import com.zc.main.vo.consultationcomment.ConsultationCommentDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -74,7 +73,7 @@ public interface ConsultationCommentMapper extends BasicMapper<ConsultationComme
      */
     public List<Map> getCommentSonIdByPid(Long id);
 
-    public ConsultationCommentDTO getRowLock(Long parentid);
+    public ConsultationComment getRowLock(Long parentid);
 
     /**
      * 保存咨询评论

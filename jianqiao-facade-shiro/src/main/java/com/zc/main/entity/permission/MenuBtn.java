@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 
 /**
  * @描述： 菜单按钮实体
@@ -14,7 +14,7 @@ import com.zc.common.core.orm.hibernate.IdEntity;
 @Entity
 @Table(name = "alq_permission_role_menu")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
-public class MenuBtn extends IdEntity {
+public class MenuBtn extends BaseIdEntity {
 
     private static final long serialVersionUID = 8355710622359264368L;
 

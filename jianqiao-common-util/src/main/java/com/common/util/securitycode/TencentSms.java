@@ -23,9 +23,11 @@ public class TencentSms {
 	
 	private static Logger logger = LoggerFactory.getLogger(TencentSms.class);
 
-	private final static String send_msg_url="http://123.207.175.228:9999/four/mobile/view/check/sendMsg";
-	private final static String check_msg_url="http://123.207.175.228:9999/four/mobile/view/check/checkMsg";
-    /**
+	private final static String SEND_MSG_URL="http://123.207.175.228:9999/four/mobile/view/check/sendMsg";
+	private final static String CHECK_MSG_URL="http://123.207.175.228:9999/four/mobile/view/check/checkMsg";
+	private final static String TWO_ELEMENT_URL="http://123.207.175.228:5200/mobile/view/checkInfoCard/checkUserInfo";
+
+	/**
      * @description ：发送验证码
      * @Created by  : tenghui
      * @Creation Date ： 2018/1/17 10:00
@@ -47,7 +49,7 @@ public class TencentSms {
 			return ResultUtils.returnError("手机号不符合要求");
 		}
 		try {
-			String msg_url = send_msg_url;//发送短信路径
+			String msg_url = SEND_MSG_URL;//发送短信路径
             logger.info("发送路径:"+msg_url);
 			Map<String, String> params = new HashedMap();
             params.put("phone",phone);
@@ -80,7 +82,7 @@ public class TencentSms {
         logger.info("===============进入连接pay验证验证码方法=================");
 		Result result = new Result();
 		try {
-			String msg_url =check_msg_url;//发送短信路径
+			String msg_url =CHECK_MSG_URL;//发送短信路径
             logger.info("发送路径:"+msg_url);
             Map<String, String> params = new HashedMap();
             params.put("phone",phone);
@@ -100,5 +102,41 @@ public class TencentSms {
 			return ResultUtils.returnError("调用验证验证码接口异常");
 		}
 	}
-	
+
+	/**
+	 * 二要素验证（身份证和姓名）
+	 * @author huangxin
+	 * @data 2018/1/19 16:57
+	 * @Description: 二要素验证（身份证和姓名）
+	 * @Version: 3.2.0
+	 * @param name 姓名
+	 * @param carId 身份证号
+	 * @return
+	 */
+	public Result checkCarId(String name, String carId){
+		logger.info("=================进入二要素信息验证=================");
+		Result result = new Result();
+		try{
+			//二要素地址
+			String element = TWO_ELEMENT_URL;
+			logger.info("二要素地址："+element);
+			Map<String, String> params = new HashedMap();
+			params.put("name",name);
+			params.put("carId",carId);
+			logger.info("=======开始请求=========");
+			HttpResult httpResult = HttpClientUtils.sendGet(element, params);
+			logger.info("=======请求结束,即将返回响应=========");
+			JSONObject json = JSONObject.parseObject(httpResult.getResponseContent());
+			result.setCode(Integer.parseInt(json.get("code").toString()));
+			result.setMsg(json.get("msg").toString());
+			logger.info("===============连接pay验证二要素方法结束,响应已返回=================");
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("连接pay验证二要素接口异常"+e.getMessage());
+			return ResultUtils.returnError("调用二要素接口异常");
+		}
+	}
+
+
 }

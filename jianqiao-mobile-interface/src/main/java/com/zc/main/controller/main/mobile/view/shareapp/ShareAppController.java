@@ -34,26 +34,29 @@ public class ShareAppController {
 
     private static String url = "http://yst-images.img-cn-hangzhou.aliyuncs.com/";
 
-    @DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private ShareAppService shareAppService;
-    @DubboConsumer(version = "1.0.0",timeout = 30000,check = false)
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private HelpDetailsService helpDetailsService;
 
     /**
-     * 访谈
-     *
      * @param model
      * @param response
      * @param request
-     * @param id
+     * @param id       资讯id
+     * @param type     来源标识
      * @return
+     * @description: web分享页面
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/19 13:49
+     * @version: 1.0.0
      */
     @RequestMapping(value = "share", method = RequestMethod.GET)
     public String gotoApp(Model model,
                           HttpServletResponse response, HttpServletRequest request,
                           @RequestParam(value = "id") String id,
                           @RequestParam(value = "type") Integer type) {
-        logger.info("web分享页面执行，方法入参{}" + "咨询id" + id + "来源标识" + type);
+        logger.info("web分享页面执行，方法入参{" + "咨询id" + id + "来源标识" + type + "}");
         Map<String, Object> consultationnow = shareAppService.getConsultationnow(id);
         if (null == consultationnow) {
             return "view/error";
@@ -67,12 +70,16 @@ public class ShareAppController {
         try {
             if (type == 1) {
                 Long consuid = (Long) consultationnow.get("consulatation_id");
+                //根据id查询当前的资讯
                 Map<String, Object> consultation = shareAppService.getConsultation(consuid);
                 logger.info("consultation:" + consultation);
+                //得到资讯下面的第一条内容
                 Map<String, Object> consultationTop = shareAppService.getConsultationTop(id);
+                //得到当前资讯下的详情
                 List<Map<String, Object>> consultationList = shareAppService.getConsultationList(consuid + "");
                 long object2 = (long) consultationTop.get("id");
                 if (StringUtils.isNotBlank(object2 + "")) {
+                    //得到访谈详情内容包括图片
                     List<Map<String, Object>> ftDetailList = shareAppService.getFTDetailList(object2 + "");
                     for (Map<String, Object> map : ftDetailList) {
                         Object object = map.get("address");
@@ -86,6 +93,7 @@ public class ShareAppController {
                     }
                     model.addAttribute("ftDetailList", ftDetailList);
                 }
+                //得到当前资讯下的评论
                 List<Map<String, Object>> consultationDetail = shareAppService.getConsultationDetail(object2 + "");
                 String commentid = null;
                 List<Map<String, Object>> mapppp = new ArrayList<Map<String, Object>>();
@@ -99,7 +107,7 @@ public class ShareAppController {
                     } else {
                         commentid = "";
                     }
-
+                    //得到当前评论下的回复，取前两条
                     mapppp = shareAppService.getreplyDetail(commentid);
                     //consultationDetail.add(mapppp);
                     map.put("replyDetail", mapppp);

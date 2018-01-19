@@ -1,17 +1,16 @@
 package com.alibaba.boot.dubbo.metrics;
 
+import com.alibaba.boot.dubbo.domain.ClassIdBean;
+import com.alibaba.boot.dubbo.listener.AbstractStaticsFilterHelper;
+import org.springframework.boot.actuate.endpoint.PublicMetrics;
+import org.springframework.boot.actuate.metrics.Metric;
+import org.springframework.stereotype.Component;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.springframework.boot.actuate.endpoint.PublicMetrics;
-import org.springframework.boot.actuate.metrics.Metric;
-import org.springframework.stereotype.Component;
-
-import com.alibaba.boot.dubbo.domain.ClassIdBean;
-import com.alibaba.boot.dubbo.listener.StaticsFilterHelper;
 
 /**
  * dubbo metrics
@@ -26,7 +25,7 @@ public class DubboMetrics implements PublicMetrics {
   @Override
   public Collection<Metric<?>> metrics() {
     List<Metric<?>> metrics = new LinkedList<Metric<?>>();
-    for (Map.Entry<ClassIdBean, Map<String, AtomicLong>> entry : StaticsFilterHelper.STATICS_DATA_MAP
+    for (Map.Entry<ClassIdBean, Map<String, AtomicLong>> entry : AbstractStaticsFilterHelper.STATICS_DATA_MAP
         .entrySet()) {
       ClassIdBean classIdBean = entry.getKey();
       Map<String, AtomicLong> countMap = entry.getValue();
@@ -35,7 +34,7 @@ public class DubboMetrics implements PublicMetrics {
             entry1.getValue().get()));
       }
     }
-    for (Map.Entry<ClassIdBean, Map<String, AtomicLong>> entry : StaticsFilterHelper.STATICS_DATA_MAP
+    for (Map.Entry<ClassIdBean, Map<String, AtomicLong>> entry : AbstractStaticsFilterHelper.STATICS_DATA_MAP
         .entrySet()) {
       ClassIdBean classIdBean = entry.getKey();
       Map<String, AtomicLong> countMap = entry.getValue();

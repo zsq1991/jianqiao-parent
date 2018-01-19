@@ -16,7 +16,7 @@ import java.util.Date;
  * 
  */
 @MappedSuperclass
-public abstract class IdEntity implements Serializable{
+public abstract class BaseIdEntity implements Serializable{
 	
 	/**
 	 * 
