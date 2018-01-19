@@ -1,6 +1,6 @@
 package com.zc.main.entity.memberattachment;
 
-import com.zc.common.core.orm.hibernate.IdEntity;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
@@ -14,7 +14,7 @@ import javax.persistence.Column;
  * @Creation Date ：2018年01月19日17:05
  */
 @Alias("alq_member_attachment")
-public class MemberAttachment extends IdEntity {
+public class MemberAttachment extends BaseIdEntity {
 
     /**
      * 附件名称
