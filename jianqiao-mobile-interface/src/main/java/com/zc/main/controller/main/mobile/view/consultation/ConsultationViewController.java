@@ -25,7 +25,7 @@ public class ConsultationViewController {
 
     private static Logger logger = LoggerFactory.getLogger(ConsultationViewController.class);
 
-    @DubboConsumer(version = "1.0.0",timeout = 30000)
+    @DubboConsumer(version = "1.0.0", timeout = 30000)
     private ConsultationService consultationService;
 
     /**
@@ -101,7 +101,8 @@ public class ConsultationViewController {
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
             @RequestParam(value = "memberId") String memberId) {
 
-        String checktype = "1";//checktype  1 访谈  2 口述   3 求助   4 分享
+        //checktype  1 访谈  2 口述   3 求助   4 分享
+        String checktype = "1";
         logger.info("访谈详情页   点用户头像查看访谈: 用户id={},咨询类型checktype={}", memberId, checktype);
         return consultationService.findConsultationAllByTouxiang(page, rows, memberId, checktype);
     }
@@ -143,8 +144,8 @@ public class ConsultationViewController {
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
             @RequestParam(value = "memberId") String memberId) {
-
-        String checktype = "3";//checktype  1 访谈  2 口述   3 求助   4 分享
+        //checktype  1 访谈  2 口述   3 求助   4 分享
+        String checktype = "3";
         logger.info("访谈详情页   点用户头像查看求助: 用户id={},咨询类型checktype={}", memberId, checktype);
         return consultationService.findConsultationAllByTouxiang(page, rows, memberId, checktype);
     }
@@ -164,8 +165,8 @@ public class ConsultationViewController {
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows,
             @RequestParam(value = "memberId") String memberId) {
-
-        String checktype = "4";//checktype  1 访谈  2 口述   3 求助   4 分享
+        //checktype  1 访谈  2 口述   3 求助   4 分享
+        String checktype = "4";
         logger.info("访谈详情页   点用户头像查看分享: 用户id={},咨询类型checktype={}", memberId, checktype);
         return consultationService.findConsultationAllByTouxiang(page, rows, memberId, checktype);
     }
@@ -190,14 +191,14 @@ public class ConsultationViewController {
     }
 
     /**
-     * @description ：查看全部  分页加载
-     * @Created by  : 朱军
-     * @version
-     * @Creation Date ： 2018/1/17 11:49
      * @param page
      * @param rows
      * @param typeId
      * @return
+     * @description ：查看全部  分页加载
+     * @Created by  : 朱军
+     * @version
+     * @Creation Date ： 2018/1/17 11:49
      */
     @RequestMapping(value = "findconsultationallbyfive", method = RequestMethod.POST)
     @ResponseBody
@@ -234,16 +235,17 @@ public class ConsultationViewController {
 
     /**
      * * @author:  wangxueyang[wxueyanghj@163.com]
-     * @create:  2018/1/18 10:21
-     * @desc: APP首页搜索接口
-     * @version 1.0.0
-     * @param page 页码
-     * @param rows 页大小
-     * @param info 关键字
-     * @param phone 手机号
-     * @param uuid uuid
+     *
+     * @param page      页码
+     * @param rows      页大小
+     * @param info      关键字
+     * @param phone     手机号
+     * @param uuid      uuid
      * @param checktype 1精选(全部) 2口述  3分享   4求助   5访谈
      * @return
+     * @create: 2018/1/18 10:21
+     * @desc: APP首页搜索接口
+     * @version 1.0.0
      */
     @RequestMapping(value = "searchconsultationinfo", method = RequestMethod.POST)
     @ResponseBody

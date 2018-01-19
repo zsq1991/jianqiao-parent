@@ -45,13 +45,14 @@ public class SearchServiceImpl implements SearchService {
 
 
     /**
-     * 获取所有关键词
-     *
-     * @return
+     * @description ：获取所有关键词
+     * @Created by  : gaoge
+     * @Creation Date ： 2018/1/19 16:48
+     * @version 1.0.0
      */
     @Override
     public Result getSearchKeys(Member member, int page, int size) {
-        log.info("===================获取所有关键词开始=========，member={}", member);
+        log.info("===================获取所有关键词开始=========，member={}", member.toString());
         Map<String, Object> result = Maps.newHashMap();
         List<Map<String, Object>> searchHistory = Lists.newArrayList();
         result.put("history", searchHistory);
@@ -78,7 +79,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public Result getHistoryKeys(Member member, int page, int size) {
-        log.info("==================获取历史关键词开始==============，member={}", member);
+        log.info("==================获取历史关键词开始==============，member={}", member.toString());
         try {
             Map<String, Object> param = Maps.newHashMap();
             param.put("page", (page - 1) * size);
