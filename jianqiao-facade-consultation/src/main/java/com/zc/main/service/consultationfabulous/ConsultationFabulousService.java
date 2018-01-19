@@ -7,6 +7,6 @@ public interface ConsultationFabulousService {
 	
 	public Result getConsultationFabulousByIdAndMemberId(Long id, Long memberId, Integer type);
 	
-	public Result getConsultationType(Long id, Long memberid);
+	public Result getConsultationType(Long id, Long memberId);
 	
 }
