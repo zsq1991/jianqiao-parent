@@ -103,6 +103,18 @@ public class ConsultationController {
     @RequestMapping(value="deleteconsultation",method= RequestMethod.POST)
     public Result deleteConsultationById(@RequestParam("id")Long id,
                                          @MemberAnno Member member){
+    /**
+     * 编辑回显咨询信息
+     * @author huangxin
+     * @data 2018/1/19 15:47
+     * @Description: 编辑回显咨询信息
+     * @Version: 3.2.0
+     * @param cid 咨询ID
+     * @param member 用户
+     * @return
+     */
+    @RequestMapping(value="backConsultation",method=RequestMethod.POST)
+    public Result backConsultation(@RequestParam("id")String cid,@MemberAnno Member member){
 
         return this.consultationService.deleteConsultationById(id, member);
     }
@@ -159,5 +171,7 @@ public class ConsultationController {
                                      @MemberAnno Member member){
 
         return consultationService.updateConsultation(content, member);
+    }
+        return consultationService.backConsultation(cid, member);
     }
 }

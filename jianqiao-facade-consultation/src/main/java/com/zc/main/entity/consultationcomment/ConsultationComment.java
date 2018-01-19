@@ -9,9 +9,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * @author sunhuijie
- *         内容评论 回复记录表
- * @date 2017年5月9日
+ * @description ：内容评论 回复记录表
+ * @Created by  : gaoge
+ * @Creation Date ： 2018/1/19 15:05
+ * @version 1.0.0
  */
 @Alias("alq_consultation_comment")
 @MappedSuperclass

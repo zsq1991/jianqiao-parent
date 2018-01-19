@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 @Component
-@Service(version = "1.0.0",interfaceClass = ConsultationFabulousService.class)
+@Service(version = "1.0.0", interfaceClass = ConsultationFabulousService.class)
 @Transactional(readOnly = true)
 public class ConsultationFabulousServiceImpl implements ConsultationFabulousService {
     private static Logger logger = LoggerFactory.getLogger(ConsultationFabulousServiceImpl.class);
@@ -110,7 +110,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
             //consultation.setPower(powerNum + 5);
             //权重值维护详情列表
             /*power.setConsultation(consultation);
-			power.setMember(member);
+            power.setMember(member);
 			power.setCreatedTime(new Date());
 			power.setStatus(0);
 			power.setType(1);
@@ -127,7 +127,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
              * 因为需求原因,将三期需求的权重值增加注释掉
              * @wjt
              */
-		/*	//取消点赞权重值减5
+        /*	//取消点赞权重值减5
 			consultation.setPower(powerNum - 5 < 0 ? 0 : powerNum - 5);*/
             //权重值维护详情列表
 		/*	power.setConsultation(consultation);
@@ -143,17 +143,17 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
     }
 
     /**
-     * @description:	根据咨询id和会员id查询点赞
-     * @author: ZhaoJunBiao
-     * @date: 2018/1/16 14:51
      * @param memberId 用户id
      * @param id       咨询id
-     * @version: 1.0.0
      * @return
+     * @description: 根据咨询id和会员id查询点赞
+     * @author: ZhaoJunBiao
+     * @date: 2018/1/16 14:51
+     * @version: 1.0.0
      */
     @Override
     public Result getConsultationType(Long id, Long memberId) {
-        logger.info("查询点赞接口调用开始，方法入参"+"咨询id："+id+"用户id："+memberId);
+        logger.info("查询点赞接口调用开始，方法入参" + "咨询id：" + id + "用户id：" + memberId);
         Integer type = null;
         ConsultationFabulous consultationFabulous = consultationfabulousMapper.getConsultationFabulousByConsultationIdAndMemberId(id, memberId);
         if (null == consultationFabulous) {
@@ -166,7 +166,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
             }
 
         }
-        logger.info("查询点赞接口调用结束，返回"+type);
+        logger.info("查询点赞接口调用结束，返回" + type);
         return ResultUtils.returnSuccess(type + "");
     }
 

@@ -31,11 +31,17 @@ import java.util.regex.Pattern;
  * @Creation Date ：2018年01月17日13:45
  */
 @Component
-@Transactional(readOnly = true)
-@Service(version = "1.0.0",interfaceClass=MemberRegisterService.class)
+@Transactional(rollbackFor = Exception.class)
+@Service(version = "1.0.0", interfaceClass = MemberRegisterService.class)
 public class MemberRegisterServiceImpl implements MemberRegisterService {
 
     private static Logger logger = LoggerFactory.getLogger(MemberRegisterServiceImpl.class);
+
+    private static Pattern pPhone = Pattern.compile("^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-8])|(147))\\d{8}$");
+
+    private static Pattern pPasswordNum = Pattern.compile("^[A-Za-z0-9]{6,12}$");
+
+    private static Pattern updatePassword = Pattern.compile("^[A-Za-z0-9]{6,12}$");
 
     @Autowired
     private SecurityCodeService securityCodeService;
@@ -44,8 +50,8 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
     private MemberMapper memberMapper;
 
     @Override
-    @Transactional
-    public Result memberRegisterByPhone(Map<String,Object> params) {
+    @Transactional(rollbackFor = Exception.class)
+    public Result memberRegisterByPhone(Map<String, Object> params) {
         logger.info("=========进入用户注册方法==========");
         Result result = new Result();
         logger.info("=========开始获取参数并校验格式是否正确==========");
@@ -62,24 +68,22 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
 
         String agent = params.get("agent").toString();
 
-        String codeType="JQ2017613";
+        String codeType = "JQ2017613";
         // 判断手机是否符合判断格式,输入密码的规范
-        Pattern pPhone = Pattern.compile("^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-8])|(147))\\d{8}$");
-        Pattern pPasswordNum = Pattern.compile("^[A-Za-z0-9]{6,12}$");
         Matcher m = pPasswordNum.matcher(phone);
         if (StringUtils.isEmptyOrWhitespaceOnly(phone)) {
             logger.info("=========参数异常,注册方法结束==========");
             return ResultUtils.returnError("手机号不合法");
-        }  else if (StringUtils.isEmptyOrWhitespaceOnly(image)) {
+        } else if (StringUtils.isEmptyOrWhitespaceOnly(image)) {
             logger.info("=========参数异常,注册方法结束==========");
             return ResultUtils.returnError("验证码不能为空");
         } else if (!m.matches()) {
             logger.info("=========参数异常,注册方法结束==========");
             return ResultUtils.returnError("手机号不合法");
-        }else if (StringUtils.isEmptyOrWhitespaceOnly(password)) {
+        } else if (StringUtils.isEmptyOrWhitespaceOnly(password)) {
             logger.info("=========参数异常,注册方法结束==========");
             return ResultUtils.returnError("密码格式有误");
-        }else if (6 > password.length() || password.length() > 12) {
+        } else if (6 > password.length() || password.length() > 12) {
             logger.info("=========参数异常,注册方法结束==========");
             return ResultUtils.returnError("密码格式有误");
         } else if (!pPasswordNum.matcher(password).matches()) {
@@ -128,9 +132,9 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
         }
         logger.info("=========创建实体,开始注册==========");
         Member member = new Member();
-        String substring = phone.substring(0,3);
-        String substring2 = phone.substring(7,11);
-        String nicknamess=substring+"****"+substring2;
+        String substring = phone.substring(0, 3);
+        String substring2 = phone.substring(7, 11);
+        String nicknamess = substring + "****" + substring2;
         member.setUuid(uuid);
         member.setPhone(phone);
         member.setPassword(passwordMD5);
@@ -144,13 +148,14 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
         Result saveMemberRegister = this.saveMemberRegister(member);
         if (saveMemberRegister.getCode() == 1) {
             Member findMemberByPhone = memberMapper.getMemberByPhone(phone);
-            Map map = new HashMap();
+            Map map = new HashMap(16);
             map.put("id", findMemberByPhone.getId());
             map.put("nickname", findMemberByPhone.getNickname());
             map.put("uuid", findMemberByPhone.getUuid());
             map.put("phone", findMemberByPhone.getPhone());
             Integer type = findMemberByPhone.getUserType() == null ? 0 : findMemberByPhone.getUserType().intValue();
-            map.put("type", type);// 0表示，0普通 1认证后用户可以发布访谈 口述
+            // 0表示，0普通 1认证后用户可以发布访谈 口述
+            map.put("type", type);
             result.setCode(1);
             result.setContent(map);
             result.setMsg("成功");
@@ -162,44 +167,41 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Result saveMemberRegister(Member member) {
         Result result = new Result();
         try {
             int insert = memberMapper.insert(member);
-            if ( insert > 0 ) {
+            if (insert > 0) {
                 result.setCode(1);
                 result.setMsg("保存成功");
-//                result.setContent(saveAndModify);
             }
         } catch (Exception e) {
-            // TODO: handle exception
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
             return ResultUtils.returnError("注册用户失败");
         }
         return result;
     }
 
     @Override
-    @Transactional
-    public Result updatePasswordByPhone(Map<String,Object> params) {
+    @Transactional(rollbackFor = Exception.class)
+    public Result updatePasswordByPhone(Map<String, Object> params) {
         logger.info("==============进入修改密码方法================");
         Result result = new Result();
-        String codeType="JQ2017613";
+        String codeType = "JQ2017613";
         logger.info("==============校验参数================");
-        if( ObjectUtils.isEmpty(params.get("phone")) ){
+        if (ObjectUtils.isEmpty(params.get("phone"))) {
             logger.info("=========修改密码方法结束==========");
             return ResultUtils.returnError("参数异常");
         }
-        if( ObjectUtils.isEmpty(params.get("password")) ){
+        if (ObjectUtils.isEmpty(params.get("password"))) {
             logger.info("=========修改密码方法结束==========");
             return ResultUtils.returnError("参数异常");
         }
-        if( ObjectUtils.isEmpty(params.get("passwordR")) ){
+        if (ObjectUtils.isEmpty(params.get("passwordR"))) {
             logger.info("=========修改密码方法结束==========");
             return ResultUtils.returnError("参数异常");
         }
-        if( ObjectUtils.isEmpty(params.get("imageCode")) ){
+        if (ObjectUtils.isEmpty(params.get("imageCode"))) {
             logger.info("=========修改密码方法结束==========");
             return ResultUtils.returnError("参数异常");
         }
@@ -212,10 +214,7 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
         // 用户输入的验证码
         String image = params.get("imageCode").toString();
         // 判断手机是否符合判断格式,输入密码的规范
-        Pattern pPhone = Pattern.compile("^((13[0-9])|(15[0-9])|(18[0-9])|(17[0-8])|(147))\\d{8}$");
-        Pattern pPasswordNum = Pattern.compile("[0-9]+");
-        Pattern pPasswordStr = Pattern.compile("[a-zA-Z]+");
-        Pattern updatePassword = Pattern.compile("^[A-Za-z0-9]{6,12}$");
+
         Matcher m = pPhone.matcher(phone);
 
         if (StringUtils.isEmptyOrWhitespaceOnly(phone)) {
@@ -266,21 +265,22 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
 
         String passwordMD5 = MD5Util.MD5Encode(MD5Util.MD5Encode(password, "utf-8") + uuid, "utf-8");
         logger.info("=========开始更新密码==========");
-        Map<String,Object> p = new HashedMap();
-        p.put("id",member.getId());
-        p.put("uuid",uuid);
-        p.put("password",passwordMD5);
+        Map<String, Object> p = new HashedMap();
+        p.put("id", member.getId());
+        p.put("uuid", uuid);
+        p.put("password", passwordMD5);
         int i = memberMapper.updateByMemberId(p);
-        if ( i > 0 ) {
+        if (i > 0) {
             logger.info("=========修改密码成功==========");
             Member findMemberByPhone = memberMapper.getMemberByPhone(phone);
-            Map map = new HashMap();
+            Map map = new HashMap(16);
             map.put("id", findMemberByPhone.getId());
             map.put("nickname", findMemberByPhone.getNickname());
             map.put("uuid", findMemberByPhone.getUuid());
             map.put("phone", findMemberByPhone.getPhone());
             Integer type = findMemberByPhone.getUserType() == null ? 0 : findMemberByPhone.getUserType().intValue();
-            map.put("type", type);// 0表示，0普通 1认证后用户可以发布访谈 口述
+            // 0表示，0普通 1认证后用户可以发布访谈 口述
+            map.put("type", type);
             result.setCode(1);
             result.setContent(map);
             result.setMsg("成功");

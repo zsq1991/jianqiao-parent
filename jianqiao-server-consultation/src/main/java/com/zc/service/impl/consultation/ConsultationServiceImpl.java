@@ -1254,7 +1254,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 String type = consultationInfo.get("type").toString();
                 //取详情内容
                 Object detailContent="";
-                if(type.equals("4") || type.equals("6")){
+                if(("4").equals(type) || ("6").equals(type)){
                     Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                     if(null==map || map.size()==0){
                         detailContent="";
@@ -1267,7 +1267,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 boolean isMore = false;
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
                 //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
-                if (type.equals("0") || type.equals("2")) {
+                if (("0").equals(type) || ("2").equals(type)) {
                     isMore = true;
                     //根据访谈或口述的id查询其子类
                     consultationChidList = consultationMapper.findConsultationChidByIdByMember(Long.valueOf(consultationInfo.get("id").toString()));
@@ -1436,9 +1436,76 @@ public class ConsultationServiceImpl implements ConsultationService {
         return null;
     }
 
+    /**
+     * 编辑回显咨询信息
+     * @author huangxin
+     * @data 2018/1/19 15:48
+     * @Description: 编辑回显咨询信息
+     * @Version: 3.2.0
+     * @param cid 资讯id
+     * @param member 用户
+     * @return
+     */
     @Override
     public Result backConsultation(String cid, Member member) {
-        return null;
+        logger.info("==============进入编辑回显咨询信息方法==============");
+        if (StringUtils.isBlank(cid) || Objects.isNull(member)){
+            logger.info("==============信息为空==============");
+            return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
+        }
+        try {
+            logger.info("==============查询资讯==============");
+            Map<String,Object> consultation = consultationMapper.getConsultationById(cid);
+            if (Objects.isNull(consultation)){
+                logger.info("==============资讯不存在==============");
+                return ResultUtils.returnError("信息不存在");
+            }
+            Long mid = (Long) consultation.get("mid");
+            if (Objects.isNull(mid)){
+                logger.info("==============用户信息不存在==============");
+                return ResultUtils.returnError("咨询用户信息不存在");
+            }
+            if (!Objects.equals(member.getId(),mid)){
+                logger.info("==============用户信息与资讯的用户信息不匹配==============");
+                return ResultUtils.returnError("信息不匹配");
+            }
+            Integer status = (Integer) consultation.get("status");
+            //发布状态
+            if ("2".equals(String.valueOf(status))){
+                logger.info("==============当前资讯为发布状态无法编辑==============");
+                return ResultUtils.returnError("发布状态下不能编辑");
+            }
+
+            //操作类型
+            Integer type = (Integer) consultation.get("type");
+            if ("0".equals(String.valueOf(type)) || "2".equals(String.valueOf(type))){
+                Map<String,Object> parentConsultation= consultationAttachmentService.getParentConsultationDetail(Long.parseLong(cid),type);
+                logger.info("==============当前资讯类型为1,2==============");
+                return ResultUtils.returnSuccess(StatusCodeEnums.SUCCESS.getMsg(),parentConsultation);
+            }
+            Map<String,Object> map = Maps.newHashMap();
+            map.put("id",cid);
+            logger.info("==============当前资讯类型为1,2之外的类型==============");
+            List<Map<String,Object>> commonConsultations = consultationMapper.getConsultationByMap(map);
+            Map<String,Object> result = Maps.newHashMap();
+            if (!Objects.isNull(commonConsultations)){
+                logger.info("==============查询详情==============");
+                Map<String,Object> commonConsultation= commonConsultations.get(0);
+                result.putAll(commonConsultation);
+                //封面图
+                logger.info("==============封面图==============");
+                result.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(Long.parseLong(cid)));
+                //详情
+                logger.info("==============详情==============");
+                result.put("content",consultationAttachmentService.getConsultationAttachmentDetailByConsultation(Long.parseLong(cid)));
+            }
+            logger.info("==============进入编辑回显咨询信息end==============");
+            return ResultUtils.returnSuccess(StatusCodeEnums.SUCCESS.getMsg(),result);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            logger.info("==============编辑回显咨询信息异常==============");
+            return ResultUtils.returnError(StatusCodeEnums.ERROR.getMsg());
+        }
     }
 
     /**
@@ -1494,10 +1561,13 @@ public class ConsultationServiceImpl implements ConsultationService {
         String reject="";
 
         /**
-         * 健桥三期需求，暂时注释代码
-         */
-		/*//点击阅读的时候维护权重值
-		rpcConsultationService.saveConsultationByRead(Long.valueOf(cid), member);*/
+        * @author huangxin
+        * @data 2018/1/19 15:40
+        * @Description: 健桥三期需求，暂时注释代码
+        * @Version: 3.2.0
+        */
+		//点击阅读的时候维护权重值
+		/*rpcConsultationService.saveConsultationByRead(Long.valueOf(cid), member);*/
 
         //访谈、口述内容
         if ("1".equals(String.valueOf(type)) || "3".equals(String.valueOf(type))){
@@ -1524,6 +1594,7 @@ public class ConsultationServiceImpl implements ConsultationService {
          */
         //专题类型
         if ( "0".equals(String.valueOf(type)) || "2".equals(String.valueOf(type))){
+            logger.info("==============专题类型=================");
             Map<String,Object> paramMap = Maps.newHashMap();
             paramMap.put("pid",cid);
             if (Objects.isNull(member)){
@@ -1547,7 +1618,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 Map<String,Object> firstConsultation = defaultConsultation.get(0);
                 Long sid = Long.parseLong(firstConsultation.get("id").toString());
                 //驳回原因
-                logger.info("===============咨询信息详情开始===============");
+                logger.info("===============获取推荐信息驳回原因===============");
                 String statuss=firstConsultation.get("status").toString();
                 if("3".equals(statuss)){
                     Map<String, Object> map3=memberMessageService.getContentById(sid);
@@ -1567,6 +1638,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //视频地址
                 firstConsultation.put("video", consultationAttachmentService.findConsultationAttachmentVideoAddressByConsultationId(sid));
             }
+            logger.info("================首页点击进入end=================");
             map.put("recommend",defaultConsultation);
         }
         //驳回原因
@@ -1898,7 +1970,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //是否是主题或访谈的标识
                 boolean isMore = false;//是否是主题或访谈的标识    false 不是   true 是
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
-                if (type.equals("0") || type.equals("2")) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                if (("0").equals(type) || ("2").equals(type)) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
                     //判断访谈和口述是否有内容
                     Integer count=consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
                     if(count==0){
@@ -1976,7 +2048,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                 //取详情内容
                 Object detailContent="";
-                if(type.equals("4") || type.equals("6")){
+                if(("4").equals(type) || ("6").equals(type)){
                     Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                     if(null==map || map.size()==0){
                         detailContent="";

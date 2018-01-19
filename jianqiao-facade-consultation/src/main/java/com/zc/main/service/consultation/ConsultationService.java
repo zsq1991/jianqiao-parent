@@ -5,7 +5,12 @@ import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 
 import java.util.Map;
-
+/**
+ * @description ：咨询信息
+ * @Created by  : gaoge
+ * @Creation Date ： 2018/1/19 15:06
+ * @version 1.0.0
+ */
 public interface ConsultationService {
 
     /**
@@ -160,6 +165,16 @@ public interface ConsultationService {
      */
     Result deleteConsultationById(Member member, Long typeId, String checktype);
 
+    /**
+     * 编辑回显咨询信息
+     * @author huangxin
+     * @data 2018/1/19 15:47
+     * @Description: 编辑回显咨询信息
+     * @Version: 3.2.0
+     * @param cid 资讯id
+     * @param member 用户
+     * @return
+     */
     Result backConsultation(String cid, Member member);
 
     /**
