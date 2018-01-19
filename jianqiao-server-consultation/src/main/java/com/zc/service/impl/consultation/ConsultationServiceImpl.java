@@ -1254,7 +1254,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 String type = consultationInfo.get("type").toString();
                 //取详情内容
                 Object detailContent="";
-                if(type.equals("4") || type.equals("6")){
+                if(("4").equals(type) || ("6").equals(type)){
                     Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                     if(null==map || map.size()==0){
                         detailContent="";
@@ -1267,7 +1267,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 boolean isMore = false;
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
                 //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
-                if (type.equals("0") || type.equals("2")) {
+                if (("0").equals(type) || ("2").equals(type)) {
                     isMore = true;
                     //根据访谈或口述的id查询其子类
                     consultationChidList = consultationMapper.findConsultationChidByIdByMember(Long.valueOf(consultationInfo.get("id").toString()));
@@ -1970,7 +1970,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //是否是主题或访谈的标识
                 boolean isMore = false;//是否是主题或访谈的标识    false 不是   true 是
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
-                if (type.equals("0") || type.equals("2")) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                if (("0").equals(type) || ("2").equals(type)) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
                     //判断访谈和口述是否有内容
                     Integer count=consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
                     if(count==0){
@@ -2048,7 +2048,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                 //取详情内容
                 Object detailContent="";
-                if(type.equals("4") || type.equals("6")){
+                if(("4").equals(type) || ("6").equals(type)){
                     Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                     if(null==map || map.size()==0){
                         detailContent="";
