@@ -128,20 +128,20 @@ public class CheckImageAuthentiCationCount {
             return result;
         }
         StringBuffer key = new StringBuffer("validateImage-").append(":").append(uniquenessCode).append(":").append(type);
-        String RedisCode = null;
+        String redisCode = null;
         try {
-            RedisCode = redisTemplate.opsForValue().get(key.toString());
+            redisCode = redisTemplate.opsForValue().get(key.toString());
             redisTemplate.delete(key.toString());
         } catch (Exception e) {
             logger.info("imageUniquenessCode:" + uniquenessCode + "type:" + type + "code:" + code + "获取redis中验证码失败");
             return ResultUtils.returnError("验证异常");
         }
-        if(StringUtils.isBlank(RedisCode)){
+        if(StringUtils.isBlank(redisCode)){
             result.setCode(0);
             result.setMsg("验证码已过期，请从新操作");
             logger.info("================验证图形验证码方法结束=================");
             return result;
-        }else if(RedisCode.toString().equals(code)){
+        }else if(redisCode.toString().equals(code)){
             result.setCode(1);
             result.setMsg("验证成功");
             String codeType = "JQ2017613";

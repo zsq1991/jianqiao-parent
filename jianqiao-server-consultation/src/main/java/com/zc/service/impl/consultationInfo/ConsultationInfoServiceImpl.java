@@ -42,6 +42,18 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
     @Autowired
     private ConsultationCommentMapper consultationCommentMapper;
 
+    /**
+     * @description: 首页获取咨询评论列表
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/19 15:11
+     * @version: 1.0.0
+     * @param id    咨询ID
+     * @param uuid  用户uuid
+     * @param phone 用户phone
+     * @param page  当前页
+     * @param size  每页记录数
+     * @return
+     */
     @Override
     public Result getConsultationDetail(String id, String uuid, String phone, Integer page, Integer size) {
         String loginuser = "0";
@@ -64,7 +76,7 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             }
             //通过资讯id查询资讯数据
             Map<String, Object> consultation = consultationMapper.getConsultationById(id);
-            if (Objects.isNull(consultation)) {
+            if (consultation.size()==0) {
                 return ResultUtils.returnError("咨询不存在");
             }
             Long mid = (Long) consultation.get("mid");
@@ -131,6 +143,18 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
         }
     }
 
+    /**
+     * @description: 点击顶级评论的评论详情页面（回复列表）
+     * @author:  ZhaoJunBiao
+     * @date:  2018/1/17 17:21
+     * @version: 1.0.0
+     * @param id 顶级的评论的id
+     * @param uuid 唯一标识
+     * @param phone 登陆者的手机号
+     * @param page  当前页
+     * @param size  当前页的数据
+     * @return
+     */
     @Override
     public Result getTopAndTopAfterCommentByTopIdList(String id, String uuid, String phone, Integer page, Integer size) {
         log.info("回复列表方法执行，入参参数{"+"顶级的评论id："+ id+"当前用户的手机号："+phone+"}");
@@ -141,7 +165,7 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String dateString = formatter.format(currentTime);
 
-        if (StringUtils.isBlank(id)) {
+        if (id==null) {
             return ResultUtils.returnError("参数错误，id不能为空");
         }
         try {
@@ -189,7 +213,7 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             List<Map<String, Object>> afterlist = consultationCommentMapper.findTopAfterCommentListByTopId(params);//顶级评论下的评论列表
 
             for (Map<String, Object> after : afterlist) {
-                //获取时间,当天时间保存是时间，不是当天保存的时时间
+                //获取时间,当天时间保存是时间，不是当天保存的是时间
                 if (!Objects.isNull(after.get("created_time")) && after.get("created_time").toString().contains(dateString)) {
                     after.put("created_time", (after.get("created_time").toString().substring(11, 16)));
                 } else {

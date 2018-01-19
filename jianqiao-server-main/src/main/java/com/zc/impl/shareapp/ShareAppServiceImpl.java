@@ -20,13 +20,14 @@ import java.util.Map;
  * @Created by :ZhaoJunBiao
  * @Creation Date ：2018年01月16日15:01
  */
-@Service(version = "1.0.0",interfaceClass = ShareAppService.class)
+@Service(version = "1.0.0", interfaceClass = ShareAppService.class)
 @Component
 @Transactional(readOnly = true)
 public class ShareAppServiceImpl implements ShareAppService {
 
     @Autowired
     private ShareAppMapper shareAppMapper;
+
     @Override
     public Map<String, Object> getConsultationnow(String id) {
         Map<String, Object> consultationnow = shareAppMapper.getConsultationnow(id);
@@ -65,7 +66,6 @@ public class ShareAppServiceImpl implements ShareAppService {
 
     @Override
     public List<Map<String, Object>> getConsultationList(String consultaionId) {
-        // TODO Auto-generated method stub
         List<Map<String, Object>> consultationList = shareAppMapper.getConsultationList(consultaionId);
         for (Map<String, Object> consultationInfo : consultationList) {
             // 处理时间格式

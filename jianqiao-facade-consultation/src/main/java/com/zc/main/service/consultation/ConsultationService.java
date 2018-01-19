@@ -14,21 +14,23 @@ import java.util.Map;
 public interface ConsultationService {
 
     /**
-     * @param id     咨询id
+     * @description 接口说明 删除资讯===用户中心
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param id 资讯id
      * @param member 用户
-     * @description ：根据id删除咨询
-     * @Created by  : gaoge
-     * @Creation Date ： 2018/1/16 10:56
-     * @version 1.0.0
+     * @return
      */
     Result deleteConsultationById(Long id, Member member);
     /**
-     * @param content     咨询内容
+     * @description 接口说明 发布资讯===用户中心
+     * @author 王鑫涛
+     * @date 9:08 2018/1/19
+     * @version 版本号
+     * @param content 资讯内容
      * @param member 用户
-     * @description ：发布资讯
-     * @Created by  : gaoge
-     * @Creation Date ： 2018/1/16 10:56
-     * @version 1.0.0
+     * @return
      */
     Result addConsultation(String content, Member member);
 
@@ -96,6 +98,18 @@ public interface ConsultationService {
      */
     Result getMemberConsultation(String type, Member member, Integer page, Integer size);
 
+    /**
+     *
+     * @description 接口说明 获取父级主题
+     * @author 王鑫涛
+     * @date 15:55 2018/1/19
+     * @version 版本号
+     * @param type  资讯类型
+     * @param member    用户
+     * @param page  当前页
+     * @param size  每页显示的数量
+     * @return
+     */
     Result getParentConsultation(String type, Member member, Integer page, Integer size);
 
     Result getMemberConsultationByType(String cid, Member member, Integer page, Integer size);
@@ -151,6 +165,16 @@ public interface ConsultationService {
      */
     Result deleteConsultationById(Member member, Long typeId, String checktype);
 
+    /**
+     * 编辑回显咨询信息
+     * @author huangxin
+     * @data 2018/1/19 15:47
+     * @Description: 编辑回显咨询信息
+     * @Version: 3.2.0
+     * @param cid 资讯id
+     * @param member 用户
+     * @return
+     */
     Result backConsultation(String cid, Member member);
 
     /**
