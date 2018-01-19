@@ -6,7 +6,13 @@ import java.util.Objects;
  * @描述： 角色编号枚举
  */
 public enum RoleEnum {
+    /**
+     * 管理员
+     */
     ADMIN((byte) 1, "管理员"),
+    /**
+     * 一级管理
+     */
     SUPPLIER((byte) 2, "一级管理"),;
 
     RoleEnum(Byte code, String message) {
