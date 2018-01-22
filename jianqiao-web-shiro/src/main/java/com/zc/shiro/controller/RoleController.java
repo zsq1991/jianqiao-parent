@@ -1,26 +1,8 @@
 package com.zc.shiro.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.google.common.collect.Maps;
 import com.zc.common.core.shiro.Result;
-import com.zc.common.core.shiro.ResultUtil;
 import com.zc.common.core.shiro.RoleEnum;
 import com.zc.common.core.utils.CommonConstants;
 import com.zc.common.core.utils.page.PageBean;
@@ -37,6 +19,18 @@ import com.zc.main.vo.MenuTreeVO;
 import com.zc.main.vo.SessionUserVO;
 import com.zc.main.vo.UserVO;
 import com.zc.shiro.confige.MyShiroRealm;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -122,7 +116,7 @@ public class RoleController {
 
         //组装数据
         List<Long> listMenu = new ArrayList<>();
-        Map<Long, List<Long>> menuBtns = new HashMap<>();
+        Map<Long, List<Long>> menuBtns = Maps.newHashMap();
         if (menuTreeVOS != null && menuTreeVOS.size() != 0) {
             for (MenuTreeVO mtv : menuTreeVOS) {
                 Long menuId = mtv.getId();

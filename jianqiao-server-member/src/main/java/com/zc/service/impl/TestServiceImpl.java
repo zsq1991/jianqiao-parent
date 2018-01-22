@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Component
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 @Service(version = "1.0.0", interfaceClass = TestService.class)
 public class TestServiceImpl implements TestService {
     @Override

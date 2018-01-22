@@ -27,7 +27,7 @@ import java.util.*;
 
 @Component
 @Service(version = "1.0.0",interfaceClass =MemberService.class )
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor = Exception.class)
 public class MemberServiceImpl implements MemberService {
 
     private static Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
@@ -132,7 +132,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Member getMemberByPhoneAndUuid(Map<String, Object> params) {
         logger.info("============根据手机号和UUID查询用户开始,params={}", JSON.toJSONString(params));
         Member member = memberMapper.getMemberByPhoneAndUuid(params);
@@ -180,7 +180,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor = Exception.class)
     public Member getLockOne(Long memberId) {
         return memberMapper.getLockOne(memberId);
     }
@@ -298,7 +298,7 @@ public class MemberServiceImpl implements MemberService {
         if (member_id == null) {
             return ResultUtils.returnError("没有对应的会员信息");
         }
-        Map<String, Object> map=new HashMap<String, Object>();
+        Map<String, Object> map=Maps.newHashMap();
         map.put("member_id", member_id);
         if(member!=null){
             map.put("login_member_id", member.getId());

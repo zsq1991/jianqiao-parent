@@ -1,10 +1,10 @@
 package com.zc.main.vo;
 
 
+import org.apache.ibatis.type.Alias;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.apache.ibatis.type.Alias;
 
 
 @Alias("MenuVO")
@@ -124,4 +124,19 @@ public class MenuVO implements Serializable {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
+	@Override
+	public String toString() {
+		return "MenuVO{" +
+				"id=" + id +
+				", btnId=" + btnId +
+				", menuName='" + menuName + '\'' +
+				", menuUrl='" + menuUrl + '\'' +
+				", parentId=" + parentId +
+				", isChecked=" + isChecked +
+				", sequence=" + sequence +
+				", child=" + child +
+				", icon='" + icon + '\'' +
+				'}';
+	}
 }

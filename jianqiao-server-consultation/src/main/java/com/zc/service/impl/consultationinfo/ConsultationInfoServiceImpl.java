@@ -28,7 +28,7 @@ import java.util.*;
  * @Creation Date ：2018年01月17日16:59
  */
 @Service(version = "1.0.0",interfaceClass =ConsultationInfoService.class )
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 @Component
 public class ConsultationInfoServiceImpl implements ConsultationInfoService {
 
@@ -62,7 +62,7 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             return ResultUtils.returnError("参数异常");
         }
         try {
-            Map<String, Object> result = new HashMap<>();
+            Map<String, Object> result = Maps.newHashMap();
             Long memberId = 0L;
             if (StringUtils.isNotBlank(uuid) && StringUtils.isNotBlank(phone)) {
                 Map<String, Object> paramMap = Maps.newHashMap();

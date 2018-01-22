@@ -54,7 +54,7 @@ public class OSSFileUpLoad {
 	     */
 	    public static OSSClient getOSSClient(String accessId, String accessKey){
 	        try {
-	            OSSClient client = new OSSClient(accessId, accessKey);
+	            OSSClient client = new OSSClient(OSSClientUtil.DEFAULT_ENDPOINT,accessId, accessKey);
 	            return client;
 	        } catch (Exception e) {
 	            //System.out.println("创建OSS对象异常");
@@ -77,7 +77,7 @@ public class OSSFileUpLoad {
 	     */
 	    public static void  createOss(String bucketName,String key,String uploadFilePath,String accessId,String accessKey){
 	        // 使用默认的OSS服务器地址创建OSSClient对象。
-	        OSSClient client = new OSSClient(accessId, accessKey);
+	        OSSClient client = new OSSClient(OSSClientUtil.DEFAULT_ENDPOINT,accessId, accessKey);
 	        try {
 	            if (!client.doesBucketExist(bucketName)) {
 	                ensureBucket(client, bucketName);//创建bucket

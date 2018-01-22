@@ -1,4 +1,4 @@
-package com.zc.mybatis.dao.collectionConsulation;
+package com.zc.mybatis.dao.collectionconsulation;
 
 import com.common.util.mybatis.BasicMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @package : com.zc.mybatis.dao.collectionConsulation
+ * @package : com.zc.mybatis.dao.collectionconsulation
  * @progect : jianqiao-parent
  * @Description :
  * @Created by : asus 王鑫涛

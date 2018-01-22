@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = SearchKeywordService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor = Exception.class)
 public class SearchKeywordServiceImpl implements SearchKeywordService {
 
     private static Logger log = LoggerFactory.getLogger(SearchKeywordServiceImpl.class);

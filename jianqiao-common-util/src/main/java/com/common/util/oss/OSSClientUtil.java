@@ -23,7 +23,15 @@ public class OSSClientUtil {
 	private static OSSClient client = null;
 	private static final String ACCESS_ID = "e6wt7YMUZEru6TOD";
 	private static final String ACCESS_KEY = "QLhDKpV0Rez9fsH6oIOXbmks4sd7WE";
-	private static final String OSS_ENDPOINT = "http://oss-cn-shenzhen.aliyuncs.com";//oss外网正式上传地址
+	/**
+	 * oss外网正式上传地址
+	 */
+	private static final String OSS_ENDPOINT = "http://oss-cn-shenzhen.aliyuncs.com";
+	/**
+	 * 默认上传地址
+	 */
+	public static final String DEFAULT_ENDPOINT="http://oss.aliyuncs.com";
+
 //	private static final String OSS_ENDPOINT = "http://oss-cn-shenzhen-internal.aliyuncs.com";//oss内网上传地址
 	public static  String BASE_URL = "https://ph-images.oss-cn-shenzhen.aliyuncs.com/";// 正式基础访问路径
 	public static  String BUCKET_NAME = "ph-images";// 正式bucket名

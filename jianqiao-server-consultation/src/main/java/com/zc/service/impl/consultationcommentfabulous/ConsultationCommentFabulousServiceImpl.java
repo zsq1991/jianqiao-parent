@@ -24,6 +24,12 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
 
+/**
+ * @description ： 咨询回复的点赞
+ * @author  : gaoge
+ * @Creation Date ： 2018/1/22 15:58
+ * @version 1.0.0
+ */
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationCommentFabulousService.class)
 @Transactional(rollbackFor = Exception.class)
@@ -70,7 +76,8 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
             ConsultationCommentFabulous consultationCommentFabulousdb = consultationCommentFabulousMapper.getConsultationCommentFabulousByCommentIdAndMemberId(commentid, memberid);
             Member member = new Member();
             member.setId(memberid);
-            if (consultationCommentFabulousdb == null) {//评论点赞
+            //评论点赞
+            if (consultationCommentFabulousdb == null) {
                 if (type == 2) {
                     return ResultUtils.returnError("操作失败，未有点赞记录");
                 }
@@ -119,7 +126,9 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
                 memberMsg.setUpdateTime(new Date());
                 memberMsgMapper.insert(memberMsg);
 
-            } else if (type == 2) {//取消点赞的时删除对应的memberMsg表格
+            }
+            //取消点赞的时删除对应的memberMsg表格
+            else if (type == 2) {
                 Integer types = 5;
                 memberMsgMapper.deleteMemberMsgBycontentId(memberid, types, commentid);
             }

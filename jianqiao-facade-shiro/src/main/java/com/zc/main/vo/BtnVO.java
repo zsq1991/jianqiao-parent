@@ -83,4 +83,15 @@ public class BtnVO implements Serializable {
     public void setBtnCode(String btnCode) {
         this.btnCode = btnCode;
     }
+
+    @Override
+    public String toString() {
+        return "BtnVO{" +
+                "id=" + id +
+                ", btnName='" + btnName + '\'' +
+                ", btnUrl='" + btnUrl + '\'' +
+                ", btnCode='" + btnCode + '\'' +
+                ", isChecked=" + isChecked +
+                '}';
+    }
 }

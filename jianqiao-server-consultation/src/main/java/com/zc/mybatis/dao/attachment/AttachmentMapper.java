@@ -1,4 +1,4 @@
-package com.zc.mybatis.dao.Attachment;
+package com.zc.mybatis.dao.attachment;
 
 import com.common.util.mybatis.BasicMapper;
 import com.zc.common.core.orm.mybatis.MyBatisRepository;
@@ -6,11 +6,11 @@ import com.zc.main.entity.attachment.Attachment;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * @package : com.zc.mybatis.dao.Attachment
+ * @package : com.zc.mybatis.dao.attachment
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : asus 王鑫涛
- * @Creation Date ：2018年01月18日16:01
+ * @Author by : asus 王鑫涛
+ * @Creation Date ：2018年01月22日16:07
  */
 @MyBatisRepository
 public interface AttachmentMapper extends BasicMapper<Attachment>{
@@ -23,4 +23,5 @@ public interface AttachmentMapper extends BasicMapper<Attachment>{
 	 * @return
 	 */
 	Attachment findOne(@Param("id") Long id);
+
 }

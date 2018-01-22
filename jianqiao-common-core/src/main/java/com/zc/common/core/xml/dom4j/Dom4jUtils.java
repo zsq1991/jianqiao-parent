@@ -1,33 +1,18 @@
 package com.zc.common.core.xml.dom4j;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
+import com.zc.common.core.convert.ConvertUtils;
+import com.zc.common.core.reflection.ReflectionUtils;
+import com.zc.common.core.utils.MyObjectUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentFactory;
-import org.dom4j.Element;
+import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import com.zc.common.core.convert.ConvertUtils;
-import com.zc.common.core.reflection.ReflectionUtils;
-import com.zc.common.core.utils.MyObjectUtils;
+import java.io.*;
+import java.util.*;
 
 /**
  * dom4j工具类只能解析全属性或者全标签类型的xml
@@ -279,7 +264,7 @@ public class Dom4jUtils {
 	@SuppressWarnings("rawtypes")
 	public static Map<String, Object> getXmlToMap(final Document document, final String xPath,
 			final String[] strings, final String[] replaceStrings) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = Maps.newHashMap();
 		List list = document.selectNodes(xPath);
 		for (Object object : list) {
 			Element element = (Element) object;
@@ -365,7 +350,7 @@ public class Dom4jUtils {
 			for (Object object2 : list2) {
 				Element element2 = (Element) object2;
 				List list3 = element2.elements();
-				Map<String, Object> map = new HashMap<String, Object>();
+				Map<String, Object> map = Maps.newHashMap();
 				for (Object object3 : list3) {
 					Element element4 = (Element) object3;
 					if (strings == null) {
@@ -467,7 +452,7 @@ public class Dom4jUtils {
 	@SuppressWarnings("rawtypes")
 	public static Map<String, Object> getXmlToMapByAttribute(final Document document,
 			final String xpathString, final String[] strings, final String[] replaceStrings) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = Maps.newHashMap();
 		// 获取到指定节点名称的单元
 		List list = document.selectNodes(xpathString);
 		for (Object object : list) {
@@ -509,7 +494,7 @@ public class Dom4jUtils {
 		// 获取到指定节点名称的单元
 		List list = document.selectNodes(xpathString);
 		for (Object object : list) {
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = Maps.newHashMap();
 			// 获取指定单元
 			Element element = (Element) object;
 			// 如果数组为空我们就取出所有的属性值

@@ -1,6 +1,7 @@
 package com.zc.shiro.attachment;
 
 import com.common.util.oss.OSSClientUtil;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -13,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -63,7 +63,7 @@ public class EditorImageUpLoad  {
                     path = url + "/" + sysFileName;
                     Object address = ossClientUtil.putObject(path, imgFile);
                     System.out.print(address);
-                    Map<String, Object> succMap = new HashMap<String, Object>();  
+                    Map<String, Object> succMap = Maps.newHashMap();
                     succMap.put("error", 0);  
                     succMap.put("url",address);  
                     return succMap;  
@@ -78,7 +78,7 @@ public class EditorImageUpLoad  {
     }
     
     private Map<String, Object> getError(String errorMsg) {  
-        Map<String, Object> errorMap = new HashMap<String, Object>();  
+        Map<String, Object> errorMap = Maps.newHashMap();
         errorMap.put("error", 1);  
         errorMap.put("message", errorMsg);  
         return errorMap;  
