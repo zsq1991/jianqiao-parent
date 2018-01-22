@@ -34,7 +34,7 @@ import java.util.*;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = CollectionContentService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class CollectionContentServiceImpl implements CollectionContentService {
 
     private static Logger logger = LoggerFactory.getLogger(CollectionContentServiceImpl.class);
@@ -216,7 +216,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result collectionContent(Member member, Long consultationId) {
         logger.info("收藏内容传入参数==》member:"+member.toString()+ " consultationId:" +consultationId);
         Result result = new Result();

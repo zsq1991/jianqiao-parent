@@ -25,7 +25,7 @@ import java.util.Map;
  * @Creation Date ：2018年01月18日13:42
  */
 @Component
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 @Service(version = "1.0.0",interfaceClass=LoginService.class)
 public class LoginServiceImpl implements LoginService {
 

@@ -32,7 +32,7 @@ import java.util.Objects;
 
 @Component
 @Service(version = "1.0.0",interfaceClass =ConsultationAttachmentService.class )
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class ConsultationAttachmentServiceImpl implements ConsultationAttachmentService {
 
     private static Logger logger = LoggerFactory.getLogger(ConsultationAttachmentServiceImpl.class);

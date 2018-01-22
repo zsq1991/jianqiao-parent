@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Service(version = "1.0.0", interfaceClass = ShareAppService.class)
 @Component
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor = Exception.class)
 public class ShareAppServiceImpl implements ShareAppService {
 
     @Autowired

@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = DoctorService.class)
-@Transactional(readOnly=true)
+@Transactional(readOnly=true,rollbackFor=Exception.class)
 public class DoctorServiceImpl implements DoctorService{
 
 

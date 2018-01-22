@@ -24,7 +24,7 @@ import java.util.Date;
 
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationFabulousService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class ConsultationFabulousServiceImpl implements ConsultationFabulousService {
     private static Logger logger = LoggerFactory.getLogger(ConsultationFabulousServiceImpl.class);
 
@@ -49,7 +49,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
      * @version: 1.0.0
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result getConsultationFabulousByIdAndMemberId(Long id, Long memberId, Integer type) {
         logger.info("咨询内容点赞取消赞开始执行，入参参数{}" + "咨询内容id:" + id + "点赞1取消2:" + type + "用户id:" + memberId);
         //Power power = new Power();

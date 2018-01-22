@@ -24,10 +24,10 @@ import com.zc.main.service.member.MemberService;
 import com.zc.main.service.membermessage.MemberMessageService;
 import com.zc.main.service.membermsg.MemberMsgService;
 import com.zc.main.service.membersearchconsultation.MembersearchconsultationService;
-import com.zc.mybatis.dao.Attachment.AttachmentMapper;
+import com.zc.mybatis.dao.attachment.AttachmentMapper;
 import com.zc.mybatis.dao.ConsultationAttachmentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
-import com.zc.mybatis.dao.collectionConsulation.CollectionConsulationMapper;
+import com.zc.mybatis.dao.collectionconsulation.CollectionConsulationMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ import java.util.*;
 
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class ConsultationServiceImpl implements ConsultationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsultationServiceImpl.class);
@@ -80,7 +80,7 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result deleteConsultationById(Long id, Member member) {
         try {
             logger.info("==============================进入删除资讯方法============================");
@@ -355,7 +355,7 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result addConsultation(String content, Member member) {
         //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
         //topicType : 1 :图文 2：视频
@@ -542,7 +542,7 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result updateConsultation(String content, Member member) {
         //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
         //topicType : 1 :图文 2：视频
@@ -550,6 +550,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         String type5 = "5";
         String type02 = "0,2";
         String type13 = "1,3";
+        int b = 3;
         try {
             logger.info("------------------------------进入修改资讯方法---------------------------");
             logger.info("content:{},member:{}",content,member);
@@ -588,7 +589,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 Integer cstatus = consultation.getStatus();
                 logger.info("------------------------------驳回 编辑主题---------------------------");
                 //驳回 编辑主题
-                if (Objects.equals(cstatus,3) && type02.contains(String.valueOf(consultation.getType()))){
+                if (Objects.equals(cstatus,b) && type02.contains(String.valueOf(consultation.getType()))){
                     logger.info("==========================修改主题的内容================================");
                     //修改主题的内容
                     consultationMapper.updateConsultationByConsultation(consultation.getId());
@@ -612,14 +613,14 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
                 logger.info("=================驳回 编辑内容0未发布  1审核中 2已发布 3驳回====================");
                 //驳回 编辑内容0未发布  1审核中 2已发布 3驳回 @wudi
-                if(Objects.equals(cstatus,3) && type13.contains(String.valueOf(consultation.getType()))){
+                if(Objects.equals(cstatus,b) && type13.contains(String.valueOf(consultation.getType()))){
                     if (consultation.getConsultationId()!=0) {
                         Consultation findOne = consultationMapper.findOne(consultation.getConsultationId());
                         if (findOne==null) {
                             return ResultUtils.returnError("主题数据错误");
                         }
                         Integer status=	findOne.getStatus()==null?0:findOne.getStatus();
-                        if(Objects.equals(status,3)){
+                        if(Objects.equals(status,b)){
                             logger.info("=================修改主题===================");
                             //修改主题
                             consultationMapper.updateConsultationStatusById(consultation.getConsultationId());
