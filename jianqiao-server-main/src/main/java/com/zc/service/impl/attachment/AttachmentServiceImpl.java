@@ -46,22 +46,22 @@ public class AttachmentServiceImpl  implements AttachmentService {
     /**
      * 图片最大值 单位(M)
      */
-    private Integer IMAGE_MAX_SIZE=2;
+    private final Integer IMAGE_MAX_SIZE=2;
 
     /**
      * 视频最大值 单位(M)
      */
-    private Integer VIDEO_MAX_SIZE=200;
+    private final Integer VIDEO_MAX_SIZE=200;
 
     /**
      * 图片类型
      */
-    private Integer IMAGE_TYPE=0;
+    private final Integer IMAGE_TYPE=0;
 
     /**
      * 视频类型
      */
-    private Integer VIDEO_TYPE=1;
+    private final Integer VIDEO_TYPE=1;
     /**
      * 上传接口
      * @description 上传接口
