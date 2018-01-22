@@ -53,8 +53,8 @@ public class MembersearchconsultationServiceImpl implements Membersearchconsulta
 
     @Override
     public Result saveMemberSearchConsultation(Long id, String info) {
+        logger.info("保存用户检索关键词出传入参数==》 id："+ id +" info:"+ info);
         Result result = new Result();
-
         Member member = memberService.getMerberById(id);//查询用户
         if (null == member) {
             return ResultUtils.returnError("用户不存在");
@@ -71,6 +71,7 @@ public class MembersearchconsultationServiceImpl implements Membersearchconsulta
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
             return ResultUtils.returnError("保存历史搜索关键词失败");
         }
+        logger.info("保存用户检索关键词成功!");
         return result;
     }
 
