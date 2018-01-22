@@ -13,7 +13,6 @@ import com.zc.main.service.search.SearchService;
 import com.zc.main.service.searchkeyword.SearchKeywordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +28,7 @@ import java.util.Objects;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = SearchService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor = Exception.class)
 public class SearchServiceImpl implements SearchService {
 
     private static Logger log = LoggerFactory.getLogger(SearchServiceImpl.class);

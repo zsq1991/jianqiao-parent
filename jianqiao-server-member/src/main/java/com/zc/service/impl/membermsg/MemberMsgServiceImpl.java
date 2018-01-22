@@ -28,7 +28,7 @@ import java.util.*;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = MemberMsgService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class MemberMsgServiceImpl implements MemberMsgService{
 
 	private static Logger logger = LoggerFactory.getLogger(MemberMsgServiceImpl.class);
@@ -38,7 +38,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 
 
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(rollbackFor=Exception.class)
 	public int insert(MemberMsg memberMsg) {
 		return memberMsgMapper.insert(memberMsg);
 	}
@@ -57,7 +57,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	 * @return
 	 */
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(rollbackFor=Exception.class)
 	public Result getMemberMsgReadInform(Member members) {
 		logger.info("==========================进入读取通知信息的接口======================");
 		Result result = new Result();
@@ -159,7 +159,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	 * @return
 	 */
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(rollbackFor=Exception.class)
 	public Result getReadInformList(Member members, Long msgId, Integer type) {
 		logger.info("====================进入阅读通知信息方法=====================================");
 		// TODO Auto-generated method stub

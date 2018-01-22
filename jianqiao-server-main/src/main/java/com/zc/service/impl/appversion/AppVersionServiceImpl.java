@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Service(version = "1.0.0", interfaceClass = AppVersionService.class)
 @Component
-@Transactional(readOnly = true)
+@Transactional(rollbackFor=Exception.class)
 public class AppVersionServiceImpl implements AppVersionService {
 
     private static Logger logger = LoggerFactory.getLogger(AppVersionServiceImpl.class);

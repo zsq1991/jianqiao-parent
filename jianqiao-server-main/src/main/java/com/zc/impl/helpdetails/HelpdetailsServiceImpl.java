@@ -2,7 +2,6 @@ package com.zc.impl.helpdetails;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.main.service.helpdetails.HelpDetailsService;
-import com.zc.main.service.shareapp.ShareAppService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,7 @@ import java.util.Map;
  */
 @Service(version = "1.0.0",interfaceClass = HelpDetailsService.class)
 @Component
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class HelpdetailsServiceImpl implements HelpDetailsService {
     @Override
     public List<Map<String, Object>> gethelpdetails(Long aLong, Integer page, Integer rows) {

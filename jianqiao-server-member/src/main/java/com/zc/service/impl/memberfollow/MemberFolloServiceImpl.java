@@ -40,7 +40,7 @@ public class MemberFolloServiceImpl implements MemberFollowService {
     private MemberService memberService;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public Result focusMember(Long fId, Long mId) {
         logger.info("获取关注用户传入参数");
         Result result = new Result();

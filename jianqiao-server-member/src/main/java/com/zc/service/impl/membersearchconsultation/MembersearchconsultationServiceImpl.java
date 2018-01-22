@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = MembersearchconsultationService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class MembersearchconsultationServiceImpl implements MembersearchconsultationService {
 
     private Logger logger = LoggerFactory.getLogger(MembersearchconsultationServiceImpl.class);
@@ -76,7 +76,7 @@ public class MembersearchconsultationServiceImpl implements Membersearchconsulta
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result deleteKeys(Member member) {
         try {
             memberSearchConsultationMapper.deleteAll(member.getId());

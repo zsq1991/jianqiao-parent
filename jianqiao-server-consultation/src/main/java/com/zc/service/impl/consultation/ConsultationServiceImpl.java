@@ -41,7 +41,7 @@ import java.util.*;
 
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class ConsultationServiceImpl implements ConsultationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsultationServiceImpl.class);
@@ -80,7 +80,7 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result deleteConsultationById(Long id, Member member) {
         try {
             logger.info("==============================进入删除资讯方法============================");
@@ -345,7 +345,7 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result addConsultation(String content, Member member) {
         //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
         //topicType : 1 :图文 2：视频
@@ -526,7 +526,7 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result updateConsultation(String content, Member member) {
         try {
             logger.info("------------------------------进入修改资讯方法---------------------------");
