@@ -7,6 +7,7 @@ import com.zc.main.entity.memberhelp.MemberHelp;
 import java.util.Map;
 
 /**
+ * @author
  * @package : com.zc.main.service.membermessage
  * @progect : jianqiao-parent
  * @Description :
@@ -15,6 +16,16 @@ import java.util.Map;
  */
 public interface MemberMessageService {
 
+    /**
+     * 求助发布
+     * @author
+     * @data 2018/1/18
+     * @param member
+     * @param memberhelp
+     * @param caseId
+     * @param imgId
+     * @return
+     */
     Result saveMemberHelp(Member member, MemberHelp memberhelp, String caseId, String imgId);
 
     /**

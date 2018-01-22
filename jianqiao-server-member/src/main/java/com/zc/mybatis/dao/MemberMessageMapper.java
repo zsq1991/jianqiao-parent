@@ -8,14 +8,14 @@ import java.util.Map;
 
 /**
  * @Description :
- * @Created by : zhaoshuaiqi
+ * @author :  zhaoshuaiqi
  * @Creation Date ：2018/1/17
  */
 @MyBatisRepository
 public interface MemberMessageMapper {
 
     /**
-     * * @author:  zhaoshuaiqi
+     * @author:  zhaoshuaiqi
      * @create:  2018/1/17
      * @desc: 用户个人信息获取【已关注或未关注】
      * @version 1.0.0
@@ -33,7 +33,12 @@ public interface MemberMessageMapper {
      * @return
      */
     List<Map<String, Object>> getMemberMessageList(Long memberId);
-    //检验昵称是否已存在
+
+    /**
+     * 检验昵称是否已存在
+     * @param nickname
+     * @return
+     */
     List<Map<String, Object>> getMemberByNickname(String nickname);
 
     /**
