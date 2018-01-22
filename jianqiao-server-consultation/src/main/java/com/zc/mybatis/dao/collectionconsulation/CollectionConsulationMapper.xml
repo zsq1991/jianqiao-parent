@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
-<mapper namespace="com.zc.mybatis.dao.collectionConsulation.CollectionConsulationMapper">
+<mapper namespace="com.zc.mybatis.dao.collectionconsulation.CollectionConsulationMapper">
     <!-- 通过资讯id获取数据 -->
     <select id="getMemberIdByConsultationId" resultType="Map" parameterType="Long">
         select member_id as mId    ,                  <!-- 收藏者的id -->

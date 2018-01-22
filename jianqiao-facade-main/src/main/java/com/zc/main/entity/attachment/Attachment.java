@@ -1,6 +1,5 @@
 package com.zc.main.entity.attachment;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 import org.hibernate.validator.constraints.NotBlank;
