@@ -29,10 +29,10 @@ public interface MemberMessageMapper {
      * @create:  2018/1/17
      * @desc: 获取会员信息
      * @version 1.0.0
-     * @param member_id
+     * @param memberId
      * @return
      */
-    List<Map<String, Object>> getMemberMessageList(Long member_id);
+    List<Map<String, Object>> getMemberMessageList(Long memberId);
     //检验昵称是否已存在
     List<Map<String, Object>> getMemberByNickname(String nickname);
 

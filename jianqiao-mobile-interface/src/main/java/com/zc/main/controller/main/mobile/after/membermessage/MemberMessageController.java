@@ -61,14 +61,14 @@ public class MemberMessageController {
      * @author:  Zhaoshuaiqi
      * @date:  2018/1/17
      * @param member
-     * @param member_id
+     * @param memberId
      * @return
      */
     @RequestMapping(value = "member-info",method = RequestMethod.POST)
     @ResponseBody
     public Result memberInfo(@MemberAnno Member member,
-                             @RequestParam(value ="member_id") Long member_id){
-        Result rs = memberService.memberInfo(member,member_id);
+                             @RequestParam(value ="memberId") Long memberId){
+        Result rs = memberService.memberInfo(member,memberId);
         return rs;
     }
 
