@@ -65,7 +65,21 @@ public class QuotedPrintable {
 			// RFC 2045 says to exclude control characters mistakenly
 			// present (unencoded) in the encoded stream.
 			// As an exception, we keep unencoded tabs (0x09)
-			if ((qp[i] >= 0x20 && qp[i] <= 0x7f) || qp[i] == TAB || qp[i] == CR || qp[i] == LF) {
+			boolean qpb = false;
+			/*if((qp[i] >= 0x20 && qp[i] <= 0x7f) || qp[i] == TAB || qp[i] == CR || qp[i] == LF){
+				qpb = true;
+			}*/
+			if(qp[i] >= 0x20 && qp[i] <= 0x7f){
+				qpb = true;
+			}if(qp[i] == TAB || qp[i] == CR ){
+				qpb = true;
+			}
+			if(qp[i] == CR || qp[i] == LF){
+				qpb = true;
+			}
+
+
+			if (qpb) {
 				qp[retlen++] = qp[i];
 			}
 		}

@@ -263,6 +263,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	public Result getInformList(Member member, Integer page, Integer rows, Integer type) {
 		logger.info("========进入系统消息======通知方法===================");
 		Result result = new Result();
+		boolean consultationb = false;
+		boolean consultationComment = false;
 		// TODO Auto-generated method stub
 
 		if (member == null) {
@@ -321,7 +323,14 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Long mLId = (Long) maps.get("mLId");
 						Map map = Maps.newHashMap();
 						// 评论点赞
-						if ((conId == null || conId == 0) && comId != null && comId != 0) {
+
+						if (conId == null || conId == 0){
+							consultationb = true;
+						}
+						if(comId != null && comId != 0){
+							consultationComment = true;
+						}
+						if (consultationb && consultationComment) {
 							logger.info("==================获取评论资讯赞====================");
 							List<Map> mapsss = memberMsgMapper.getCommentSupportInformList(comId, memId, mLId);
 							if (mapsss.size() == 0) {
@@ -350,7 +359,14 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 								map.put("date", chidcreatedTime);
 							}
 							// 资讯点赞
-						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {
+
+							if (comId == null || comId == 0){
+								consultationb = true;
+							}
+							if(conId != null && conId != 0){
+								consultationComment = true;
+							}
+						} else if (consultationb && consultationComment) {
 							// ===============================================//0是访谈主题
 							// 1访谈内容 2口述主题 3口述内容 4求助 5回答 6分享==========
 							logger.info("-------------获取资讯赞-----------------");
@@ -431,7 +447,13 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Map map = Maps.newHashMap();
 						String message = (String) map2.get("message");
 						// 评论的回复
-						if ((conId == null || conId == 0) && comId != null && comId != 0) {
+						if (conId == null || conId == 0){
+							consultationb = true;
+						}
+						if(comId != null && comId != 0){
+							consultationComment = true;
+						}
+						if (consultationb && consultationComment) {
 							logger.info("---------------获取评论回复--------------");
 							List<Map> maps = memberMsgMapper.getCommentDiscussInformList(comId, memId, mLId);
 							if (maps.size() == 0) {
@@ -536,7 +558,13 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 								map.put("date", chidcreatedTime);
 							}
 							// 对求助的评论就是回答
-						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {
+							if (comId == null || comId == 0){
+								consultationb = true;
+							}
+							if(conId != null && conId != 0){
+								consultationComment = true;
+							}
+						} else if (consultationb && consultationComment) {
 							logger.info("-----------------------获取回答者的数据-------------------");
 							List<Map> maps = memberMsgMapper.getReplyDiscussInformList(conId, memId, mLId);
 							if (maps.size() == 0) {
