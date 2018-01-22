@@ -26,7 +26,7 @@ import java.util.Date;
 
 /**
  * @description ： 咨询回复的点赞
- * @Created by  : gaoge
+ * @author  : gaoge
  * @Creation Date ： 2018/1/22 15:58
  * @version 1.0.0
  */
