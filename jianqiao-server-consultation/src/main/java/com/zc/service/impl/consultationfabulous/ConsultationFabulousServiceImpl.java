@@ -22,6 +22,13 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
 
+/**
+ * @package : com.zc.main.service.consultationInfo
+ * @progect : jianqiao-parent
+ * @Description :
+ * @Created by :ZhaoJunBiao
+ * @Creation Date ：2018年01月16日11:54
+ */
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationFabulousService.class)
 @Transactional(readOnly = true)
@@ -55,12 +62,15 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
         //Power power = new Power();
         try{
         Consultation consultationDTO = new Consultation();
-
+        Integer type1=1;
+        Integer type2=2;
+        Integer type3=3;
+        Integer type4=4;
         if (StringUtils.isBlank(type + "")) {
             return ResultUtils.returnError("参数异常，当前操作有误!!");
         }
 
-        if (type != 1 && type != 2) {
+        if (!type.equals(type1) && !type.equals(type2)) {
             return ResultUtils.returnError("参数异常，当前操作有误!!");
         }
         consultationDTO.setId(id);
@@ -74,7 +84,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
         //添加点赞记录
         Member member = new Member();
         if (null == consultationFabulous) {
-            if (type == 2) {
+            if (type.equals(type2)) {
                 return ResultUtils.returnError("操作失败，未有点赞记录");
             }
             ConsultationFabulous consultationFabulous1 = new ConsultationFabulous();
@@ -84,8 +94,8 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
             consultationFabulous1.setType(type);
             consultationfabulousMapper.insert(consultationFabulous1);
         } else {
-            Integer type2 = consultationFabulous.getType();
-            if (type2.equals(type)) {
+            Integer consultationFabulousType = consultationFabulous.getType();
+            if (consultationFabulousType.equals(type)) {
                 return ResultUtils.returnError("当前操作有误!");
             }
             consultationFabulous.setType(type);
@@ -93,7 +103,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
         }
         Long fabulousnum = consultation.getFabulousNum() == null ? 0L : consultation.getFabulousNum();
         //点赞时维护MemberMsg表或者取消点赞删除MemberMsg表
-        if (type == 1) {
+        if (type.equals(type1)) {
             MemberMsg msg = new MemberMsg();
             msg.setMemberId(consultation.getMemberId());
             msg.setType(5);
@@ -166,9 +176,11 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
         if (null == consultationFabulous) {
             type = 1;
         } else {
-            if (consultationFabulous.getType() == 1) {
+            Integer type1 = 1;
+            Integer type2 = 2;
+            if (consultationFabulous.getType() .equals(type1)) {
                 type = 2;
-            } else if (consultationFabulous.getType() == 2) {
+            } else if (consultationFabulous.getType().equals(type2)) {
                 type = 1;
             }
 

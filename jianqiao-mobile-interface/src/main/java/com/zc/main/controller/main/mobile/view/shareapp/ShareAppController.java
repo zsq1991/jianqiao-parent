@@ -64,11 +64,15 @@ public class ShareAppController {
         if (null == type) {
             return "view/error";
         }
-        if (type != 1 && type != 2 && type != 3 && type != 4) {
+        Integer type1 = 1;
+        Integer type2 = 2;
+        Integer type3 = 3;
+        Integer type4 = 4;
+        if (!type.equals(type1)  && !type.equals(type1) && !type.equals(type1) && !type.equals(type1)) {
             return "view/error";
         }
         try {
-            if (type == 1) {
+            if (type.equals(type1)) {
                 Long consuid = (Long) consultationnow.get("consulatation_id");
                 //根据id查询当前的资讯
                 Map<String, Object> consultation = shareAppService.getConsultation(consuid);
@@ -122,7 +126,7 @@ public class ShareAppController {
                 return "view/jqapp_fangtan";
             }
 
-            if (type == 2) {
+            if (type.equals(type2)) {
                 Long consuid = (Long) consultationnow.get("consulatation_id");
                 Map<String, Object> consultation = shareAppService.getConsultation(consuid);
                 Map<String, Object> consultationTop = shareAppService.getConsultationTop(id);
@@ -170,7 +174,7 @@ public class ShareAppController {
                 return "view/jqapp_koushu";
             }
 
-            if (type == 3) {
+            if (type.equals(type3)) {
 
                 Map<String, Object> helpAuthor = shareAppService.getHelpAuthor(id);
                 List<Map<String, Object>> imageList = shareAppService.getImageList(id);
@@ -207,7 +211,8 @@ public class ShareAppController {
                 System.out.println(deatail);
                 return "view/jqapp_qiuzhu";
             }
-            if (type == 4) {//分享详情基本信息
+            //分享详情基本信息
+            if (type.equals(type4)) {
                 Integer page = 1;
                 Integer rows = 5;
                 Map<String, Object> ftplNum = shareAppService.getFTPLNum(id);
