@@ -15,7 +15,6 @@ public enum Encrypt {
 	 * MD5加密
 	 */
 	MD5 {
-		@java.lang.Override
         @Override
 		public String getName() {
 			return "MD5";
@@ -25,7 +24,6 @@ public enum Encrypt {
 	 * SHA-1加密
 	 */
 	SHA_1 {
-		@java.lang.Override
         @Override
 		public String getName() {
 			return "SHA-1";
@@ -35,7 +33,6 @@ public enum Encrypt {
 	 * 对称算法：DES（实际密钥只用到56 位）
 	 */
 	DES {
-		@java.lang.Override
         @Override
 		public String getName() {
 			return "DES";
@@ -45,7 +42,6 @@ public enum Encrypt {
 	 * 对称算法:AES（支持三种密钥长度：128、192、256位），通常首先128位
 	 */
 	AES {
-		@java.lang.Override
         @Override
 		public String getName() {
 			return "AES";
@@ -56,7 +52,6 @@ public enum Encrypt {
 	 * RSA是被研究得最广泛的公钥算法，从提出到现在已近二十年，经历了各种攻击的考验，逐渐为人们接受，普遍认为是目前最优秀的公钥方案之一
 	 */
 	RSA {
-		@java.lang.Override
         @Override
 		public String getName() {
 			return "RSA";

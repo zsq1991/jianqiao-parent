@@ -1960,51 +1960,50 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid, String checktype) {
+        logger.info("APP首页搜索传入参数 ==》 page:" + page + " rows: " + rows + " info: " + info + " phone: " + phone + " uuid: " + uuid + " checktype: " + checktype);
         HashMap<String, Object> param = new HashMap<String, Object>();
-        //用户已登录且搜索不为空 保存记录
-        if (!"1".equals(phone) && !"1".equals(uuid) && StringUtils.isNotBlank(info)) {
+        try {
+            if (!"1".equals(phone) && !"1".equals(uuid) && StringUtils.isNotBlank(info)) {//用户已登录且搜索不为空 保存记录
 
-            param.put("phone", phone);
-            param.put("uuid", uuid);
-            //根据phone和uuid查询用户信息
-            Member member = memberService.getMemberByIdAndUuid(param);
-            //用户ID
-            Long id = member.getId();
-            if (null == member || id == null) {
-                //此用户存在
-                return ResultUtils.returnError("用户不存在，请核对信息后重新访问");
-            }
-            //关键词不为空则保存历史关键词
-            if (StringUtils.isNotBlank(info)) {
+                param.put("phone", phone);
+                param.put("uuid", uuid);
+                Member member = memberService.getMemberByIdAndUuid(param);//根据phone和uuid查询用户信息
+                Long id = member.getId();//用户ID
+                if (null == member || id == null) {//此用户存在
+                    return ResultUtils.returnError("用户不存在，请核对信息后重新访问");
+                }
+                if (StringUtils.isNotBlank(info)) {//关键词不为空则保存历史关键词
 
-                //查询当前用户已有的搜索历史
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("memberId", id);
-                map.put("info", info);
-                Integer searchConsultationCount = membersearchconsultationService.getSearchConsultationByInfo(map);
-                if(searchConsultationCount==0){
-                    logger.info("当前检索关键词不存在，开始保存对应会员的检索关键词记录");
-//                    Result result = membersearchconsultationService.saveMemberSearchConsultation(id, info);
-                    logger.info("保存历史检索成功!");
+                    //查询当前用户已有的搜索历史
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("memberId", id);
+                    map.put("info", info);
+                    Integer searchConsultationCount = membersearchconsultationService.getSearchConsultationByInfo(map);
+                    if(searchConsultationCount==0){
+                        logger.info("当前检索关键词不存在，开始保存对应会员的检索关键词记录");
+                        Result result = membersearchconsultationService.saveMemberSearchConsultation(id, info);
+                        if ("1".equals(result.getCode())){
+                            logger.info("保存历史检索成功!");
+                        }
+                    }
                 }
             }
-        }
-        if (StringUtils.isBlank(info)) {
-            return ResultUtils.returnError("搜索内容不能为空");
-        }
+            if (StringUtils.isBlank(info)) {
+                return ResultUtils.returnError("搜索内容不能为空");
+            }
 
-        if (StringUtils.isBlank(checktype)) {
-            return ResultUtils.returnError("类型不能为空");
-        }
-        logger.info("+++++++++++++  开始检索资讯列表  +++++++++++++++++");
-        param.put("info", info);
-        param.put("checktype", checktype);
-        param.put("startIndex", (page - 1) * rows);
-        param.put("endIndex", rows);
-        List<Map<String, Object>> consultationAllTypeListss = new ArrayList<Map<String,Object>>();
-        consultationAllTypeListss = consultationMapper.searchConsultationInfo(param);
-        List<String> list = new ArrayList<String>();
-        //当查询关键词查询不出来结果的时候,开始进行分词
+            if (StringUtils.isBlank(checktype)) {
+                return ResultUtils.returnError("类型不能为空");
+            }
+            logger.info("+++++++++++++  开始检索资讯列表  +++++++++++++++++");
+            param.put("info", info);
+            param.put("checktype", checktype);
+            param.put("startIndex", (page - 1) * rows);
+            param.put("endIndex", rows);
+            List<Map<String, Object>> consultationAllTypeListss = new ArrayList<Map<String,Object>>();
+            consultationAllTypeListss = consultationMapper.searchConsultationInfo(param);
+            List<String> list = new ArrayList<String>();
+            //当查询关键词查询不出来结果的时候,开始进行分词
         /*if(consultationAllTypeListss.size() == 0){
             logger.info("当前关键词没有查询出结果,开始进行分词操作!");
             try {
@@ -2032,119 +2031,111 @@ public class ConsultationServiceImpl implements ConsultationService {
             consultationAllTypeListss = consultationMapper.searchConsultationByInfoList(m);
             logger.info("查询出来的长度为:"+consultationAllTypeListss.size());
         }*/
-        List<Map<String, Object>> consultationAllTypeList =new ArrayList<Map<String, Object>>();
-        if (consultationAllTypeListss.size() > 0) {
-            for (Map<String, Object> consultationInfo : consultationAllTypeListss) {
-                //按类型查询
-                String type = consultationInfo.get("type").toString();
-                //是否是主题或访谈的标识
-                //是否是主题或访谈的标识    false 不是   true 是
-                boolean isMore = false;
-                List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
-                //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
-                if (("0").equals(type) || ("2").equals(type)) {
-                    //判断访谈和口述是否有内容
-                    Integer count=consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
-                    if(count==0){
-                        continue;
+            List<Map<String, Object>> consultationAllTypeList =new ArrayList<Map<String, Object>>();
+            if (consultationAllTypeListss.size() > 0) {
+                for (Map<String, Object> consultationInfo : consultationAllTypeListss) {
+                    //按类型查询
+                    String type = consultationInfo.get("type").toString();
+                    //是否是主题或访谈的标识
+                    boolean isMore = false;//是否是主题或访谈的标识    false 不是   true 是
+                    List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
+                    if (("0").equals(type) || ("2").equals(type)) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                        //判断访谈和口述是否有内容
+                        Integer count=consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
+                        if(count==0){
+                            continue;
+                        }
+                        isMore = true;
+                        consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));//根据访谈或口述的id查询其子类
+                        //取详情内容
+                        Object detailContentChid="";
+                        if (consultationChidList.size() > 0) {
+                            for (Map<String, Object> consultationChidInfo : consultationChidList) {
+                                //处理时间格式
+                                String chidAlreadyTime = DateUtils.dateFormat((Date) consultationChidInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
+                                SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                                String chidNowTime = chiddf.format(new Date());
+                                String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
+                                String chidTime2 = chidNowTime.subSequence(0, 10).toString();
+                                if (chidTime1.equals(chidTime2)) {//同一天
+                                    String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                                    consultationChidInfo.put("createdTime", chidcreatedTime);
+                                } else {//不同一天
+                                    String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                                    consultationChidInfo.put("createdTime", chidcreatedTime);
+                                }
+
+                                //图片地址
+                                String addressChid = "";
+
+                                //处理咨询图片
+                                List<Map<String, Object>> consultationChidAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationChidInfo.get("id").toString()));
+                                consultationChidInfo.put("address", consultationChidAttachmentList);
+                                //处理访谈和口述专题的详情内容
+                                Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                                if(null==map || map.size()==0){
+                                    detailContentChid="";
+                                }else{
+                                    detailContentChid=map.get("detailContent");
+                                }
+
+                                consultationChidInfo.put("detailContentChid", detailContentChid);
+                            }
+                        }
+
+                        consultationInfo.put("isMore", isMore);
+                        consultationInfo.put("consultationChidList", consultationChidList);
+
+                    } else {
+
+                        consultationInfo.put("isMore", isMore);
+                        consultationInfo.put("consultationChidList", consultationChidList);
                     }
 
-                    isMore = true;
-                    //根据访谈或口述的id查询其子类
-                    consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));
+                    //处理时间格式
+                    String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                    String nowTime = df.format(new Date());
+                    String time1 = alreadyTime.subSequence(0, 10).toString();
+                    String time2 = nowTime.subSequence(0, 10).toString();
+                    if (time1.equals(time2)) {//同一天
+                        String createdTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                        consultationInfo.put("createdTime", createdTime);
+                    } else {//不同一天
+                        String createdTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                        consultationInfo.put("createdTime", createdTime);
+                    }
+
+                    //图片地址
+                    String address = "";
+
+                    //处理咨询图片
+                    List<Map<String, Object>> consultationAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                    consultationInfo.put("address", consultationAttachmentList);
+
                     //取详情内容
-                    Object detailContentChid="";
-                    if (consultationChidList.size() > 0) {
-                        for (Map<String, Object> consultationChidInfo : consultationChidList) {
-                            //处理时间格式
-                            String chidAlreadyTime = DateUtils.dateFormat((Date) consultationChidInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                            //设置日期格式
-                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
-                            String chidNowTime = chiddf.format(new Date());
-                            String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
-                            String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-                            if (chidTime1.equals(chidTime2)) {
-                                //同一天
-                                //截取当天   时，分
-                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();
-                                consultationChidInfo.put("createdTime", chidcreatedTime);
-                            } else {
-                                //不同一天
-                                //截取当天   年，月，日
-                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();
-                                consultationChidInfo.put("createdTime", chidcreatedTime);
-                            }
-
-                            //图片地址
-                            String addressChid = "";
-
-                            //处理咨询图片
-                            List<Map<String, Object>> consultationChidAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationChidInfo.get("id").toString()));
-                            consultationChidInfo.put("address", consultationChidAttachmentList);
-                            //处理访谈和口述专题的详情内容
-                            Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
-                            if(null==map || map.size()==0){
-                                detailContentChid="";
-                            }else{
-                                detailContentChid=map.get("detailContent");
-                            }
-
-                            consultationChidInfo.put("detailContentChid", detailContentChid);
+                    Object detailContent="";
+                    if(("4").equals(type) || ("6").equals(type)){
+                        Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
+                        if(null==map || map.size()==0){
+                            detailContent="";
+                        }else{
+                            detailContent=map.get("detailContent");
                         }
                     }
-
-                    consultationInfo.put("isMore", isMore);
-                    consultationInfo.put("consultationChidList", consultationChidList);
-
-                } else {
-
-                    consultationInfo.put("isMore", isMore);
-                    consultationInfo.put("consultationChidList", consultationChidList);
+                    consultationInfo.put("detailContent", detailContent);
+                    consultationAllTypeList.add(consultationInfo);
                 }
 
-                //处理时间格式
-                String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                //设置日期格式
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
-                String nowTime = df.format(new Date());
-                String time1 = alreadyTime.subSequence(0, 10).toString();
-                String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {
-                    //同一天
-                    //截取当天   时，分
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();
-                    consultationInfo.put("createdTime", createdTime);
-                } else {
-                    //不同一天
-                    //截取当天   年，月，日
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();
-                    consultationInfo.put("createdTime", createdTime);
-                }
-
-                //图片地址
-                String address = "";
-
-                //处理咨询图片
-                List<Map<String, Object>> consultationAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
-                consultationInfo.put("address", consultationAttachmentList);
-
-                //取详情内容
-                Object detailContent="";
-                if(("4").equals(type) || ("6").equals(type)){
-                    Map<String, Object> map=consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
-                    if(null==map || map.size()==0){
-                        detailContent="";
-                    }else{
-                        detailContent=map.get("detailContent");
-                    }
-                }
-                consultationInfo.put("detailContent", detailContent);
-                consultationAllTypeList.add(consultationInfo);
+                return ResultUtils.returnSuccess("请求成功", consultationAllTypeList);
+            } else {
+                return ResultUtils.returnError("没有数据");
             }
 
-            return ResultUtils.returnSuccess("请求成功", consultationAllTypeList);
-        } else {
-            return ResultUtils.returnError("没有数据");
+        }catch (Exception e){
+            logger.info("APP首页检索异常："+e.getMessage());
+            e.printStackTrace();
+            return  ResultUtils.returnError("获取异常");
         }
     }
 
