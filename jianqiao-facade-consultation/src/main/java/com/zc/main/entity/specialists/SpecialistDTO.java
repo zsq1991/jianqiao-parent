@@ -30,4 +30,12 @@ public class SpecialistDTO implements Serializable{
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "SpecialistDTO{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

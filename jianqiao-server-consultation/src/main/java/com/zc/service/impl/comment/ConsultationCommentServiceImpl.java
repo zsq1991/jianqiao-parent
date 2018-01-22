@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationCommentService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class ConsultationCommentServiceImpl implements ConsultationCommentService {
 
     private static Logger logger = LoggerFactory.getLogger(ConsultationCommentService.class);
@@ -46,7 +46,7 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
     private MemberMsgService memberMsgService;
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public Result saveDirectConsultationComment(Long memberid, Long consultationid, String content) {
         logger.info("评论咨询传入参数 --> memberid:"+memberid+" consultationid:"+consultationid+" content:"+content);
         if(consultationid==null){
@@ -102,7 +102,7 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public Result saveReplyconsultationCommentService(Long memberid, Integer type, Long parentid, String content) {
 
         logger.info("==========开始调用评论回复接口============参数( memberid："+memberid+"type:"+type+"parentid:"+parentid+"content:"+content);
