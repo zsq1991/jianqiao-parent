@@ -1,7 +1,6 @@
 package com.zc.main.controller.main.mobile.view.shareapp;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.main.service.helpdetails.HelpDetailsService;
 import com.zc.main.service.shareapp.ShareAppService;
 import org.apache.commons.lang.StringUtils;
@@ -190,7 +189,7 @@ public class ShareAppController {
 
                 }
                 List<Map<String, Object>> helpAuthorIdList = shareAppService.getHelpAuthorIdList(id);
-                Map<String, Object> authoruserList = new HashMap<>();
+                Map<String, Object> authoruserList = new HashMap<>(16);
                 List<Map<String, Object>> authorList2 = new ArrayList<>();
                 List<Map<String, Object>> user = new ArrayList<>();
                 List<List<Map<String, Object>>> deatail = new ArrayList<>();
