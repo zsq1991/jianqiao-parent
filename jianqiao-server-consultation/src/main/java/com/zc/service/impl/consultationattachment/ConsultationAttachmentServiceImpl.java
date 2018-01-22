@@ -113,15 +113,15 @@ public class ConsultationAttachmentServiceImpl implements ConsultationAttachment
                 List<Map<String,Object>> pconsultations= consultationAttachmentDao.getConsultationAttachmentByConsultationType(map);
                 pconsultations.stream().forEach(e->{
                     Long id = Long.parseLong(e.get("id").toString());
-                    Map<String,Object> map_ = Maps.newHashMap();
-                    map_.put("pid",id);
-                    map_.put("page",0);
-                    map_.put("size",3);
-                    List<Map<String,Object>> sconsultations= consultationMapper.getConsultationByMap(map_);
-                    sconsultations.forEach(e_->{
-                        Long sid = Long.parseLong(e_.get("id").toString());
+                    Map<String,Object> mapParams = Maps.newHashMap();
+                    mapParams.put("pid",id);
+                    mapParams.put("page",0);
+                    mapParams.put("size",3);
+                    List<Map<String,Object>> sconsultations= consultationMapper.getConsultationByMap(mapParams);
+                    sconsultations.forEach(ee->{
+                        Long sid = Long.parseLong(ee.get("id").toString());
                         //封面图
-                        e_.put("covers",consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                        ee.put("covers",consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(sid));
                     });
                     e.put("rows",sconsultations);
                 });
@@ -139,15 +139,15 @@ public class ConsultationAttachmentServiceImpl implements ConsultationAttachment
                 List<Map<String,Object>> pconsultations2= consultationAttachmentDao.getConsultationAttachmentByConsultationType(map2);
                 pconsultations2.stream().distinct().forEach(e->{
                     Long id = Long.parseLong(e.get("id").toString());
-                    Map<String,Object> map_ = Maps.newHashMap();
-                    map_.put("pid",id);
-                    map_.put("page",0);
-                    map_.put("size",3);
-                    List<Map<String,Object>> sconsultations= consultationMapper.getConsultationByMap(map_);
-                    sconsultations.stream().distinct().forEach(e_->{
-                        Long sid = Long.parseLong(e_.get("id").toString());
+                    Map<String,Object> mapParams = Maps.newHashMap();
+                    mapParams.put("pid",id);
+                    mapParams.put("page",0);
+                    mapParams.put("size",3);
+                    List<Map<String,Object>> sconsultations= consultationMapper.getConsultationByMap(mapParams);
+                    sconsultations.stream().distinct().forEach(ee->{
+                        Long sid = Long.parseLong(ee.get("id").toString());
                         //封面图
-                        e_.put("covers",consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                        ee.put("covers",consultationAttachmentDao.getConsultationAttachmentCoverAddressByConsultationId(sid));
                     });
                     e.put("rows",sconsultations);
                 });

@@ -24,7 +24,7 @@ public class ColorUtils {
 	 * @param color
 	 * @return
 	 */
-	public static String RGB2Hex(final Color color) {
+	public static String rGB2Hex(final Color color) {
 		String r = Integer.toHexString(color.getRed());
 		r = StringUtils.rightPad(r, 2, '0');
 		String g = Integer.toHexString(color.getGreen());
@@ -40,7 +40,7 @@ public class ColorUtils {
 	 * @param hex
 	 * @return
 	 */
-	public static Color Hex2RGB(final String hex) {
+	public static Color hex2RGB(final String hex) {
 		String r = StringUtils.substring(hex, 0, 2);
 		String g = StringUtils.substring(hex, 2, 4);
 		String b = StringUtils.substring(hex, 4, 6);

@@ -128,7 +128,7 @@ public class CommonUtils {
 	        }  
 	        return hs.toUpperCase();  
 	    }  
-   public final static String MD5(String s) {
+   public final static String getMD5(String s) {
 	   char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 			   'A', 'B', 'C', 'D', 'E', 'F'};
 		try {
