@@ -24,7 +24,7 @@ public class AppVersionController {
     private AppVersionService appVersionService;
 
     /**
-     * @param client_type 设备标识
+     * @param clientType 设备标识
      * @param version     版本号
      * @return
      * @description: 检测软件更新版本信息
@@ -34,9 +34,9 @@ public class AppVersionController {
      */
     @RequestMapping(value = "getappversion", method = RequestMethod.POST)
     @ResponseBody
-    public Result getappversion(@RequestParam(value = "client_type") String client_type,
+    public Result getappversion(@RequestParam(value = "clientType") String clientType,
                                 @RequestParam(value = "version") String version) {
-        Result result = appVersionService.getAppVersion(client_type, version);
+        Result result = appVersionService.getAppVersion(clientType, version);
         return result;
     }
 

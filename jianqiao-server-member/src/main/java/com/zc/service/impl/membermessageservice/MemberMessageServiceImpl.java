@@ -1,4 +1,4 @@
-package com.zc.service.impl.membermessageService;
+package com.zc.service.impl.membermessageservice;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zc.common.core.result.Result;

@@ -15,9 +15,9 @@ public interface AppVersionService {
      * @author:  ZhaoJunBiao
      * @date:  2018/1/18 16:33
      * @version: 1.0.0
-     * @param client_type
+     * @param clientType
      * @param version
      * @return
      */
-    Result getAppVersion(String client_type, String version);
+    Result getAppVersion(String clientType, String version);
 }

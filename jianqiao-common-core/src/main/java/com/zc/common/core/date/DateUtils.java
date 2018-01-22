@@ -66,7 +66,7 @@ public class DateUtils {
 	 * @param date2
 	 * @return
 	 */
-	public static long DaysBetween(Date date1, Date date2) {
+	public static long daysBetween(Date date1, Date date2) {
 		if (date2 == null) {
             date2 = new Date();
         }

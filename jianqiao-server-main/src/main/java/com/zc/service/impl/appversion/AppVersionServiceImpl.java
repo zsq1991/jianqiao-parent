@@ -32,7 +32,7 @@ public class AppVersionServiceImpl implements AppVersionService {
     private AppVersionMapper appVersionMapper;
 
     /**
-     * @param client_type
+     * @param clientType
      * @param version
      * @return
      * @description: 检测软件更新版本信息
@@ -41,8 +41,8 @@ public class AppVersionServiceImpl implements AppVersionService {
      * @version: 1.0.0
      */
     @Override
-    public Result getAppVersion(String client_type, String version) {
-        logger.info("检测软件版本接口调用开始，方法入参：" + "设备标识" + client_type + "版本号" + version);
+    public Result getAppVersion(String clientType, String version) {
+        logger.info("检测软件版本接口调用开始，方法入参：" + "设备标识" + clientType + "版本号" + version);
         try {
             //查询相关版本信息
             List<Map<String, Object>> appVersionList = appVersionMapper.getAppVersion();
@@ -51,15 +51,20 @@ public class AppVersionServiceImpl implements AppVersionService {
                 Integer v = Integer.valueOf(appVersion.get("version").toString());
                 logger.info("最新版本号" + v);
                 Integer v1 = Integer.valueOf(version);
+                Integer isMustToUpdate = Integer.valueOf(appVersion.get("isMustToUpdate").toString());
                 //设备标识（Android as A、Ios as I）
-                if ("A".equals(client_type)) {
+                String android = "A";
+                //是否强制更新
+                String force = "1";
+                Integer num = 2;
+                if (android.equals(clientType)) {
                     //比较版本号是否一致
-                    if (version.equals(appVersion.get("version"))) {
+                    if (version.equals(v)) {
                         return ResultUtils.returnSuccess("已经是最新版本");
-                    } else if ("1".equals(appVersion.get("isMustToUpdate"))) {
+                    } else if (force.equals(isMustToUpdate)) {
                         return ResultUtils.returnSuccess("当前版本修复重大漏洞", appVersion);
 
-                    } else if ((v - v1) > 2) {
+                    } else if ((v - v1) > num) {
                         return ResultUtils.returnSuccess("当前版本差异过大", appVersion);
                     } else {
                         return ResultUtils.returnSuccess("当前版本需要更新", appVersion);

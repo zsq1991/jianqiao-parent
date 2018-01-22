@@ -102,7 +102,7 @@ public class LoginServiceImpl implements LoginService {
                 return ResultUtils.returnError("该用户已禁用请联系客服");
             }
             // 加密密码
-            String passwordMD5 = MD5Util.MD5Encode(MD5Util.MD5Encode(password, "utf-8") + loginData.getUuid(), "utf-8");
+            String passwordMD5 = MD5Util.getMD5Encode(MD5Util.getMD5Encode(password, "utf-8") + loginData.getUuid(), "utf-8");
 
             if ( loginData.getPassword().equals(passwordMD5) ) {
                 logger.info("=========记录登录信息，用户id,登录的次数count,updateTime,creteaIp,sessionId==========");

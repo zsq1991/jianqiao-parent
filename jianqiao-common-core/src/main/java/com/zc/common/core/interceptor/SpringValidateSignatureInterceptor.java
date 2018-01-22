@@ -76,7 +76,7 @@ public class SpringValidateSignatureInterceptor extends HandlerInterceptorAdapte
 				String signData = SignUtils.mapToLinkString2(map1);
 				signData = StringEscapeUtils.unescapeXml(signData);
 				String sign = "";
-				String md5 = MD5Util.MD5Encode(signData,"utf-8")+mark+objType.toString();
+				String md5 = MD5Util.getMD5Encode(signData,"utf-8")+mark+objType.toString();
 				byte[] b = null;
 			    try {
 			         b = (md5).getBytes("utf-8");

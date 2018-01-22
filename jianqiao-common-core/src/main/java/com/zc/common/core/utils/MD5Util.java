@@ -29,7 +29,7 @@ public class MD5Util {
         return HEXDIGITS[d1] + HEXDIGITS[d2];
     }
 
-    public static String MD5Encode(String origin, String charsetname) {
+    public static String getMD5Encode(String origin, String charsetname) {
         String resultString = null;
 
         try {
