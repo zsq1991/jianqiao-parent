@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  */
 @Service(version = "1.0.0",interfaceClass = MemberMessageService.class)
 @Component
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class MemberMessageServiceImpl implements MemberMessageService{
 
     private  static Logger logger = LoggerFactory.getLogger(MemberMessageServiceImpl.class);
@@ -51,7 +51,7 @@ public class MemberMessageServiceImpl implements MemberMessageService{
     private MemberHelpImageMapper memberHelpImageMapper;
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result saveMemberHelp(Member member, MemberHelp memberhelp, String caseId, String imgId) {
         logger.info("求助信息发布接口调用，方法入参{"+"病例id："+caseId +"，影像id："+imgId+"}");
         Result result = new Result();
@@ -163,7 +163,7 @@ public class MemberMessageServiceImpl implements MemberMessageService{
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public Result updateMemberLogo(Long attachmentId, Member member) {
         //1、实例化一个result
         Result result = new Result();
@@ -207,7 +207,7 @@ public class MemberMessageServiceImpl implements MemberMessageService{
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public Result updateMemberNickname(String nickname, Member member) {
         logger.info("=========进入修改昵称=======");
         Result result = new Result();
@@ -264,7 +264,7 @@ public class MemberMessageServiceImpl implements MemberMessageService{
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public Result updateMembersex(Integer sexId, Member member) {
         logger.info("=========昵称修改性别=======");
         //不使用result，使用公司的ResultUtils工具类

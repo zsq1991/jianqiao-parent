@@ -1,17 +1,5 @@
 package com.zc.main.dubbo.service.impl.permission;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
@@ -27,17 +15,15 @@ import com.zc.main.dubbo.service.permission.IRoleService;
 import com.zc.main.entity.permission.Role;
 import com.zc.main.entity.permission.UserRole;
 import com.zc.main.exception.PermissionBizException;
-import com.zc.main.vo.BtnVO;
-import com.zc.main.vo.MenuTreeVO;
-import com.zc.main.vo.MenuVO;
-import com.zc.main.vo.RoleVO;
-import com.zc.main.vo.UserVO;
-import com.zc.mybatis.dao.BtnMapper;
-import com.zc.mybatis.dao.MenuBtnMapper;
-import com.zc.mybatis.dao.MenuMapper;
-import com.zc.mybatis.dao.RoleMapper;
-import com.zc.mybatis.dao.RoleMenuMapper;
-import com.zc.mybatis.dao.UserRoleMapper;
+import com.zc.main.vo.*;
+import com.zc.mybatis.dao.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 /**
  * @描述：角色实现层
@@ -63,7 +49,7 @@ public class RoleTServiceImpl implements IRoleService {
 	private UserRoleMapper userRoleMapper;
 
 	@Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Result addRole(Role role) {
     	try {
 			role.setCreatedTime(new Date());
@@ -79,7 +65,7 @@ public class RoleTServiceImpl implements IRoleService {
 
 
 	@Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Result updateRole(Role role) {
     	try {
 			role.setUpdateTime(new Date());
@@ -94,7 +80,7 @@ public class RoleTServiceImpl implements IRoleService {
 
 
 	@Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Result deleteRole(Role role) {
     	try {
 			//默认角色不能删除 角色id 1,2,3,4,5,6 或者 如果角色存在用户绑定，不能删除
@@ -115,7 +101,7 @@ public class RoleTServiceImpl implements IRoleService {
 
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public Result enableOrDisableRole(Role role) {
 		try {
 			Role dbRole = new Role();
@@ -154,7 +140,7 @@ public class RoleTServiceImpl implements IRoleService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
     public Result updateRoleMenuAndMenuBtn(RoleMenuDTO roleMenuDto, Map<Long, List<Long>> menuBtns) {
         try {
 			//删除按钮
