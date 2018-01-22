@@ -55,7 +55,7 @@ public class MD5 {
 			throw new IllegalArgumentException("key can't be null");
 		}
 
-		String S = md5(key);
+		String s = md5(key);
 		byte[] textData = text.getBytes();
 		int len = textData.length;
 		int n = (len + 15) / 16;
@@ -73,7 +73,7 @@ public class MD5 {
 		String[] b = new String[n];
 		String hash;
 
-		String temp = S;
+		String temp = s;
 		String target = "";
 		for (int i = 0; i < n; i++) {
 			b[i] = md5(temp + c[i]);

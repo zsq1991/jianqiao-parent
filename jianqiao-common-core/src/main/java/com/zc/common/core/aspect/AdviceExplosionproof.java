@@ -63,7 +63,7 @@ public class AdviceExplosionproof {
 		String sign = "";
 		byte[] b = null;
 		try {
-			b = (MD5Util.MD5Encode(signData,"utf-8")+"TY"+requestURI).getBytes("utf-8");
+			b = (MD5Util.getMD5Encode(signData,"utf-8")+"TY"+requestURI).getBytes("utf-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.info(signData+":签名加密异常");
