@@ -88,7 +88,11 @@ public class MemberMessageServiceImpl implements MemberMessageService{
         if(type==null){
             return ResultUtils.returnError("来源标识不能为空");
         }
-        if(type!=0 && type!=1 && type!=2 && type !=3){
+        Integer type0 = 0;
+        Integer type1 = 1;
+        Integer type2 = 2;
+        Integer type3 = 3;
+        if(!type.equals(type0) || !type.equals(type1) || !type.equals(type2) || !type.equals(type3)){
             return ResultUtils.returnError("参数非法");
         }
         //处理病例的id
