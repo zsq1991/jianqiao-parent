@@ -1,14 +1,14 @@
 package com.zc.common.core.utils;
  
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
  
 /**
  * @author Mr.hu
@@ -1565,7 +1565,8 @@ public class JedisUtils {
 	     */
 	    public static void returnResource(JedisPool pool, Jedis jedis) {
 	        if (jedis != null) {
-	            pool.returnResource(jedis);
+	        	jedis.close();
+	          //  pool.returnResource(jedis);
 	        }
 	    }
 
