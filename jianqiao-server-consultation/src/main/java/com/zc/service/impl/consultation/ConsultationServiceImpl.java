@@ -777,6 +777,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
                 if ("0".equals(type) || "2".equals(type)) {
                     //判断访谈和口述是否有内容
+                    logger.info("=============咨询为访谈或者口述主题==============");
                     Integer count = consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
                     if (count == 0) {
                         continue;
@@ -877,6 +878,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //取详情内容
                 Object detailContent = "";
                 if ("4".equals(type) || "6".equals(type)) {
+                    logger.info("==============咨询类型为口述内容或者分享=================");
                     Map<String, Object> map = consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                     if (null == map || map.size() == 0) {
                         detailContent = "";
@@ -975,7 +977,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 if (count == 0) {
                     continue;
                 }
-
+                logger.info("=============咨询内容不为空=================");
                 //处理时间格式
                 String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
                 //设置日期格式

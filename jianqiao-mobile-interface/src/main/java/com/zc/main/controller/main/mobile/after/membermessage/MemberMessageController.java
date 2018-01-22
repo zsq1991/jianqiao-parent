@@ -80,8 +80,8 @@ public class MemberMessageController {
      */
     @RequestMapping(value = "membermessage-list", method = RequestMethod.POST)
     @ResponseBody
-    public Result MemberMessageList(@MemberAnno Member member) {
-        Result rs = messageService.MemberMessageList(member);
+    public Result memberMessageList(@MemberAnno Member member) {
+        Result rs = messageService.memberMessageList(member);
         return rs;
     }
 

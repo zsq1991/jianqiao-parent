@@ -65,5 +65,5 @@ public interface MemberMessageService {
      * @param member
      * @return
      */
-    Result MemberMessageList(Member member);
+    Result memberMessageList(Member member);
 }
