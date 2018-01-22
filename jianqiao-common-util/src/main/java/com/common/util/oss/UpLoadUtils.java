@@ -32,7 +32,7 @@ public class UpLoadUtils {
 	public static String IMAGE_UPLOAD_PATH;
 	
 	public UpLoadUtils(){
-		UpLoadUtils.BASE_PATH =request.getRealPath("/"); 
+		UpLoadUtils.BASE_PATH =request.getSession().getServletContext().getRealPath(File.separator);
 		UpLoadUtils.IMAGE_UPLOAD_PATH =UpLoadUtils.BASE_PATH+"/upload/";
 	}
 	
@@ -205,7 +205,7 @@ public class UpLoadUtils {
 			if (urlfile.isEmpty()) {
 				return ResultUtils.returnError("上传文件失败");
 			} else {
-				String basePath = SpringMVCUtils.getRequest().getRealPath("/upload/"+module);
+				String basePath = SpringMVCUtils.getRequest().getSession().getServletContext().getRealPath("/upload/"+module);
 				File f = new File(basePath);
 				f.mkdirs();
 				String path = null;
