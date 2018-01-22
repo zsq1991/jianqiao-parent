@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.mybatis.dao.MemberMessageMapper">
+	
+	<select id="getMemberMessageList" resultType="java.util.Map" parameterType="Long" >
+		SELECT 
+		att.address,
+		m.id,
+		m.`status`,
+		m.sex AS sex_type,
+		m.nickname,
+		m.focus_num,		<!-- 关注的用户数量 -->
+		m.following_num,    <!-- 粉丝数量 -->
+		m.consulation_num,	<!-- 收藏内容数量 -->
+		m.user_type			<!-- 0普通  1认证后用户可以发布访谈 口述 -->
+		FROM `alq_member` m
+		LEFT JOIN alq_attachment att ON att.id = m.logo_attachment_id
+		WHERE m.id=#{member_id}
+	</select>
+	
+	<select id="getMemberInfo" resultType="java.util.Map" parameterType="java.util.Map" >
+		SELECT 
+		att.address,
+		m.id,
+		m.`status`,
+		m.phone,
+		m.sex AS sex_type,
+		m.nickname,
+		m.focus_num,		<!-- 关注的用户数量 -->
+		m.following_num,    <!-- 粉丝数量 -->
+		m.consulation_num,	<!-- 收藏内容数量 -->
+		m.user_type,		<!-- 0普通  1认证后用户可以发布访谈 口述 -->
+		(select  IFNULL(mf.is_delete,0)  
+			from alq_member_follow mf 
+			where  	mf.member_following_id =#{login_member_id}	 
+			and mf.member_id=#{member_id}) AS isFocus
+		FROM `alq_member` m
+		LEFT JOIN alq_attachment att ON att.id = m.logo_attachment_id
+		WHERE m.id=#{member_id}
+	</select>
+	
+	
+	<select id="getMemberByNickname" resultType="map" parameterType="map">
+		SELECT *  FROM alq_member WHERE nickname=#{nickname} 
+	</select>
+	
+	<select id="getAttamentById" resultType="com.zc.main.entity.attachment.Attachment" parameterType="String">
+		select * from alq_attachment where id=#{id}
+	</select>
+	<select id="getContentById" resultType="map" parameterType="Long">
+		SELECT m.content AS content FROM alq_member_msg AS m WHERE  m.type=2 AND m.consulatation_id=#{conid}
+	</select>
+
+	<update id="updateMemberLogoById">
+		UPDATE
+			alq_member
+		SET
+			logo_attachment_id=#{attachmentId}
+		WHERE
+			id=#{id}
+	</update>
+
+	<update id="updateMemberNickNameById">
+		UPDATE alq_member SET nickname=#{nickname} WHERE id=#{id}
+	</update>
+
+	<update id="updateMemberSexById">
+		UPDATE alq_member SET sex=#{sexId} WHERE id=#{id}
+	</update>
+</mapper>
