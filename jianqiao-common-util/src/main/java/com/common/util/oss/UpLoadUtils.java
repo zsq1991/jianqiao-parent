@@ -59,7 +59,7 @@ public class UpLoadUtils {
 		return flag;
 	}
 
-	public static Date StrToDate(String str) throws ParseException {
+	public static Date strToDate(String str) throws ParseException {
 		return new SimpleDateFormat("MM/dd/yyyy").parse(str);
 	}
 
@@ -115,13 +115,13 @@ public class UpLoadUtils {
 					newFileName = nowTimeStr + rannum + extName; // 文件重命名后的名字
 					String filePath = savePath + newFileName;
 					filePath = filePath.replace("\\", "/");
-					String img_url = "upload/" + module + "/" + newFileName;
+					String msgUrl = "upload/" + module + "/" + newFileName;
 					// 检查上传的是否是图片
 					// if (UpLoadUtils.checkIsImage(extName)) {
 					FileUtils.copyFile(fileupload, new File(filePath));
 					//alyUpload(module,newFileName,realPath+img_url,InitParamPc.getInitParam());
 					appResult.setMsg(imageName + "，上传成功");
-					resultMap.put(imageName, img_url);
+					resultMap.put(imageName, msgUrl);
 					appResult.setCode(1);
 					// } else {
 					// appResult.setError_info(imageName

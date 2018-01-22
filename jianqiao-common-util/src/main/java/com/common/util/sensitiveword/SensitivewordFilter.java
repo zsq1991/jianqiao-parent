@@ -30,7 +30,7 @@ public class SensitivewordFilter {
     public boolean isContaintSensitiveWord(String txt,int matchType){
         boolean flag = false;
         for(int i = 0 ; i < txt.length() ; i++){
-            int matchFlag = this.CheckSensitiveWord(txt, i, matchType);
+            int matchFlag = this.checkSensitiveWord(txt, i, matchType);
             if(matchFlag > 0){    //大于0存在，返回true
                 flag = true;
             }
@@ -50,7 +50,7 @@ public class SensitivewordFilter {
         List sensitiveWordList = new ArrayList<>();
 
         for(int i = 0 ; i < txt.length() ; i++){
-            int length = CheckSensitiveWord(txt, i, matchType);    //判断是否包含敏感字符
+            int length = checkSensitiveWord(txt, i, matchType);    //判断是否包含敏感字符
             if(length > 0){    //存在,加入list中
                 sensitiveWordList.add(txt.substring(i, i + length));
                 i = i + length - 1;    //减1的原因，是因为for会自增
@@ -110,7 +110,7 @@ public class SensitivewordFilter {
      * @version 1.0
      */
     @SuppressWarnings({ "rawtypes"})
-    public int CheckSensitiveWord(String txt,int beginIndex,int matchType){
+    public int checkSensitiveWord(String txt,int beginIndex,int matchType){
         boolean  flag = false;    //敏感词结束标识位：用于敏感词只有1位的情况
         int matchFlag = 0;     //匹配标识数默认为0
         char word = 0;
