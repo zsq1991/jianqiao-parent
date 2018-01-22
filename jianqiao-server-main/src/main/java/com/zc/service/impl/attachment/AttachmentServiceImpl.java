@@ -9,7 +9,7 @@ import com.zc.common.core.utils.UniqueUtils;
 import com.zc.common.core.webmvc.springmvc.SpringMVCUtils;
 import com.zc.main.entity.attachment.Attachment;
 import com.zc.main.service.attachment.AttachmentService;
-import com.zc.mybatis.dao.AttachmentMapper;
+import com.zc.mybatis.dao.Attachment.AttachmentMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
