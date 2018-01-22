@@ -1,6 +1,7 @@
 package com.zc.main.controller.main.mobile.view.shareapp;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.google.common.collect.Maps;
 import com.zc.main.service.helpdetails.HelpDetailsService;
 import com.zc.main.service.shareapp.ShareAppService;
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -189,7 +189,7 @@ public class ShareAppController {
 
                 }
                 List<Map<String, Object>> helpAuthorIdList = shareAppService.getHelpAuthorIdList(id);
-                Map<String, Object> authoruserList = new HashMap<>(16);
+                Map<String, Object> authoruserList = Maps.newHashMap();
                 List<Map<String, Object>> authorList2 = new ArrayList<>();
                 List<Map<String, Object>> user = new ArrayList<>();
                 List<List<Map<String, Object>>> deatail = new ArrayList<>();
