@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 咨询内容点赞
+ * @description: 咨询内容点赞取消赞
+ * @author:  ZhaoJunBiao
+ * @date:  2018/1/16 11:54
+ * @version: 1.0.0
  */
 @RequestMapping("mobile/after/consultationcfabulous")
 @Controller
