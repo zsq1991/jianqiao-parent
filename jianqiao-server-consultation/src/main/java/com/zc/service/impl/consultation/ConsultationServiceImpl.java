@@ -24,10 +24,10 @@ import com.zc.main.service.member.MemberService;
 import com.zc.main.service.membermessage.MemberMessageService;
 import com.zc.main.service.membermsg.MemberMsgService;
 import com.zc.main.service.membersearchconsultation.MembersearchconsultationService;
-import com.zc.mybatis.dao.Attachment.AttachmentMapper;
+import com.zc.mybatis.dao.attachment.AttachmentMapper;
 import com.zc.mybatis.dao.ConsultationAttachmentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
-import com.zc.mybatis.dao.collectionConsulation.CollectionConsulationMapper;
+import com.zc.mybatis.dao.collectionconsulation.CollectionConsulationMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ import java.util.*;
 
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class ConsultationServiceImpl implements ConsultationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsultationServiceImpl.class);
@@ -80,7 +80,7 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result deleteConsultationById(Long id, Member member) {
         try {
             logger.info("==============================进入删除资讯方法============================");
@@ -237,8 +237,18 @@ public class ConsultationServiceImpl implements ConsultationService {
         if (Objects.isNull(jsonObject)){
             return false;
         }
+        String opType0 = "0";
+        String opType2 = "2";
+        String opType5 = "5";
+        String opType02 = "0,2";
+        String opType135 = "1,3,5";
+        String opType13456 = "1,3,4,5,6";
+        String opType012 = "0,1,2";
+        String opType12 = "1,2";
+        String opType13 = "1,3";
+        String sp = ",";
         //修改
-        if("2".equals(opType)){
+        if(opType2.equals(opType)){
             Long id = jsonObject.getLong("id");
             if (Objects.isNull(id)){
                 return false;
@@ -250,24 +260,24 @@ public class ConsultationServiceImpl implements ConsultationService {
             return false;
         }
         JSONArray jsonArray = jsonObject.getJSONArray("content");
-        if (!"0,2".contains(type)){
+        if (!opType02.contains(type)){
             //内容
             if (Objects.isNull(jsonArray)){
                 return false;
             }
         }
         String title = jsonObject.getString("title");
-        if (!"5".equals(String.valueOf(type)) && StringUtils.isBlank(title)){
+        if (!opType5.equals(String.valueOf(type)) && StringUtils.isBlank(title)){
             return false;
         }
         //0是访谈主题  2口述主题
-        if ("0,2".contains(type)){
+        if (opType02.contains(type)){
             //封面主题
             String covers = jsonObject.getString("covers");
             if (StringUtils.isBlank(covers)){
                 return false;
             }
-            if(covers.split(",").length!=1){
+            if(covers.split(sp).length!=1){
                 return false;
             }
             //简介
@@ -279,7 +289,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         //对应咨询ID
         Long id = jsonObject.getLong("id");
-        if ("1,3,5".contains(type)) {
+        if (opType135.contains(type)) {
             if (Objects.isNull(id)){
                 return false;
             }
@@ -287,19 +297,19 @@ public class ConsultationServiceImpl implements ConsultationService {
         //图片类型 0 ,1,2
         String modelType =jsonObject.getString("modelType");
         //4求助 5回答  6分享
-        if ("1,3,4,5,6".contains(type)){
+        if (opType13456.contains(type)){
             if (StringUtils.isBlank(modelType)){
                 return false;
             }
 
             // 图片类型 0 ,1,2
-            if (!"0,1,2".contains(modelType)){
+            if (!opType012.contains(modelType)){
                 return false;
             }
             //封面主题
             String covers = jsonObject.getString("covers");
             //单、三图模式
-            if ("1,2".contains(modelType)){
+            if (opType12.contains(modelType)){
                 //封面主题
                 if (StringUtils.isBlank(covers)){
                     return false;
@@ -323,11 +333,11 @@ public class ConsultationServiceImpl implements ConsultationService {
                     String text = detail.getString("detail");
                     String attachmentId = detail.getString("attachmentId");
                     //文本
-                    if ("0".equals(contentType) && StringUtils.isBlank(text)){
+                    if (opType0.equals(contentType) && StringUtils.isBlank(text)){
                         return false;
                     }
                     //图片、视频
-                    if ("1,3".contains(contentType) && StringUtils.isBlank(attachmentId)){
+                    if (opType13.contains(contentType) && StringUtils.isBlank(attachmentId)){
                         return false;
                     }
                 }
@@ -345,10 +355,16 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result addConsultation(String content, Member member) {
         //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
         //topicType : 1 :图文 2：视频
+        String type02 = "0,2";
+        String type1 = "1";
+        String type5 = "5";
+        String type2 = "2";
+        String type0123 = "0,1,2,3";
+        String opType1 = "1";
         logger.info("------------进入添加资讯方法------------------");
         logger.info("content:{},member:{}",content,member);
         logger.info("判断参数是否为空");
@@ -356,7 +372,7 @@ public class ConsultationServiceImpl implements ConsultationService {
             return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
         }
         try {
-            if (!checkConsultation(content,"1")){
+            if (!checkConsultation(content,opType1)){
                 return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
             }
             //获取总的数据
@@ -367,7 +383,7 @@ public class ConsultationServiceImpl implements ConsultationService {
             //获取保存类型 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
             String type =jsonObject.getString("type");
             JSONArray contentArray = jsonObject.getJSONArray("content");
-            if (!"0,2".contains(type)){
+            if (!type02.contains(type)){
                 if (Objects.isNull(contentArray)){
                     return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
                 }
@@ -376,19 +392,19 @@ public class ConsultationServiceImpl implements ConsultationService {
             //0普通 1认证后用户可以发布访谈 口述 2:认证中
             Integer userType = member.getUserType();
             //非高级用户
-            if (!"1".equals(String.valueOf(userType)) && "0,1,2,3".contains(type)){
+            if (!type1.equals(String.valueOf(userType)) && type0123.contains(type)){
                 return ResultUtils.returnError("非高级用户,不能发布信息.");
             }
             String title=null;
             //获取保存类型 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
-            if (!"5".equals(String.valueOf(type))){
+            if (!type5.equals(String.valueOf(type))){
                 title = jsonObject.getString("title");
             }
             Consultation consultation = new Consultation();
 
             consultation.setAuthorInfo(member.getNickname());
             //给求助的评论是回答
-            if ("5".equals(type)){
+            if (type5.equals(type)){
                 //审核通过
                 consultation.setStatus(2);
                 //求助ID
@@ -448,7 +464,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                         consultationAttachment.setName(attachment.getName());
                         consultationAttachment.setConsultation(consultation.getId());
                         consultationAttachment.setAttachment(attachment.getId());
-                        if (!Objects.isNull(topicType) && "2".equals(topicType)){
+                        if (!Objects.isNull(topicType) && type2.equals(topicType)){
                             consultationAttachment.setCover(2);
                         }else{
                             consultationAttachment.setCover(1);
@@ -492,7 +508,7 @@ public class ConsultationServiceImpl implements ConsultationService {
             Map<String,Object> result = Maps.newHashMap();
             result.put("cid",consultation.getId());
             result.put("type",consultation.getType());
-            if ("5".equals(type)){
+            if (type5.equals(type)){
                 //==========================================================维护到MemberMsg表中===============================================
                 //求助的id
                 Long helpId = jsonObject.getLong("id");
@@ -526,8 +542,15 @@ public class ConsultationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result updateConsultation(String content, Member member) {
+        //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
+        //topicType : 1 :图文 2：视频
+        String type2 = "2";
+        String type5 = "5";
+        String type02 = "0,2";
+        String type13 = "1,3";
+        int b = 3;
         try {
             logger.info("------------------------------进入修改资讯方法---------------------------");
             logger.info("content:{},member:{}",content,member);
@@ -535,7 +558,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
             }
             try {
-                if (!checkConsultation(content,"2")){
+                if (!checkConsultation(content,type2)){
                     return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
                 }
                 JSONObject jsonObject = JSONObject.parseObject(content);
@@ -554,19 +577,19 @@ public class ConsultationServiceImpl implements ConsultationService {
                 String type =jsonObject.getString("type");
 
                 JSONArray contentArray = jsonObject.getJSONArray("content");
-                if (!"0,2".contains(type)){
+                if (!type02.contains(type)){
                     if (Objects.isNull(contentArray)){
                         return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
                     }
                 }
                 String title=null;
-                if (!"5".equals(String.valueOf(type))){
+                if (!type5.equals(String.valueOf(type))){
                     title = jsonObject.getString("title");
                 }
                 Integer cstatus = consultation.getStatus();
                 logger.info("------------------------------驳回 编辑主题---------------------------");
                 //驳回 编辑主题
-                if (Objects.equals(cstatus,3) && "0,2".contains(String.valueOf(consultation.getType()))){
+                if (Objects.equals(cstatus,b) && type02.contains(String.valueOf(consultation.getType()))){
                     logger.info("==========================修改主题的内容================================");
                     //修改主题的内容
                     consultationMapper.updateConsultationByConsultation(consultation.getId());
@@ -590,14 +613,14 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
                 logger.info("=================驳回 编辑内容0未发布  1审核中 2已发布 3驳回====================");
                 //驳回 编辑内容0未发布  1审核中 2已发布 3驳回 @wudi
-                if(Objects.equals(cstatus,3) && "1,3".contains(String.valueOf(consultation.getType()))){
+                if(Objects.equals(cstatus,b) && type13.contains(String.valueOf(consultation.getType()))){
                     if (consultation.getConsultationId()!=0) {
                         Consultation findOne = consultationMapper.findOne(consultation.getConsultationId());
                         if (findOne==null) {
                             return ResultUtils.returnError("主题数据错误");
                         }
                         Integer status=	findOne.getStatus()==null?0:findOne.getStatus();
-                        if(Objects.equals(status,3)){
+                        if(Objects.equals(status,b)){
                             logger.info("=================修改主题===================");
                             //修改主题
                             consultationMapper.updateConsultationStatusById(consultation.getConsultationId());
@@ -614,7 +637,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
 
                 consultation.setAuthorInfo(member.getNickname());
-                if ("5".equals(type)){
+                if (type5.equals(type)){
                     //审核通过
                     consultation.setStatus(2);
                 } else {
@@ -701,7 +724,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
                 Map<String,Object> result = Maps.newHashMap();
                 result.put("cid",consultation.getId());
-                if ("5".equals(type)){
+                if (type5.equals(type)){
                     return ResultUtils.returnSuccess("发布成功",result);
                 }
                 logger.info("===============结束修改资讯方法========================");
@@ -731,7 +754,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findconsultationinfo(Integer page, Integer rows, String checktype) {
         logger.info("====================APP首页  内容根据关键词搜索开始===========");
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         if (null == checktype || "".equals(checktype)) {
             return ResultUtils.returnError("类型不能为空");
@@ -755,6 +778,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
                 if ("0".equals(type) || "2".equals(type)) {
                     //判断访谈和口述是否有内容
+                    logger.info("=============咨询为访谈或者口述主题==============");
                     Integer count = consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
                     if (count == 0) {
                         continue;
@@ -855,6 +879,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //取详情内容
                 Object detailContent = "";
                 if ("4".equals(type) || "6".equals(type)) {
+                    logger.info("==============咨询类型为口述内容或者分享=================");
                     Map<String, Object> map = consultationAttachmentService.findDetailContentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                     if (null == map || map.size() == 0) {
                         detailContent = "";
@@ -877,7 +902,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findConsultationInfoHelp(Integer page, Integer rows) {
         logger.info("===========APP求助  内容根据关键词搜索开始============");
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         //查询资讯列表
         param.put("startIndex", (page - 1) * rows);
@@ -933,7 +958,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findConsultationInfoPeople(Integer page, Integer rows, String checktype) {
         logger.info("============APP民间高手  内容根据关键词搜索开始==============");
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         if (null == checktype || "".equals(checktype)) {
             return ResultUtils.returnError("类型不能为空");
@@ -953,7 +978,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 if (count == 0) {
                     continue;
                 }
-
+                logger.info("=============咨询内容不为空=================");
                 //处理时间格式
                 String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
                 //设置日期格式
@@ -1062,7 +1087,10 @@ public class ConsultationServiceImpl implements ConsultationService {
         return consultationAttachmentService.getConsultationAttachmentByConsultation(type, member, page, size);
     }
     /**
-     * 获取父级专题信息
+     * @description方法说明 获取父级专题信息
+     * @author 王鑫涛
+     * @date  15:17  2018/1/22
+     * @version 版本号
      * @param type  资讯类型
      * @param member    用户
      * @param page  当前页数
@@ -1071,6 +1099,9 @@ public class ConsultationServiceImpl implements ConsultationService {
      */
     @Override
     public Result getParentConsultation(String type, Member member, Integer page, Integer size) {
+        //type = 0是访谈主题 2口述主题 1访谈内容 3口述内容 5回答  4求助 6分享
+        //topicType : 1 :图文 2：视频
+        String type1 = "1";
         logger.info("==============进入获取资讯列表方法===============");
         Map<String,Object> map = Maps.newHashMap();
         map.put("mid",member.getId());
@@ -1082,7 +1113,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         List<Map<String,Object>> result ;
         //访谈
         try {
-            if ("1".equals(type)){
+            if (type1.equals(type)){
                 map.put("type","0");
                 result = consultationAttachmentService.getConsultationAttachmentByConsultationType(map);
             }  else {
@@ -1105,7 +1136,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findConsultationAllByTouxiang(Integer page, Integer rows, String memberId, String checktype) {
         logger.info("==========访谈详情页,点用户头像查看访谈开始==========");
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         if (null == memberId || "".equals(memberId)) {
             return ResultUtils.returnError("用户id不能为空");
@@ -1258,7 +1289,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public Result findConsultationAllByMember(Integer page, Integer rows, Member member, String checktype) {
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
         Long memberId=member.getId();
         if(null==memberId){
             return ResultUtils.returnError("用户未登录，请先登录");
@@ -1387,7 +1418,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result checkIsUserType(String memberId) {
 
-        Map<String, Object> memberMap=new HashMap<>();
+        Map<String, Object> memberMap= Maps.newHashMap();
 
         if (null == memberId || "".equals(memberId)) {
             return ResultUtils.returnError("用户id不能为空");
@@ -1428,7 +1459,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findConsultationAllByFive(Integer page, Integer rows, String typeId) {
 
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         if (null == typeId || "".equals(typeId)) {
             return ResultUtils.returnError("资讯id不能为空");
@@ -1961,7 +1992,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid, String checktype) {
         logger.info("APP首页搜索传入参数 ==》 page:" + page + " rows: " + rows + " info: " + info + " phone: " + phone + " uuid: " + uuid + " checktype: " + checktype);
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
         try {
             if (!"1".equals(phone) && !"1".equals(uuid) && StringUtils.isNotBlank(info)) {//用户已登录且搜索不为空 保存记录
 
@@ -1975,7 +2006,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 if (StringUtils.isNotBlank(info)) {//关键词不为空则保存历史关键词
 
                     //查询当前用户已有的搜索历史
-                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    HashMap<String, Object> map = Maps.newHashMap();
                     map.put("memberId", id);
                     map.put("info", info);
                     Integer searchConsultationCount = membersearchconsultationService.getSearchConsultationByInfo(map);

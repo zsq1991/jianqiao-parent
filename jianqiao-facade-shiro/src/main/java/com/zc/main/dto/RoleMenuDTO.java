@@ -51,4 +51,13 @@ public class RoleMenuDTO implements Serializable {
     public void setCreaterId(Long createrId) {
         this.createrId = createrId;
     }
+
+    @Override
+    public String toString() {
+        return "RoleMenuDTO{" +
+                "roleId=" + roleId +
+                ", menuIds=" + menuIds +
+                ", createrId=" + createrId +
+                '}';
+    }
 }

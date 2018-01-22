@@ -1,5 +1,6 @@
 package com.common.util.oss;
 
+import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.common.core.utils.UniqueUtils;
@@ -18,8 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Set;
 
 public class UpLoadUtils {
 	
@@ -32,7 +36,7 @@ public class UpLoadUtils {
 	public static String IMAGE_UPLOAD_PATH;
 	
 	public UpLoadUtils(){
-		UpLoadUtils.BASE_PATH =request.getRealPath("/"); 
+		UpLoadUtils.BASE_PATH =request.getSession().getServletContext().getRealPath(File.separator);
 		UpLoadUtils.IMAGE_UPLOAD_PATH =UpLoadUtils.BASE_PATH+"/upload/";
 	}
 	
@@ -82,7 +86,7 @@ public class UpLoadUtils {
 		String realPath = BASE_PATH;//实际路径
 		String savePath = IMAGE_UPLOAD_PATH + module + "/";// 上传目录
 		Set<Entry<String, String>> set = imageMap.entrySet();
-		Map<String, String> resultMap = new HashMap<String, String>();
+		Map<String, String> resultMap = Maps.newHashMap();
 		for (Entry<String, String> entry : set) {
 			String imageName = entry.getKey();
 			String imageStr = entry.getValue();
@@ -205,7 +209,7 @@ public class UpLoadUtils {
 			if (urlfile.isEmpty()) {
 				return ResultUtils.returnError("上传文件失败");
 			} else {
-				String basePath = SpringMVCUtils.getRequest().getRealPath("/upload/"+module);
+				String basePath = SpringMVCUtils.getRequest().getSession().getServletContext().getRealPath("/upload/"+module);
 				File f = new File(basePath);
 				f.mkdirs();
 				String path = null;

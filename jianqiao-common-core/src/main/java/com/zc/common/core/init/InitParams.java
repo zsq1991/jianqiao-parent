@@ -1,16 +1,17 @@
 package com.zc.common.core.init;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
-import javax.annotation.PostConstruct;
+import com.google.common.collect.Maps;
 import com.zc.common.core.utils.CommonUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * 初始化银联的参数
@@ -42,7 +43,7 @@ public class InitParams {
 
 
 
-		Map<String,String> map=new HashMap<String,String>();
+		Map<String,String> map= Maps.newHashMap();
 		Iterator<Object> keys = properties.keySet().iterator();
 		while(keys.hasNext()) {
 			String key= (String)keys.next();

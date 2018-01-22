@@ -27,4 +27,43 @@ public interface MemberMessageService {
      * @return
      */
     Map<String,Object> getContentById(Long conid);
+
+    /**
+     * 修改头像
+     * @author zhaoshuaiqi
+     * @data 2018/1/18
+     * @param attachmentId  头像对应的id
+     * @param member 用户
+     * @return
+     */
+    Result updateMemberLogo(Long attachmentId, Member member);
+
+    /**
+     * 修改昵称
+     * @author zhaoshuaiqi
+     * @data 2018/1/18
+     * @param nickname 昵称
+     * @param member 用户
+     * @return
+     */
+    Result updateMemberNickname(String nickname, Member member);
+
+    /**
+     * 修改性别
+     * @author zhaoshuaiqi
+     * @data 2018/1/18
+     * @param sexId 性别对应的值
+     * @param member 用户
+     * @return
+     */
+    Result updateMembersex(Integer sexId, Member member);
+
+    /**
+     * 用户个人信息获取
+     * @author zhaoshuaiqi
+     * @data 2018/1/18
+     * @param member
+     * @return
+     */
+    Result memberMessageList(Member member);
 }

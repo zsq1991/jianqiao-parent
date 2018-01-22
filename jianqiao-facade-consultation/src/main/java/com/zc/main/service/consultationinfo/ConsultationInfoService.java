@@ -1,9 +1,9 @@
-package com.zc.main.service.consultationInfo;
+package com.zc.main.service.consultationinfo;
 
 import com.zc.common.core.result.Result;
 
 /**
- * @package : com.zc.main.service.consultationInfo
+ * @package : com.zc.main.service.consultationinfo
  * @progect : jianqiao-parent
  * @Description :
  * @Created by :ZhaoJunBiao

@@ -1,4 +1,4 @@
-package com.zc.service.impl.consultationInfo;
+package com.zc.service.impl.consultationinfo;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.member.Member;
-import com.zc.main.service.consultationInfo.ConsultationInfoService;
+import com.zc.main.service.consultationinfo.ConsultationInfoService;
 import com.zc.main.service.member.MemberService;
 import com.zc.mybatis.dao.ConsultationCommentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
@@ -21,14 +21,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @package : com.zc.service.impl.consultationInfo
+ * @package : com.zc.service.impl.consultationinfo
  * @progect : jianqiao-parent
  * @Description :
  * @Created by :ZhaoJunBiao
  * @Creation Date ：2018年01月17日16:59
  */
 @Service(version = "1.0.0",interfaceClass =ConsultationInfoService.class )
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 @Component
 public class ConsultationInfoServiceImpl implements ConsultationInfoService {
 
@@ -56,12 +56,13 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
      */
     @Override
     public Result getConsultationDetail(String id, String uuid, String phone, Integer page, Integer size) {
+        log.info("首页获取咨询评论列表接口调用，方法入参{"+ "咨询id:"+id+",用户phone："+phone+"}");
         String loginuser = "0";
         if (StringUtils.isBlank(id)) {
             return ResultUtils.returnError("参数异常");
         }
         try {
-            Map<String, Object> result = new HashMap<>();
+            Map<String, Object> result = Maps.newHashMap();
             Long memberId = 0L;
             if (StringUtils.isNotBlank(uuid) && StringUtils.isNotBlank(phone)) {
                 Map<String, Object> paramMap = Maps.newHashMap();
@@ -99,31 +100,32 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
 
             commentList.forEach(e -> {
                 //获取时间,当天时间保存是时间，不是当天保存的时时间
-
-                if (!Objects.isNull(e.get("created_time")) && e.get("created_time").toString().contains(dateString)) {
-                    e.put("created_time", (e.get("created_time").toString().substring(11, 16)));
+                Object createdTime = e.get("created_time");
+                if (!Objects.isNull(createdTime) &&createdTime.toString().contains(dateString)) {
+                    e.put("created_time", (createdTime.toString().substring(11, 16)));
                 } else {
-                    if (!Objects.isNull(e.get("created_time"))) {
-                        e.put("created_time", (e.get("created_time").toString().substring(0, 11)));
+                    if (!Objects.isNull(createdTime)) {
+                        e.put("created_time", (createdTime.toString().substring(0, 11)));
                     }
 
                 }
-
-                if (!Objects.isNull(e.get("id"))) {
+                Object commentId = e.get("id");
+                if (!Objects.isNull(commentId)) {
                     //子类评论展示2条
                     //获取前2条的数据
                     List arr = new ArrayList();
                     //顶级品论的id
-                    List<Map> commentSonIdByPid = consultationCommentMapper.getCommentSonIdByPid((Long) e.get("id"));
+                    List<Map> commentSonIdByPid = consultationCommentMapper.getCommentSonIdByPid(Long.valueOf(commentId.toString()));
                     if (commentSonIdByPid != null && commentSonIdByPid.size() > 0) {
 
                         for (int i = 0; commentSonIdByPid.size() > i; i++) {
                             Map<String, Object> sonCommentList = consultationCommentMapper.getSonCommentList((Long) commentSonIdByPid.get(i).get("id"));
-                            if (!Objects.isNull(sonCommentList) && !Objects.isNull(sonCommentList.get("created_time")) && sonCommentList.get("created_time").toString().contains(dateString)) {
-                                sonCommentList.put("created_time", (sonCommentList.get("created_time").toString().substring(11, 16)));
+                            Object sonCommentListCreatedTime = sonCommentList.get("created_time");
+                            if (!Objects.isNull(sonCommentList) && !Objects.isNull(sonCommentListCreatedTime) && sonCommentListCreatedTime.toString().contains(dateString)) {
+                                sonCommentList.put("created_time", (sonCommentListCreatedTime.toString().substring(11, 16)));
                             } else {
                                 if (!Objects.isNull(sonCommentList) && !Objects.isNull(sonCommentList.get("created_time"))) {
-                                    sonCommentList.put("created_time", (sonCommentList.get("created_time").toString().substring(0, 11)));
+                                    sonCommentList.put("created_time", (sonCommentListCreatedTime.toString().substring(0, 11)));
                                 }
                             }
                             arr.add(sonCommentList);
@@ -136,9 +138,11 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             });
             result.put("commentList", commentList);
             result.put("loginuser", loginuser);
+            log.info("首页获取咨询评论列表接口调用成功");
             return ResultUtils.returnSuccess("成功", result);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            log.info("首页获取咨询评论列表接口调用失败，方法入参{"+ "咨询id:"+id+",用户phone："+phone+"}");
             return ResultUtils.returnError("接口调用失败");
         }
     }
@@ -189,21 +193,23 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             if (topcommentdetail == null) {
                 return ResultUtils.returnError("该评论不存在或已删除");
             }
-            if (topcommentdetail.get("member_id") == null) {
+            Object topcommentdetailMemberId = topcommentdetail.get("member_id");
+            if (topcommentdetailMemberId == null) {
                 return ResultUtils.returnError("数据异常,评论信息未关联用户信息");
             }
             //截取时间
-            if (!Objects.isNull(topcommentdetail.get("created_time")) && topcommentdetail.get("created_time").toString().contains(dateString)) {
-                topcommentdetail.put("created_time", (topcommentdetail.get("created_time").toString().substring(11, 16)));
+           Object topcommentdetailCreateTime =  topcommentdetail.get("created_time");
+            if (!Objects.isNull(topcommentdetailCreateTime) && topcommentdetailCreateTime.toString().contains(dateString)) {
+                topcommentdetail.put("created_time", (topcommentdetailCreateTime.toString().substring(11, 16)));
             } else {
-                if (!Objects.isNull(topcommentdetail.get("created_time"))) {
-                    topcommentdetail.put("created_time", (topcommentdetail.get("created_time").toString().substring(0, 11)));
+                if (!Objects.isNull(topcommentdetailCreateTime)) {
+                    topcommentdetail.put("created_time", (topcommentdetailCreateTime.toString().substring(0, 11)));
                 }
 
             }
             //标示符，评论内容是否为当前用户 0不是，1是
             topcommentdetail.put("self", 0);
-            if (Long.valueOf(topcommentdetail.get("member_id").toString()) == memberId.longValue()) {
+            if (Long.valueOf(topcommentdetailMemberId.toString()) == memberId.longValue()) {
                 topcommentdetail.put("self", 1);
             }
             params.put("startIndex", (page - 1) * size);
@@ -214,16 +220,15 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
 
             for (Map<String, Object> after : afterlist) {
                 //获取时间,当天时间保存是时间，不是当天保存的是时间
-                if (!Objects.isNull(after.get("created_time")) && after.get("created_time").toString().contains(dateString)) {
-                    after.put("created_time", (after.get("created_time").toString().substring(11, 16)));
+                Object afterCreatedTime = after.get("created_time");
+                if (!Objects.isNull(afterCreatedTime) && afterCreatedTime.toString().contains(dateString)) {
+                    after.put("created_time", (afterCreatedTime.toString().substring(11, 16)));
                 } else {
                     if (!Objects.isNull(after.get("created_time"))) {
-                        after.put("created_time", (after.get("created_time").toString().substring(0, 11)));
+                        after.put("created_time", (afterCreatedTime.toString().substring(0, 11)));
                     }
 
                 }
-                after.get("created_time").toString();
-                String aftercontent = after.get("content").toString();
                 if (after.get("member_id") == null) {
                     return ResultUtils.returnError("数据异常,评论信息未关联用户信息");
                 }
@@ -238,6 +243,7 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             return ResultUtils.returnSuccess("查询成功", topcommentdetail);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            log.info("回复列表接口调用异常");
             return ResultUtils.returnError("查询失败");
         }
 

@@ -1,6 +1,7 @@
 package com.zc.service.impl.membermsg;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.consultationattachment.ConsultationAttachment;
@@ -28,7 +29,7 @@ import java.util.*;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = MemberMsgService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class MemberMsgServiceImpl implements MemberMsgService{
 
 	private static Logger logger = LoggerFactory.getLogger(MemberMsgServiceImpl.class);
@@ -38,7 +39,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 
 
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(rollbackFor=Exception.class)
 	public int insert(MemberMsg memberMsg) {
 		return memberMsgMapper.insert(memberMsg);
 	}
@@ -57,7 +58,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	 * @return
 	 */
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(rollbackFor=Exception.class)
 	public Result getMemberMsgReadInform(Member members) {
 		logger.info("==========================进入读取通知信息的接口======================");
 		Result result = new Result();
@@ -159,7 +160,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	 * @return
 	 */
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(rollbackFor=Exception.class)
 	public Result getReadInformList(Member members, Long msgId, Integer type) {
 		logger.info("====================进入阅读通知信息方法=====================================");
 		// TODO Auto-generated method stub
@@ -262,6 +263,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	public Result getInformList(Member member, Integer page, Integer rows, Integer type) {
 		logger.info("========进入系统消息======通知方法===================");
 		Result result = new Result();
+		boolean consultationb = false;
+		boolean consultationComment = false;
 		// TODO Auto-generated method stub
 
 		if (member == null) {
@@ -318,9 +321,16 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Long comId = (Long) maps.get("comId");
 						Long memId = (Long) maps.get("memId");
 						Long mLId = (Long) maps.get("mLId");
-						Map map = new HashMap();
+						Map map = Maps.newHashMap();
 						// 评论点赞
-						if ((conId == null || conId == 0) && comId != null && comId != 0) {
+
+						if (conId == null || conId == 0){
+							consultationb = true;
+						}
+						if(comId != null && comId != 0){
+							consultationComment = true;
+						}
+						if (consultationb && consultationComment) {
 							logger.info("==================获取评论资讯赞====================");
 							List<Map> mapsss = memberMsgMapper.getCommentSupportInformList(comId, memId, mLId);
 							if (mapsss.size() == 0) {
@@ -349,7 +359,14 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 								map.put("date", chidcreatedTime);
 							}
 							// 资讯点赞
-						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {
+
+							if (comId == null || comId == 0){
+								consultationb = true;
+							}
+							if(conId != null && conId != 0){
+								consultationComment = true;
+							}
+						} else if (consultationb && consultationComment) {
 							// ===============================================//0是访谈主题
 							// 1访谈内容 2口述主题 3口述内容 4求助 5回答 6分享==========
 							logger.info("-------------获取资讯赞-----------------");
@@ -427,10 +444,16 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Long comId = (Long) map2.get("comId");
 						Long memId = (Long) map2.get("memId");
 						Long mLId = (Long) map2.get("mLId");
-						Map map = new HashMap();
+						Map map = Maps.newHashMap();
 						String message = (String) map2.get("message");
 						// 评论的回复
-						if ((conId == null || conId == 0) && comId != null && comId != 0) {
+						if (conId == null || conId == 0){
+							consultationb = true;
+						}
+						if(comId != null && comId != 0){
+							consultationComment = true;
+						}
+						if (consultationb && consultationComment) {
 							logger.info("---------------获取评论回复--------------");
 							List<Map> maps = memberMsgMapper.getCommentDiscussInformList(comId, memId, mLId);
 							if (maps.size() == 0) {
@@ -535,7 +558,13 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 								map.put("date", chidcreatedTime);
 							}
 							// 对求助的评论就是回答
-						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {
+							if (comId == null || comId == 0){
+								consultationb = true;
+							}
+							if(conId != null && conId != 0){
+								consultationComment = true;
+							}
+						} else if (consultationb && consultationComment) {
 							logger.info("-----------------------获取回答者的数据-------------------");
 							List<Map> maps = memberMsgMapper.getReplyDiscussInformList(conId, memId, mLId);
 							if (maps.size() == 0) {

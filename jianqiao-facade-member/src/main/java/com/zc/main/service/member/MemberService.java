@@ -99,4 +99,11 @@ public interface MemberService {
 	 * @return
 	 */
     Result authMember(String name, String card, String phone, String code, String pics, Member member, String type);
+
+	/**用户个人信息获取【已关注或未关注】
+	 * @Created by  : zhaoshuaiqi
+	 * @param member_id
+	 * @return
+	 */
+	Result memberInfo(Member member, Long member_id);
 }

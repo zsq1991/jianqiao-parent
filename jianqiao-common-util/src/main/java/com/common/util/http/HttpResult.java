@@ -9,6 +9,7 @@
  */
 package com.common.util.http;
 
+import com.google.common.collect.Maps;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 
@@ -69,7 +70,7 @@ public class HttpResult {
 	 * @param headers
 	 */
 	public void setHeaders(Header[] headers) {
-		headerAll = new HashMap<String, Header>();
+		headerAll = Maps.newHashMap();
 		for (Header header : headers) {
 			headerAll.put(header.getName(), header);
 		}

@@ -92,7 +92,7 @@ public class UserTServiceImpl implements IUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Result updatePassword(User user) {
         try {
         	logger.info("修改密码入参,user={}",JSON.toJSONString(user));
@@ -112,7 +112,7 @@ public class UserTServiceImpl implements IUserService {
     }
 
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result updatePass(UpdatePassDTO updatePassDto) {
         try {
@@ -139,7 +139,7 @@ public class UserTServiceImpl implements IUserService {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result updateUser(User user) {
         try {
@@ -157,7 +157,7 @@ public class UserTServiceImpl implements IUserService {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result frozenOrEnableUser(User user) {
     	try {
@@ -171,7 +171,7 @@ public class UserTServiceImpl implements IUserService {
        
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result deleteUser(User user) {
         try {
@@ -204,7 +204,7 @@ public class UserTServiceImpl implements IUserService {
         return ResultUtil.getResult(PermissionEnum.Code.SUCCESS, userRoleMapper.selectUserRoleByUserId(userId));
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result updateUserRole(UpdateUserRoleDTO updateUserRoleDto) {
     	try {

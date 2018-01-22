@@ -1,4 +1,4 @@
-package com.zc.common.config.redisCache;
+package com.zc.common.config.rediscache;
 
 
 /**

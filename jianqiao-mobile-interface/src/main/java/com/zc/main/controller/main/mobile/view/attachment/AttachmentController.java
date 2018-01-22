@@ -46,9 +46,8 @@ public class AttachmentController {
             @RequestParam(value="type",defaultValue="0",required=false)String type
     ){
 
-        String[] extendFile=new String[] { ".png", ".jpg", ".jpeg", ".bmp", ".gif" ,".rm",".avi",".mp4",".3gp"};
+        String[] extendFile=new String[] { ".png", ".jpg", ".jpeg", ".bmp", ".gif" ,".rm",".avi",".mp4",".3gp",".wma",".rmvb",".flash",".mid"};
         String module= UploadFileName.MEMBER_HEADIMG.getName();
-
         return attachmentService.mobileUploadAttachment(urlfile,new Object[]{attachmentService,"saveAttachment"},module,extendFile,type);
     }
 }

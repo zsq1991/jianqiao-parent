@@ -1,6 +1,7 @@
 package com.zc.main.controller.main.mobile.view.login;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.main.service.login.LoginService;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -42,7 +42,7 @@ public class MemberLoginController {
             @RequestParam(value = "password") String password,
             HttpServletRequest request) {
         String agent = request.getHeader("User-Agent");
-        Map<String,Object> params = new HashMap<String,Object>();
+        Map<String,Object> params = Maps.newHashMap();
         params.put("phone",phone);
         params.put("password",password);
         params.put("agent",agent);
@@ -66,7 +66,7 @@ public class MemberLoginController {
             @RequestParam(value = "phone") String phone,
             @RequestParam(value = "code") String code,
             HttpServletRequest request){
-        Map<String,Object> params = new HashMap<String,Object>();
+        Map<String,Object> params = Maps.newHashMap();
         params.put("phone",phone);
         params.put("code",code);
         Result result = loginService.loginPhoneAndCode(params);

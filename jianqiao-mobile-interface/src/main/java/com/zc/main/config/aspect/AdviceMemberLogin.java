@@ -1,6 +1,7 @@
 package com.zc.main.config.aspect;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.google.common.collect.Maps;
 import com.zc.common.core.annotation.MemberAnno;
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
@@ -20,7 +21,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -58,7 +58,7 @@ public class AdviceMemberLogin {
     	Result result = new Result();
     	String phone = request.getParameter("phone");
     	String uuid = request.getParameter("uuid");
-    	Map<String, Object> params = new HashMap<String, Object>();
+    	Map<String, Object> params = Maps.newHashMap();
 		params.put("phone", phone);
 		params.put("uuid", uuid);
 		if(phone==null|| "".equals(phone) ||uuid==null|| "".equals(uuid)){

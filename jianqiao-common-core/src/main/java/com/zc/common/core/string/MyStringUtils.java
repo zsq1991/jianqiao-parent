@@ -1,12 +1,12 @@
 package com.zc.common.core.string;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.StrSubstitutor;
 
 /**
  * String工具类
@@ -78,8 +78,21 @@ public class MyStringUtils {
 				sb.append("\\/");
 				break;
 			default:
-				if ((ch >= '\u0000' && ch <= '\u001F') || (ch >= '\u007F' && ch <= '\u009F')
-						|| (ch >= '\u2000' && ch <= '\u20FF')) {
+				boolean chb = false;
+				/*if((ch >= '\u0000' && ch <= '\u001F') || (ch >= '\u007F' && ch <= '\u009F')
+						|| (ch >= '\u2000' && ch <= '\u20FF')){
+					chb = true;
+				}*/
+				if (ch >= '\u0000' && ch <= '\u001F'){
+					chb = true;
+				}
+				if (ch >= '\u007F' && ch <= '\u009F'){
+					chb = true;
+				}
+				if (ch >= '\u2000' && ch <= '\u20FF'){
+					chb = true;
+				}
+				if (chb) {
 					String ss = Integer.toHexString(ch);
 					sb.append("\\u");
 					for (int k = 0; k < 4 - ss.length(); k++) {

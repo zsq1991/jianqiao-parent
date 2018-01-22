@@ -1,12 +1,11 @@
 package com.zc.common.core.compile;
 
-import java.util.Arrays;
+import org.apache.commons.lang.StringUtils;
 
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
-
-import org.apache.commons.lang.StringUtils;
+import java.util.Arrays;
 
 /**
  * 动态编译工具
@@ -35,7 +34,7 @@ public class CompileUtils {
 	 * @param fileName .class文件的存放位置 只要指定目录文件的路径即可 如果文件名为空就是默认的
 	 * @return
 	 */
-	public static boolean compileStringJava(StringObject so, String fileName) {
+	public static Boolean compileStringJava(StringObject so, String fileName) {
 
 		// 通过系统工具提供者获得动态编译器
 		javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();

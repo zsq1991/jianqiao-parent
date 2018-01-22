@@ -2,6 +2,7 @@ package com.zc.service.impl.collectioncontent;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.google.common.collect.Maps;
 import com.zc.common.core.date.DateUtils;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
@@ -33,7 +34,7 @@ import java.util.*;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = CollectionContentService.class)
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor=Exception.class)
 public class CollectionContentServiceImpl implements CollectionContentService {
 
     private static Logger logger = LoggerFactory.getLogger(CollectionContentServiceImpl.class);
@@ -55,7 +56,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
         logger.info("获取收藏列表传入参数==》 member：" + member.toString() + " page：" + page + "rows:" + rows);
         List<Map<String, Object>> consultationInfoList = new ArrayList<Map<String, Object>>();
         try {
-            Map<String, Object> param = new HashMap<String, Object>();
+            Map<String, Object> param = Maps.newHashMap();
             param.put("id", member.getId());
             param.put("startIndex", page);
             param.put("endIndex", rows);
@@ -215,8 +216,9 @@ public class CollectionContentServiceImpl implements CollectionContentService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(rollbackFor=Exception.class)
     public Result collectionContent(Member member, Long consultationId) {
+        logger.info("收藏内容传入参数==》member:"+member.toString()+ " consultationId:" +consultationId);
         Result result = new Result();
         if(Objects.isNull(member.getId())||Objects.isNull(consultationId)){
             return ResultUtils.returnError("参数为空");
@@ -361,6 +363,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
             logger.error(e.getMessage(),e);
             return ResultUtils.returnError("收藏内容异常");
         }
+        logger.info("成功");
         return result;
     }
 }

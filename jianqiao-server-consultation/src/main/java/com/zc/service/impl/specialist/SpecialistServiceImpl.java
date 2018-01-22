@@ -1,6 +1,7 @@
 package com.zc.service.impl.specialist;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.specialists.Specialist;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Component
 @Service(version = "1.0.0", interfaceClass = SpecialistService.class)
-@Transactional(readOnly=true)
+@Transactional(readOnly=true,rollbackFor = Exception.class)
 public class SpecialistServiceImpl implements SpecialistService {
 
     @Autowired
@@ -32,7 +32,7 @@ public class SpecialistServiceImpl implements SpecialistService {
     @Override
     public Result getSpecialistDetail(Long specialistId) {
 
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String,Object> map = Maps.newHashMap();
         //专家信息
         Map<String, Object> specialistDetail = specialistMapper.getSpecialistDetail(specialistId);
         if(specialistDetail == null){
@@ -42,7 +42,7 @@ public class SpecialistServiceImpl implements SpecialistService {
             List<String> honorAddressList = specialistMapper.getDoctorAttachment(new Long(specialistDetail.get("id").toString()));
             map.put("specialistInfo",specialistDetail);
             map.put("honorAddress",honorAddressList);
-            Map<String,Object> consultatoin = new HashMap<String,Object>();
+            Map<String,Object> consultatoin = Maps.newHashMap();
             if(specialistDetail.get("office") != null && specialistDetail.get("office") != ""){
                 List<Specialist> consultatoinList = specialistMapper.queryConsultationList(specialistDetail.get("office").toString());
                 //专家相关推荐列表
@@ -55,7 +55,7 @@ public class SpecialistServiceImpl implements SpecialistService {
 
     @Override
     public List<Map<String, Object>> getSpecialistData(String dataType) {
-        Map<String,Object> param = new HashMap<String,Object>();
+        Map<String,Object> param = Maps.newHashMap();
         if("0".equals(dataType)){
             Integer specialistCount = specialistMapper.getSpecialistCount();
             param.put("specialistCount",specialistCount);
@@ -67,7 +67,7 @@ public class SpecialistServiceImpl implements SpecialistService {
 
     @Override
     public List<Map<String, Object>> getDoctorData(String dataType) {
-        Map<String,Object> param = new HashMap<String,Object>();
+        Map<String,Object> param = Maps.newHashMap();
         if("0".equals(dataType)){
             Integer doctorCount = specialistMapper.getDoctorCount();
             param.put("doctorCount",doctorCount);
