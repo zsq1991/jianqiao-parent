@@ -179,6 +179,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
                     return ResultUtils.returnError("删除资讯信息失败");
                 }
                 //主题的时候删除关联的收藏
@@ -218,6 +219,7 @@ public class ConsultationServiceImpl implements ConsultationService {
             return ResultUtils.returnSuccess("删除成功");
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
             return ResultUtils.returnError("删除失败");
         }
     }
@@ -702,6 +704,7 @@ public class ConsultationServiceImpl implements ConsultationService {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
             return ResultUtils.returnError(StatusCodeEnums.ERROR.getMsg());
         }
     }
