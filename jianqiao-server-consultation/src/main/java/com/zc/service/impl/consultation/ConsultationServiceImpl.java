@@ -753,7 +753,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findconsultationinfo(Integer page, Integer rows, String checktype) {
         logger.info("====================APP首页  内容根据关键词搜索开始===========");
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         if (null == checktype || "".equals(checktype)) {
             return ResultUtils.returnError("类型不能为空");
@@ -901,7 +901,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findConsultationInfoHelp(Integer page, Integer rows) {
         logger.info("===========APP求助  内容根据关键词搜索开始============");
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         //查询资讯列表
         param.put("startIndex", (page - 1) * rows);
@@ -957,7 +957,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findConsultationInfoPeople(Integer page, Integer rows, String checktype) {
         logger.info("============APP民间高手  内容根据关键词搜索开始==============");
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         if (null == checktype || "".equals(checktype)) {
             return ResultUtils.returnError("类型不能为空");
@@ -1135,7 +1135,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findConsultationAllByTouxiang(Integer page, Integer rows, String memberId, String checktype) {
         logger.info("==========访谈详情页,点用户头像查看访谈开始==========");
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         if (null == memberId || "".equals(memberId)) {
             return ResultUtils.returnError("用户id不能为空");
@@ -1288,7 +1288,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public Result findConsultationAllByMember(Integer page, Integer rows, Member member, String checktype) {
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
         Long memberId=member.getId();
         if(null==memberId){
             return ResultUtils.returnError("用户未登录，请先登录");
@@ -1417,7 +1417,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result checkIsUserType(String memberId) {
 
-        Map<String, Object> memberMap=new HashMap<>();
+        Map<String, Object> memberMap= Maps.newHashMap();
 
         if (null == memberId || "".equals(memberId)) {
             return ResultUtils.returnError("用户id不能为空");
@@ -1458,7 +1458,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result findConsultationAllByFive(Integer page, Integer rows, String typeId) {
 
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
 
         if (null == typeId || "".equals(typeId)) {
             return ResultUtils.returnError("资讯id不能为空");
@@ -1991,7 +1991,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid, String checktype) {
         logger.info("APP首页搜索传入参数 ==》 page:" + page + " rows: " + rows + " info: " + info + " phone: " + phone + " uuid: " + uuid + " checktype: " + checktype);
-        HashMap<String, Object> param = new HashMap<String, Object>();
+        HashMap<String, Object> param = Maps.newHashMap();
         try {
             if (!"1".equals(phone) && !"1".equals(uuid) && StringUtils.isNotBlank(info)) {//用户已登录且搜索不为空 保存记录
 
@@ -2005,7 +2005,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 if (StringUtils.isNotBlank(info)) {//关键词不为空则保存历史关键词
 
                     //查询当前用户已有的搜索历史
-                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    HashMap<String, Object> map = Maps.newHashMap();
                     map.put("memberId", id);
                     map.put("info", info);
                     Integer searchConsultationCount = membersearchconsultationService.getSearchConsultationByInfo(map);

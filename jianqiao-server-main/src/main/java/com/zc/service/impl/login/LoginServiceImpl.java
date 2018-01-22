@@ -1,6 +1,7 @@
 package com.zc.service.impl.login;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.google.common.collect.Maps;
 import com.mysql.jdbc.StringUtils;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -41,7 +41,7 @@ public class LoginServiceImpl implements LoginService {
     public Result loginPhoneAndPassword( Map<String,Object> params ) {
         logger.info("=========进入密码登录方法==========");
         Result result = new Result();
-        Map map = new HashMap();
+        Map map = Maps.newHashMap();
         String address = null;
         String isDelete = "0";
         String userbrowser = "未知";
@@ -148,7 +148,7 @@ public class LoginServiceImpl implements LoginService {
     public Result loginPhoneAndCode( Map<String,Object> params ) {
         logger.info("=========进入验证码登录方法==========");
         Result result = new Result();
-        Map map = new HashMap();
+        Map map = Maps.newHashMap();
         String codeType = "JQ2017613";
         String address = null;
         String isDelete ="0";

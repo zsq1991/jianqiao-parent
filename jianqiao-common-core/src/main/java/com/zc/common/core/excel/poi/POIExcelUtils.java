@@ -1,44 +1,30 @@
 package com.zc.common.core.excel.poi;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.util.IOUtils;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.google.common.collect.Maps;
 import com.zc.common.core.annotation.AnnotationUtils;
 import com.zc.common.core.convert.ConvertUtils;
 import com.zc.common.core.reflection.ReflectionUtils;
 import com.zc.common.core.utils.MyObjectUtils;
 import com.zc.common.core.validate.hibernatevalidator.HibernateValidateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.validation.ConstraintViolation;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * POI解析的读取和写入 这个poi工具类可以解析97到目前的所有版本的excel但是仅仅只限于解析 xls和 xlsx的，
@@ -502,7 +488,7 @@ public class POIExcelUtils {
 			if (keyValues != null) {
 				// 解析为指定的map类型
 				for (int i = firstRoot; i <= pageSize; i++) {
-					Map<String, Object> map = new HashMap<String, Object>();
+					Map<String, Object> map = Maps.newHashMap();
 					// 获取当前行
 					Row row = sheet.getRow(i);
 					int j = 0;

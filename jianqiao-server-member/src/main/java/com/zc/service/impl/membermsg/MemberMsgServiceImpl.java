@@ -1,6 +1,7 @@
 package com.zc.service.impl.membermsg;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.consultationattachment.ConsultationAttachment;
@@ -318,7 +319,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Long comId = (Long) maps.get("comId");
 						Long memId = (Long) maps.get("memId");
 						Long mLId = (Long) maps.get("mLId");
-						Map map = new HashMap();
+						Map map = Maps.newHashMap();
 						// 评论点赞
 						if ((conId == null || conId == 0) && comId != null && comId != 0) {
 							logger.info("==================获取评论资讯赞====================");
@@ -427,7 +428,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Long comId = (Long) map2.get("comId");
 						Long memId = (Long) map2.get("memId");
 						Long mLId = (Long) map2.get("mLId");
-						Map map = new HashMap();
+						Map map = Maps.newHashMap();
 						String message = (String) map2.get("message");
 						// 评论的回复
 						if ((conId == null || conId == 0) && comId != null && comId != 0) {

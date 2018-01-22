@@ -62,7 +62,7 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             return ResultUtils.returnError("参数异常");
         }
         try {
-            Map<String, Object> result = new HashMap<>();
+            Map<String, Object> result = Maps.newHashMap();
             Long memberId = 0L;
             if (StringUtils.isNotBlank(uuid) && StringUtils.isNotBlank(phone)) {
                 Map<String, Object> paramMap = Maps.newHashMap();

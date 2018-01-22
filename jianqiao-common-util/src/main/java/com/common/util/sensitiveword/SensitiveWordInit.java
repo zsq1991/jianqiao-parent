@@ -1,14 +1,12 @@
 package com.common.util.sensitiveword;
 
+import com.google.common.collect.Maps;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Moya on 2017/11/28.
@@ -90,7 +88,7 @@ public class SensitiveWordInit {
                     nowMap = (Map) wordMap;
                 }
                 else{     //不存在则，则构建一个map，同时将isEnd设置为0，因为他不是最后一个
-                    newWorMap = new HashMap<String,String>();
+                    newWorMap = Maps.newHashMap();
                     newWorMap.put("isEnd", "0");    //不是最后一个
                     nowMap.put(keyChar, newWorMap);
                     nowMap = newWorMap;

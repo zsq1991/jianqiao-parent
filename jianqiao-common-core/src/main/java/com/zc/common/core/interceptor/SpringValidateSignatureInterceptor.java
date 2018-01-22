@@ -1,10 +1,10 @@
 package com.zc.common.core.interceptor;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.utils.MD5Util;
 import com.zc.common.core.utils.SignUtils;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,7 +14,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SpringValidateSignatureInterceptor extends HandlerInterceptorAdapter {
@@ -69,7 +68,7 @@ public class SpringValidateSignatureInterceptor extends HandlerInterceptorAdapte
 				out.print(JSON.toJSON(result).toString());
 			}else{
 				Map<String, String[]> map = request.getParameterMap();
-				Map<String, String[]> map1 = new HashMap<String, String[]>();
+				Map<String, String[]> map1 = Maps.newHashMap();
 				map1.putAll(map);
 				String[] url = {requestURI};
 				map1.put("url", url);

@@ -2,6 +2,7 @@ package com.alibaba.boot.dubbo.listener;
 
 import com.alibaba.boot.dubbo.domain.ClassIdBean;
 import com.alibaba.dubbo.rpc.Filter;
+import com.google.common.collect.Maps;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +26,7 @@ public abstract class AbstractStaticsFilterHelper implements Filter {
         // double check
         methodCountMap = STATICS_DATA_MAP.get(classIdBean);
         if (methodCountMap == null) {
-          methodCountMap = new ConcurrentHashMap<String, AtomicLong>();
+          methodCountMap = Maps.newHashMap();
           STATICS_DATA_MAP.put(classIdBean, methodCountMap);
         }
       }

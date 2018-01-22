@@ -298,7 +298,7 @@ public class MemberServiceImpl implements MemberService {
         if (member_id == null) {
             return ResultUtils.returnError("没有对应的会员信息");
         }
-        Map<String, Object> map=new HashMap<String, Object>();
+        Map<String, Object> map=Maps.newHashMap();
         map.put("member_id", member_id);
         if(member!=null){
             map.put("login_member_id", member.getId());

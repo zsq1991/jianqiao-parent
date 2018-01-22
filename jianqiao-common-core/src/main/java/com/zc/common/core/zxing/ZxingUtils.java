@@ -9,6 +9,7 @@
 
 package com.zc.common.core.zxing;
 
+import com.google.common.collect.Maps;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -21,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -81,8 +81,8 @@ public class ZxingUtils {
 	  public static boolean createQrCode(String path,String fileName,String format,String content,int width,int height){
 			try {
 			     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-			     Map hints = new HashMap();
-			     hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+			     Map hints = Maps.newHashMap();
+				hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 			     hints.put(EncodeHintType.MARGIN, 0);
 			     BitMatrix bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.QR_CODE, width, height,hints);
 			     System.out.println(path+fileName.concat(".").concat(format));

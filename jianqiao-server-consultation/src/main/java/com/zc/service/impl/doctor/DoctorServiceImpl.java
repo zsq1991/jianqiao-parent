@@ -1,6 +1,7 @@
 package com.zc.service.impl.doctor;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.google.common.collect.Maps;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
 import com.zc.main.entity.doctor.Doctor;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class DoctorServiceImpl implements DoctorService{
 
     @Override
     public Result getDoctorDetail(Long doctorId) {
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String,Object> map = Maps.newHashMap();
         //获取高手详情
         Map<String, Object> doctorInfo = doctorMapper.getDoctorInfo(doctorId);
         if(doctorInfo == null){
@@ -44,7 +44,7 @@ public class DoctorServiceImpl implements DoctorService{
             List<String> honorAddressList = doctorMapper.getDoctorAttachment(new Long(doctorInfo.get("id").toString()));
             map.put("doctorInfo",doctorInfo);
             map.put("honorAddress",honorAddressList);
-            Map<String,Object> consultatoin = new HashMap<String,Object>();
+            Map<String,Object> consultatoin = Maps.newHashMap();
             List<Doctor> consultatoinList = doctorMapper.queryConsultationList(new Long(doctorInfo.get("id").toString()));
             //专家相关推荐列表
             map.put("consultatoin",consultatoinList);
