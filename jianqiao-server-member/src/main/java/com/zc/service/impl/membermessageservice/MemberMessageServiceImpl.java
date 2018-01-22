@@ -301,7 +301,7 @@ public class MemberMessageServiceImpl implements MemberMessageService{
      * @return
      */
     @Override
-    public Result MemberMessageList(Member member) {
+    public Result memberMessageList(Member member) {
         logger.info("=======判断用户信息========");
         // 判断member是否为空
         if (member == null) {
@@ -309,9 +309,9 @@ public class MemberMessageServiceImpl implements MemberMessageService{
             return ResultUtils.returnError("没有对应的会员信息");
         }
 
-        Long member_id = member.getId();
+        Long memberId = member.getId();
         logger.info("=======获取用户信息========");
-        List<Map<String, Object>> membermessageList = megMapper.getMemberMessageList(member_id);
+        List<Map<String, Object>> membermessageList = megMapper.getMemberMessageList(memberId);
 
         logger.info("=======用户个人信息获取成功========");
         return ResultUtils.returnSuccess("用户个人信息获取成功：", membermessageList);
