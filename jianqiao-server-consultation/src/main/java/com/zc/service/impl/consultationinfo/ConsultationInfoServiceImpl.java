@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @package : com.zc.service.impl.consultationInfo
+ * @package : com.zc.service.impl.consultationinfo
  * @progect : jianqiao-parent
  * @Description :
  * @Created by :ZhaoJunBiao
