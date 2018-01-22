@@ -1,12 +1,5 @@
 package com.zc.main.dto.attachment;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zc.common.core.orm.hibernate.BaseIdEntity;
-import org.apache.ibatis.type.Alias;
-import org.apache.solr.client.solrj.beans.Field;
-import org.hibernate.validator.constraints.NotBlank;
-
-import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -119,5 +112,21 @@ public class AttachmentDTO  implements Serializable {
 
     public void setCommentInfo(String commentInfo) {
         this.commentInfo = commentInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "AttachmentDTO{" +
+                "id=" + id +
+                ", createUser='" + createUser + '\'' +
+                ", createdTime=" + createdTime +
+                ", updateTime=" + updateTime +
+                ", createdIp='" + createdIp + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", memory=" + memory +
+                ", sizeInfo='" + sizeInfo + '\'' +
+                ", commentInfo='" + commentInfo + '\'' +
+                '}';
     }
 }

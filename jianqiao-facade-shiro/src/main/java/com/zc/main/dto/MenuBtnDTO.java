@@ -79,4 +79,15 @@ public class MenuBtnDTO implements Serializable {
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
+
+    @Override
+    public String toString() {
+        return "MenuBtnDTO{" +
+                "menuId=" + menuId +
+                ", btnIds=" + btnIds +
+                ", roleId=" + roleId +
+                ", createrId=" + createrId +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

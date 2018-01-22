@@ -123,4 +123,18 @@ public class UserDTO implements Serializable{
     public void setMsgCode(String msgCode) {
         msgCode = msgCode;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", telphone='" + telphone + '\'' +
+                ", password='" + password + '\'' +
+                ", msgCode='" + msgCode + '\'' +
+                ", isable=" + isable +
+                ", createrId=" + createrId +
+                ", updaterId=" + updaterId +
+                '}';
+    }
 }

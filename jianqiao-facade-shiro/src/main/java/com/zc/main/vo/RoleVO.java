@@ -1,8 +1,8 @@
 package com.zc.main.vo;
 
-import java.io.Serializable;
-
 import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
 
 
 @Alias("RoleVO")
@@ -72,5 +72,16 @@ public class RoleVO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public String toString() {
+		return "RoleVO{" +
+				"id=" + id +
+				", roleName='" + roleName + '\'' +
+				", roleCode=" + roleCode +
+				", description='" + description + '\'' +
+				", status=" + status +
+				'}';
 	}
 }

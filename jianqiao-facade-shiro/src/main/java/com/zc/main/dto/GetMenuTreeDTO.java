@@ -1,10 +1,10 @@
 package com.zc.main.dto;
 
 
+import com.zc.main.vo.MenuTreeVO;
+
 import java.io.Serializable;
 import java.util.List;
-
-import com.zc.main.vo.MenuTreeVO;
 
 /**
  * @项目：phsopping-facade-permission
@@ -39,5 +39,13 @@ public class GetMenuTreeDTO implements Serializable {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public String toString() {
+        return "GetMenuTreeDTO{" +
+                "roleId=" + roleId +
+                ", menuTreeVOS=" + menuTreeVOS +
+                '}';
     }
 }

@@ -52,5 +52,13 @@ public class SessionRoleVO implements Serializable {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "SessionRoleVO{" +
+				"id=" + id +
+				", roleName='" + roleName + '\'' +
+				", roleCode=" + roleCode +
+				'}';
+	}
 }
