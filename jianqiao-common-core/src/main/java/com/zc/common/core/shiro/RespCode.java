@@ -40,11 +40,13 @@ public interface RespCode {
             this.msg = msg;
         }
 
+        @java.lang.Override
         @Override
         public String getMsg() {
             return msg;
         }
 
+        @java.lang.Override
         @Override
         public String getCode() {
             return code;
