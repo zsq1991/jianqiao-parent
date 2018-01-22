@@ -23,7 +23,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.util.Date;
 
 /**
- * @package : com.zc.main.service.consultationInfo
+ * @package : com.zc.main.service.consultationinfo
  * @progect : jianqiao-parent
  * @Description :
  * @Created by :ZhaoJunBiao

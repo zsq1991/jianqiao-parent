@@ -1516,9 +1516,9 @@ public class ConsultationServiceImpl implements ConsultationService {
 								if(null==addrs){addrs="";};
 								addressChid += addrs.toString() + ",";
 							}
-							consultationInfo.put("address", addressChid);
+							consultationinfo.put("address", addressChid);
 						} else {
-							consultationInfo.put("address", "");
+							consultationinfo.put("address", "");
 						}*/
             }
 
