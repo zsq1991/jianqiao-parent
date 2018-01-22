@@ -217,6 +217,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
     @Override
     @Transactional(readOnly = false)
     public Result collectionContent(Member member, Long consultationId) {
+        logger.info("收藏内容传入参数==》member:"+member.toString()+ " consultationId:" +consultationId);
         Result result = new Result();
         if(Objects.isNull(member.getId())||Objects.isNull(consultationId)){
             return ResultUtils.returnError("参数为空");
@@ -361,6 +362,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
             logger.error(e.getMessage(),e);
             return ResultUtils.returnError("收藏内容异常");
         }
+        logger.info("成功");
         return result;
     }
 }
