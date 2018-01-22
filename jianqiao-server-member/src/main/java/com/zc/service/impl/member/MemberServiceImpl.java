@@ -289,17 +289,17 @@ public class MemberServiceImpl implements MemberService {
      * @data 2018/1/19
      * @Description:
      * @param member
-     * @param member_id
+     * @param memberId
      * @return
      */
     @Override
-    public Result memberInfo(Member member, Long member_id) {
+    public Result memberInfo(Member member, Long memberId) {
         // 判断member是否为空
-        if (member_id == null) {
+        if (memberId == null) {
             return ResultUtils.returnError("没有对应的会员信息");
         }
         Map<String, Object> map=Maps.newHashMap();
-        map.put("member_id", member_id);
+        map.put("memberId", memberId);
         if(member!=null){
             map.put("login_member_id", member.getId());
         }

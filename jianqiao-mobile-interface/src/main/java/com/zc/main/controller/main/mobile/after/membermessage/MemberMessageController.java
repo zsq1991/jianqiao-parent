@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @package : com.zc.main.controller.main.mobile.after.membermessage
  * @progect : jianqiao-parent
  * @Description :
- * @Created by :ZhaoJunBiao
+ * @author ZhaoJunBiao
  * @Creation Date ：2018年01月17日17:48
  */
 @Controller
@@ -61,14 +61,14 @@ public class MemberMessageController {
      * @author:  Zhaoshuaiqi
      * @date:  2018/1/17
      * @param member
-     * @param member_id
+     * @param memberId
      * @return
      */
     @RequestMapping(value = "member-info",method = RequestMethod.POST)
     @ResponseBody
     public Result memberInfo(@MemberAnno Member member,
-                             @RequestParam(value ="member_id") Long member_id){
-        Result rs = memberService.memberInfo(member,member_id);
+                             @RequestParam(value ="memberId") Long memberId){
+        Result rs = memberService.memberInfo(member,memberId);
         return rs;
     }
 
@@ -117,14 +117,7 @@ public class MemberMessageController {
     @Explosionproof // 在需要防爆的方法上加上注解@Explosionproof
     @RequestMapping(value = "update-member-nickname", method = RequestMethod.POST)
     @ResponseBody
-    public Result updateNickname(@RequestParam(value = "nickname") String nickname,
-                                 @MemberAnno Member member) {
-       /*检验昵称是否已存在
-         List<Map<String, Object>> nicknameIsExist = messageMapper.getMemberByNickname(nickname);
-        if(nicknameIsExist.size()>0){
-            return ResultUtils.returnError("昵称不能重复");
-        }*/
-
+    public Result updateNickname(@RequestParam(value = "nickname") String nickname,@MemberAnno Member member) {
         try {
             Result result = this.messageService.updateMemberNickname( nickname, member);
             return result;

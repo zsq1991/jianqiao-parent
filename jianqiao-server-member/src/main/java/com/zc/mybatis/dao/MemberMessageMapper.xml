@@ -16,7 +16,7 @@
 		m.user_type			<!-- 0普通  1认证后用户可以发布访谈 口述 -->
 		FROM `alq_member` m
 		LEFT JOIN alq_attachment att ON att.id = m.logo_attachment_id
-		WHERE m.id=#{member_id}
+		WHERE m.id=#{memberId}
 	</select>
 	
 	<select id="getMemberInfo" resultType="java.util.Map" parameterType="java.util.Map" >
@@ -34,10 +34,10 @@
 		(select  IFNULL(mf.is_delete,0)  
 			from alq_member_follow mf 
 			where  	mf.member_following_id =#{login_member_id}	 
-			and mf.member_id=#{member_id}) AS isFocus
+			and mf.member_id=#{memberId}) AS isFocus
 		FROM `alq_member` m
 		LEFT JOIN alq_attachment att ON att.id = m.logo_attachment_id
-		WHERE m.id=#{member_id}
+		WHERE m.id=#{memberId}
 	</select>
 	
 	
