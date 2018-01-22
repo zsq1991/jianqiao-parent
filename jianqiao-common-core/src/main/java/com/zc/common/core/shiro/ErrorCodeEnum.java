@@ -108,7 +108,6 @@ public enum ErrorCodeEnum implements RespCode {
         this.msg = msg;
     }
 
-    @java.lang.Override
     @Override
     public String getCode() {
         return code;
@@ -116,7 +115,6 @@ public enum ErrorCodeEnum implements RespCode {
     public void setCode(String code) {
         this.code = code;
     }
-    @java.lang.Override
     @Override
     public String getMsg() {
         return msg;

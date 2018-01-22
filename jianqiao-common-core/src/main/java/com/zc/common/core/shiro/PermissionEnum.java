@@ -58,13 +58,11 @@ public enum PermissionEnum implements RespCode{
         this.msg = msg;
     }
 
-    @java.lang.Override
     @Override
     public String getCode() {
         return code;
     }
 
-    @java.lang.Override
     @Override
     public String getMsg() {
         return msg;
