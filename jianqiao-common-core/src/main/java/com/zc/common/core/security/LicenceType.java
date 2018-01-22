@@ -15,7 +15,8 @@ public enum LicenceType {
 	 * 获取.cer扩展名的证书
 	 */
 	X_509 {
-		@Override
+		@java.lang.Override
+        @Override
 		public String getName() {
 			return "X.509";
 		}
@@ -24,7 +25,8 @@ public enum LicenceType {
 	 * 加载证书库
 	 */
 	JKS {
-		@Override
+		@java.lang.Override
+        @Override
 		public String getName() {
 			return "JKS";
 		}
@@ -33,7 +35,8 @@ public enum LicenceType {
 	 * .p12扩展名的证书
 	 */
 	PKCS12 {
-		@Override
+		@java.lang.Override
+        @Override
 		public String getName() {
 			return "PKCS12";
 		}

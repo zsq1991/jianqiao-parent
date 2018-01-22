@@ -15,7 +15,8 @@ public enum ExcelVersion {
 	 * 2003版本的excel
 	 */
 	xls {
-		@Override
+		@java.lang.Override
+        @Override
 		public String getName() {
 			return "2003";
 		}
@@ -24,7 +25,8 @@ public enum ExcelVersion {
 	 * 2007版本的excel
 	 */
 	xlsx {
-		@Override
+		@java.lang.Override
+        @Override
 		public String getName() {
 			return "2007";
 		}
