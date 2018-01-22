@@ -22,24 +22,37 @@ public class CollectionConsultation extends BaseIdEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Column(name = "member_id")
-	private Member member;//谁收藏的
+	private Long memberId;//谁收藏的
 	@Column(name = "consultation_id")
-	private Consultation consultation;//收藏的那个内容
+	private Long consultationId;//收藏的那个内容
 	@Column(name = "consultation_member_id")
-	private Member consultationMember;//收藏的内容所属的用户
+	private Long consultationMemberId;//收藏的内容所属的用户
 	@Column(name = "type")
 	private Integer type;//0收藏   1取消收藏
-	
-	
-	public Member getMember() {
-		return member;
+
+	public Long getMemberId() {
+		return memberId;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
-	
-	 
+
+	public Long getConsultationId() {
+		return consultationId;
+	}
+
+	public void setConsultationId(Long consultationId) {
+		this.consultationId = consultationId;
+	}
+
+	public Long getConsultationMemberId() {
+		return consultationMemberId;
+	}
+
+	public void setConsultationMemberId(Long consultationMemberId) {
+		this.consultationMemberId = consultationMemberId;
+	}
 
 	public Integer getType() {
 		return type;
@@ -48,21 +61,4 @@ public class CollectionConsultation extends BaseIdEntity {
 	public void setType(Integer type) {
 		this.type = type;
 	}
-
-	public Consultation getConsultation() {
-		return consultation;
-	}
-
-	public void setConsultation(Consultation consultation) {
-		this.consultation = consultation;
-	}
-	
-	public Member getConsultationMember() {
-		return consultationMember;
-	}
-
-	public void setConsultationMember(Member consultationMember) {
-		this.consultationMember = consultationMember;
-	}
-	
 }

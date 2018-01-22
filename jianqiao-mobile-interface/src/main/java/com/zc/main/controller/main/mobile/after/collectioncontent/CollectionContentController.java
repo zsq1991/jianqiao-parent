@@ -1,6 +1,7 @@
 package com.zc.main.controller.main.mobile.after.collectioncontent;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
+import com.zc.common.core.annotation.Explosionproof;
 import com.zc.common.core.annotation.MemberAnno;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.collectioncontent.CollectionContentService;
@@ -56,6 +57,28 @@ public class CollectionContentController {
         page = (page - 1) * rows;
         Result result = collectionContentService.mycollection(member, page, rows);
         logger.info("查询收藏列表成功!");
+        return result;
+    }
+
+    /**
+     * * @author:  wangxueyang[wxueyanghj@163.com]
+     *
+     * @param member
+     * @param consultationId
+     * @return
+     * @create: 2018/1/19 15:06
+     * @desc: 收藏内容
+     * @version 1.0.0
+     */
+    @Explosionproof
+    @RequestMapping(value = "collection-content", method = RequestMethod.POST)
+    @ResponseBody
+    public Result collectionContent(@MemberAnno Member member,
+                                    @RequestParam("consultationId") Long consultationId) {
+
+        logger.info("收藏内容传入参数：consultationId :"+consultationId);
+        Result result = collectionContentService.collectionContent(member, consultationId);
+        logger.info("result:"+result.toString());
         return result;
     }
 }

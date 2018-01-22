@@ -220,5 +220,14 @@ public interface ConsultationMapper extends BasicMapper<Consultation> {
 	 * @return
 	 */
 	public List<Map> getConsulationIdList(Map<String, Object> param);
-	
+
+	/**
+	 * * @author:  wangxueyang[wxueyanghj@163.com]
+	 * @create:  2018/1/19 15:44
+	 * @desc: 根据id更新consultation 支持更新 收藏数
+	 * @version 1.0.0
+	 * @param consultation
+	 * @return
+	 */
+	Integer updateConsultationById(Consultation consultation);
  }

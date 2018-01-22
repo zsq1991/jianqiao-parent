@@ -103,7 +103,7 @@ public class StringAndByteUtils {
 		return ret;
 	}
 
-	public static byte[] HexString2Bytes(String src)
+	public static byte[] hexString2Bytes(String src)
 
 	{
 

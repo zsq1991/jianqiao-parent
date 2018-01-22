@@ -13,7 +13,7 @@ public enum UploadFileName {
 	 * 用户头像上传
 	 */
 	MEMBER_HEADIMG {//用户头像上传
-		@Override
+        @Override
 		public String getName() {
 			return "memberheadimg";
 		}
@@ -22,7 +22,7 @@ public enum UploadFileName {
 	 * 内容图片
 	 */
 	CONSULTATION_IMG {//内容图片
-		@Override
+        @Override
 		public String getName() {
 			return "consultationimg";
 		}

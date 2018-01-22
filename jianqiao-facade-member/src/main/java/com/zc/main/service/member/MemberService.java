@@ -82,6 +82,7 @@ public interface MemberService {
 
     Member getMemberByIdAndUuid(Map<String, Object> params);
 
+    Member getLockOne(Long memberId);
 	/**
 	 * 用户认证
 	 * @author huangxin

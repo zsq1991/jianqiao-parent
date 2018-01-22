@@ -15,7 +15,7 @@ import java.util.Set;
  * @Description: 初始化敏感词库，将敏感词加入到HashMap中，构建DFA算法模型
  */
 public class SensitiveWordInit {
-    private String ENCODING = "UTF-8";    //字符编码
+    private String encoding = "UTF-8";    //字符编码
     @SuppressWarnings("rawtypes")
     public HashMap sensitiveWordMap;
 
@@ -112,7 +112,7 @@ public class SensitiveWordInit {
         Set<String> set = null;
         File file = new File("E:\\idea-workspace-framework\\cc-parent\\cc-common-util\\src\\resources\\SensitiveWord.txt");//读取文件,绝对路径
         //File file = new File(SensitiveWordInit.class.getClassLoader().getResource("SensitiveWord.txt").getPath());//读取文件,相对路径
-        InputStreamReader read = new InputStreamReader(new FileInputStream(file),ENCODING);
+        InputStreamReader read = new InputStreamReader(new FileInputStream(file),encoding);
         try {
             if(file.isFile() && file.exists()){      //文件流是否存在
                 set = new HashSet<String>();

@@ -176,6 +176,12 @@ public class MemberServiceImpl implements MemberService {
         return member;
     }
 
+    @Override
+    @Transactional(readOnly = false)
+    public Member getLockOne(Long memberId) {
+        return memberMapper.getLockOne(memberId);
+    }
+
     /**
      * 用户认证
      * @author huangxin

@@ -49,13 +49,13 @@ public class TencentSms {
 			return ResultUtils.returnError("手机号不符合要求");
 		}
 		try {
-			String msg_url = SEND_MSG_URL;//发送短信路径
-            logger.info("发送路径:"+msg_url);
+			String msgUrl = SEND_MSG_URL;//发送短信路径
+            logger.info("发送路径:"+msgUrl);
 			Map<String, String> params = new HashedMap();
             params.put("phone",phone);
             params.put("codeType",codeType);
             logger.info("=======开始请求=========");
-            HttpResult httpResult = HttpClientUtils.sendGet(msg_url, params);
+            HttpResult httpResult = HttpClientUtils.sendGet(msgUrl, params);
             logger.info("=======请求结束,即将返回响应=========");
             JSONObject json = JSONObject.parseObject(httpResult.getResponseContent());
 			result.setCode(Integer.parseInt(json.get("code").toString()));
@@ -82,14 +82,14 @@ public class TencentSms {
         logger.info("===============进入连接pay验证验证码方法=================");
 		Result result = new Result();
 		try {
-			String msg_url =CHECK_MSG_URL;//发送短信路径
-            logger.info("发送路径:"+msg_url);
+			String msgUrl =CHECK_MSG_URL;//发送短信路径
+            logger.info("发送路径:"+msgUrl);
             Map<String, String> params = new HashedMap();
             params.put("phone",phone);
             params.put("code",code);
             params.put("codeType",codeType);
             logger.info("=======开始请求=========");
-            HttpResult httpResult = HttpClientUtils.sendGet(msg_url, params);
+            HttpResult httpResult = HttpClientUtils.sendGet(msgUrl, params);
             logger.info("=======请求结束,即将返回响应=========");
             JSONObject json = JSONObject.parseObject(httpResult.getResponseContent());
             result.setCode(Integer.parseInt(json.get("code").toString()));

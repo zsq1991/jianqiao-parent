@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <luene.version>4.7.2</luene.version>
     </properties>
     <dependencies>
         <dependency>
@@ -110,6 +111,32 @@
             <artifactId>jianqiao-server-member</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>3.6.2</version>
+        </dependency>
+       <!-- <dependency>
+            <groupId>cn.bestwu</groupId>
+            <artifactId>ik-analyzers</artifactId>
+            <version>5.1.0</version>
+        </dependency>-->
+        <!--<dependency>
+            <groupId>com.lucene</groupId>
+            <artifactId>ik-analyzer</artifactId>
+            <version>2012</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.janeluo</groupId>
+            <artifactId>ikanalyzer</artifactId>
+            <version>2012_u6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wltea.ik-analyzer</groupId>
+            <artifactId>ik-analyzer</artifactId>
+            <version>3.2.8</version>
+        </dependency>
+
 
     </dependencies>
     <build>

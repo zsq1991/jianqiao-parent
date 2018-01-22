@@ -36,7 +36,7 @@ public class UserDTO implements Serializable{
     /**
      * 验证码
      */
-    private String MsgCode;
+    private String msgCode;
 
     /**
      * 用户状态
@@ -117,10 +117,10 @@ public class UserDTO implements Serializable{
     }
 
     public String getMsgCode() {
-        return MsgCode;
+        return msgCode;
     }
 
     public void setMsgCode(String msgCode) {
-        MsgCode = msgCode;
+        msgCode = msgCode;
     }
 }

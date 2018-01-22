@@ -188,8 +188,8 @@ public class ShiroConfiguration {
         Result result = menuService.getMenuList();
         //获取所有菜单（后面要改为获取所有权限）
         @SuppressWarnings("unchecked")
-		List<MenuVO> MenuVOs = (List<MenuVO>) result.getData();
-        for (MenuVO mv : MenuVOs) {
+		List<MenuVO> menuVOs = (List<MenuVO>) result.getData();
+        for (MenuVO mv : menuVOs) {
             logger.info(mv.getMenuName() + "-" + mv.getMenuUrl());
             String url = mv.getMenuUrl();
             if (url != null && !"".equals(url.trim())) {
