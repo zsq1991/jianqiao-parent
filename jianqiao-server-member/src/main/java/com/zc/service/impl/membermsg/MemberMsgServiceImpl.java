@@ -95,7 +95,10 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		//=========================================修改接口=============================================
 		try {
 			// 1审核通知，2赞通知，3评论通知
-			if (type == 3 && id != null) {
+			int type3 = 3;
+			int type2 = 2;
+			int type1 = 1;
+			if (type == type3 && id != null) {
 				logger.info("===================================进入通知评论============================");
 				Integer types = 4;
 				Integer readType = 1;
@@ -105,7 +108,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 					result.setCode(1);
 					result.setMsg("成功");
 				}
-			} else if (type == 2 && id != null) {
+			} else if (type == type2 && id != null) {
 				logger.info("===================================进入2赞通知============================");
 				Integer types = 5;
 				Integer readType = 1;
@@ -115,7 +118,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 					result.setCode(1);
 					result.setMsg("成功");
 				}
-			} else if (type == 1 && id != null && msgId != null && msgId != 0) {
+			} else if (type == type1 && id != null && msgId != null && msgId != 0) {
 				logger.info("===================================进入审核通知============================");
 				MemberMsg findOne = memberMsgMapper.findOne(msgId);
 				if (findOne == null) {
@@ -138,6 +141,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 			logger.error("修改memberMsg系统通知状态：" + e);
 			result.setCode(0);
 			result.setMsg("修改数据异常");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
 		}
 		logger.info("=====================进入读取通知信息的接口结束=================");
 		return result;
@@ -193,8 +197,9 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 
 		//=========================================修改接口=============================================
 		try {
-
-			if (type == 3 && mId != null) {
+			int type3 = 3;
+			int type2 = 2;
+			if (type == type3 && mId != null) {
 				logger.info("=============进入评论通知====================");
 				Integer types = 4;
 				Integer readType = 1;
@@ -204,7 +209,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 					result.setCode(1);
 					result.setMsg("成功");
 				}
-			} else if (type == 2 && mId != null) {
+			} else if (type == type2 && mId != null) {
 				logger.info("=====================进入赞通知============================");
 				Integer types = 5;
 				Integer readType = 1;
@@ -236,6 +241,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 			logger.error("修改memberMsg系统通知状态：" + e);
 			result.setCode(0);
 			result.setMsg("修改数据异常");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
 		}
 		logger.info("====================阅读通知信息方法结束=====================================");
 		return result;
@@ -265,7 +271,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		Long mId = member.getId();
 
 		List list = new ArrayList();
-		SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+		// 设置日期格式
+		SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
 		String chidNowTime = chiddf.format(new Date());
 		// type 1审核通知，2赞通知，3评论通知
 		int type1 = 1;
@@ -280,12 +287,16 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 					String date = (String) map.get("date");
 					String chidTime1 = date.subSequence(0, 10).toString();
 					String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-					if (chidTime1.equals(chidTime2)) {// 同一天
-						String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+					// 同一天
+					if (chidTime1.equals(chidTime2)) {
+						// 截取当天
+						String chidcreatedTime = date.subSequence(11, 16).toString();
 						// 时，分
 						map.put("date", chidcreatedTime);
-					} else {// 不同一天
-						String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+					} else {
+						// 不同一天
+						// 截取当天
+						String chidcreatedTime = date.subSequence(0, 10).toString();
 						// 年，月，日
 						map.put("date", chidcreatedTime);
 					}
@@ -307,7 +318,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Long memId = (Long) maps.get("memId");
 						Long mLId = (Long) maps.get("mLId");
 						Map map = new HashMap();
-						if ((conId == null || conId == 0) && comId != null && comId != 0) {// 评论点赞
+						// 评论点赞
+						if ((conId == null || conId == 0) && comId != null && comId != 0) {
 							logger.info("==================获取评论资讯赞====================");
 							List<Map> mapsss = memberMsgMapper.getCommentSupportInformList(comId, memId, mLId);
 							if (mapsss.size() == 0) {
@@ -322,16 +334,21 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							String date = (String) map.get("date");
 							String chidTime1 = date.subSequence(0, 10).toString();
 							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-							if (chidTime1.equals(chidTime2)) {// 同一天
-								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+							if (chidTime1.equals(chidTime2)) {
+								// 同一天
+								// 截取当天
+								String chidcreatedTime = date.subSequence(11, 16).toString();
 								// 时，分
 								map.put("date", chidcreatedTime);
-							} else {// 不同一天
-								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+							} else {
+								// 不同一天
+								// 截取当天
+								String chidcreatedTime = date.subSequence(0, 10).toString();
 								// 年，月，日
 								map.put("date", chidcreatedTime);
 							}
-						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {// 资讯点赞
+							// 资讯点赞
+						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {
 							// ===============================================//0是访谈主题
 							// 1访谈内容 2口述主题 3口述内容 4求助 5回答 6分享==========
 							logger.info("-------------获取资讯赞-----------------");
@@ -341,7 +358,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							}
 							map = mapss.get(0);
 							map.put("result", 1);
-							String info = (Long) map.get("info") + "";// 获取类型
+							// 获取类型
+							String info = (Long) map.get("info") + "";
 							String types = null;
 							switch (info) {
 								case "0":
@@ -374,12 +392,16 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							String date = (String) map.get("date");
 							String chidTime1 = date.subSequence(0, 10).toString();
 							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-							if (chidTime1.equals(chidTime2)) {// 同一天
-								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+							if (chidTime1.equals(chidTime2)) {
+								// 同一天
+								// 截取当天
+								String chidcreatedTime = date.subSequence(11, 16).toString();
 								// 时，分
 								map.put("date", chidcreatedTime);
-							} else {// 不同一天
-								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+							} else {
+								// 不同一天
+								// 截取当天
+								String chidcreatedTime = date.subSequence(0, 10).toString();
 								// 年，月，日
 								map.put("date", chidcreatedTime);
 							}
@@ -406,7 +428,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 						Long mLId = (Long) map2.get("mLId");
 						Map map = new HashMap();
 						String message = (String) map2.get("message");
-						if ((conId == null || conId == 0) && comId != null && comId != 0) {// 评论的回复
+						// 评论的回复
+						if ((conId == null || conId == 0) && comId != null && comId != 0) {
 							logger.info("---------------获取评论回复--------------");
 							List<Map> maps = memberMsgMapper.getCommentDiscussInformList(comId, memId, mLId);
 							if (maps.size() == 0) {
@@ -414,7 +437,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							}
 							map = maps.get(0);
 							map.put("result", 0);
-							map.put("content", "回复了你：" + map.get("content"));// 新评论的内容
+							// 新评论的内容
+							map.put("content", "回复了你：" + map.get("content"));
 							if (map.get("message") == null) {
 								// 通过资讯id获取关联的附件。conId
 								map.get("conId");
@@ -427,16 +451,21 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							String date = (String) map.get("date");
 							String chidTime1 = date.subSequence(0, 10).toString();
 							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-							if (chidTime1.equals(chidTime2)) {// 同一天
-								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+							// 同一天
+							if (chidTime1.equals(chidTime2)) {
+								// 截取当天
+								String chidcreatedTime = date.subSequence(11, 16).toString();
 								// 时，分
 								map.put("date", chidcreatedTime);
-							} else {// 不同一天
-								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+							} else {
+								// 不同一天
+								// 截取当天
+								String chidcreatedTime = date.subSequence(0, 10).toString();
 								// 年，月，日
 								map.put("date", chidcreatedTime);
 							}
-						} else if (comId != null && comId != 0 && conId != null && conId != 0) {// 资讯的评论
+							// 资讯的评论
+						} else if (comId != null && comId != 0 && conId != null && conId != 0) {
 							// 查询资讯id，通过资讯id判断是回答还是consulation_id,回答是没有title
 							// ===============================================//0是访谈主题
 							// 1访谈内容 2口述主题 3口述内容 4求助 5回答 6分享==========
@@ -447,7 +476,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							}
 							map = maps.get(0);
 							map.put("result", 1);
-							String type22 = (Long) map.get("type") + "";// 获取类型
+							// 获取类型
+							String type22 = (Long) map.get("type") + "";
 							String types = null;
 							switch (type22) {
 								case "0":
@@ -490,17 +520,21 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							String date = (String) map.get("date");
 							String chidTime1 = date.subSequence(0, 10).toString();
 							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-							if (chidTime1.equals(chidTime2)) {// 同一天
-								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+							if (chidTime1.equals(chidTime2)) {
+								// 同一天
+								// 截取当天
+								String chidcreatedTime = date.subSequence(11, 16).toString();
 								// 时，分
 								map.put("date", chidcreatedTime);
-							} else {// 不同一天
-								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+							} else {
+								// 不同一天
+								// 截取当天
+								String chidcreatedTime = date.subSequence(0, 10).toString();
 								// 年，月，日
 								map.put("date", chidcreatedTime);
 							}
-
-						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {// 对求助的评论就是回答
+							// 对求助的评论就是回答
+						} else if ((comId == null || comId == 0) && conId != null && conId != 0) {
 							logger.info("-----------------------获取回答者的数据-------------------");
 							List<Map> maps = memberMsgMapper.getReplyDiscussInformList(conId, memId, mLId);
 							if (maps.size() == 0) {
@@ -508,7 +542,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							}
 							map = maps.get(0);
 							map.put("result", 1);
-							String type22 = (Long) map.get("type") + "";// 获取类型
+							// 获取类型
+							String type22 = (Long) map.get("type") + "";
 							String types = null;
 							switch (type22) {
 								case "0":
@@ -541,15 +576,19 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 								logger.info("-------------------------通过资讯的id获取Attachment-----------------------");
 								ConsultationAttachment attachmentByconId = memberMsgMapper.getAttachmentByconId(id);
 								map.put("message", types + ":" + attachmentByconId.getDetailContent());
-								map.put("result", 0);// result为0时是评论的回复，资讯的评论
-								map.put("conId", map.get("messageId"));// 回答的的资讯id
+								// result为0时是评论的回复，资讯的评论
+								map.put("result", 0);
+								// 回答的的资讯id
+								map.put("conId", map.get("messageId"));
 								map.put("conType", 5);
-								map.put("info", 0);// info为0时就是评论资讯
+								// info为0时就是评论资讯
+								map.put("info", 0);
 								map.put("content", "回答了你：" + map.get("content"));
 							} else {
 								map.put("message", types + ":" + map.get("message"));
 								map.put("content", "评论了你：" + map.get("content"));
-								map.put("info", 0);// info为0时就是评论资讯，1时是评论的回复
+								// info为0时就是评论资讯，1时是评论的回复
+								map.put("info", 0);
 
 							}
 
@@ -557,12 +596,16 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							String date = (String) map.get("date");
 							String chidTime1 = date.subSequence(0, 10).toString();
 							String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-							if (chidTime1.equals(chidTime2)) {// 同一天
-								String chidcreatedTime = date.subSequence(11, 16).toString();// 截取当天
+							// 同一天
+							if (chidTime1.equals(chidTime2)) {
+								// 截取当天
+								String chidcreatedTime = date.subSequence(11, 16).toString();
 								// 时，分
 								map.put("date", chidcreatedTime);
-							} else {// 不同一天
-								String chidcreatedTime = date.subSequence(0, 10).toString();// 截取当天
+							} else {
+								// 不同一天
+								// 截取当天
+								String chidcreatedTime = date.subSequence(0, 10).toString();
 								// 年，月，日
 								map.put("date", chidcreatedTime);
 							}
