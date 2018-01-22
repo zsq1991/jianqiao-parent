@@ -1,5 +1,15 @@
 package com.zc.common.core.email.receive;
 
+import com.zc.common.core.utils.UniqueUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,27 +17,6 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-
-import javax.mail.BodyPart;
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.URLName;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.zc.common.core.utils.UniqueUtils;
 
 /**
  * 
@@ -251,20 +240,40 @@ public class ReciveMail {
 		if (part.isMimeType("multipart/*")) {
 			Multipart multipart = (Multipart) part.getContent();
 			int count = multipart.getCount();
+
 			for (int i = 0; i < count; i++) {
 				BodyPart bodypart = multipart.getBodyPart(i);
 				String dispostion = bodypart.getDisposition();
-				if ((dispostion != null)
-						&& (dispostion.equals(Part.ATTACHMENT) || dispostion.equals(Part.INLINE))) {
+				boolean dispostionb = false;
+				/*if ((dispostion != null)
+						&& (dispostion.equals(Part.ATTACHMENT) || dispostion.equals(Part.INLINE))){
+					dispostionb = true;
+				}*/
+				if(dispostion != null){
+					dispostionb = true;
+				}
+				if (dispostion.equals(Part.ATTACHMENT) || dispostion.equals(Part.INLINE)){
+					dispostionb = true;
+				}
+
+				if (dispostionb) {
 					flag = true;
 				} else if (bodypart.isMimeType("multipart/*")) {
 					flag = isContainAttch(bodypart);
 				} else {
 					String conType = bodypart.getContentType();
-					if (conType.toLowerCase().indexOf("appliaction") != -1) {
+					boolean conTypeb = false;
+					if(conType.toLowerCase().indexOf("appliaction") != -1){
+						conTypeb = true;
+					}
+					if (conTypeb) {
 						flag = true;
 					}
-					if (conType.toLowerCase().indexOf("name") != -1) {
+					boolean nameb = false;
+					if (conType.toLowerCase().indexOf("name") != -1){
+						nameb = true;
+					}
+					if (nameb) {
 						flag = true;
 					}
 				}
@@ -291,8 +300,19 @@ public class ReciveMail {
 			for (int i = 0; i < mp.getCount(); i++) {
 				BodyPart mpart = mp.getBodyPart(i);
 				String dispostion = mpart.getDisposition();
-				if ((dispostion != null)
-						&& (dispostion.equals(Part.ATTACHMENT) || dispostion.equals(Part.INLINE))) {
+				boolean dispostionb = false;
+				/*if ((dispostion != null)
+						&& (dispostion.equals(Part.ATTACHMENT) || dispostion.equals(Part.INLINE))){
+					dispostionb = true;
+				}*/
+				if(dispostion != null){
+					dispostionb = true;
+				}
+				if (dispostion.equals(Part.ATTACHMENT) || dispostion.equals(Part.INLINE)){
+					dispostionb = true;
+				}
+
+				if (dispostionb) {
 					filename = mpart.getFileName();
 					if (StringUtils.isNotBlank(filename)) {
 						filename = MimeUtility.decodeText(filename);
