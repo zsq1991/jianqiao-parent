@@ -63,4 +63,15 @@ public class UpdateUserRoleDTO implements Serializable {
     public void setTelPhone(String telPhone) {
         this.telPhone = telPhone;
     }
+
+    @Override
+    public String toString() {
+        return "UpdateUserRoleDTO{" +
+                "userId=" + userId +
+                ", telPhone='" + telPhone + '\'' +
+                ", roleIds=" + roleIds +
+                ", createrId=" + createrId +
+                ", updaterId=" + updaterId +
+                '}';
+    }
 }

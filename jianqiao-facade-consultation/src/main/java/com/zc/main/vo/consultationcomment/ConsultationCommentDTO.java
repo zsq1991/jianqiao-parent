@@ -141,5 +141,22 @@ public class ConsultationCommentDTO extends BaseIdEntity implements Serializable
     public void setConsultation(Consultation consultation) {
         this.consultation = consultation;
     }
+
+    @Override
+    public String toString() {
+        return "ConsultationCommentDTO{" +
+                "consultationId=" + consultationId +
+                ", consultationMemberId=" + consultationMemberId +
+                ", memberId=" + memberId +
+                ", content='" + content + '\'' +
+                ", commentInfoId=" + commentInfoId +
+                ", parentId=" + parentId +
+                ", replyNum=" + replyNum +
+                ", fabulousNum=" + fabulousNum +
+                ", isDelete=" + isDelete +
+                ", firstReplyCommentId=" + firstReplyCommentId +
+                ", consultation=" + consultation +
+                '}';
+    }
 }
 
