@@ -19,7 +19,7 @@ import com.zc.common.core.net.html.HttpClientUtils;
  * Copyright © 2013 厦门卓讯信息技术有限公司 All rights reserved.
  *
  */
-public class LocationUtil {
+public class LocationUtilTest {
 	private static String ak = "16f2cd19e8f5cf23dcf656e5f53e7b45";// 百度web服务API密钥AK
 	private static String url = "http://api.map.baidu.com/location/ip";// 获取地理位置API接口
 
