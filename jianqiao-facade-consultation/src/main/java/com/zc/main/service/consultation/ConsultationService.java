@@ -47,9 +47,7 @@ public interface ConsultationService {
 
     Result publishConsultation(String id, String type, Member member);
 
-    //Result getConsultationById(String id, Member member);
 
-    // Result getConsultation(String id, Member member);
     Map<String, Object> getConsultationByIdaaa(Long id);
 
    /**
