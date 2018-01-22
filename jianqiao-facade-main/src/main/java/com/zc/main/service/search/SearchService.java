@@ -7,7 +7,7 @@ import com.zc.main.entity.member.Member;
 /**
  * @version 1.0.0
  * @description ：历史搜索和热门搜索
- * @Created by  : gaoge
+ * @author   : gaoge
  * @Creation Date ： 2018/1/18 11:59
  */
 public interface SearchService {
