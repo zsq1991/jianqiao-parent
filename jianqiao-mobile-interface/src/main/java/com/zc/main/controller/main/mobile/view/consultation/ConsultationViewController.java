@@ -172,9 +172,10 @@ public class ConsultationViewController {
     }
 
     /**
-     * 检测是否是高级用户
-     *
-     * @return
+     * @description ：检测是否是高级用户
+     * @Created by  : 朱军
+     * @Creation Date ： 2018/1/22 14:34
+     * @version 1.0.0
      */
     @RequestMapping(value = "checkisusertype", method = RequestMethod.POST)
     @ResponseBody
