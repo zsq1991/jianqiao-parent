@@ -82,6 +82,7 @@ public class MembersearchconsultationServiceImpl implements Membersearchconsulta
             memberSearchConsultationMapper.deleteAll(member.getId());
             return ResultUtils.returnSuccess("删除成功");
         } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             logger.error(e.getMessage(),e);
             return ResultUtils.returnError("删除失败");
         }
