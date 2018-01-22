@@ -38,6 +38,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 
 
 	@Override
+	@Transactional(readOnly = false)
 	public int insert(MemberMsg memberMsg) {
 		return memberMsgMapper.insert(memberMsg);
 	}

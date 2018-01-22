@@ -30,11 +30,14 @@ public class ConsultationCommentController {
 
 
 	/**
-	 * 用户相互回复评论
-	 * @param type          如果是给咨询评论者回复是0，给咨询评论者回复的人进行回复是1
-	 * @param parentid		回复评论的id	
+	 * @description ：
+	 * @Created by  : 朱军
+	 * @version
+	 * @Creation Date ： 2018/1/22 10:31
+	 * @param type		如果是给咨询评论者回复是0，给咨询评论者回复的人进行回复是1
+	 * @param parentid		回复评论的id
 	 * @param content		回复内容
-	 * @param member			
+	 * @param member
 	 * @return
 	 */
 	@Explosionproof

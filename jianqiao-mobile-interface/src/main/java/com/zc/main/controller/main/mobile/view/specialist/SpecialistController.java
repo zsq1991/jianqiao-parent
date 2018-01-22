@@ -88,6 +88,7 @@ public class SpecialistController {
 
         logger.info("===========开始调用【获取专家详情】接口===========");
         try {
+            logger.info("===========调用【获取专家详情】接口成功===========");
             return specialistService.getSpecialistDetail(specialistId);
         } catch (Exception e) {
             e.printStackTrace();

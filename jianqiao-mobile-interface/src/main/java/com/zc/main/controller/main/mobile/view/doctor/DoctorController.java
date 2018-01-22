@@ -41,6 +41,7 @@ public class DoctorController {
     public Result getDoctorDetail(@RequestParam(value = "doctorId" ,required = false)Long doctorId){
         logger.info("===========开始调用【获取高手详情】接口===========");
         try {
+            logger.info("===========调用【获取高手详情】接口成功===========");
             return doctorServer.getDoctorDetail(doctorId);
         } catch (Exception e) {
             e.printStackTrace();
