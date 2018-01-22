@@ -10,7 +10,7 @@ import java.util.List;
 public class SensitiveWordTest {
 
     @Test
-    public void Test(){
+    public void test(){
     SensitivewordFilter filter = new SensitivewordFilter();
         System.out.println("敏感词的数量：" + filter.sensitiveWordMap.size());
                 String string = "毛泽东太多的伤感情怀也许只局限于饲养基地 荧幕中的情节，主人公尝试着去用某种方式渐渐的很潇洒地释自杀指南怀那些自己经历的伤感。"

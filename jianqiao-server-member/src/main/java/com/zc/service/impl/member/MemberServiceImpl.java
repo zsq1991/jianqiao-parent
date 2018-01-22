@@ -12,6 +12,7 @@ import com.zc.main.entity.memberattachment.MemberAttachment;
 import com.zc.main.service.member.MemberService;
 import com.zc.mybatis.dao.MemberAttachmentMapper;
 import com.zc.mybatis.dao.MemberMapper;
+import com.zc.mybatis.dao.MemberMessageMapper;
 import com.zc.mybatis.dao.MemberMsgMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
@@ -37,6 +38,8 @@ public class MemberServiceImpl implements MemberService {
     private MemberAttachmentMapper memberAttachmentMapper;
     @Autowired
     private MemberMsgMapper memberMsgMapper;
+    @Autowired
+    private MemberMessageMapper messageMapper;
 
 
     /**
@@ -278,6 +281,41 @@ public class MemberServiceImpl implements MemberService {
             logger.error(e.getMessage(),e);
             return ResultUtils.returnError("姓名身份证验证失败");
         }
+    }
+
+    /**
+     * 用户个人信息获取【已关注或未关注】
+     * @author zhaoshuaiqi
+     * @data 2018/1/19
+     * @Description:
+     * @param member
+     * @param member_id
+     * @return
+     */
+    @Override
+    public Result memberInfo(Member member, Long member_id) {
+        // 判断member是否为空
+        if (member_id == null) {
+            return ResultUtils.returnError("没有对应的会员信息");
+        }
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        if(member!=null){
+            map.put("login_member_id", member.getId());
+        }
+
+        List<Map<String, Object>> memberinfo =messageMapper.getMemberInfo(map);
+
+        for (Map<String, Object> getphone : memberinfo) {
+            //phone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+            Object phone = getphone.get("phone");
+            if(phone!=null){
+                phone = ((String) phone).replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+                getphone.put("phone", phone);
+            }
+        }
+
+        return ResultUtils.returnSuccess("用户个人信息获取OK：", memberinfo);
     }
 
     /**

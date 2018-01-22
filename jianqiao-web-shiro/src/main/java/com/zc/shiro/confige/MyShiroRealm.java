@@ -105,15 +105,15 @@ public class MyShiroRealm extends AuthorizingRealm {
         //1.获取当前登录输入的用户名，等价于(String) principalCollection.fromRealm(getName()).iterator().next();
         String loginName = (String) super.getAvailablePrincipal(principalCollection);
         //2.查询用户是否存在
-        UserDTO User = new UserDTO();
-        User.setTelphone(loginName);
-        UserVO user = userService.getUserByCondition(User);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setTelphone(loginName);
+        UserVO user = userService.getUserByCondition(userDTO);
         //3.如果用户存在，获取该用户的角色集合和权限集合
         if (user != null) {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();	//权限信息对象info,用来存放用户的所有角色（role）及权限（permission）
             //用户的角色集合
             List<RoleVO> roles = roleService.getRoleByUserId(user.getId());
-            info.setRoles(ConvertRoleListUtil.ConvertRoleListToSet(roles));
+            info.setRoles(ConvertRoleListUtil.convertRoleListToSet(roles));
 
             //菜单权限
             List<Long> roleList = new ArrayList<>();
@@ -121,7 +121,7 @@ public class MyShiroRealm extends AuthorizingRealm {
                 roleList.add(role.getId());
             }
             List<MenuVO> menuVOS = menuService.getMenuByRoleIds(roleList);
-            info.addStringPermissions(ConvertRoleListUtil.ConvertPermissionListToStringList(menuVOS));
+            info.addStringPermissions(ConvertRoleListUtil.convertPermissionListToStringList(menuVOS));
 
             //按钮权限
             //Session按钮集合
@@ -132,8 +132,8 @@ public class MyShiroRealm extends AuthorizingRealm {
             }
             for (Long roleId : roleList) {
                 List<BtnVO> btnVOS = btnService.getBtnListByMenuId(menuList, roleId);
-                info.addStringPermissions(ConvertRoleListUtil.ConvertBtnPermissionListToStringList(btnVOS));
-                permissions.addAll(ConvertRoleListUtil.ConvertBtnPermissionListToStringList(btnVOS));
+                info.addStringPermissions(ConvertRoleListUtil.convertBtnPermissionListToStringList(btnVOS));
+                permissions.addAll(ConvertRoleListUtil.convertBtnPermissionListToStringList(btnVOS));
             }
             logger.info("该用户总角色数为：" + info.getRoles().size());
             logger.info("角色详细列表如下:");
@@ -170,9 +170,9 @@ public class MyShiroRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         logger.info("验证当前Subject时获取到token为：" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
         //1.查询用户是否存在
-        UserDTO User = new UserDTO();
-        User.setTelphone(token.getUsername());
-        UserVO user = userService.getUserByCondition(User);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setTelphone(token.getUsername());
+        UserVO user = userService.getUserByCondition(userDTO);
         if (user == null) {//账户不存在
             throw new UnknownAccountException();
         }else{

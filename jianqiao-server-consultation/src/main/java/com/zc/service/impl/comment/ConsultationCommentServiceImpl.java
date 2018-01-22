@@ -105,6 +105,7 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
     @Transactional(readOnly = false)
     public Result saveReplyconsultationCommentService(Long memberid, Integer type, Long parentid, String content) {
 
+        logger.info("==========开始调用评论回复接口============参数( memberid："+memberid+"type:"+type+"parentid:"+parentid+"content:"+content);
         if(type==null){
             return ResultUtils.returnError("参数错误，type类型不能为空");
         }
@@ -153,7 +154,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 }
                 //更新回复数量
                 consultationCommentMapper.insert(parentConsultationCommentdb);
-//===========================维护MemberMsg系统通知=================================================================
+
+                //维护MemberMsg系统通知
                 MemberMsg memberMsg = new MemberMsg();
                 //memberMsg.setConsultationCommentId(newConsultationCommentdb.getFirstReplyCommentId());//保存新增的回复数据
                 memberMsg.setMemberId(parentConsultationCommentdb.getMemberId());//被评论的资讯
@@ -180,8 +182,9 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 consultationComment.setParentId(parentConsultationCommentdb.getParentId());
                 topConsulattionCommentdb.setReplyNum(topConsulattionCommentdb.getReplyNum()==null?1:topConsulattionCommentdb.getReplyNum()+1);
                 int savacount = this.consultationCommentMapper.insert(consultationComment);//保存新增回复评论
-                this.consultationCommentMapper.insert(topConsulattionCommentdb);//更新回复的数量
-//===============================维护MemberMsg系统通知================================================================
+                this.consultationCommentMapper.insert(topConsulattionCommentdb);//更新回复的数量\
+
+                //维护MemberMsg系统通知
                 MemberMsg memberMsg = new MemberMsg();
                 //memberMsg.setConsultationCommentId(saveAndModify.getId());//保存新增的回复数据
                 memberMsg.setMemberId(topConsulattionCommentdb.getMemberId());//被评论的资讯
@@ -196,8 +199,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 //添加到推送表中
                 //memberConsultationMsgPoolService.addConsultationCommentPush(parentConsultationCommentdb.getMember(), parentConsultationCommentdb.getConsultation(), parentConsultationCommentdb, member, 1);
             }
+            logger.info("==========调用评论回复接口结束============参数( memberid："+memberid+"type:"+type+"parentid:"+parentid+"content:"+content);
             return ResultUtils.returnSuccess("回复成功");
-
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
             logger.error("====回复资讯异常：用户ID："+memberid+"====="+e.getMessage());
@@ -205,7 +208,6 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
             return ResultUtils.returnError("回复失败");
 
         }
-        //return rpcConsultationCommentService.saveReplyconsultationCommentService(memberid,type,parentid,content);
     }
 
     @Override

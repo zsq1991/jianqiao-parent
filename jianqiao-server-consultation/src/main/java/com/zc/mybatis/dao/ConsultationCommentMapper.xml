@@ -15,8 +15,6 @@
         <result column="fabulous_num" property="fabulousNum"/>
         <result column="is_delete" property="isDelete" javaType="java.lang.Integer"/>
         <result column="first_reply_comment" property="firstReplyCommentId"/>
-        <association property="consultation" autoMapping="true" foreignColumn="id" column="consultation_id"
-                     javaType="com.zc.main.entity.consultation.Consultation" select="selectConsultationById"/>
     </resultMap>
 
     <select id="getCommentList" parameterType="Map" resultType="Map">
@@ -203,38 +201,6 @@
         (consultation_id,consultation_member_id,member_id,content,comment_info_id,parent_id,reply_num,fabulous_num,is_delete,first_reply_comment)
         VALUES (#{consultationId},#{consultationMemberId},#{memberId},#{content},#{commentInfoId},#{parentId},#{replyNum},#{fabulousNum},#{isDelete},#{firstReplyCommentId})
     </insert>
-
-    <select id="selectConsultationById" resultType="com.zc.main.entity.consultation.Consultation" parameterType="Long">
-        SELECT
-            c.id,
-            c.created_time AS createdTime,
-            c.update_time AS updateTime,
-            c.audit_user_name AS auditUserName,
-            c.author_info AS authorInfo,
-            c.collect_num AS collectNum,
-            c.comment_num AS commentNum,
-            c.detail_summary AS detailSummary,
-            c.fabulous_num AS fabulousNum,
-            c.is_delete AS isDelete,
-            c.model_type AS modelType,
-            c.num,
-            c.order_date AS orderDate,
-            c.rejection_reason AS rejectionReason,
-            c.share_num AS shareNum,
-            c.title,
-            c.top,
-            c.topic_type AS topicType,
-            c.type,
-            c.status,
-            c.consulatation_id AS consulatationId,
-            c.member_id AS memberId,
-            c.origin,
-            c.origin_id AS originId,
-            c.result,
-            c.power
-        FROM
-	    alq_consultation c WHERE c.id = #{consultation_id}
-    </select>
 
     <update id="updateConsultaionComment" parameterType="com.zc.main.entity.consultationcomment.ConsultationComment">
         UPDATE alq_consultation_comment c

@@ -123,15 +123,15 @@ public class HttpClientUtils {
 	
 	/**
 	 * 判断远程url是否存在
-	 * @param URLName url地址
+	 * @param uRLName url地址
 	 * @return
 	 */
-	public static boolean exists(String URLName) {
+	public static boolean exists(String uRLName) {
 		try {
 			// 设置此类是否应该自动执行 HTTP 重定向（响应代码为 3xx 的请求）
 			HttpURLConnection.setFollowRedirects(false);
 			// 到 URL 所引用的远程对象的连接
-			HttpURLConnection con = (HttpURLConnection) new URL(URLName).openConnection();
+			HttpURLConnection con = (HttpURLConnection) new URL(uRLName).openConnection();
 			// 设置 URL 请求的方法,GET POST HEAD OPTIONS PUT DELETE TRACE 以上方法之一是合法的,具体取决于协议的限制
 			con.setRequestMethod("HEAD");
 			// 从 HTTP 响应消息获取状态码
@@ -145,14 +145,14 @@ public class HttpClientUtils {
 	
 	/**
 	 * 判断链接类型是否为文档等内容
-	 * @param URL 链接url地址
+	 * @param uRL 链接url地址
 	 * @return
 	 */
-	public static Boolean linkType(String URL) {
+	public static Boolean linkType(String uRL) {
 		Boolean result = false;
 		String linkType = "";
-		if (URL.contains(".")) {
-			linkType = URL.substring(URL.lastIndexOf("."));
+		if (uRL.contains(".")) {
+			linkType = uRL.substring(uRL.lastIndexOf("."));
 		}
 		DebugUtils.println("linkType:" + linkType);
 		if (linkType.contains("doc") || linkType.contains("xls") || linkType.contains("ppt") || linkType.contains("pdf") || linkType.contains("rar")) {

@@ -13,7 +13,7 @@ package com.zc.common.core.cxf.webservice;
 public class WSResult<T> {
 	private Integer code = 1;// 状态，1为成功，0为失败，其他自定义
 	private String msg;// 状态说明信息
-	private T T;// 内容
+	private T t;// 内容
 
 	public Integer getCode() {
 		return code;
@@ -32,11 +32,10 @@ public class WSResult<T> {
 	}
 
 	public T getT() {
-		return T;
+		return t;
 	}
 
 	public void setT(T t) {
-		T = t;
+		this.t = t;
 	}
-
 }

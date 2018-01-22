@@ -112,7 +112,7 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
         String uuid = UniqueUtils.getUUID();
         uuid = uuid.replace("-", "");
         // 密码：md5(md5(密码)+uuid)
-        String passwordMD5 = MD5Util.MD5Encode(MD5Util.MD5Encode(password, "utf-8") + uuid, "utf-8");
+        String passwordMD5 = MD5Util.getMD5Encode(MD5Util.getMD5Encode(password, "utf-8") + uuid, "utf-8");
 
         String userbrowser = "未知";
         if (null != agent) {
@@ -254,7 +254,7 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
             return ResultUtils.returnError("该手机号未注册，请先注册");
         }
         if (member != null && member.getPassword()
-                .equals(MD5Util.MD5Encode(MD5Util.MD5Encode(password, "utf-8") + member.getUuid(), "utf-8"))) {
+                .equals(MD5Util.getMD5Encode(MD5Util.getMD5Encode(password, "utf-8") + member.getUuid(), "utf-8"))) {
             logger.info("=========修改密码方法结束==========");
             return ResultUtils.returnError("您设置的登录密码与旧密码相同");
         }
@@ -263,7 +263,7 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
         uuid = uuid.replace("-", "");
         // 密码：md5(md5(密码)+uuid)
 
-        String passwordMD5 = MD5Util.MD5Encode(MD5Util.MD5Encode(password, "utf-8") + uuid, "utf-8");
+        String passwordMD5 = MD5Util.getMD5Encode(MD5Util.getMD5Encode(password, "utf-8") + uuid, "utf-8");
         logger.info("=========开始更新密码==========");
         Map<String, Object> p = new HashedMap();
         p.put("id", member.getId());

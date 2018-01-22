@@ -215,10 +215,10 @@ public class RoleTServiceImpl implements IRoleService {
 	private List<MenuVO> insertBtn(List<MenuVO> menuVOS, Long roleId) {
 		List<MenuVO> btns = new ArrayList<MenuVO>();
 		for (MenuVO menuVO : menuVOS) {
-            List<BtnVO> BtnVOs = btnMapper.getAllBaseBtnByMenuId(menuVO.getId());
+            List<BtnVO> btnVOs = btnMapper.getAllBaseBtnByMenuId(menuVO.getId());
             List<Long> btnIds = menuBtnMapper.selectMenuBtnByMenuIdAndRoleId(menuVO.getId(), roleId);
-            if (BtnVOs != null && BtnVOs.size() != 0) {
-				for (BtnVO b : BtnVOs) {
+            if (btnVOs != null && btnVOs.size() != 0) {
+				for (BtnVO b : btnVOs) {
 					MenuVO btnMenuVo = new MenuVO();
 					btnMenuVo.setBtnId(b.getId());
 					btnMenuVo.setMenuName(b.getBtnName());

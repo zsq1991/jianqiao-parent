@@ -178,6 +178,7 @@ public class MemberFolloServiceImpl implements MemberFollowService {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
                 return ResultUtils.returnError("关注用户失败");
             }
+            logger.info("关注成功");
             return result;
         }
     }

@@ -6,7 +6,6 @@ import com.zc.common.core.orm.mybatis.MyBatisRepository;
 import com.zc.main.dto.attachment.AttachmentDTO;
 import com.zc.main.entity.consultationattachment.ConsultationAttachment;
 import com.zc.main.entity.membermsg.MemberMsg;
-import org.apache.cxf.message.Attachment;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -47,10 +46,10 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @author 王鑫涛
      * @date 10:55 2018/1/18
      * @version 版本号
-     * @param member_id
+     * @param memberId
      * @return
      */
-    public List<MemberMsg> getRowLockList(@org.springframework.data.repository.query.Param("member_id")Long member_id);
+    public List<MemberMsg> getRowLockList(@org.springframework.data.repository.query.Param("member_id")Long memberId);
 
     void deleteMemberMsgByConsulatationId(@Param("memberId") Long memberId, @Param("types") Integer types, @Param("id") Long id);
 
@@ -60,7 +59,7 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @Creation Date ： 2018/1/17 10:06
      * @version 1.0.0
      */
-    public void deleteMemberMsgBycontentId(@Param("mId") Long mId, @Param("type") Integer type, @Param("commentid") Long commentid);
+    public void deleteMemberMsgBycontentId(@Param("mId") Long mId, @Param("type") Integer type, @Param("commentid") Long commentId);
 
     /**
      * @description:  查病例图片

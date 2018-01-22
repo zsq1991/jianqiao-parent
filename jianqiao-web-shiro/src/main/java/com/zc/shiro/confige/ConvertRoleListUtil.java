@@ -20,7 +20,7 @@ public class ConvertRoleListUtil {
      * @param roles
      * @return
      */
-    public static Set<String> ConvertRoleListToSet(List<RoleVO> roles) {
+    public static Set<String> convertRoleListToSet(List<RoleVO> roles) {
         Set<String> set = new HashSet<String>();
         for (RoleVO role : roles) {
             set.add(role.getRoleCode().toString());
@@ -33,7 +33,7 @@ public class ConvertRoleListUtil {
      *
      * @param permissions
      */
-    public static List<String> ConvertPermissionListToStringList(List<MenuVO> permissions) {
+    public static List<String> convertPermissionListToStringList(List<MenuVO> permissions) {
         List<String> list = new ArrayList<String>();
         //---这里用的菜单表，后面要改成菜单权限表和按钮权限表
         for (MenuVO permission : permissions) {
@@ -59,7 +59,7 @@ public class ConvertRoleListUtil {
      *
      * @创建时间：2017/5/15 13:54
      */
-    public static List<String> ConvertBtnPermissionListToStringList(List<BtnVO> permissions) {
+    public static List<String> convertBtnPermissionListToStringList(List<BtnVO> permissions) {
         List<String> list = new ArrayList<String>();
         //---这里用的按钮表
         for (BtnVO permission : permissions) {

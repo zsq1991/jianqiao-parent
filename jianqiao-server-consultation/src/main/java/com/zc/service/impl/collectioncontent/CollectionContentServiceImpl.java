@@ -73,19 +73,19 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                 }
                 String type = (String) consulationDetail.get("type").toString();
                 if ("1".equals(type) || "3".equals(type)) {
-                    String consultation_id = consulationDetail.get("pid").toString();
-                    set.add(consultation_id);
+                    String consultationParentId = consulationDetail.get("pid").toString();
+                    set.add(consultationParentId);
                 } else if ("0".equals(type) || "2".equals(type) || "4".equals(type) || "6".equals(type)) {
-                    String consultation_id = consulationDetail.get("id").toString();
-                    set.add(consultation_id);
+                    String consultationParentId = consulationDetail.get("id").toString();
+                    set.add(consultationParentId);
                 }
             }
 
 
             // 判断当前
-            for (String consultation_id : set) {
+            for (String consultationParentId : set) {
                 // String consultation_id = map.get("consultation_id");  咨询详情
-                Map<String, Object> consulationDetail = consultationMapper.getConsultationById(consultation_id);
+                Map<String, Object> consulationDetail = consultationMapper.getConsultationById(consultationParentId);
                 if (null == consulationDetail) {
                     continue;
                 }
@@ -217,6 +217,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
     @Override
     @Transactional(readOnly = false)
     public Result collectionContent(Member member, Long consultationId) {
+        logger.info("收藏内容传入参数==》member:"+member.toString()+ " consultationId:" +consultationId);
         Result result = new Result();
         if(Objects.isNull(member.getId())||Objects.isNull(consultationId)){
             return ResultUtils.returnError("参数为空");
@@ -251,8 +252,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                 //当typeflag=1和3的时候，collectNum将对应的主题0和2也要1，其他不变！ 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
                 if(typeflag==1 ||typeflag==3 ){
                     //获取到当前资讯信息-得到父级的资讯ID
-                    Long consultation_id = consultationinfo.getConsultationId();
-                    Consultation con = consultationMapper.findOne(consultation_id);//洋大侠
+                    Long consultationParentId = consultationinfo.getConsultationId();
+                    Consultation con = consultationMapper.findOne(consultationParentId);//洋大侠
                     con.setCollectNum(con.getCollectNum()==null?0+1:con.getCollectNum()+1);
                     con.setUpdateTime(new Date());
                     if (consultationMapper.updateConsultationById(con)>0){
@@ -291,8 +292,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                 if(type==0){
                     if(typeflag==1 ||typeflag==3 ){
                         //获取到当前资讯信息-得到父级的资讯ID
-                        Long consultation_id = consultationinfo.getConsultationId();
-                        Consultation con = consultationMapper.findOne(consultation_id);//洋大侠
+                        Long consultationParentId = consultationinfo.getConsultationId();
+                        Consultation con = consultationMapper.findOne(consultationParentId);//洋大侠
                         Long collectNum = con.getCollectNum()==null?0L:con.getCollectNum();
                         con.setCollectNum(collectNum-1<0?0:collectNum-1);
                         con.setUpdateTime(new Date());
@@ -324,8 +325,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                     //type 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享 当typeflag=1和3的时候，collectNum将对应的主题0和2也要1，其他不变
                     if(typeflag==1 ||typeflag==3 ){
                         //获取到当前资讯信息-得到父级的资讯ID
-                        Long consultation_id = consultationinfo.getConsultationId();
-                        Consultation con = consultationMapper.findOne(consultation_id);//洋大侠
+                        Long consultationParentId = consultationinfo.getConsultationId();
+                        Consultation con = consultationMapper.findOne(consultationParentId);//洋大侠
                         Long collectNum = con.getCollectNum()==null?0L:con.getCollectNum();
                         con.setCollectNum(collectNum-1<0?0:collectNum-1);
                         con.setUpdateTime(new Date());
@@ -361,6 +362,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
             logger.error(e.getMessage(),e);
             return ResultUtils.returnError("收藏内容异常");
         }
+        logger.info("成功");
         return result;
     }
 }

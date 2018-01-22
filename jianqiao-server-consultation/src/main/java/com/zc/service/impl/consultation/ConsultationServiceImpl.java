@@ -1732,35 +1732,35 @@ public class ConsultationServiceImpl implements ConsultationService {
             List<Map<String,Object>> subjectConsultation = Lists.newArrayList();
             if (!Objects.isNull(detailConsultation)){
 
-                for (Map<String,Object> e_:detailConsultation) {
-                    Long sid = Long.parseLong(e_.get("id").toString());
+                for (Map<String,Object> ee:detailConsultation) {
+                    Long sid = Long.parseLong(ee.get("id").toString());
                     //驳回原因
                     logger.info("===============咨询信息驳回原因===============");
-                    String statuss=e_.get("status").toString();
+                    String statuss=ee.get("status").toString();
                     if("3".equals(statuss)){
                         Map<String, Object> map3=memberMessageService.getContentById(sid);
                         if(map3.size()>0){
                             reject=map3.get("content").toString();
                         }
-                        e_.put("reject", reject);
+                        ee.put("reject", reject);
                     }else{
-                        e_.put("reject", reject);
+                        ee.put("reject", reject);
                     }
 
                     if (cid.equals(String.valueOf(sid))) {
                         //封面图
-                        e_.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(sid));
+                        ee.put("covers",consultationAttachmentService.getConsultationAttachmentCoverAddressByConsultationId(sid));
 
-                        e_.put("content", consultationAttachmentService.getConsultationAttachmentDetailByConsultation(sid));
+                        ee.put("content", consultationAttachmentService.getConsultationAttachmentDetailByConsultation(sid));
                         //视频地址
-                        e_.put("video", consultationAttachmentService.findConsultationAttachmentVideoAddressByConsultationId(sid));
-                        subjectConsultation.add(e_);
+                        ee.put("video", consultationAttachmentService.findConsultationAttachmentVideoAddressByConsultationId(sid));
+                        subjectConsultation.add(ee);
                     }
                 }
-                for (Map<String,Object> e_:detailConsultation) {
-                    Long sid = Long.parseLong(e_.get("id").toString());
+                for (Map<String,Object> ee:detailConsultation) {
+                    Long sid = Long.parseLong(ee.get("id").toString());
                     if (!cid.equals(String.valueOf(sid))) {
-                        subjectConsultation.add(e_);
+                        subjectConsultation.add(ee);
                     }
                 }
             }
