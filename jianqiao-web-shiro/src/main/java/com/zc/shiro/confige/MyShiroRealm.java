@@ -105,9 +105,9 @@ public class MyShiroRealm extends AuthorizingRealm {
         //1.获取当前登录输入的用户名，等价于(String) principalCollection.fromRealm(getName()).iterator().next();
         String loginName = (String) super.getAvailablePrincipal(principalCollection);
         //2.查询用户是否存在
-        UserDTO User = new UserDTO();
-        User.setTelphone(loginName);
-        UserVO user = userService.getUserByCondition(User);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setTelphone(loginName);
+        UserVO user = userService.getUserByCondition(userDTO);
         //3.如果用户存在，获取该用户的角色集合和权限集合
         if (user != null) {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();	//权限信息对象info,用来存放用户的所有角色（role）及权限（permission）
@@ -170,9 +170,9 @@ public class MyShiroRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         logger.info("验证当前Subject时获取到token为：" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
         //1.查询用户是否存在
-        UserDTO User = new UserDTO();
-        User.setTelphone(token.getUsername());
-        UserVO user = userService.getUserByCondition(User);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setTelphone(token.getUsername());
+        UserVO user = userService.getUserByCondition(userDTO);
         if (user == null) {//账户不存在
             throw new UnknownAccountException();
         }else{

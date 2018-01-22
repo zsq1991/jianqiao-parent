@@ -77,11 +77,11 @@ public class PropertiesUtils {
 	  * @author mike
 	  * @create-time 2014-1-3 下午3:06:53
 	  */
-	 public static String getValueByPropertyName_(String propertiesFileNameWithoutPostfix,String propertyName) {
+	 public static String getValueByPropertyNames(String propertiesFileNameWithoutPostfix,String propertyName) {
 	        String s="";
 	        //如属性文件是test.properties，那此时propertiesFileNameWithoutPostfix的值就是test
-	        ResourceBundle bundel = ResourceBundle.getBundle(propertiesFileNameWithoutPostfix);
-	        s=bundel.getString(propertyName);
+	        ResourceBundle bundes = ResourceBundle.getBundle(propertiesFileNameWithoutPostfix);
+	        s=bundes.getString(propertyName);
 	        return s;
 	    }
 	 

@@ -110,8 +110,8 @@ public class OSSMultipartSample {
         //删除bucket之前必须保证bucket为空，所以先必须先删除object和multipart
 
         // 如果存在，查看bucket是否为空
-        ObjectListing ObjectListing = client.listObjects(bucketName);
-        List<OSSObjectSummary> listDeletes = ObjectListing.getObjectSummaries();
+        ObjectListing objectListing = client.listObjects(bucketName);
+        List<OSSObjectSummary> listDeletes = objectListing.getObjectSummaries();
         for (int i = 0; i < listDeletes.size(); i++) {
             String objectName = listDeletes.get(i).getKey();
             // 如果不为空，先删除bucket下的文件
