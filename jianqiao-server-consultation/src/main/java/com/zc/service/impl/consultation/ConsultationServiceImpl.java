@@ -117,7 +117,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
                 //============================================================修改所有的有关咨询的收藏数@author wudi============================================================	//
                 logger.info("-------------------------------获取所有的memberId--------------------------");
-                List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId(id);//获取所有的memberId
+                //获取所有的memberId
+                List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId(id);
                 logger.info("通过资讯id："+id);
                 logger.info("进入删除循环通过资讯ID获取关联数据："+memberIdByConsultationId);
                 if (memberIdByConsultationId.size()>0) {
@@ -138,7 +139,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                         Long	 collectionId =(Long)map.get("collectionId");
                         logger.info("删除资讯的时候获取需要修改的收藏的资讯id："+collectionId);
                         CollectionConsultation collection = collectionContentService.findOne(collectionId);
-                        collection.setType(1);//0收藏   1取消收藏
+                        //0收藏   1取消收藏
+                        collection.setType(1);
                         collectionContentService.updateById(collection);
                     }
                 }
@@ -153,11 +155,12 @@ public class ConsultationServiceImpl implements ConsultationService {
                 try {
                     //============================================================修改所有的有关咨询的收藏数包含主题下所有的资讯@author wudi============================================================	//
                     logger.info("删除主题的资讯："+id);
-                    List<Map> consultationIdAllByconsultationId = collectionConsulationMapper.getConsultationIdAllByconsultationId(id);//id
+                    //id
+                    List<Map> consultationIdAllByconsultationId = collectionConsulationMapper.getConsultationIdAllByconsultationId(id);
                     if (consultationIdAllByconsultationId.size()>0) {
                         for (Map maps : consultationIdAllByconsultationId) {
-
-                            List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId((Long)maps.get("id"));//获取所有的memberId
+                            //获取所有的memberId
+                            List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId((Long)maps.get("id"));
                             for (Map map : memberIdByConsultationId) {
 
                                 Long mId =(Long)map.get("mId");
@@ -172,7 +175,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                                 logger.info("获取资讯id");
                                 Long	 collectionId =(Long)map.get("collectionId");
                                 CollectionConsultation collection = collectionContentService.findOne(collectionId);
-                                collection.setType(1);//0收藏   1取消收藏
+                                //0收藏   1取消收藏
+                                collection.setType(1);
                                 collectionContentService.updateById(collection);
                             }
                         }
@@ -185,9 +189,11 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //主题的时候删除关联的收藏
                 consultationMapper.updateConsultationByParentId(ct.getId());
             }
-            if (type4.equals(String.valueOf(type)) || type6.equals(String.valueOf(type))) {//分享和求助
+            //分享和求助
+            if (type4.equals(String.valueOf(type)) || type6.equals(String.valueOf(type))) {
                 //============================================================修改所有的有关咨询的收藏数@author wudi============================================================	//
-                List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId(id);//获取所有的memberId
+                //获取所有的memberId
+                List<Map> memberIdByConsultationId = collectionConsulationMapper.getMemberIdByConsultationId(id);
                 logger.info("通过资讯id："+id);
                 logger.info("进入删除循环通过资讯ID获取关联数据："+memberIdByConsultationId);
                 if (memberIdByConsultationId.size()>0) {
@@ -207,7 +213,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                         Long	 collectionId =(Long)map.get("collectionId");
                         logger.info("删除资讯的时候获取需要修改的收藏的资讯id："+collectionId);
                         CollectionConsultation collection = collectionContentService.findOne(collectionId);
-                        collection.setType(1);//0收藏   1取消收藏
+                        //0收藏   1取消收藏
+                        collection.setType(1);
                         collectionContentService.updateById(collection);
                     }
                 }
@@ -359,7 +366,8 @@ public class ConsultationServiceImpl implements ConsultationService {
             if (!checkConsultation(content,"1")){
                 return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
             }
-            JSONObject jsonObject = JSONObject.parseObject(content);//获取总的数据
+            //获取总的数据
+            JSONObject jsonObject = JSONObject.parseObject(content);
             if (Objects.isNull(jsonObject)){
                 return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
             }
@@ -372,7 +380,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
             }
             logger.info("=================获取用户类型===============");
-            Integer userType = member.getUserType();//0普通 1认证后用户可以发布访谈 口述 2:认证中
+            //0普通 1认证后用户可以发布访谈 口述 2:认证中
+            Integer userType = member.getUserType();
             //非高级用户
             if (!"1".equals(String.valueOf(userType)) && "0,1,2,3".contains(type)){
                 return ResultUtils.returnError("非高级用户,不能发布信息.");
@@ -385,7 +394,8 @@ public class ConsultationServiceImpl implements ConsultationService {
             Consultation consultation = new Consultation();
 
             consultation.setAuthorInfo(member.getNickname());
-            if ("5".equals(type)){//给求助的评论是回答
+            //给求助的评论是回答
+            if ("5".equals(type)){
                 //审核通过
                 consultation.setStatus(2);
                 //求助ID
@@ -416,7 +426,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                 logger.info("获取资讯"+sonConsultation);
                 consultation.setConsultationId(sonConsultation.getId());
             }
-            Integer modelType = jsonObject.getInteger("modelType");//模式类型  0无图  1单图 2三图
+            //模式类型  0无图  1单图 2三图
+            Integer modelType = jsonObject.getInteger("modelType");
             if (!Objects.isNull(modelType)){
                 consultation.setModelType(modelType);
             }
@@ -490,14 +501,17 @@ public class ConsultationServiceImpl implements ConsultationService {
             result.put("type",consultation.getType());
             if ("5".equals(type)){
                 //==========================================================维护到MemberMsg表中===============================================
-                Long helpId = jsonObject.getLong("id");//求助的id
+                //求助的id
+                Long helpId = jsonObject.getLong("id");
                 MemberMsg memberMsg = new MemberMsg();
                 memberMsg.setConsultationId(consultation.getId());
                 memberMsg.setCreatedTime(new Date());
                 memberMsg.setUpdateTime(new Date());
                 memberMsg.setMemberId(consultationMapper.getOne(helpId).getMemberId());
-                memberMsg.setMemberBaseId(member.getId());//评论者的id
-                memberMsg.setType(4);//资讯评论中状态
+                //评论者的id
+                memberMsg.setMemberBaseId(member.getId());
+                //资讯评论中状态
+                memberMsg.setType(4);
                 memberMsgService.save(memberMsg);
                 logger.info("---------------------------------发布资讯方法结束----------------------------");
                 return ResultUtils.returnSuccess("发布成功",result);
@@ -561,7 +575,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //驳回 编辑主题
                 if (Objects.equals(cstatus,3) && "0,2".contains(String.valueOf(consultation.getType()))){
                     logger.info("==========================修改主题的内容================================");
-                    consultationMapper.updateConsultationByConsultation(consultation.getId());//修改主题的内容
+                    //修改主题的内容
+                    consultationMapper.updateConsultationByConsultation(consultation.getId());
                     //@wudi,删除通知中的资讯,资讯id，memberId，资讯审核状态type为 1认证驳回  2内容驳回,有关咨询中的所有的资讯内容id
                     logger.info("==========================删除通知中的资讯,资讯id，memberId，资讯审核状态type为 1认证驳回  2内容驳回,有关咨询中的所有的资讯内容id=========");
                     Long mId = member.getId();
@@ -591,7 +606,8 @@ public class ConsultationServiceImpl implements ConsultationService {
                         Integer status=	findOne.getStatus()==null?0:findOne.getStatus();
                         if(Objects.equals(status,3)){
                             logger.info("=================修改主题===================");
-                            consultationMapper.updateConsultationStatusById(consultation.getConsultationId());//修改主题
+                            //修改主题
+                            consultationMapper.updateConsultationStatusById(consultation.getConsultationId());
                             //@wudi,删除通知中的资讯,资讯id，memberId，资讯审核状态type为 1认证驳回  2内容驳回
                             Integer msgType =2;
                             Long conId= consultation.getId();
@@ -740,9 +756,11 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //按类型查询
                 String type = consultationInfo.get("type").toString();
                 //是否是主题或访谈的标识
-                boolean isMore = false;//是否是主题或访谈的标识    false 不是   true 是
+                //是否是主题或访谈的标识    false 不是   true 是
+                boolean isMore = false;
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String, Object>>();
-                if ("0".equals(type) || "2".equals(type)) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                if ("0".equals(type) || "2".equals(type)) {
                     //判断访谈和口述是否有内容
                     Integer count = consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
                     if (count == 0) {
@@ -751,22 +769,28 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                     isMore = true;
 
-                    consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));//根据访谈或口述的id查询其子类
+                    //根据访谈或口述的id查询其子类
+                    consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));
                     //取详情内容
                     Object detailContentChid = "";
                     if (consultationChidList.size() > 0) {
                         for (Map<String, Object> consultationChidInfo : consultationChidList) {
                             //处理时间格式
                             String chidAlreadyTime = DateUtils.dateFormat((Date) consultationChidInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                            //设置日期格式
+                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                             String chidNowTime = chiddf.format(new Date());
                             String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
                             String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-                            if (chidTime1.equals(chidTime2)) {//同一天
-                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                            //同一天
+                            if (chidTime1.equals(chidTime2)) {
+                                //截取当天   时，分
+                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();
                                 consultationChidInfo.put("createdTime", chidcreatedTime);
-                            } else {//不同一天
-                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                            } else {
+                                //不同一天
+                                //截取当天   年，月，日
+                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();
                                 consultationChidInfo.put("createdTime", chidcreatedTime);
                             }
 
@@ -804,15 +828,20 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
                 //处理时间格式
                 String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                //设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String nowTime = df.format(new Date());
                 String time1 = alreadyTime.subSequence(0, 10).toString();
                 String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {//同一天
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                if (time1.equals(time2)) {
+                    //同一天
+                    //截取当天   时，分
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
                     consultationInfo.put("createdTime", createdTime);
-                } else {//不同一天
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                } else {
+                    //不同一天
+                    //截取当天   年，月，日
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
                     consultationInfo.put("createdTime", createdTime);
                 }
 
@@ -867,15 +896,20 @@ public class ConsultationServiceImpl implements ConsultationService {
             for (Map<String, Object> consultationInfoHelp : consultationInfoHelpList) {
                 //处理时间格式
                 String alreadyTime = DateUtils.dateFormat((Date) consultationInfoHelp.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                //设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String nowTime = df.format(new Date());
                 String time1 = alreadyTime.subSequence(0, 10).toString();
                 String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {//同一天
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                if (time1.equals(time2)) {
+                    //同一天
+                    //截取当天   时，分
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
                     consultationInfoHelp.put("createdTime", createdTime);
-                } else {//不同一天
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                } else {
+                    //不同一天
+                    //截取当天   年，月，日
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
                     consultationInfoHelp.put("createdTime", createdTime);
                 }
 
@@ -929,15 +963,20 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                 //处理时间格式
                 String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                //设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String nowTime = df.format(new Date());
                 String time1 = alreadyTime.subSequence(0, 10).toString();
                 String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {//同一天
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                if (time1.equals(time2)) {
+                    //同一天
+                    //截取当天   时，分
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
                     consultationInfo.put("createdTime", createdTime);
-                } else {//不同一天
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                } else {
+                    //不同一天
+                    //截取当天   年，月，日
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
                     consultationInfo.put("createdTime", createdTime);
                 }
 
@@ -951,22 +990,28 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //访谈和口述主题下的子类
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String, Object>>();
 
-                consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));//根据访谈或口述的id查询其子类
+                //根据访谈或口述的id查询其子类
+                consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));
                 //取详情内容
                 Object detailContentChid = "";
                 if (consultationChidList.size() > 0) {
                     for (Map<String, Object> consultationChidInfo : consultationChidList) {
                         //处理时间格式
                         String chidAlreadyTime = DateUtils.dateFormat((Date) consultationChidInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                        SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                        //设置日期格式
+                        SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                         String chidNowTime = chiddf.format(new Date());
                         String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
                         String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-                        if (chidTime1.equals(chidTime2)) {//同一天
-                            String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                        if (chidTime1.equals(chidTime2)) {
+                            //同一天
+                            //截取当天   时，分
+                            String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();
                             consultationChidInfo.put("createdTime", chidcreatedTime);
-                        } else {//不同一天
-                            String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                        } else {
+                            //不同一天
+                            //截取当天   年，月，日
+                            String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();
                             consultationChidInfo.put("createdTime", chidcreatedTime);
                         }
 
@@ -1165,15 +1210,20 @@ public class ConsultationServiceImpl implements ConsultationService {
                 }
                 //处理时间格式
                 String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                //设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String nowTime = df.format(new Date());
                 String time1 = alreadyTime.subSequence(0, 10).toString();
                 String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {//同一天
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                if (time1.equals(time2)) {
+                    //同一天
+                    //截取当天   时，分
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
                     consultationInfo.put("createdTime", createdTime);
-                } else {//不同一天
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                } else {
+                    //不同一天
+                    //截取当天   年，月，日
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
                     consultationInfo.put("createdTime", createdTime);
                 }
 
@@ -1289,15 +1339,20 @@ public class ConsultationServiceImpl implements ConsultationService {
                         for (Map<String, Object> consultationChidInfo : consultationChidList) {
                             //处理时间格式
                             String chidAlreadyTime = DateUtils.dateFormat((Date) consultationChidInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                            //设置日期格式
+                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                             String chidNowTime = chiddf.format(new Date());
                             String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
                             String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-                            if (chidTime1.equals(chidTime2)) {//同一天
-                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                            if (chidTime1.equals(chidTime2)) {
+                                //同一天
+                                //截取当天   时，分
+                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();
                                 consultationChidInfo.put("createdTime", chidcreatedTime);
-                            } else {//不同一天
-                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                            } else {
+                                //不同一天
+                                //截取当天   年，月，日
+                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();
                                 consultationChidInfo.put("createdTime", chidcreatedTime);
                             }
                             //图片地址
@@ -1350,12 +1405,14 @@ public class ConsultationServiceImpl implements ConsultationService {
         if(null==member){
             return ResultUtils.returnError("用户不存在");
         }
-        Object isDelete=member.getIsDelete();//0或null未禁用，1禁用
+        //0或null未禁用，1禁用
+        Object isDelete=member.getIsDelete();
         if(null==isDelete){isDelete=0;}
         if("1".equals(isDelete)){
             return ResultUtils.returnError("此用户已被禁用");
         }
-        Object userType=member.getUserType();//0普通  1认证后用户可以发布访谈 口述
+        //0普通  1认证后用户可以发布访谈 口述
+        Object userType=member.getUserType();
         if(null==userType){userType=0;}
         boolean isUserType=false;
         if("1".equals(userType.toString())){
@@ -1383,7 +1440,8 @@ public class ConsultationServiceImpl implements ConsultationService {
         if (null == typeId || "".equals(typeId)) {
             return ResultUtils.returnError("资讯id不能为空");
         }
-        List<Map<String, Object>> consultationAllList = consultationAllList = consultationMapper.findConsultationByIdAll(Long.valueOf(typeId));//根据访谈或口述的id查询其子类列表
+        //根据访谈或口述的id查询其子类列表
+        List<Map<String, Object>> consultationAllList = consultationAllList = consultationMapper.findConsultationByIdAll(Long.valueOf(typeId));
         if(consultationAllList.size() <3){
             return ResultUtils.returnError("没有更多数据");
         }
@@ -1404,15 +1462,20 @@ public class ConsultationServiceImpl implements ConsultationService {
             for (Map<String, Object> consultationInfo : consultationList) {
                 //处理时间格式
                 String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                //设置日期格式
+                SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String chidNowTime = chiddf.format(new Date());
                 String chidTime1 = alreadyTime.subSequence(0, 10).toString();
                 String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-                if (chidTime1.equals(chidTime2)) {//同一天
-                    String chidcreatedTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                if (chidTime1.equals(chidTime2)) {
+                    //同一天
+                    //截取当天   时，分
+                    String chidcreatedTime = alreadyTime.subSequence(11, 16).toString();
                     consultationInfo.put("createdTime", chidcreatedTime);
-                } else {//不同一天
-                    String chidcreatedTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                } else {
+                    //不同一天
+                    //截取当天   年，月，日
+                    String chidcreatedTime = alreadyTime.subSequence(0, 10).toString();
                     consultationInfo.put("createdTime", chidcreatedTime);
                 }
 
@@ -1905,17 +1968,20 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public Result searchConsultationInfo(Integer page, Integer rows, String info, String phone, String uuid, String checktype) {
         HashMap<String, Object> param = new HashMap<String, Object>();
-
-        if (!"1".equals(phone) && !"1".equals(uuid) && StringUtils.isNotBlank(info)) {//用户已登录且搜索不为空 保存记录
+        //用户已登录且搜索不为空 保存记录
+        if (!"1".equals(phone) && !"1".equals(uuid) && StringUtils.isNotBlank(info)) {
 
             param.put("phone", phone);
             param.put("uuid", uuid);
-            Member member = memberService.getMemberByIdAndUuid(param);//根据phone和uuid查询用户信息
+            //根据phone和uuid查询用户信息
+            Member member = memberService.getMemberByIdAndUuid(param);
             Long id = member.getId();//用户ID
-            if (null == member || id == null) {//此用户存在
+            if (null == member || id == null) {
+                //此用户存在
                 return ResultUtils.returnError("用户不存在，请核对信息后重新访问");
             }
-            if (StringUtils.isNotBlank(info)) {//关键词不为空则保存历史关键词
+            //关键词不为空则保存历史关键词
+            if (StringUtils.isNotBlank(info)) {
 
                 //查询当前用户已有的搜索历史
                 HashMap<String, Object> map = new HashMap<String, Object>();
@@ -1978,9 +2044,11 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //按类型查询
                 String type = consultationInfo.get("type").toString();
                 //是否是主题或访谈的标识
-                boolean isMore = false;//是否是主题或访谈的标识    false 不是   true 是
+                //是否是主题或访谈的标识    false 不是   true 是
+                boolean isMore = false;
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String,Object>>();
-                if (("0").equals(type) || ("2").equals(type)) {//0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                //0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
+                if (("0").equals(type) || ("2").equals(type)) {
                     //判断访谈和口述是否有内容
                     Integer count=consultationMapper.getCountById(Long.valueOf(consultationInfo.get("id").toString()));
                     if(count==0){
@@ -1988,23 +2056,28 @@ public class ConsultationServiceImpl implements ConsultationService {
                     }
 
                     isMore = true;
-
-                    consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));//根据访谈或口述的id查询其子类
+                    //根据访谈或口述的id查询其子类
+                    consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consultationInfo.get("id").toString()));
                     //取详情内容
                     Object detailContentChid="";
                     if (consultationChidList.size() > 0) {
                         for (Map<String, Object> consultationChidInfo : consultationChidList) {
                             //处理时间格式
                             String chidAlreadyTime = DateUtils.dateFormat((Date) consultationChidInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                            //设置日期格式
+                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                             String chidNowTime = chiddf.format(new Date());
                             String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
                             String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-                            if (chidTime1.equals(chidTime2)) {//同一天
-                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                            if (chidTime1.equals(chidTime2)) {
+                                //同一天
+                                //截取当天   时，分
+                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();
                                 consultationChidInfo.put("createdTime", chidcreatedTime);
-                            } else {//不同一天
-                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                            } else {
+                                //不同一天
+                                //截取当天   年，月，日
+                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();
                                 consultationChidInfo.put("createdTime", chidcreatedTime);
                             }
 
@@ -2037,15 +2110,20 @@ public class ConsultationServiceImpl implements ConsultationService {
 
                 //处理时间格式
                 String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");//设置日期格式
+                //设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String nowTime = df.format(new Date());
                 String time1 = alreadyTime.subSequence(0, 10).toString();
                 String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {//同一天
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();//截取当天   时，分
+                if (time1.equals(time2)) {
+                    //同一天
+                    //截取当天   时，分
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
                     consultationInfo.put("createdTime", createdTime);
-                } else {//不同一天
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();//截取当天   年，月，日
+                } else {
+                    //不同一天
+                    //截取当天   年，月，日
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
                     consultationInfo.put("createdTime", createdTime);
                 }
 
