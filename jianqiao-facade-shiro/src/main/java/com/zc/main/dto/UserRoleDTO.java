@@ -41,7 +41,7 @@ public class UserRoleDTO implements Serializable {
     private Long updaterId;
 
     /**
-     * 角色code {@link RoleEnum}
+     * 角色code {@link }
      */
     private Byte roleCode;
 
@@ -91,5 +91,17 @@ public class UserRoleDTO implements Serializable {
 
     public void setUpdaterId(Long updaterId) {
         this.updaterId = updaterId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRoleDTO{" +
+                "userName='" + userName + '\'' +
+                ", telphone='" + telphone + '\'' +
+                ", password='" + password + '\'' +
+                ", createrId=" + createrId +
+                ", updaterId=" + updaterId +
+                ", roleCode=" + roleCode +
+                '}';
     }
 }

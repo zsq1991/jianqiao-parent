@@ -1,8 +1,8 @@
 package com.zc.main.vo;
 
-import java.io.Serializable;
-
 import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
 
 
 @Alias("MenuTreeVO")
@@ -59,4 +59,16 @@ public class MenuTreeVO implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+	@Override
+	public String toString() {
+		return "MenuTreeVO{" +
+				"id=" + id +
+				", pId=" + pId +
+				", name='" + name + '\'' +
+				", btnId=" + btnId +
+				", checked=" + checked +
+				", open=" + open +
+				'}';
+	}
 }

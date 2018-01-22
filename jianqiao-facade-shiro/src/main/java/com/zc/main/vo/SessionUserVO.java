@@ -1,9 +1,9 @@
 package com.zc.main.vo;
 
+import org.apache.ibatis.type.Alias;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.apache.ibatis.type.Alias;
 
 
 @Alias("SessionUserVO")
@@ -61,5 +61,15 @@ public class SessionUserVO implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    @Override
+    public String toString() {
+        return "SessionUserVO{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", telphone='" + telphone + '\'' +
+                ", sessionRoleVo=" + sessionRoleVo +
+                '}';
     }
 }

@@ -1,11 +1,10 @@
 package com.zc.main.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import org.apache.ibatis.type.Alias;
 
 /**
  */
@@ -230,5 +229,27 @@ public class UserVO implements Serializable {
 
     public void setSupplierPass(Byte supplierPass) {
         this.supplierPass = supplierPass;
+    }
+
+    @Override
+    public String toString() {
+        return "UserVO{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", merchantName='" + merchantName + '\'' +
+                ", agentName='" + agentName + '\'' +
+                ", supplierName='" + supplierName + '\'' +
+                ", agentStatus=" + agentStatus +
+                ", merchantStatus=" + merchantStatus +
+                ", supplierStatus=" + supplierStatus +
+                ", agentPass=" + agentPass +
+                ", merchantPass=" + merchantPass +
+                ", supplierPass=" + supplierPass +
+                ", isable=" + isable +
+                ", telphone='" + telphone + '\'' +
+                ", password='" + password + '\'' +
+                ", loginTime=" + loginTime +
+                ", createTime=" + createTime +
+                '}';
     }
 }
