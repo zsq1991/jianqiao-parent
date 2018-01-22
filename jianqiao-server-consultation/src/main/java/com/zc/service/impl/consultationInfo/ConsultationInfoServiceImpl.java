@@ -56,6 +56,7 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
      */
     @Override
     public Result getConsultationDetail(String id, String uuid, String phone, Integer page, Integer size) {
+        log.info("首页获取咨询评论列表接口调用，方法入参{"+ "咨询id:"+id+",用户phone："+phone+"}");
         String loginuser = "0";
         if (StringUtils.isBlank(id)) {
             return ResultUtils.returnError("参数异常");
@@ -136,9 +137,11 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             });
             result.put("commentList", commentList);
             result.put("loginuser", loginuser);
+            log.info("首页获取咨询评论列表接口调用成功");
             return ResultUtils.returnSuccess("成功", result);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            log.info("首页获取咨询评论列表接口调用失败，方法入参{"+ "咨询id:"+id+",用户phone："+phone+"}");
             return ResultUtils.returnError("接口调用失败");
         }
     }
@@ -209,8 +212,8 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             params.put("startIndex", (page - 1) * size);
             params.put("endIndex", size);
 
-
-            List<Map<String, Object>> afterlist = consultationCommentMapper.findTopAfterCommentListByTopId(params);//顶级评论下的评论列表
+            //顶级评论下的评论列表
+            List<Map<String, Object>> afterlist = consultationCommentMapper.findTopAfterCommentListByTopId(params);
 
             for (Map<String, Object> after : afterlist) {
                 //获取时间,当天时间保存是时间，不是当天保存的是时间
@@ -238,6 +241,7 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             return ResultUtils.returnSuccess("查询成功", topcommentdetail);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            log.info("回复列表接口调用异常");
             return ResultUtils.returnError("查询失败");
         }
 
