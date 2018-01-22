@@ -9,6 +9,13 @@
 
 package com.zc.common.core.zxing;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,14 +23,6 @@ import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
 
 /**
  * ClassName:ZxingUtils <br/>
@@ -88,7 +87,7 @@ public class ZxingUtils {
 			     BitMatrix bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.QR_CODE, width, height,hints);
 			     System.out.println(path+fileName.concat(".").concat(format));
 			     File file1 = new File(path,fileName.concat(".").concat(format));
-			     MatrixToImageWriter.writeToFile(bitMatrix, format, file1);
+			     MatrixToImageWriter.writeToPath(bitMatrix, format, file1.toPath());
 			     return true;
 			 } catch (Exception e) {
 				 System.out.println("生成二维码失败！！");

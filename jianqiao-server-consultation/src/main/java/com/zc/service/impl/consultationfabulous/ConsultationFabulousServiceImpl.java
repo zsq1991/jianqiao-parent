@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
 
@@ -52,6 +53,7 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
     public Result getConsultationFabulousByIdAndMemberId(Long id, Long memberId, Integer type) {
         logger.info("咨询内容点赞取消赞开始执行，入参参数{}" + "咨询内容id:" + id + "点赞1取消2:" + type + "用户id:" + memberId);
         //Power power = new Power();
+        try{
         Consultation consultationDTO = new Consultation();
 
         if (StringUtils.isBlank(type + "")) {
@@ -139,7 +141,12 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
         }
         consultationMapper.insert(consultation);
         return ResultUtils.returnSuccess(type == 1 ? "点赞成功" : "取消点赞");
-
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
+            logger.info("咨询点赞接口调用异常：" + "咨询内容id:" + id + "点赞1取消2:" + type + "用户id:" + memberId);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResultUtils.returnError("接口调用异常");
+        }
     }
 
     /**
