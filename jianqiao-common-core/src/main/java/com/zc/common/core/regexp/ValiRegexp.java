@@ -15,7 +15,7 @@ public enum ValiRegexp {
 	 * 0到9的数字
 	 */
 	INTEGER {
-		@Override
+        @Override
         public String getName() {
 			return "^[0-9]+$";
 		}
@@ -24,7 +24,7 @@ public enum ValiRegexp {
 	 * 正整数
 	 */
 	PINTEGER {
-		@Override
+        @Override
 		public String getName() {
 			return "^[0-9]*[1-9][0-9]*$";
 		}
@@ -33,7 +33,7 @@ public enum ValiRegexp {
 	 * 负整数
 	 */
 	NINTEGER {
-		@Override
+        @Override
 		public String getName() {
 			return "^-[0-9]*[1-9][0-9]*$";
 		}
@@ -42,7 +42,7 @@ public enum ValiRegexp {
 	 * 整数
 	 */
 	PNINTEGER {
-		@Override
+        @Override
 		public String getName() {
 			return "^-?\\d+$";
 		}
@@ -51,7 +51,7 @@ public enum ValiRegexp {
 	 * 小数
 	 */
 	DECIMALS {
-		@Override
+        @Override
 		public String getName() {
 			return "^(-?\\d+)(\\.\\d+)?$";
 		}
@@ -60,7 +60,7 @@ public enum ValiRegexp {
 	 * 中国大陆身份证号(15位或18位)
 	 */
 	IDCARD {
-		@Override
+        @Override
 		public String getName() {
 			return "^\\d{15}(\\d\\d[0-9xX])?$";
 		}
@@ -69,7 +69,7 @@ public enum ValiRegexp {
 	 * 中国大陆邮政编码
 	 */
 	POSTCODE {
-		@Override
+        @Override
 		public String getName() {
 			return "^[1-9]\\d{5}$";
 		}
@@ -78,7 +78,7 @@ public enum ValiRegexp {
 	 * 中国大陆手机号码
 	 */
 	MOBILE {
-		@Override
+        @Override
 		public String getName() {
 			return "^1\\d{10}$";
 		}
@@ -87,7 +87,7 @@ public enum ValiRegexp {
 	 * 中国大陆固定电话号码
 	 */
 	PHONE {
-		@Override
+        @Override
 		public String getName() {
 			return "^(\\d{4}-|\\d{3}-)?(\\d{8}|\\d{7})$";
 		}
@@ -96,7 +96,7 @@ public enum ValiRegexp {
 	 * 中文及全角标点符号(字符)
 	 */
 	CHINAMARK {
-		@Override
+        @Override
 		public String getName() {
 			return "^[\\u3000-\\u301e\\ufe10-\\ufe19\\ufe30-\\ufe44\\ufe50-\\ufe6b\\uff01-\\uffee]+$";
 		}
@@ -105,7 +105,7 @@ public enum ValiRegexp {
 	 * 汉字(字符)
 	 */
 	CHINESE {
-		@Override
+        @Override
 		public String getName() {
 			return "^[\u4e00-\u9fa5]+$";
 		}
@@ -114,7 +114,7 @@ public enum ValiRegexp {
 	 * 时间(小时:分钟, 24小时制)
 	 */
 	TIME {
-		@Override
+        @Override
 		public String getName() {
 			return "^((1|0?)[0-9]|2[0-3]):([0-5][0-9])$";
 		}
@@ -123,7 +123,7 @@ public enum ValiRegexp {
 	 * 日期(月/日/年)
 	 */
 	DATEONE {
-		@Override
+        @Override
 		public String getName() {
 			return "^((0?[1-9]{1})|(1[1|2]))/(0?[1-9]|([12][1-9])|(3[0|1]))/(\\d{4}|\\d{2})$";
 		}
@@ -132,7 +132,7 @@ public enum ValiRegexp {
 	 * 日期(年-月-日)
 	 */
 	DATETWO {
-		@Override
+        @Override
 		public String getName() {
 			return "^(\\d{4}|\\d{2})-((0?([1-9]))|(1[1|2]))-((0?[1-9])|([12]([1-9]))|(3[0|1]))$";
 		}
@@ -141,7 +141,7 @@ public enum ValiRegexp {
 	 * 密码(由数字/大写字母/小写字母/标点符号组成，四种都必有，8位以上)
 	 */
 	PASSWORD {
-		@Override
+        @Override
 		public String getName() {
 			return "^(?=^.{8,}$)(?=.*\\d)(?=.*\\W+)(?=.*[A-Z])(?=.*[a-z])(?!.*\n).*$";
 		}
@@ -150,7 +150,7 @@ public enum ValiRegexp {
 	 * 电子邮件(Email)
 	 */
 	EMAIL {
-		@Override
+        @Override
 		public String getName() {
 			return "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
 		}
@@ -159,7 +159,7 @@ public enum ValiRegexp {
 	 * IP地址(IP Address)
 	 */
 	IP {
-		@Override
+        @Override
 		public String getName() {
 			return "^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$";
 		}
@@ -168,7 +168,7 @@ public enum ValiRegexp {
 	 * 网址（URL）
 	 */
 	URL {
-		@Override
+        @Override
 		public String getName() {
 			return "^[a-zA-z]+://[^\\s]*$";
 		}
@@ -177,7 +177,7 @@ public enum ValiRegexp {
 	 * QQ号码
 	 */
 	QQ {
-		@Override
+        @Override
 		public String getName() {
 			return "^[1-9]\\d{4,}$";
 		}
@@ -186,7 +186,7 @@ public enum ValiRegexp {
 	 * 匹配由数字和26个英文字母组成的字符串
 	 */
 	SHUZIENG {
-		@Override
+        @Override
 		public String getName() {
 			return "^[A-Za-z0-9]+$";
 		}
