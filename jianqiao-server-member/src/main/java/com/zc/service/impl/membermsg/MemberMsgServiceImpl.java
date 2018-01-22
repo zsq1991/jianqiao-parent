@@ -93,8 +93,8 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		}
 
 		//=========================================修改接口=============================================
-		try {// 1审核通知，2赞通知，3评论通知
-
+		try {
+			// 1审核通知，2赞通知，3评论通知
 			if (type == 3 && id != null) {
 				logger.info("===================================进入通知评论============================");
 				Integer types = 4;
@@ -169,9 +169,9 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		//==========================================符合此条件的时候，读取阅读通知===============================
 		if (mId != null && msgId==0 && type ==0) {
 			try {
-				Long member_id=mId;
+				Long memberId=mId;
 				logger.info("--------------------------获取总的数据-------------------");
-				List<MemberMsg> rowLock = memberMsgMapper.getRowLockList(member_id);
+				List<MemberMsg> rowLock = memberMsgMapper.getRowLockList(memberId);
 				for (int i = 0; i < rowLock.size(); i++) {
 					logger.info("---------------------根据id获取系统消息==================");
 					MemberMsg findOne = memberMsgMapper.findOne(rowLock.get(i).getId());
@@ -242,6 +242,9 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 	}
 	/**
 	 * 审核通知列表  系统消息==通知
+	 * @author 王鑫涛
+	 * @date 17:25 2018/1/19
+	 * @version 版本号
 	 * @param member
 	 * @param page 当前页
 	 * @param rows	每页显示的数量
@@ -264,9 +267,12 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 		List list = new ArrayList();
 		SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
 		String chidNowTime = chiddf.format(new Date());
-
-		try {// type 1审核通知，2赞通知，3评论通知
-			if (type == 1) {
+		// type 1审核通知，2赞通知，3评论通知
+		int type1 = 1;
+		int type2 = 2;
+		int type3 = 3;
+		try {
+			if (type == type1) {
 				logger.info("===========进入审核通知==============");
 				List<Map> checkInformList = memberMsgMapper.getCheckInformList(mId, (page - 1) * rows, rows, type);
 				// =============================================修改时间=========================================================
@@ -288,7 +294,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 				result.setCode(1);
 				result.setContent(list);
 				result.setMsg("成功");
-			} else if (type == 2) {
+			} else if (type == type2) {
 				logger.info("---------------------进入赞通知-------------------------");
 				List<Map> supportInformList = memberMsgMapper.getSupportInformList(mId, (page - 1) * rows, rows);
 				if (supportInformList == null) {
@@ -385,7 +391,7 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 				result.setCode(1);
 				result.setContent(list);
 				result.setMsg("成功");
-			} else if (type == 3) {
+			} else if (type == type3) {
 				logger.info("==========================进入评论通知========================");
 				logger.info("=====================获取人评论者列表的数据==================");
 				List<Map> commentInform = memberMsgMapper.getCommentInformList(mId, (page - 1) * rows, rows);
@@ -441,9 +447,9 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							}
 							map = maps.get(0);
 							map.put("result", 1);
-							String type2 = (Long) map.get("type") + "";// 获取类型
+							String type22 = (Long) map.get("type") + "";// 获取类型
 							String types = null;
-							switch (type2) {
+							switch (type22) {
 								case "0":
 									types = " 你的访谈";
 									break;
@@ -502,9 +508,9 @@ public class MemberMsgServiceImpl implements MemberMsgService{
 							}
 							map = maps.get(0);
 							map.put("result", 1);
-							String type2 = (Long) map.get("type") + "";// 获取类型
+							String type22 = (Long) map.get("type") + "";// 获取类型
 							String types = null;
-							switch (type2) {
+							switch (type22) {
 								case "0":
 									types = " 你的访谈";
 									break;

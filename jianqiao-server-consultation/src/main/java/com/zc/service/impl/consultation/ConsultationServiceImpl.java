@@ -284,13 +284,6 @@ public class ConsultationServiceImpl implements ConsultationService {
                 return false;
             }
         }
-        //关联咨询ID
-		/*Long pid = jsonObject.getLong("pid");
-		if ("2".equals(opType) && "1,3,5".contains(type)) {
-			if (Objects.isNull(pid)){
-				return false;
-			}
-		}*/
         //图片类型 0 ,1,2
         String modelType =jsonObject.getString("modelType");
         //4求助 5回答  6分享
@@ -1975,7 +1968,8 @@ public class ConsultationServiceImpl implements ConsultationService {
             param.put("uuid", uuid);
             //根据phone和uuid查询用户信息
             Member member = memberService.getMemberByIdAndUuid(param);
-            Long id = member.getId();//用户ID
+            //用户ID
+            Long id = member.getId();
             if (null == member || id == null) {
                 //此用户存在
                 return ResultUtils.returnError("用户不存在，请核对信息后重新访问");
