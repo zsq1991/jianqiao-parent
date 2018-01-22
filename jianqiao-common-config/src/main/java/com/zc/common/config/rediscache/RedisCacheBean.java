@@ -1,4 +1,4 @@
-package com.zc.common.config.redisCache;
+package com.zc.common.config.rediscache;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
