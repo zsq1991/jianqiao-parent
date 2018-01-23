@@ -16,6 +16,7 @@ import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.consultationattachment.ConsultationAttachment;
 import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membermsg.MemberMsg;
+import com.zc.main.service.attachment.AttachmentService;
 import com.zc.main.service.collectioncontent.CollectionContentService;
 import com.zc.main.service.comment.ConsultationCommentService;
 import com.zc.main.service.consultation.ConsultationService;
@@ -24,7 +25,6 @@ import com.zc.main.service.member.MemberService;
 import com.zc.main.service.membermessage.MemberMessageService;
 import com.zc.main.service.membermsg.MemberMsgService;
 import com.zc.main.service.membersearchconsultation.MembersearchconsultationService;
-import com.zc.mybatis.dao.attachment.AttachmentMapper;
 import com.zc.mybatis.dao.ConsultationAttachmentMapper;
 import com.zc.mybatis.dao.ConsultationMapper;
 import com.zc.mybatis.dao.collectionconsulation.CollectionConsulationMapper;
@@ -57,8 +57,8 @@ public class ConsultationServiceImpl implements ConsultationService {
     private CollectionContentService collectionContentService;
     @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
     private ConsultationAttachmentService consultationAttachmentService;
-    @Autowired
-    private AttachmentMapper attachmentMapper;
+    @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
+    private AttachmentService attachmentService;
     @Autowired
     private ConsultationAttachmentMapper consultationAttachmentMapper;
     @DubboConsumer(version = "1.0.0", timeout = 30000, check = false)
@@ -457,7 +457,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 String[] ids = covers.split(",");
                 Arrays.stream(ids).forEach(e->{
                     logger.info("===============================根据id获取附件表中的信息===============================");
-                    Attachment attachment = attachmentMapper.findOne(Long.valueOf(e));
+                    Attachment attachment = attachmentService.findOne(Long.valueOf(e));
                     if (!Objects.isNull(attachment)){
                         ConsultationAttachment consultationAttachment = new ConsultationAttachment();
                         consultationAttachment.setAddress(attachment.getAddress());
@@ -483,7 +483,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     String attachmentId = obj.getString("attachmentId");
                     if (StringUtils.isNotBlank(attachmentId)){
                         logger.info("------------------------获取附件信息------------------");
-                        Attachment attachment = attachmentMapper.findOne(Long.valueOf(attachmentId));
+                        Attachment attachment = attachmentService.findOne(Long.valueOf(attachmentId));
                         if (Objects.isNull(attachment)){
                             return ResultUtils.returnError("附件不存在");
                         }
@@ -681,7 +681,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                 if (StringUtils.isNotBlank(covers)){
                     String[] ids = covers.split(",");
                     Arrays.stream(ids).forEach(e->{
-                        Attachment attachment = attachmentMapper.findOne(Long.valueOf(e));
+                        Attachment attachment = attachmentService.findOne(Long.valueOf(e));
                         if (!Objects.isNull(attachment)){
                             ConsultationAttachment consultationAttachment = new ConsultationAttachment();
                             consultationAttachment.setAddress(attachment.getAddress());
@@ -701,7 +701,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                         JSONObject obj = contentArray.getJSONObject(i);
                         String attachmentId = obj.getString("attachmentId");
                         if (StringUtils.isNotBlank(attachmentId)){
-                            Attachment attachment = attachmentMapper.findOne(Long.valueOf(attachmentId));
+                            Attachment attachment = attachmentService.findOne(Long.valueOf(attachmentId));
                             if (Objects.isNull(attachment)){
                                 return ResultUtils.returnError("附件不存在");
                             }

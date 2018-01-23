@@ -190,4 +190,16 @@ public class AttachmentServiceImpl  implements AttachmentService {
         attachmentMapper.insert(attachment);
         return ResultUtils.returnSuccess("上传成功", attachment);
     }
+    /**
+     * @description 方法说明 根据附件id获取系统附件
+     * @author 王鑫涛
+     * @date 16:04 2018/1/18
+     * @version 版本号
+     * @param id 系统附件id
+     * @return
+     */
+    @Override
+    public Attachment findOne(Long id) {
+        return attachmentMapper.findOne(id);
+    }
 }
