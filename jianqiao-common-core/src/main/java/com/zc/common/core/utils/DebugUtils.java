@@ -11,8 +11,10 @@ package com.zc.common.core.utils;
  */
 
 public class DebugUtils {
-	
-	public static Boolean DEBUGON = false;// 是否输出调试信息
+	/**
+	 * 是否输出调试信息
+	 */
+	public static Boolean DEBUGON = false;
 	
 	public static void println(String msg) {
 		if (DEBUGON) {

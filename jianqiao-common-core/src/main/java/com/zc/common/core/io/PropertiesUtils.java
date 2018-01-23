@@ -21,8 +21,10 @@ import java.util.ResourceBundle;
  */
 
 public class PropertiesUtils {
-	
-    private static Properties properties= new Properties();// 初始化加载配置文件
+	/**
+	 * 初始化加载配置文件
+	 */
+    private static Properties properties= new Properties();
 	/**
 	 * 读取Properties文件的例子 
 	 * @param class1 所在的当前类
@@ -55,10 +57,14 @@ public class PropertiesUtils {
 	        FileInputStream in;
 	        try {
 	            //propertiesFileName如test.properties
-	            in = new FileInputStream(propertiesFileName);//以流的形式读入属性文件
-	            properties.load(in);//属性文件将该流加入的可被读取的属性中
-	            in.close();//读完了关闭
-	            s=properties.getProperty(propertyName);//取得对应的属性值
+				//以流的形式读入属性文件
+	            in = new FileInputStream(propertiesFileName);
+				//属性文件将该流加入的可被读取的属性中
+	            properties.load(in);
+				//读完了关闭
+	            in.close();
+				//取得对应的属性值
+	            s=properties.getProperty(propertyName);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
@@ -103,13 +109,18 @@ public class PropertiesUtils {
 	        FileInputStream in;
 	        try {
 	            in = new FileInputStream(propertiesFileName);
-	            properties.load(in);//
+	            properties.load(in);
 	            in.close();
-	            properties.setProperty(propertyName,propertyValue);//设置属性值，如果该属性不存在，则新增
-	            FileOutputStream out=new FileOutputStream(propertiesFileName);//输出流
-	            properties.store(out,"send email status");//设置属性头，如不想设置，请把后面一个用""替换掉
-	            out.flush();//清空缓存，写入磁盘
-	            out.close();//关闭输出流
+				//设置属性值，如果该属性不存在，则新增
+	            properties.setProperty(propertyName,propertyValue);
+				//输出流
+	            FileOutputStream out=new FileOutputStream(propertiesFileName);
+				//设置属性头，如不想设置，请把后面一个用""替换掉
+	            properties.store(out,"send email status");
+				//清空缓存，写入磁盘
+	            out.flush();
+				//关闭输出流
+	            out.close();
 	            writeOK=true;
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -182,7 +193,8 @@ public class PropertiesUtils {
 	        properties.setProperty(propertyName,propertyValue);
 	        //保存文件
 	        try {
-	            URL fileUrl =class1.getResource(propertiesFileName);//得到文件路径
+				//得到文件路径
+	            URL fileUrl =class1.getResource(propertiesFileName);
 	            FileOutputStream fos = new FileOutputStream(new File(fileUrl.toURI()));
 	            properties.store(fos, "send email status");
 	            fos.close();

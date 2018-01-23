@@ -3,74 +3,128 @@ package com.zc.main.entity.doctor;
 import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import com.zc.main.entity.specialists.SpecialistDTO;
 
+import javax.persistence.Table;
 import java.util.List;
 
 /**
  * @package : com.alqsoft.entity.doctor
  * @className : Doctor
  * @description ：高手
- * @Created by  : 朱军
+ * @author by  : 朱军
  * @Creation Date ： 2018/1/10 10:27
  * @version
  */
+@Table(name = "alq_doctor")
 public class Doctor extends BaseIdEntity {
-
-    private String headUrl;//头像
-
-    private String phone;//账号
-
-    private String hunterPhone;//项目服务专员账号
-
-    private String name;//姓名
-
-    private Integer sex;//性别 0 男 1 女
-
-    private Integer age;//年龄
-
-    private String  experience;//教育经历
-
-    private String tel;//电话
-
-    private String card;//身份证号
-
-    private String address;//详细地址
-
-    private String doctorDetail;//高手详情
-
-    private Integer isDelete;//删除标记 0正常 1禁用
-
-    private String longitude;//经度
-
-    private String latitude;//维度
-
-    private Long phTownId;// 乡镇 街道办事处编号
-
-    private Long phProvinceId;//省编号
-
-    private Long phCityId;//市编号
-
-    private Long phCountyId;//区县编号
-
-    private String provinceName;//省
-
-    private String cityName;//市
-
-    private String countyName;//县
-
-    private String townName;//乡镇
-
-    private Integer servicePackage;// 是否含有服务包 0不含有 1含有
-
-    private Integer status;// 0存在 1删除
-
-    private String bankCard;//银行卡号
-
-    private String bankName;//银行名称
+    /**
+     * 头像
+     */
+    private String headUrl;
+    /**
+     * 账号
+     */
+    private String phone;
+    /**
+     * 项目服务专员账号
+     */
+    private String hunterPhone;
+    /**
+     * 姓名
+     */
+    private String name;
+    /**
+     * 性别 0 男 1 女
+     */
+    private Integer sex;
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 教育经历
+     */
+    private String  experience;
+    /**
+     * 电话
+     */
+    private String tel;
+    /**
+     * 身份证号
+     */
+    private String card;
+    /**
+     * 详细地址
+     */
+    private String address;
+    /**
+     * 高手详情
+     */
+    private String doctorDetail;
+    /**
+     * 删除标记 0正常 1禁用
+     */
+    private Integer isDelete;
+    /**
+     * 经度
+     */
+    private String longitude;
+    /**
+     * 维度
+     */
+    private String latitude;
+    /**
+     * 乡镇 街道办事处编号
+     */
+    private Long phTownId;
+    /**
+     * 省编号
+     */
+    private Long phProvinceId;
+    /**
+     * 市编号
+     */
+    private Long phCityId;
+    /**
+     * 区县编号
+     */
+    private Long phCountyId;
+    /**
+     * 省
+     */
+    private String provinceName;
+    /**
+     * 市
+     */
+    private String cityName;
+    /**
+     * 县
+     */
+    private String countyName;
+    /**
+     * 乡镇
+     */
+    private String townName;
+    /**
+     * 是否含有服务包 0不含有 1含有
+     */
+    private Integer servicePackage;
+    /**
+     * 0存在 1删除
+     */
+    private Integer status;
+    /**
+     * 银行卡号
+     */
+    private String bankCard;
+    /**
+     * 银行名称
+     */
+    private String bankName;
 
     /**
-     * 用于返回数据
+     * 咨询标题 用于返回数据
      */
-    private String title; //咨询标题
+    private String title;
 
     private List<SpecialistDTO> addressList;
 

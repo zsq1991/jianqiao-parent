@@ -49,7 +49,8 @@ public class TencentSms {
 			return ResultUtils.returnError("手机号不符合要求");
 		}
 		try {
-			String msgUrl = SEND_MSG_URL;//发送短信路径
+			//发送短信路径
+			String msgUrl = SEND_MSG_URL;
             logger.info("发送路径:"+msgUrl);
 			Map<String, String> params = new HashedMap();
             params.put("phone",phone);
@@ -82,7 +83,8 @@ public class TencentSms {
         logger.info("===============进入连接pay验证验证码方法=================");
 		Result result = new Result();
 		try {
-			String msgUrl =CHECK_MSG_URL;//发送短信路径
+			//发送短信路径
+			String msgUrl =CHECK_MSG_URL;
             logger.info("发送路径:"+msgUrl);
             Map<String, String> params = new HashedMap();
             params.put("phone",phone);

@@ -35,7 +35,7 @@ public enum RoleIDEnum {
     /**
      * 运营
      */
-    OPERATOR(7L, "运营"),//运营和财务先写在这儿，根据你们权限的具体情况来设计
+    OPERATOR(7L, "运营"),
     /**
      * 财务
      */

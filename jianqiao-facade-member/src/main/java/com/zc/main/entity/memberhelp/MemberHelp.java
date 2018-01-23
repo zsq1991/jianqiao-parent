@@ -15,34 +15,35 @@ import java.io.Serializable;
  * @date 2017年6月12日
  *
  */
+@Table(name = "alq_member_help")
 @Alias("alq_member_help")
 public class MemberHelp extends BaseIdEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
+	//手机号
 	@Column(name = "phone")
-	private String phone;//手机号
-
+	private String phone;
+	//地址
 	@Column(name = "address")
-	private String address;//地址
-
+	private String address;
+	//真实姓名
 	@Column(name = "name")
-	private String name;//真实姓名
-
+	private String name;
+	//病情简介
 	@Column(name = "content")
-	private String content;//病情简介
-
+	private String content;
+	//用户ID
 	@Column(name = "member_id")
-	private Long  memberId;//
-
+	private Long  memberId;
+	//来源  0是访谈 1是口述 2是求助 3是分享
 	@Column(name = "type")
-	private Integer type;//来源  0是访谈 1是口述 2是求助 3是分享
-
+	private Integer type;
+	//对应type的编号
 	@Column(name = "for_id")
-	private Long forId;//对应type的编号
-
+	private Long forId;
+	//0或null未禁用，1禁用
 	@Column(name = "is_delete")
-	private Integer isDelete;//0或null未禁用，1禁用
+	private Integer isDelete;
 
 	public String getPhone() {
 		return phone;

@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @描述：通用消息返回
  *
- * @作者： Mr.chang
+ * @author ： Mr.chang
  *
  * @创建时间：2017年3月8日
  *
@@ -15,16 +15,27 @@ import java.io.Serializable;
  */
 public class Result implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2540464186250760929L;
-	
-	private boolean success;//是否成功
-	private String code;//异常码
-	private String message;//返回消息
-	private Object data;//返回数据
-	private long count;//总条数
+	/**
+	 * 是否成功
+	 */
+	private boolean success;
+	/**
+	 * 异常码
+	 */
+	private String code;
+	/**
+	 * 返回消息
+	 */
+	private String message;
+	/**
+	 * 返回数据
+	 */
+	private Object data;
+	/**
+	 * 总条数
+	 */
+	private long count;
 
 	public Result(boolean success) {
 		this.success = success;

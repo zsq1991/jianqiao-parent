@@ -106,7 +106,8 @@ public class VerifycodeUtils {
 			String rand = String.valueOf(codeSequence[random.nextInt(36)]);
 			sbud.append(rand);
 			// 将认证码显示到图象中
-			g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));// 调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
+			// 调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
+			g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
 			g.drawString(rand, 13 * i + 6, 16);
 		}
 		// 强制获取session

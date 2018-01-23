@@ -5,6 +5,7 @@ import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import org.apache.ibatis.type.Alias;
 
 import javax.persistence.Column;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -14,17 +15,20 @@ import java.io.Serializable;
  * @date 2017年3月1日
  *
  */
+@Table(name = "alq_consultation_fabulous")
 @Alias("alq_consultation_fabulous")
 public class ConsultationFabulous extends BaseIdEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	//点赞 1   取消赞2
 	@Column(name = "type")
-	private Integer type;//点赞 1   取消赞2
+	private Integer type;
+	//赞的用户
 	@Column(name = "member_id")
-	private Long memberId;//赞的用户
+	private Long memberId;
+	//关联的内容
 	@Column(name = "consultation_id")
-	private Long consultationId;//关联的内容
+	private Long consultationId;
 
 	public Integer getType() {
 		return type;

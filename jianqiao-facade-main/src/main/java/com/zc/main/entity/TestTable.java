@@ -9,15 +9,10 @@
 
 package com.zc.main.entity;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * ClassName:TestTable <br/>
@@ -34,15 +29,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
 public class TestTable implements Serializable{
 	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6682032554457321363L;
-
-	private Long id;//主键id
-	
-	private String content;//内容
+	//主键id
+	private Long id;
+	//内容
+	private String content;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {

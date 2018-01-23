@@ -14,6 +14,7 @@ import java.io.Serializable;
  * @date:  2018/1/18 9:51
  * @version: 1.0.0
  */
+@Table(name = "alq_member_help_case")
 @Alias("alq_member_help_case")
 public class MemberHelpCase extends BaseIdEntity implements Serializable{
 	
@@ -21,15 +22,15 @@ public class MemberHelpCase extends BaseIdEntity implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	//关联的信息
 	@Column(name = "member_help_id")
-	private Long  memberHelpId;//关联的信息
-
+	private Long  memberHelpId;
+	//附件
 	@Column(name = "attachment_id")
-	private Long attachmentId;//附件
-
+	private Long attachmentId;
+	//会员id
 	@Column(name = "member_id")
-	private Long  memberId;//会员id
+	private Long  memberId;
 
 
 	public Long getMemberHelpId() {

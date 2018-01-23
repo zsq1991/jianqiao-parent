@@ -339,7 +339,8 @@ public class DateUtils {
 			return 0;
 		}
 		int yearNow = cal.get(Calendar.YEAR);
-		cal.setTime(birthday);// 给时间赋值
+		// 给时间赋值
+		cal.setTime(birthday);
 		int yearBirth = cal.get(Calendar.YEAR);
 		return yearNow - yearBirth;
 	}

@@ -12,8 +12,14 @@ package com.zc.common.core.webmvc.springmvc;
  * 
  */
 public class Result {
-	private Integer code = 1;// 状态，1为成功，0为失败，其他自定义
-	private String msg;// 状态说明信息
+	/**
+	 * 状态，1为成功，0为失败，其他自定义
+	 */
+	private Integer code = 1;
+	/**
+	 * 状态说明信息
+	 */
+	private String msg;
 
 	public Integer getCode() {
 		return code;

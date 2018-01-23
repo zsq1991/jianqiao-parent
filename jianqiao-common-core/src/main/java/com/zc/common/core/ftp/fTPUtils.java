@@ -40,13 +40,15 @@ public class fTPUtils {
 			int reply;
 			ftp.connect(url, port);
 			// 如果采用默认端口，可以使用ftp.connect(url)的方式直接连接FTP服务器
-			ftp.login(username, password);// 登录
+			// 登录
+			ftp.login(username, password);
 			reply = ftp.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(reply)) {
 				ftp.disconnect();
 				return success;
 			}
-			ftp.changeWorkingDirectory(remotePath);// 转移到FTP服务器目录
+			// 转移到FTP服务器目录
+			ftp.changeWorkingDirectory(remotePath);
 			FTPFile[] fs = ftp.listFiles();
 			for (FTPFile ff : fs) {
 				if (ff.getName().equals(fileName)) {
@@ -90,9 +92,11 @@ public class fTPUtils {
 		FTPClient ftp = new FTPClient();
 		try {
 			int reply;
-			ftp.connect(url, port);// 连接FTP服务器
+			// 连接FTP服务器
+			ftp.connect(url, port);
 			// 如果采用默认端口，可以使用ftp.connect(url)的方式直接连接FTP服务器
-			ftp.login(username, password);// 登录
+			// 登录
+			ftp.login(username, password);
 			reply = ftp.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(reply)) {
 				ftp.disconnect();

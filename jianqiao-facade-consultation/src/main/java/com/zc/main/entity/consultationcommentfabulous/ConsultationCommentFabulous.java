@@ -12,19 +12,20 @@ import java.io.Serializable;
  * @Created by  : gaoge
  * @Creation Date ： 2018/1/17 9:44
  */
+@Table(name = "alq_consultation_comment_fabulous")
 @Alias("alq_consultation_comment_fabulous")
 @MappedSuperclass
 public class ConsultationCommentFabulous extends BaseIdEntity implements Serializable {
 
-
+    //点赞 1   取消赞2
     @Column(name = "type")
-    private Integer type;//点赞 1   取消赞2
-
+    private Integer type;
+    //赞的用户
     @Column(name = "member_id")
-    private Long memberId;//赞的用户
-
+    private Long memberId;
+    //关联的评论
     @Column(name = "consultation_comment_id")
-    private Long consultationCommentId;//关联的评论
+    private Long consultationCommentId;
 
     public Integer getType() {
         return type;

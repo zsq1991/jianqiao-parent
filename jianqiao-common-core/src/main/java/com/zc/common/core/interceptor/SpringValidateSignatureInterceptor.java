@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.Map;
 
+/**
+ * @description 验签拦截器
+ * @author system
+ * @date 2018-01-23 16:42
+ * @version 1.0.0
+ */
 public class SpringValidateSignatureInterceptor extends HandlerInterceptorAdapter {
 
 	private static Log logger = LogFactory
@@ -37,7 +43,8 @@ public class SpringValidateSignatureInterceptor extends HandlerInterceptorAdapte
 		Object objSign=request.getParameter("sign");
 		Object objType=request.getParameter("client_type");
 		Object objTimestamp=request.getParameter("timestamp");
-		String requestURI = request.getRequestURI();//获取请求路径
+		//获取请求路径
+		String requestURI = request.getRequestURI();
 		if(publicurl!=null && publicurl.length>0) {
 			for (String url : publicurl) {
 				if (url.equals(requestURI)) {
