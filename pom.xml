@@ -94,6 +94,10 @@
 		<module>jianqiao-facade-consultation</module>
 		<module>jianqiao-server-consultation</module>
 		<module>jianqiao-server-member</module>
+        <module>jianqiao-facade-order</module>
+		<module>jianqiao-server-order</module>
+		<module>jianqiao-facade-servicer</module>
+		<module>jianqiao-server-servicer</module>
 	</modules>
 	
 	<!-- 依赖包管理 -->
