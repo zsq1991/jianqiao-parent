@@ -44,6 +44,25 @@ public class AttachmentServiceImpl  implements AttachmentService {
     private AttachmentMapper attachmentMapper;
 
     /**
+     * 图片最大值 单位(M)
+     */
+    private final Integer IMAGE_MAX_SIZE=2;
+
+    /**
+     * 视频最大值 单位(M)
+     */
+    private final Integer VIDEO_MAX_SIZE=200;
+
+    /**
+     * 图片类型
+     */
+    private final Integer IMAGE_TYPE=0;
+
+    /**
+     * 视频类型
+     */
+    private final Integer VIDEO_TYPE=1;
+    /**
      * 上传接口
      * @description 上传接口
      * @author whl
@@ -65,8 +84,8 @@ public class AttachmentServiceImpl  implements AttachmentService {
             if (urlfile.isEmpty()) {
                 return ResultUtils.returnError("上传文件失败");
             } else {
-                String basePath =  SpringMVCUtils.getRequest().getSession().getServletContext().getRealPath("/upload/" + module);
-               // String basePath = SpringMVCUtils.getRequest().getRealPath("/upload/" + module);
+
+                String basePath = SpringMVCUtils.getRequest().getSession().getServletContext().getRealPath("/upload/" + module);
                 File file = new File(basePath);
                 if(!file.exists()){
                     file.mkdirs();
@@ -87,11 +106,12 @@ public class AttachmentServiceImpl  implements AttachmentService {
                 urlfile.transferTo(new File(path));
 
                 //文件大小
-                Double size= DoubleUtils.div(urlfile.getSize(),1024000.0, 2);//单位  M
+                //单位  M
+                Double size= DoubleUtils.div(urlfile.getSize(),1024000.0, 2);
 
-                if("0".equals(type)){
+                if(IMAGE_TYPE.equals(type)){
                     //上传图片
-                    if(size>2){
+                    if(size>IMAGE_MAX_SIZE){
 
                         return ResultUtils.returnError("请上传2M以内的图片");
                     }
@@ -115,9 +135,9 @@ public class AttachmentServiceImpl  implements AttachmentService {
                     //上传到图片服务器
                     UpLoadUtils.alyUpload(module, sysFileName, path);
 
-                } else if("1".equals(type)){
+                } else if(VIDEO_TYPE.equals(type)){
                     //上传视频
-                    if(size>200){
+                    if(size>VIDEO_MAX_SIZE){
 
                         return ResultUtils.returnError("请上传200M以内的视频");
                     }
@@ -167,7 +187,7 @@ public class AttachmentServiceImpl  implements AttachmentService {
     @Transactional(rollbackFor = Exception.class)
     public Result saveAttachment(Attachment attachment) {
         //保存图片信息
-         attachmentMapper.insert(attachment);
+        attachmentMapper.insert(attachment);
         return ResultUtils.returnSuccess("上传成功", attachment);
     }
 }
