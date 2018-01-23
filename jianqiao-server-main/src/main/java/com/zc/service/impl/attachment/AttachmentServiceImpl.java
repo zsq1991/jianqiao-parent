@@ -65,8 +65,8 @@ public class AttachmentServiceImpl  implements AttachmentService {
             if (urlfile.isEmpty()) {
                 return ResultUtils.returnError("上传文件失败");
             } else {
-
-                String basePath = SpringMVCUtils.getRequest().getRealPath("/upload/" + module);
+                String basePath =  SpringMVCUtils.getRequest().getSession().getServletContext().getRealPath("/upload/" + module);
+               // String basePath = SpringMVCUtils.getRequest().getRealPath("/upload/" + module);
                 File file = new File(basePath);
                 if(!file.exists()){
                     file.mkdirs();
