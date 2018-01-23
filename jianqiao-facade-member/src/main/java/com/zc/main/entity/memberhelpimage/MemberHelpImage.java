@@ -14,22 +14,20 @@ import java.io.Serializable;
  * @date:  2018/1/18 10:11
  * @version: 1.0.0
  */
+@Table(name = "alq_member_help_image")
 @Alias("alq_member_help_image")
 public class MemberHelpImage extends BaseIdEntity implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
+	//关联的信息
 	@Column(name = "member_help_id")
-	private Long  memberHelpId;//关联的信息
-
+	private Long  memberHelpId;
+	//附件
 	@Column(name = "attachment_id")
-	private Long attachmentId;//附件
-
+	private Long attachmentId;
+	//用户ID
 	@Column(name = "member_id")
-	private Long  memberId;//
+	private Long  memberId;
 
 	public Long getMemberHelpId() {
 		return memberHelpId;

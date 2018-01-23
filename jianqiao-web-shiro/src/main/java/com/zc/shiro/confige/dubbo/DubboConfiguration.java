@@ -61,7 +61,8 @@ public class DubboConfiguration {
 		RegistryConfig registry = new RegistryConfig();
 		registry.setProtocol(this.protocol);
 		registry.setAddress(this.registry);
-		registry.setCheck(false);// 设置启动时不检查注册中心
+		// 设置启动时不检查注册中心
+		registry.setCheck(false);
 		return registry;
 	}
 	
@@ -107,7 +108,8 @@ public class DubboConfiguration {
 		consumer.setApplication(applicationConfig);
 		consumer.setRegistry(registryConfig);
 		consumer.setMonitor(monitorConfig);
-		consumer.setCheck(false);//设置不检查服务提供者
+		//设置不检查服务提供者
+		consumer.setCheck(false);
 		//consumer.setFilter(filter);
 		return consumer;
 	}

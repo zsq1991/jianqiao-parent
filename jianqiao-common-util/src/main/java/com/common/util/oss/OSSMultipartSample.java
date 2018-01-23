@@ -43,9 +43,14 @@ public class OSSMultipartSample {
     private static final String UPLOAD_FILE_PATH = "d:/temp/测试上传大文件.zip";
     private static final String DOWNLOAD_FILE_PATH = "d:/temp/测试下载大文件.zip";
     private static final String OSS_ENDPOINT = "http://oss.aliyuncs.com/";
-
-    private static final long PART_SIZE = 5 * 1024 * 1024L; // 每个Part的大小，最小为5MB
-    private static final int CONCURRENCIES = 2; // 上传Part的并发线程数。
+    /**
+     * 每个Part的大小，最小为5MB
+     */
+    private static final long PART_SIZE = 5 * 1024 * 1024L;
+    /**
+     * 上传Part的并发线程数。
+     */
+    private static final int CONCURRENCIES = 2;
 
     private final static int CORE_POOL_SIZE = 5;
 

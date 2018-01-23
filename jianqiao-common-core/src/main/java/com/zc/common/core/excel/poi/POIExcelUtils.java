@@ -191,10 +191,13 @@ public class POIExcelUtils {
 	 */
 	public static CellStyle getTitleStyle(final Workbook workbook) {
 		CellStyle cellStyle = workbook.createCellStyle();
-		Font font = workbook.createFont();// 设置字体
-		font.setFontHeightInPoints((short) 20);// 设置字体大小
+		// 设置字体
+		Font font = workbook.createFont();
+		// 设置字体大小
+		font.setFontHeightInPoints((short) 20);
 		font.setFontName("黑体");
-		font.setBoldweight(Font.BOLDWEIGHT_BOLD);// 设置粗体
+		// 设置粗体
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		cellStyle.setFont(font);
 		// 设置是否自动换行
 		// cellStyle.setWrapText(false);

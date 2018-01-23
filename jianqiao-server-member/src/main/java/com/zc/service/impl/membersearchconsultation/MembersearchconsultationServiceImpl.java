@@ -55,7 +55,8 @@ public class MembersearchconsultationServiceImpl implements Membersearchconsulta
     public Result saveMemberSearchConsultation(Long id, String info) {
         logger.info("保存用户检索关键词出传入参数==》 id："+ id +" info:"+ info);
         Result result = new Result();
-        Member member = memberService.getMerberById(id);//查询用户
+        //查询用户
+        Member member = memberService.getMerberById(id);
         if (null == member) {
             return ResultUtils.returnError("用户不存在");
         }

@@ -1,19 +1,17 @@
 package com.zc.common.core.webmvc.servlet;
 
+import com.zc.common.core.encode.EncodeUtils;
+import org.springframework.util.Assert;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.util.Assert;
-
-import com.zc.common.core.encode.EncodeUtils;
 
 
 /**
@@ -148,9 +146,11 @@ public class ServletUtils {
 			String browserType = request.getHeader("User-Agent").toLowerCase();
 			if (browserType.toUpperCase().indexOf("FIREFOX") > 0
 					|| browserType.toUpperCase().indexOf("CHROME") > 0) {
-				fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");// firefox浏览器
+				// firefox浏览器
+				fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
 			} else if (browserType.toUpperCase().indexOf("MSIE") > 0) {
-				fileName = URLEncoder.encode(fileName, "UTF-8");// IE浏览器
+				// IE浏览器
+				fileName = URLEncoder.encode(fileName, "UTF-8");
 			} else {
 				fileName = new String(fileName.getBytes());
 			}

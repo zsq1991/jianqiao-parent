@@ -107,7 +107,8 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
             msg.setType(5);
             msg.setContentType(consultation.getType());
             msg.setConsultationId(consultation.getId());
-            msg.setMemberBaseId(member.getId());//点赞者
+            //点赞者
+            msg.setMemberBaseId(member.getId());
             msg.setCreatedTime(new Date());
             memberMsgMapper.save(msg);
             consultation.setFabulousNum(fabulousnum + 1);

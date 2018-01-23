@@ -103,7 +103,8 @@ public class UserTServiceImpl implements IUserService {
             return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
         } catch (Exception ex) {
             logger.error("修改密码异常，ex={}", ex);
-            return null;//throw new PermissionBizException(PermissionEnum.UPDATE_PASSWORD_ERROR);
+            //throw new PermissionBizException(PermissionEnum.UPDATE_PASSWORD_ERROR);
+            return null;
         }
     }
 
@@ -161,7 +162,8 @@ public class UserTServiceImpl implements IUserService {
     		user.setUpdateTime(new Date());
 	        return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
 		} catch (Exception e) {
-			return null;//throw new PermissionBizException(PermissionEnum.DISABLE_ERROR);
+            //throw new PermissionBizException(PermissionEnum.DISABLE_ERROR);
+			return null;
         }
        
     }
@@ -175,7 +177,8 @@ public class UserTServiceImpl implements IUserService {
             return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
         } catch (Exception ex) {
             logger.error("删除用户异常，ex={}", ex);
-            return null;//throw new PermissionBizException(PermissionEnum.DELETE_USER_ERROR);
+            //throw new PermissionBizException(PermissionEnum.DELETE_USER_ERROR);
+            return null;
         }
     }
 

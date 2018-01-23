@@ -1,17 +1,17 @@
 package com.zc.common.core.image.im4java;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-
 import org.apache.commons.io.IOUtils;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
 import org.im4java.core.IdentifyCmd;
 import org.im4java.process.ArrayListOutputConsumer;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * im4java工具类需要按照笔记中的image下面的大图片处理方案安装插件
@@ -126,9 +126,11 @@ public class Im4javaUtils {
 		try {
 			IMOperation op = new IMOperation();
 			op.addImage(imagePath);
-			if (width == null) {// 根据高度缩放图片
+			if (width == null) {
+				// 根据高度缩放图片
 				op.resize(null, height);
-			} else if (height == null) {// 根据宽度缩放图片
+			} else if (height == null) {
+				// 根据宽度缩放图片
 				op.resize(width);
 			} else {
 				op.resize(width, height);

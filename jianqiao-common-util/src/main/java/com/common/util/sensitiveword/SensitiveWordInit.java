@@ -13,7 +13,10 @@ import java.util.*;
  * @Description: 初始化敏感词库，将敏感词加入到HashMap中，构建DFA算法模型
  */
 public class SensitiveWordInit {
-    private String encoding = "UTF-8";    //字符编码
+    /**
+     * 字符编码
+     */
+    private String encoding = "UTF-8";
     @SuppressWarnings("rawtypes")
     public HashMap sensitiveWordMap;
 
@@ -71,31 +74,38 @@ public class SensitiveWordInit {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void addSensitiveWordToHashMap(Set<String> keyWordSet) {
-        sensitiveWordMap = new HashMap(keyWordSet.size());     //初始化敏感词容器，减少扩容操作
+        //初始化敏感词容器，减少扩容操作
+        sensitiveWordMap = new HashMap(keyWordSet.size());
         String key = null;
         Map nowMap = null;
         Map<String, String> newWorMap = null;
         //迭代keyWordSet
         Iterator<String> iterator = keyWordSet.iterator();
         while(iterator.hasNext()){
-            key = iterator.next();    //关键字
+            //关键字
+            key = iterator.next();
             nowMap = sensitiveWordMap;
             for(int i = 0 ; i < key.length() ; i++){
-                char keyChar = key.charAt(i);      //转换成char型
-                Object wordMap = nowMap.get(keyChar);       //获取
-
-                if(wordMap != null){        //如果存在该key，直接赋值ֵ
+                //转换成char型
+                char keyChar = key.charAt(i);
+                //获取
+                Object wordMap = nowMap.get(keyChar);
+                //如果存在该key，直接赋值ֵ
+                if(wordMap != null){
                     nowMap = (Map) wordMap;
                 }
-                else{     //不存在则，则构建一个map，同时将isEnd设置为0，因为他不是最后一个
+                else{
+                    //不存在则，则构建一个map，同时将isEnd设置为0，因为他不是最后一个
                     newWorMap = Maps.newHashMap();
-                    newWorMap.put("isEnd", "0");    //不是最后一个
+                    //不是最后一个
+                    newWorMap.put("isEnd", "0");
                     nowMap.put(keyChar, newWorMap);
                     nowMap = newWorMap;
                 }
 
                 if(i == key.length() - 1){
-                    nowMap.put("isEnd", "1");   //最后一个
+                    //最后一个
+                    nowMap.put("isEnd", "1");
                 }
             }
         }
@@ -108,25 +118,30 @@ public class SensitiveWordInit {
     @SuppressWarnings("resource")
     private Set<String> readSensitiveWordFile() throws Exception{
         Set<String> set = null;
-        File file = new File("E:\\idea-workspace-framework\\cc-parent\\cc-common-util\\src\\resources\\SensitiveWord.txt");//读取文件,绝对路径
+        //读取文件,绝对路径
+        File file = new File("E:\\idea-workspace-framework\\cc-parent\\cc-common-util\\src\\resources\\SensitiveWord.txt");
         //File file = new File(SensitiveWordInit.class.getClassLoader().getResource("SensitiveWord.txt").getPath());//读取文件,相对路径
         InputStreamReader read = new InputStreamReader(new FileInputStream(file),encoding);
         try {
-            if(file.isFile() && file.exists()){      //文件流是否存在
+            //文件流是否存在
+            if(file.isFile() && file.exists()){
                 set = new HashSet<String>();
                 BufferedReader bufferedReader = new BufferedReader(read);
                 String txt = null;
-                while((txt = bufferedReader.readLine()) != null){    //读取文件，将文件内容放入到set中
+                //读取文件，将文件内容放入到set中
+                while((txt = bufferedReader.readLine()) != null){
                     set.add(txt);
                 }
             }
-            else{         //不存在抛出异常信息
+            else{
+                //不存在抛出异常信息
                 throw new Exception("敏感词库文件不存在");
             }
         } catch (Exception e) {
             throw e;
         }finally{
-            read.close();    //关闭文件流
+            //关闭文件流
+            read.close();
         }
         return set;
     }

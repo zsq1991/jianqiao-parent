@@ -80,7 +80,8 @@ public class OSSFileUpLoadForVideo {
 	        OSSClient client = new OSSClient(OSSClientUtil.DEFAULT_ENDPOINT,accessId, accessKey);
 	        try {
 	            if (!client.doesBucketExist(bucketName)) {
-	                ensureBucket(client, bucketName);//创建bucket
+					//创建bucket
+	                ensureBucket(client, bucketName);
 	                //如果已经不存在bucketName 才设置读写的权限
 	                setBucketPublicReadable(client, bucketName);
 	            }

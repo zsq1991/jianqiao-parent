@@ -15,16 +15,46 @@ import com.zc.common.core.string.MyStringUtils;
  * 
  */
 public class EmailParse {
-	private String receiveTime;// 接收时间
-	private String sendUser;// 发送人
-	private String receiveUser;// 接收人
-	private String cc;// 抄送的人
-	private String messageId;// Message-ID
-	private String subject;// 主题
-	private String content;// 内容
-	private boolean hasAttchment = false;// 是否有附件
-	private String[] fileName;// 附件文件名称
-	private boolean isReader;//是否已读
+	/**
+	 * 接收时间
+	 */
+	private String receiveTime;
+	/**
+	 * 发送人
+	 */
+	private String sendUser;
+	/**
+	 * 接收人
+	 */
+	private String receiveUser;
+	/**
+	 * 抄送的人
+	 */
+	private String cc;
+	/**
+	 * Message-ID
+	 */
+	private String messageId;
+	/**
+	 * 主题
+	 */
+	private String subject;
+	/**
+	 * 内容
+	 */
+	private String content;
+	/**
+	 * 是否有附件
+	 */
+	private boolean hasAttchment = false;
+	/**
+	 * 附件文件名称
+	 */
+	private String[] fileName;
+	/**
+	 * 是否已读
+	 */
+	private boolean isReader;
 	public String getReceiveTime() {
 		return receiveTime;
 	}

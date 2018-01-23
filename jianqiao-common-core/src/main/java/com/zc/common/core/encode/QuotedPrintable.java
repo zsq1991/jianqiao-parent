@@ -13,10 +13,22 @@ import java.io.UnsupportedEncodingException;
  * 
  */
 public class QuotedPrintable {
-	private final static byte TAB = 0x09; // /t
-	private final static byte LF = 0x0A; // /n
-	private final static byte CR = 0x0D; // /r
-	private final static byte EQUALS = 0x3D; // '='
+	/**
+	 * /t
+	 */
+	private final static byte TAB = 0x09;
+	/**
+	 * /n
+	 */
+	private final static byte LF = 0x0A;
+	/**
+	 * /r
+	 */
+	private final static byte CR = 0x0D;
+	/**
+	 * '='
+	 */
+	private final static byte EQUALS = 0x3D;
 
 	private final static byte LIT_START = 0x21;
 	private final static byte LIT_END = 0x7e;

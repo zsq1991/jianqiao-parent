@@ -2,6 +2,7 @@ package com.zc.main.entity.specialists;
 
 import com.zc.common.core.orm.hibernate.BaseIdEntity;
 
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,26 +10,53 @@ import java.util.List;
  * @package : com.alqsoft.entity.specialist
  * @className : Specialist
  * @description ：专家实体类
- * @Created by  : 朱军
+ * @author by  : 朱军
  * @Creation Date ： 2018/1/9 10:23
  * @version
  */
+@Table(name = "alq_specialist")
 public class Specialist extends BaseIdEntity implements Serializable{
-
-	private String headUrl;//头像
-	private String phone;//专家账号
-	private String name;//专家姓名
-	private Integer sex;//性别
-	private String office;//科室
-	private String position;//职位
-	private String employer;//单位
-	private String detail;//详情
-	private Integer isDelete;//0:正常 1:删除
+	/**
+	 * 头像
+	 */
+	private String headUrl;
+	/**
+	 * 专家账号
+	 */
+	private String phone;
+	/**
+	 * 专家姓名
+	 */
+	private String name;
+	/**
+	 * 性别
+	 */
+	private Integer sex;
+	/**
+	 * 科室
+	 */
+	private String office;
+	/**
+	 * 职位
+	 */
+	private String position;
+	/**
+	 * 单位
+	 */
+	private String employer;
+	/**
+	 * 详情
+	 */
+	private String detail;
+	/**
+	 * 0:正常 1:删除
+	 */
+	private Integer isDelete;
 
 	/**
-	 * 用于返回数据
+	 * 咨询标题 用于返回数据
 	 */
-	private String title;//咨询标题
+	private String title;
 
 	private List<SpecialistDTO> addressList;
 

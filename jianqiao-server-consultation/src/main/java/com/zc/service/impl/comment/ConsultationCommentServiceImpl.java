@@ -84,7 +84,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
             memberMsg.setCreatedTime(new Date());
             memberMsg.setUpdateTime(new Date());
             memberMsg.setConsultationId(consultationid);
-            memberMsg.setConsultationCommentId(consultationComment.getId());//关联新的评论
+            //关联新的评论
+            memberMsg.setConsultationCommentId(consultationComment.getId());
             memberMsg.setMemberId(consultation.getMemberId());
             memberMsg.setType(4);
             memberMsg.setReadType(0);
@@ -95,7 +96,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
             logger.info("保存评论成功!");
             return ResultUtils.returnSuccess("评论成功");
         }catch (Exception e){
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+            //回滚数据
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             logger.info("评论异常："+e.getMessage());
             return ResultUtils.returnSuccess("评论异常");
         }
@@ -147,16 +149,19 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 consultationComment.setCommentInfoId(parentConsultationCommentdb.getCommentInfoId());
                 consultationComment.setParentId(null);
                 parentConsultationCommentdb.setReplyNum(parentConsultationCommentdb.getReplyNum()==null?1:parentConsultationCommentdb.getReplyNum()+1);
-                consultationCommentMapper.insert(consultationComment);//保存新增回复评论
-                if(parentConsultationCommentdb.getFirstReplyCommentId()==null){//???
-                    parentConsultationCommentdb.setFirstReplyCommentId(consultationComment.getId());//维护此咨询最早的回复用于方便查询使用
+                //保存新增回复评论
+                consultationCommentMapper.insert(consultationComment);
+                if(parentConsultationCommentdb.getFirstReplyCommentId()==null){
+                    //维护此咨询最早的回复用于方便查询使用
+                    parentConsultationCommentdb.setFirstReplyCommentId(consultationComment.getId());
                 }
                 //更新回复数量
                 consultationCommentMapper.insert(parentConsultationCommentdb);
 
                 //维护MemberMsg系统通知
                 MemberMsg memberMsg = new MemberMsg();
-                memberMsg.setMemberId(parentConsultationCommentdb.getMemberId());//被评论的资讯
+                //被评论的资讯
+                memberMsg.setMemberId(parentConsultationCommentdb.getMemberId());
                 memberMsg.setCreatedTime(new Date());
                 memberMsg.setUpdateTime(new Date());
                 memberMsg.setMemberBaseId(member.getId());
@@ -179,12 +184,15 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
                 consultationComment.setCommentInfoId(parentConsultationCommentdb.getCommentInfoId());
                 consultationComment.setParentId(parentConsultationCommentdb.getParentId());
                 topConsulattionCommentdb.setReplyNum(topConsulattionCommentdb.getReplyNum()==null?1:topConsulattionCommentdb.getReplyNum()+1);
-                this.consultationCommentMapper.insert(consultationComment);//保存新增回复评论
-                this.consultationCommentMapper.insert(topConsulattionCommentdb);//更新回复的数量\
+                //保存新增回复评论
+                this.consultationCommentMapper.insert(consultationComment);
+                //更新回复的数量\
+                this.consultationCommentMapper.insert(topConsulattionCommentdb);
 
                 //维护MemberMsg系统通知
                 MemberMsg memberMsg = new MemberMsg();
-                memberMsg.setMemberId(topConsulattionCommentdb.getMemberId());//被评论的资讯
+                //被评论的资讯
+                memberMsg.setMemberId(topConsulattionCommentdb.getMemberId());
                 memberMsg.setCreatedTime(new Date());
                 memberMsg.setUpdateTime(new Date());
                 memberMsg.setMemberBaseId(member.getId());
