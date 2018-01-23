@@ -62,6 +62,13 @@ public class AdviceValidateSignature {
         String objSign = request.getParameter("sign");
         String objType = request.getParameter("client_type");
         String objTimestamp = request.getParameter("timestamp");
+
+        //安卓
+        String aType="A";
+        //IOS
+        String iType="I";
+        //微信
+        String wType="W";
         //获取请求路径
         String requestURI = request.getRequestURI();
         logger.info("========验签开始,sign={},client_type={},timestamp={},uri={}", objSign,objType,objTimestamp,requestURI);
@@ -77,7 +84,7 @@ public class AdviceValidateSignature {
             logger.info("========验签异常,result={}", JSON.toJSONString(result));
             return result;
         }
-        if ("W".equals(objType)) {
+        if (wType.equals(objType)) {
             logger.info("========微信客户端不验签,sign={},client_type={},timestamp={},uri={}", objSign,objType,objTimestamp,requestURI);
             return execute(point);
         }
@@ -93,7 +100,7 @@ public class AdviceValidateSignature {
             logger.info("========验签异常,result={}", JSON.toJSONString(result));
             return result;
         }
-        if (!"I".equals(objType) && !"A".equals(objType)) {
+        if (!iType.equals(objType) && !aType.equals(objType)) {
             result.setCode(203);
             result.setMsg("客户端异常");
             logger.info("========验签异常,result={}", JSON.toJSONString(result));

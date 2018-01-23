@@ -77,7 +77,9 @@ public class AdviceExplosionproof {
 			//设置失效时间
 			String setex = jedisUtils.setex(sign, sign, 10);
 			logger.info("方法:"+point.getSignature().getName()+"防爆通过，准备添加redis");
-			if ("OK".equals(setex)){
+			//成功返回
+			String successStr="OK";
+			if (successStr.equals(setex)){
 				logger.info("方法:"+point.getSignature().getName()+"添加redis成功，准备执行");
 				Object object = point.proceed();
 				Class<? extends Object> class1 = object.getClass();
