@@ -18,7 +18,9 @@ import java.util.Set;
  * 
  */
 public class HibernateValidateUtils {
-	// 验证对象
+	/**
+	 * 验证对象
+	 */
 	private static Validator validator;
 	static {
 		// 获取validator工厂方法

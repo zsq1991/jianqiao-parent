@@ -16,10 +16,14 @@ public class InterceptorConfig{
 
     @Autowired
     private InitParams initParams;
-
+    /**
+     *
+     */
     //@Value("${mark}")
     private String mark;
-
+    /**
+     * 白名单列表
+     */
     //@Value("${publicurl}")
     private String publicurl;
 

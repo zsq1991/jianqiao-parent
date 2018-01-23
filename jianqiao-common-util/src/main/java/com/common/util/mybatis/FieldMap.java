@@ -120,8 +120,13 @@ public class FieldMap {
 			
 			return "";
 		}
-	
-		// 把一个字符串的第一个字母大写、效率是最高的、
+
+	/**
+	 * 把一个字符串的第一个字母大写、效率是最高的、
+	 * @param fildeName
+	 * @return
+	 * @throws Exception
+	 */
 		private static String getMethodName(String fildeName) throws Exception{
 			byte[] items = fildeName.getBytes();
 			items[0] = (byte) ((char) items[0] - 'a' + 'A');

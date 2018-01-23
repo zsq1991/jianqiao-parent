@@ -30,9 +30,13 @@ import java.io.Serializable;
 public class TestTable implements Serializable{
 	
 	private static final long serialVersionUID = -6682032554457321363L;
-	//主键id
+	/**
+	 * 主键id
+	 */
 	private Long id;
-	//内容
+	/**
+	 * 内容
+	 */
 	private String content;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

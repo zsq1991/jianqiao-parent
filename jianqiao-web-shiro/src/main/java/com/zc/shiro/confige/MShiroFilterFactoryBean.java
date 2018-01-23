@@ -29,14 +29,18 @@ import java.util.Set;
 /**
  * @项目：Shiro配置
  * @描述：Shiro权限模块
- * @作者： Mr.Shu, liuy
+ * @author ： Mr.Shu, liuy
  * @创建时间：2017年5月9日
  * @Copyright @2017 by Mr.Shu,liuy
  */
 public class MShiroFilterFactoryBean extends ShiroFilterFactoryBean {
-    // 对ShiroFilter来说，需要直接忽略的请求
+    /**
+     * 对ShiroFilter来说，需要直接忽略的请求
+     */
     private Set<String> ignoreExt = new HashSet<String>();
-    // 信任的资源路径
+    /**
+     * 信任的资源路径
+     */
     private Set<String> trustResource = new HashSet<String>();
     
     public MShiroFilterFactoryBean() {

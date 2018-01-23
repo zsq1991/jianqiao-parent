@@ -20,12 +20,12 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
- *@Author: Yaowei
- *@Description: 
+ *@author : Yaowei
+ *@Description: 开启注解
  *@Date: 2017/12/4 11:42
  */
 @Configuration
-@EnableCaching//开启注解
+@EnableCaching
 public class RedisCacheBean extends CachingConfigurerSupport {
 
 

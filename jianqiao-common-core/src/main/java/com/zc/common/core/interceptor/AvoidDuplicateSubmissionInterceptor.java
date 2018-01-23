@@ -72,7 +72,11 @@ public class AvoidDuplicateSubmissionInterceptor extends HandlerInterceptorAdapt
         return true;
     }
 
-    // 生成一个唯一值的token
+    /**
+     * 生成一个唯一值的token
+     * @param request
+     * @return
+     */
     private boolean isRepeatSubmit(HttpServletRequest request) {
         String serverToken = (String) redisTemplate.opsForHash().get("tokens", "token"+request.getSession().getId());;
 

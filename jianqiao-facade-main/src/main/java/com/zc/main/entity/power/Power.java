@@ -5,25 +5,34 @@ import com.zc.common.core.orm.hibernate.BaseIdEntity;
 import com.zc.main.entity.consultation.Consultation;
 import com.zc.main.entity.member.Member;
 
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
- * 权重值详情记录
- *@entity
+ * @description 权重值详情记录
+ * @author system
+ * @date 2018-01-23 17:09
+ * @version 1.0.0
  */
+@Table(name = "alq_power")
 public class Power extends BaseIdEntity implements Serializable{
 		
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	//咨询类型
+	/**
+	 * 咨询类型
+	 */
 	private Consultation consultation;
-	//操作用户
+	/**
+	 * 操作用户
+	 */
 	private Member member;
-	//类型1-赞 2-收藏 3-阅读 4-分享 5-评论  6-置顶
+	/**
+	 * 类型1-赞 2-收藏 3-阅读 4-分享 5-评论  6-置顶
+	 */
 	private Integer type;
-	//当前操作类型0-增加 1-减少
+	/**
+	 * 当前操作类型0-增加 1-减少
+	 */
 	private Integer status;
 	public Consultation getConsultation() {
 		return consultation;

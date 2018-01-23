@@ -27,7 +27,9 @@ import java.util.TreeMap;
  */
 public class ServletUtils {
 
-	// -- Content Type 定义 --//
+	/**
+	 * Content Type 定义
+	 */
 	public static final String TEXT_TYPE = "text/plain";
 	public static final String JSON_TYPE = "application/json";
 	public static final String XML_TYPE = "text/xml";
@@ -35,10 +37,14 @@ public class ServletUtils {
 	public static final String JS_TYPE = "text/javascript";
 	public static final String EXCEL_TYPE = "application/vnd.ms-excel";
 
-	// -- Header 定义 --//
+	/**
+	 * Header 定义
+	 */
 	public static final String AUTHENTICATION_HEADER = "Authorization";
 
-	// -- 常用数值定义 --//
+	/**
+	 * 常用数值定义
+	 */
 	public static final long ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
 	/**
