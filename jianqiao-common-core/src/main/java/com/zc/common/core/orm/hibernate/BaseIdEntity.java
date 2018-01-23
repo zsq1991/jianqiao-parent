@@ -25,16 +25,20 @@ public abstract class BaseIdEntity implements Serializable{
 	@Field
 	@Column(name = "id")
 	public Long id;
+	// 建立的用户
 	@Column(name = "create_user")
-	public String createUser;// 建立的用户
+	public String createUser;
+	// 建立的时间
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Column(name = "created_time")
-	public Date createdTime;// 建立的时间
+	public Date createdTime;
+	// 更新时间
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Column(name = "update_time")
-	public Date updateTime;// 更新时间
+	public Date updateTime;
+	// 建立的ip
 	@Column(name = "created_ip")
-	public String createdIp ;// 建立的ip
+	public String createdIp ;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -88,7 +92,8 @@ public abstract class BaseIdEntity implements Serializable{
 	public void onCreate() {
 		createdTime = new Date();
 		updateTime = new Date();
-		if (ClassUtils.isPresent("org.springframework.security.core.Authentication",ClassUtils.getDefaultClassLoader())) {
+		String s="org.springframework.security.core.Authentication";
+		if (ClassUtils.isPresent(s,ClassUtils.getDefaultClassLoader())) {
 			createdIp = SpringSecurityUtils.getCurrentUserIp();
 			createUser = SpringSecurityUtils.getCurrentUserName();
 		}

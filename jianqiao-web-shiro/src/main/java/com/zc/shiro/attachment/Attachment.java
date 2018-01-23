@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -35,8 +34,10 @@ import java.util.Map;
 public class Attachment {
     @Autowired
     OSSClientUtil ossClientUtil;
-
-    private static final int MAX_POST_SIZE = 5 * 1024 * 1024; //5M
+    /**
+     * 上传最大值5M
+     */
+    private static final int MAX_POST_SIZE = 5 * 1024 * 1024;
 
     public static synchronized String getOrder() {
         return DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS") + RandomStringUtils.randomNumeric(6);

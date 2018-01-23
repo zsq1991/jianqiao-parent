@@ -36,14 +36,22 @@ public class AdviceValidateSignature {
      * 白名单
      */
     private final static String[] PUBLIC_URLS = {
-            "/mobile/view/attachment/upload",//附件上传
-            "/mobile/view/message/sendMsg",//认证发短信
-            "/mobile/view/securitycode/registersend",//注册发送短信
-            "/mobile/view/securitycode/loginsend",//登录发送短信
-            "/mobile/view/picture/url", //健桥首页
-            "/mobile/view/app/share", //分享
-            "/mobile/view/app/download",//下载APP二维码.
-            "/mobile/view/picture/url"//合作相关
+            //附件上传
+            "/mobile/view/attachment/upload",
+            //认证发短信
+            "/mobile/view/message/sendMsg",
+            //注册发送短信
+            "/mobile/view/securitycode/registersend",
+            //登录发送短信
+            "/mobile/view/securitycode/loginsend",
+            //健桥首页
+            "/mobile/view/picture/url",
+            //分享
+            "/mobile/view/app/share",
+            //下载APP二维码.
+            "/mobile/view/app/download",
+            //合作相关
+            "/mobile/view/picture/url"
     };
     /**
      * @param point 切入点

@@ -13,30 +13,33 @@ import java.io.Serializable;
  * @Created by  : gaoge
  * @Creation Date ： 2018/1/16 9:39
  */
+@Table(name = "alq_attachment")
 @Alias("alq_attachment")
 public class Attachment extends BaseIdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
+    //附件名称
     @Column(name = "name")
     @NotBlank(message = "附件名称不能为空")
-    //@Length(min = 2, max = 50, message = "附件名称必须在2到50之间，请重新输入")
-    private String name;//附件名称
+    private String name;
 
+    //附件地址
     @Column(name = "address")
     @NotBlank(message = "附件地址不能为空")
-    //@Length(min = 2, max = 200, message = "附件名称必须在2到200之间，请重新输入")
-    private String address;//附件地址
+    private String address;
 
+    //记录文件大小；
     @Column(name = "memory")
-    private Double memory;//记录文件大小；
+    private Double memory;
 
+    //尺寸信息
     @Column(name = "size_info")
-    private String sizeInfo;//尺寸信息
+    private String sizeInfo;
 
+    //备注
     @Column(name = "comment_info")
-    private String commentInfo;//备注
+    private String commentInfo;
 
 
     public String getSizeInfo() {
