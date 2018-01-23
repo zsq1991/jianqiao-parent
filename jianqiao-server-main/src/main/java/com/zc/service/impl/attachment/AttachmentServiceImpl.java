@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
  * @Creation Date ：2018年01月18日17:23
  */
 @Component
-@Transactional(readOnly = true)
+@Transactional(readOnly = true,rollbackFor = Exception.class)
 @Service(version = "1.0.0",interfaceClass=AttachmentService.class)
 public class AttachmentServiceImpl  implements AttachmentService {
 
