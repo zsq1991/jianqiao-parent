@@ -54,10 +54,6 @@ public class UserTServiceImpl implements IUserService {
     @Autowired
     UserRoleMapper userRoleMapper;
 
-   /* //短信发送接口
-    @Autowired
-    private ISmsDataService smsDataService;*/
-
 
     @Transactional(rollbackFor=Exception.class)
     @Override
@@ -163,7 +159,6 @@ public class UserTServiceImpl implements IUserService {
     	try {
     		logger.info("冻结或者启用用户入参,user={}",JSON.toJSONString(user));
     		user.setUpdateTime(new Date());
-	        //userMapper.updateByPrimaryKeySelective(user);
 	        return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
 		} catch (Exception e) {
 			return null;//throw new PermissionBizException(PermissionEnum.DISABLE_ERROR);
@@ -176,7 +171,6 @@ public class UserTServiceImpl implements IUserService {
     public Result deleteUser(User user) {
         try {
         	logger.info("删除用户入参,user={}",JSON.toJSONString(user));
-            //userMapper.deleteByPrimaryKey(user);
             userRoleMapper.deleteUserRoleByUserId(user.getId());
             return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
         } catch (Exception ex) {
@@ -187,7 +181,6 @@ public class UserTServiceImpl implements IUserService {
 
     @Override
     public Result getUserById(User user) {
-    	//userMapper.selectByPrimaryKey(user);
         return ResultUtil.getResult(PermissionEnum.Code.SUCCESS,null);
     }
 
@@ -219,54 +212,6 @@ public class UserTServiceImpl implements IUserService {
        
     }
 
-  /*  @Transactional
-	@Override
-    public Result resetPassword(User user, SmsSourceEnum smsSourceEnum, String type) {
-        try {
-			logger.info("重置密码入参，user={}", JSON.toJSONString(user));
-            Result result = ResultUtil.getResult(PermissionEnum.PASSWORD_REMIND);
-            if (null != smsSourceEnum) {
-                //创建随机密码
-                String rePass = getStringRandom(8);
-
-                //6.发送密码短信
-                User findUser = new User();
-                findUser.setId(user.getId());
-                User dbUser = userMapper.selectOne(findUser);
-                if (dbUser == null) {
-                    result.setMessage("没有用户信息!");
-                    return result;
-                }
-                SmsSendData sendData = new SmsSendData();
-                sendData.setMobile(dbUser.getTelphone());
-                //判断是初始化密码还是重置密码
-                if (StringUtils.isEmpty(type)) {
-                    sendData.setType(SmsCodeType.RESET_PASSWORD_PD);//代理商，商户，供应商重置密码
-                } else {
-                    sendData.setType(SmsCodeType.EXAMINE_PASS);//代理商，商户，供应商重置密码
-                }
-                sendData.setSourceEnum(smsSourceEnum);//枚举类型判断
-                sendData.setSmsCode(rePass);//随机密码
-                Result smsResult = smsDataService.sendSmsHaveCode(sendData);
-                if (smsResult == null || !MemberResultEnum.Code.SUCCESS.getCode().equals(smsResult.getCode())) {
-                    logger.info("给用户发送短信密码失败:" + smsResult);
-                    throw new MemberException("给用户发送短信密码失败");
-                }
-                user.setPassword(MD5.getMD5Str(rePass));
-                result.setMessage("重置随机密码成功!");
-            } else {
-                user.setPassword(MD5.getMD5Str(UserConstant.PASSWORD));
-            }
-            user.setUpdateTime(new Date());
-            userMapper.updateByPrimaryKeySelective(user);
-            result.setSuccess(true);
-            return result;
-        } catch (Exception e) {
-            logger.error("重置密码异常", e);
-            throw new PermissionBizException(PermissionEnum.RESET_PASSWORD_ERROR);
-        }
-	 	
-	}*/
 
 	@Override
     public UserVO getUserByCondition(UserDTO userDto) {
@@ -281,31 +226,13 @@ public class UserTServiceImpl implements IUserService {
             return ResultUtil.getResult(PermissionEnum.NO_TELPHONE_ERROR);
         } else {
 
-            //帐号审核
-          /*  if (userVO.getAgentPass() != null && !(SPMEnum.agentStatus.ONE.getIndex() == userVO.getAgentPass())) {
-                return ResultUtil.getResult(PermissionEnum.NO_PASS);
-            } else if (userVO.getMerchantPass() != null && !(SPMEnum.merchantStatus.ONE.getIndex() == userVO.getMerchantPass())) {
-                return ResultUtil.getResult(PermissionEnum.NO_PASS);
-            } else if (userVO.getSupplierPass() != null && !(SPMEnum.supplierStatus.ONE.getIndex() == userVO.getSupplierPass())) {
-                return ResultUtil.getResult(PermissionEnum.NO_PASS);
-                //账号锁定
-            } else if (userVO.getAgentStatus() != null && SPMEnum.agentIsFrozen.ONE.getIndex() == userVO.getAgentStatus()) {
-                return ResultUtil.getResult(PermissionEnum.LOCKED_ACCOUNT);
-            } else if (userVO.getMerchantStatus() != null && SPMEnum.merchantIsFrozen.ONE.getIndex() == userVO.getMerchantStatus()) {
-                return ResultUtil.getResult(PermissionEnum.LOCKED_ACCOUNT);
-            } else if (userVO.getSupplierStatus() != null && SPMEnum.supplierIsFrozen.ONE.getIndex() == userVO.getSupplierStatus()) {
-                return ResultUtil.getResult(PermissionEnum.LOCKED_ACCOUNT);
-            } else*/ if (userVO.getIsable() == 2) {
+         if (userVO.getIsable() == 2) {
                 return ResultUtil.getResult(PermissionEnum.LOCKED_ACCOUNT);
             }
 
             if (userVO.getAgentName() != null) {
                 return ResultUtil.getResult(RespCode.Code.SUCCESS);
-           /* } else if (userVO.getMerchantName() != null) {
-                return ResultUtil.getResult(RespCode.Code.SUCCESS, SmsSourceEnum.MERCHANT.getCode());
-            } else if (userVO.getSupplierName() != null) {
-                return ResultUtil.getResult(RespCode.Code.SUCCESS, SmsSourceEnum.SUPPLIER.getCode());
-            */} else {
+           } else {
                 return ResultUtil.getResult(PermissionEnum.NO_FIND_PASSWORD_ERROR);
             }
         }
@@ -333,7 +260,6 @@ public class UserTServiceImpl implements IUserService {
      */
     public static final Byte START = 1;
     private void paramsTranf(User user, UserRoleDTO dto) {
-        //user.cr(dto.getCreaterId());
         user.setUpdaterId(dto.getUpdaterId());
         user.setUserName(dto.getUserName());
         user.setTelphone(dto.getTelphone());

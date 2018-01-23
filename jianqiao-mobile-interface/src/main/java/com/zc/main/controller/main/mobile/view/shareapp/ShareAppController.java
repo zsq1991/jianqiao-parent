@@ -112,7 +112,6 @@ public class ShareAppController {
                     }
                     //得到当前评论下的回复，取前两条
                     mapppp = shareAppService.getreplyDetail(commentid);
-                    //consultationDetail.add(mapppp);
                     map.put("replyDetail", mapppp);
                 }
                 Map<String, Object> ftplNum = shareAppService.getFTPLNum(commentid + "");
@@ -160,7 +159,6 @@ public class ShareAppController {
                     }
 
                     mapppp = shareAppService.getreplyDetail(commentid);
-                    //consultationDetail.add(mapppp);
                     map.put("replyDetail", mapppp);
                 }
                 Map<String, Object> ftplNum = shareAppService.getFTPLNum(consuid + "");
@@ -258,7 +256,6 @@ public class ShareAppController {
                         }
 
                         mapppp = shareAppService.getreplyDetail(commentid);
-                        //consultationDetail.add(mapppp);
                         map.put("replyDetail", mapppp);
                     }
                 }

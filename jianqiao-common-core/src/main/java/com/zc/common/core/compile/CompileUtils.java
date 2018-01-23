@@ -22,15 +22,6 @@ public class CompileUtils {
 	}
 
 	/**
-	 * 编译字符串类型的代码
-	 * 
-	 * @param so StringObject so = new StringObject("demo.CalculatorTest",
-	 *            "package demo;" + "  class CalculatorTest {" +
-	 *            "	public int multiply(int multiplicand, int multiplier) {" +
-	 *            "		System.out.println(multiplicand);" +
-	 *            "		System.out.println(multiplier);" +
-	 *            "		return multiplicand * multiplier;" + "	}" + "}");
-	 * 
 	 * @param fileName .class文件的存放位置 只要指定目录文件的路径即可 如果文件名为空就是默认的
 	 * @return
 	 */

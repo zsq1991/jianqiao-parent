@@ -44,11 +44,8 @@ public class AvoidDuplicateSubmissionInterceptor extends HandlerInterceptorAdapt
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
-//		session.setAttribute(arg0, arg1);
-//		session.removeAttribute(arg0);
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
-//        String token=(String) redisTemplate.opsForHash().get("tokens", "token"+request.getSession().getId());
         String token=(String)request.getSession().getAttribute("token");
         logger.info("第一步："+Thread.currentThread().getName()+"="+token);
         if(StringUtils.isBlank(token)){

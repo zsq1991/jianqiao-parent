@@ -1506,20 +1506,11 @@ public class ConsultationServiceImpl implements ConsultationService {
                 //图片地址
                 String addressChid = "";
 
-                //处理咨询图片
+                /**
+                *处理咨询图片
+                 */
                 List<Map<String, Object>> consultationChidAttachmentList = consultationAttachmentService.findConsultationAttachmentByConsultationId(Long.valueOf(consultationInfo.get("id").toString()));
                 consultationInfo.put("address", consultationChidAttachmentList);
-						/*if (consultationChidAttachmentList.size() > 0) {
-							//循环拼接图片地址
-							for (Map<String, Object> consultationChidAttachment : consultationChidAttachmentList) {
-								Object addrs=consultationChidAttachment.get("address");
-								if(null==addrs){addrs="";};
-								addressChid += addrs.toString() + ",";
-							}
-							consultationinfo.put("address", addressChid);
-						} else {
-							consultationinfo.put("address", "");
-						}*/
             }
 
             return ResultUtils.returnSuccess("请求成功", consultationList);

@@ -1,14 +1,10 @@
 package com.zc.common.core.ftp;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+
+import java.io.*;
 
 /**
  * 
@@ -20,8 +16,8 @@ import org.apache.commons.net.ftp.FTPReply;
  * @create-time 2012-3-27 下午02:50:54
  * 
  */
-public class FTPUtils {
-	private FTPUtils() {
+public class fTPUtils {
+	private fTPUtils() {
 	}
 
 	/**

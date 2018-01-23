@@ -137,7 +137,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
             ConsultationComment consultationComment = new ConsultationComment();
             consultationComment.setConsultationId(parentConsultationCommentdb.getConsultationId());
             consultationComment.setConsultationMemberId(parentConsultationCommentdb.getConsultationMemberId());
-            Member member = new Member(); member.setId(memberId);//当前登入的用户，回复的用户
+            //当前登入的用户，回复的用户
+            Member member = new Member(); member.setId(memberId);
             consultationComment.setMemberId(member.getId());
             consultationComment.setContent(content);
             consultationComment.setIsDelete(0);
@@ -197,7 +198,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
             logger.info("==========调用评论回复接口结束============参数( memberId："+memberId+"type:"+type+"parentId:"+parentId+"content:"+content);
             return ResultUtils.returnSuccess("回复成功");
         } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+            //回滚数据
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             logger.error("====回复资讯异常：用户ID："+memberId+"====="+e.getMessage());
             e.printStackTrace();
             return ResultUtils.returnError("回复失败");

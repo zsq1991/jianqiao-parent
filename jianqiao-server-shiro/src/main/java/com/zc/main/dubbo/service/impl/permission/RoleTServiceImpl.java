@@ -175,7 +175,6 @@ public class RoleTServiceImpl implements IRoleService {
 
     @Override
     public Result getRoleById(Long id) {
-       // Role r = roleMapper.selectByPrimaryKey(id);
         return ResultUtil.getResult(PermissionEnum.Code.SUCCESS, null);
     }
 

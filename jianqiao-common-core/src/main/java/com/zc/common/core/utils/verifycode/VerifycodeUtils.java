@@ -1,27 +1,23 @@
 package com.zc.common.core.utils.verifycode;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Random;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.bingoohuang.patchca.background.SingleColorBackgroundFactory;
 import com.github.bingoohuang.patchca.color.SingleColorFactory;
 import com.github.bingoohuang.patchca.custom.ConfigurableCaptchaService;
 import com.github.bingoohuang.patchca.filter.predefined.CurvesRippleFilterFactory;
 import com.github.bingoohuang.patchca.utils.encoder.EncoderHelper;
 import com.github.bingoohuang.patchca.word.RandomWordFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Random;
 
 public class VerifycodeUtils {
 
@@ -92,7 +88,9 @@ public class VerifycodeUtils {
 		// g.setColor(new Color());
 		// g.drawRect(0,0,width-1,height-1);
 
-		// 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到
+		/**
+		 * 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到
+		 */
 		g.setColor(getRandColor(160, 200));
 		for (int i = 0; i < 155; i++) {
 			int x = random.nextInt(width);

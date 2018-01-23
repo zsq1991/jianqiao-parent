@@ -1,6 +1,6 @@
 package com.zc.exception;
 
-import com.common.util.exception.BusinessException;
+import com.common.util.exception.businessException;
 import com.zc.common.core.shiro.Result;
 
 /**
@@ -14,7 +14,7 @@ import com.zc.common.core.shiro.Result;
  *
  * @Copyright @2017 by Mr.chang
  */
-public class MainException extends BusinessException{
+public class MainException extends businessException {
 
 	private static final long serialVersionUID = 902198845675620978L;
 

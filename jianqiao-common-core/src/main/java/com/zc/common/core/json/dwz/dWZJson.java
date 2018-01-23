@@ -1,12 +1,11 @@
 package com.zc.common.core.json.dwz;
 
+import com.zc.common.core.utils.MyObjectUtils;
+import org.apache.commons.beanutils.BeanUtils;
+
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
-import org.apache.commons.beanutils.BeanUtils;
-
-import com.zc.common.core.utils.MyObjectUtils;
 /**
  * DWZ返回json的类
  * 
@@ -17,9 +16,9 @@ import com.zc.common.core.utils.MyObjectUtils;
  * @create-time 2011-12-20 晚上:22:08
  * 
  */
-public class DWZJson {
+public class dWZJson {
 	
-	private DWZJson(){
+	private dWZJson(){
 		throw new AssertionError();
 	}
 	/**
