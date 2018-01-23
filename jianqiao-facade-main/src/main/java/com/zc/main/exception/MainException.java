@@ -8,7 +8,7 @@ import com.zc.common.core.shiro.Result;
  *
  * @描述：权限模块异常处理
  *
- * @作者： Mr.chang
+ * @author ： Mr.chang
  *
  * @创建时间：2017年3月14日
  *

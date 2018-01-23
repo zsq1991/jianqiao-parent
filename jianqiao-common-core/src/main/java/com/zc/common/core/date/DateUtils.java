@@ -1,13 +1,12 @@
 package com.zc.common.core.date;
 
+import com.zc.common.core.utils.MyObjectUtils;
+import org.apache.commons.lang.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.commons.lang.StringUtils;
-
-import com.zc.common.core.utils.MyObjectUtils;
 
 /**
  * 日期工具类
@@ -230,9 +229,11 @@ public class DateUtils {
 	 */
 	public static Date getBeforeDate(String range) {
 		Calendar today = Calendar.getInstance();
-		if ("week".equalsIgnoreCase(range)) {
+		String week="week";
+		String month="month";
+		if (week.equalsIgnoreCase(range)) {
             today.add(Calendar.WEEK_OF_MONTH, -1);
-        } else if ("month".equalsIgnoreCase(range)) {
+        } else if (month.equalsIgnoreCase(range)) {
             today.add(Calendar.MONTH, -1);
         } else {
             today.clear();

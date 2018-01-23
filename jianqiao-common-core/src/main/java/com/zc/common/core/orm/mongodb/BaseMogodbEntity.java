@@ -1,9 +1,9 @@
 package com.zc.common.core.orm.mongodb;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
+
+import java.util.Date;
 
 /**
  * 
@@ -18,8 +18,14 @@ import org.springframework.data.annotation.Id;
 public class BaseMogodbEntity {
 	@Id
 	private Long id;
-	private Date createTime;// 新增时间
-	private Date updateTime;// 修改时间
+	/**
+	 * 新增时间
+	 */
+	private Date createTime;
+	/**
+	 * 修改时间
+	 */
+	private Date updateTime;
 
 	public Long getId() {
 		return id;
