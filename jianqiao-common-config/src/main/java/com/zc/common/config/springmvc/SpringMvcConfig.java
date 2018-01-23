@@ -12,6 +12,7 @@ package com.zc.common.config.springmvc;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -58,11 +59,13 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter{
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
     	MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
     	List<MediaType> supportedMediaTypes = new ArrayList<MediaType>();
     	MediaType meidaType = new MediaType(MediaType.TEXT_PLAIN,Charset.forName("utf-8"));
     	supportedMediaTypes.add(meidaType);
     	mappingJackson2HttpMessageConverter.setSupportedMediaTypes(supportedMediaTypes);
         converters.add(mappingJackson2HttpMessageConverter);
+        converters.add(stringHttpMessageConverter);
     }
 
     /**
