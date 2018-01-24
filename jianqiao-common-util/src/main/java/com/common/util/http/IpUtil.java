@@ -20,9 +20,9 @@ import java.util.Enumeration;
  *
  * @Copyright @2017 by Mr.chang
  */
-public class IPUtil {
+public class IpUtil {
 
-	protected static Logger log = LoggerFactory.getLogger(IPUtil.class);
+	protected static Logger log = LoggerFactory.getLogger(IpUtil.class);
 	
    /**
 	 * 获取请求的真实IP地址(适用于公网和局域网)
