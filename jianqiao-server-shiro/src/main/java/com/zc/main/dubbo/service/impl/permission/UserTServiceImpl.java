@@ -5,7 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.zc.common.core.encrypt.MD5;
+import com.zc.common.core.encrypt.Md5;
 import com.zc.common.core.shiro.PermissionEnum;
 import com.zc.common.core.shiro.RespCode;
 import com.zc.common.core.shiro.Result;
@@ -116,8 +116,8 @@ public class UserTServiceImpl implements IUserService {
             Result result;
             logger.info("(后台)修改密码入参,updatePassDto={}",JSON.toJSONString(updatePassDto));
             User user = userMapper.selectByPrimaryKey(updatePassDto.getId());
-            String oldPass = MD5.getMD5Str(updatePassDto.getPassword());
-            String newPass = MD5.getMD5Str(updatePassDto.getNewPassword());
+            String oldPass = Md5.getMD5Str(updatePassDto.getPassword());
+            String newPass = Md5.getMD5Str(updatePassDto.getNewPassword());
             if (user != null && StringUtils.isNotBlank(user.getPassword())
                     && user.getPassword().equals(oldPass)) {
                 User mdyUser = new User();
@@ -266,7 +266,7 @@ public class UserTServiceImpl implements IUserService {
         user.setUpdaterId(dto.getUpdaterId());
         user.setUserName(dto.getUserName());
         user.setTelphone(dto.getTelphone());
-        user.setPassword(MD5.getMD5Str(dto.getPassword()));
+        user.setPassword(Md5.getMD5Str(dto.getPassword()));
         user.setIsable(START);
         user.setCreatedTime(new Date());
         user.setUpdateTime(new Date());

@@ -2,13 +2,12 @@ package com.zc.main.dubbo.service.impl.permission;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
-import com.zc.common.core.encrypt.MD5;
+import com.zc.common.core.encrypt.Md5;
 import com.zc.common.core.shiro.PermissionEnum;
 import com.zc.common.core.shiro.RespCode;
 import com.zc.common.core.shiro.Result;
 import com.zc.common.core.shiro.ResultUtil;
 import com.zc.main.dto.UserDTO;
-import com.zc.main.dubbo.service.permission.IBtnService;
 import com.zc.main.dubbo.service.permission.ILoginService;
 import com.zc.main.entity.permission.User;
 import com.zc.main.vo.SessionUserVO;
@@ -103,7 +102,7 @@ public class LoginServiceImpl implements ILoginService {
                 User user = new User();
                 user.setId(dbUser.getId());
                 user.setTelphone(userDTO.getTelphone());
-                user.setPassword(MD5.getMD5Str(userDTO.getPassword()));
+                user.setPassword(Md5.getMD5Str(userDTO.getPassword()));
                 user.setUpdateTime(new Date());
                 //userMapper.updateByPrimaryKeySelective(user);
                 return ResultUtil.getResult(RespCode.Code.SUCCESS);

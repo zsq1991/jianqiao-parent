@@ -16,8 +16,8 @@ import java.io.*;
  * @create-time 2012-3-27 下午02:50:54
  * 
  */
-public class fTPUtils {
-	private fTPUtils() {
+public class FtpUtils {
+	private FtpUtils() {
 	}
 
 	/**

@@ -16,9 +16,9 @@ import java.util.List;
  * @create-time 2011-12-20 晚上:22:08
  * 
  */
-public class dWZJson {
+public class DwzJson {
 	
-	private dWZJson(){
+	private DwzJson(){
 		throw new AssertionError();
 	}
 	/**
