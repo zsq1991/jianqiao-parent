@@ -40,7 +40,7 @@ public class DubboProperties {
   /**
    * dubbo group, may override by {@link com.alibaba.dubbo.config.annotation.Service#group()}
    */
-  private String group = "jianqiao";
+  private String group = "";
 
   public String getAppname() {
     return this.appname;
