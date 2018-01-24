@@ -222,22 +222,29 @@ public class MemberMessageServiceImpl implements MemberMessageService{
         if (nickname != null) {
             nickname = nickname.replaceAll(" ", "");
         }
+        //检验昵称是否已存在
+        logger.info("=========查询昵称=======");
+        List<Map<String, Object>> nicknameIsExist = megMapper.getMemberByNickname(nickname);
+        logger.info("=========昵称不存在======");
+        if(nicknameIsExist.size()>0){
+            return ResultUtils.returnError("昵称不能重复");
+        }
         // 判断是否为空
         if(com.alibaba.dubbo.common.utils.StringUtils.isBlank(nickname)){
             logger.info("=========昵称不能为空=======");
             return ResultUtils.returnError("昵称不能为空");
         }
         // 判断字符长度&修改昵称：支持2-8个字符。只支持汉字、字母。提示语：昵称格式不正确
+        logger.info("=========判断字符长度&修改昵称：支持2-8个字符=======");
         if (nickname.length() < 2 || nickname.length() > 8) {
-            logger.info("=========昵称支持2-8个字符=======");
             return ResultUtils.returnError("昵称支持2-8个字符");
         }
+        logger.info("=========判断昵称格式只支持汉字、字母=======");
         String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].·<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\n|\r|\t";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(nickname);
         boolean find = m.find();
         if(find){
-            logger.info("=========昵称格式不正确=======");
             return ResultUtils.returnError("昵称格式不正确");
         }
         //查询当前所要修改的会员昵称
@@ -270,29 +277,30 @@ public class MemberMessageServiceImpl implements MemberMessageService{
     @Override
     @Transactional(rollbackFor=Exception.class)
     public Result updateMembersex(Integer sexId, Member member) {
-        logger.info("=========昵称修改性别=======");
+        logger.info("=========修改性别=======");
         //不使用result，使用公司的ResultUtils工具类
+        logger.info("=========先判断是不是会员=======");
         if(null==member){
             return ResultUtils.returnError("对不起,您不是会员,请先申请");
         }
+        logger.info("=========判断性别标识存不存在=======");
         if(null==sexId){
-            logger.info("=========性别标识不能为空=======");
             return ResultUtils.returnError("性别标识不能为空");
         }
+        logger.info("=========性别标识只能是1或2（1：男；2：女)=======");
         if(sexId != 1 && sexId != 2 ){
-            logger.info("=========性别标识只能是1或2（1：男；2：女)=======");
             return ResultUtils.returnError("性别标识只能是1或2（1：男；2：女）");
         }
         Member memberdb = memberMapper.checkMemberById(member.getId());
         memberdb.setSex(sexId);
         try{
+            logger.info("=========判断性别修改=======");
             this.megMapper.updateMemberSexById(sexId,memberdb.getId());
-            logger.info("=========性别修改成功=======");
             return ResultUtils.returnSuccess("性别修改成功");
         }catch (Exception e) {
+            logger.info("=========性别修改失败，回滚数据=======");
             e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
-            logger.info("=========性别修改失败=======");
             return ResultUtils.returnError("性别修改失败");
         }
     }
@@ -308,8 +316,8 @@ public class MemberMessageServiceImpl implements MemberMessageService{
     public Result memberMessageList(Member member) {
         logger.info("=======判断用户信息========");
         // 判断member是否为空
+        logger.info("=======判断用户信息是否为空========");
         if (member == null) {
-            logger.info("=======用户信息为空========");
             return ResultUtils.returnError("没有对应的会员信息");
         }
 
