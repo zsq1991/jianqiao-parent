@@ -165,36 +165,48 @@ public class Table {
 	private static String getType(String column,Class<?> clazz) throws Exception{
 		
 		String txt = null;
-		
-		if("int".equals(clazz.getName()) || "java.lang.Integer".equals(clazz.getName())){
+		String intStr="int";
+		String integerClass="java.lang.Integer";
+		String floatStr="float";
+		String floatClass="java.lang.Float";
+		String longStr="long";
+		String longClass="java.lang.Long";
+		String doubleStr="double";
+		String doubleClass="java.lang.Double";
+		String booleanStr="boolean";
+		String booleanClass="java.lang.Boolean";
+		String stringClass="java.lang.String";
+		String dateClass="java.util.Date";
+		String voidStr="void";
+		if(intStr.equals(clazz.getName()) || integerClass.equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=Integer,jdbcType=INTEGER}";
 			
-		}else if("float".equals(clazz.getName()) || "java.lang.Float".equals(clazz.getName())){
+		}else if(floatStr.equals(clazz.getName()) || floatClass.equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=float,jdbcType=FLOAT}";
 			
-		}else if("long".equals(clazz.getName()) || "java.lang.Long".equals(clazz.getName())){
+		}else if(longStr.equals(clazz.getName()) || longClass.equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=long,jdbcType=INTEGER}";
 			
-		}else if("double".equals(clazz.getName()) || "java.lang.Double".equals(clazz.getName())){
+		}else if(doubleStr.equals(clazz.getName()) || doubleClass.equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=double,jdbcType=DOUBLE}";
 			
-		}else if("boolean".equals(clazz.getName()) || "java.lang.Boolean".equals(clazz.getName())){
+		}else if(booleanStr.equals(clazz.getName()) || booleanClass.equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=boolean,jdbcType=BOOLEAN}";
 			
-		}else if("java.lang.String".equals(clazz.getName())){
+		}else if(stringClass.equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=string,jdbcType=VARCHAR}";
 			
-		}else if("java.util.Date".equals(clazz.getName())){
+		}else if(dateClass.equals(clazz.getName())){
 			
 			txt="#{" + column + ",javaType=java.util.Date,jdbcType=TIMESTAMP}";
 			
-		}else if("void".equals(clazz.getName())){
+		}else if(voidStr.equals(clazz.getName())){
 			
 			System.out.println(column + " is void");
 			

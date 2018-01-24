@@ -152,8 +152,9 @@ public class SensitivewordFilter {
                 break;
             }
         }
+        int num=2;
         //长度必须大于等于1，为词
-        if(matchFlag < 2 || !flag){
+        if(matchFlag < num || !flag){
             matchFlag = 0;
         }
         return matchFlag;

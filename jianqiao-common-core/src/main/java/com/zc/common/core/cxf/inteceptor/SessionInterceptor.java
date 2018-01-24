@@ -1,14 +1,14 @@
 package com.zc.common.core.cxf.inteceptor;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 对接收到的session信息进行记录的拦截器
@@ -36,9 +36,10 @@ public class SessionInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
 		Map<String, List<String>> headers = (Map<String, List<String>>) arg0
 				.get(Message.PROTOCOL_HEADERS);
 		String result = "";
-		if (headers.containsKey("Set-Cookie")) {
+		String setCookieStr="Set-Cookie";
+		if (headers.containsKey(setCookieStr)) {
 			result=StringUtils.substringAfter(
-					StringUtils.substringBefore(headers.get("Set-Cookie").get(0), ";"), "=");
+					StringUtils.substringBefore(headers.get(setCookieStr).get(0), ";"), "=");
 			if (StringUtils.isNotBlank(sessionvalue.getSessionId())) {
 				sessionvalue.setSessionId(result);
 			} else if (StringUtils.isNotBlank(result)) {

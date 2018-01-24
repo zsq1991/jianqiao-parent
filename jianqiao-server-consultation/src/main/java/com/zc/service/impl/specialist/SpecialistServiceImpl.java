@@ -43,7 +43,8 @@ public class SpecialistServiceImpl implements SpecialistService {
             map.put("specialistInfo",specialistDetail);
             map.put("honorAddress",honorAddressList);
             Map<String,Object> consultatoin = Maps.newHashMap();
-            if(specialistDetail.get("office") != null && specialistDetail.get("office") != ""){
+            Object office=specialistDetail.get("office");
+            if(office != null && office != ""){
                 List<Specialist> consultatoinList = specialistMapper.queryConsultationList(specialistDetail.get("office").toString());
                 //专家相关推荐列表
                 map.put("consultatoin",consultatoinList);
@@ -56,7 +57,8 @@ public class SpecialistServiceImpl implements SpecialistService {
     @Override
     public List<Map<String, Object>> getSpecialistData(String dataType) {
         Map<String,Object> param = Maps.newHashMap();
-        if("0".equals(dataType)){
+        String o = "0";
+        if(o.equals(dataType)){
             Integer specialistCount = specialistMapper.getSpecialistCount();
             param.put("specialistCount",specialistCount);
         }
@@ -68,7 +70,8 @@ public class SpecialistServiceImpl implements SpecialistService {
     @Override
     public List<Map<String, Object>> getDoctorData(String dataType) {
         Map<String,Object> param = Maps.newHashMap();
-        if("0".equals(dataType)){
+        String o = "0";
+        if(o.equals(dataType)){
             Integer doctorCount = specialistMapper.getDoctorCount();
             param.put("doctorCount",doctorCount);
         }

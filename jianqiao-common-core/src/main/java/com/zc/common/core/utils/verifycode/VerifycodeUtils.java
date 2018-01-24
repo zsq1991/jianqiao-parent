@@ -91,8 +91,9 @@ public class VerifycodeUtils {
 		/**
 		 * 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到
 		 */
+		int num=155;
 		g.setColor(getRandColor(160, 200));
-		for (int i = 0; i < 155; i++) {
+		for (int i = 0; i < num; i++) {
 			int x = random.nextInt(width);
 			int y = random.nextInt(height);
 			int xl = random.nextInt(12);
@@ -134,19 +135,21 @@ public class VerifycodeUtils {
 		if (session == null) {
 			return "";
 		}
-		if (session.getAttribute("verifycode") == null) {
+		String verifyCode="verifycode";
+		if (session.getAttribute(verifyCode) == null) {
 			return "";
 		}
-		return session.getAttribute("verifycode").toString();
+		return session.getAttribute(verifyCode).toString();
 	}
 
 	protected static Color getRandColor(int fc, int bc) {//给定范围获得随机颜色
         Random random = new Random();
-        if (fc > 255) {
-            fc = 255;
+		int max=255;
+        if (fc > max) {
+            fc = max;
         }
-        if (bc > 255) {
-            bc = 255;
+        if (bc > max) {
+            bc = max;
         }
         int r = fc + random.nextInt(bc - fc);
         int g = fc + random.nextInt(bc - fc);

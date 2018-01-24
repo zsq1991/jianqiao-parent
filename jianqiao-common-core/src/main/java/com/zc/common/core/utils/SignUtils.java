@@ -9,8 +9,9 @@ public class SignUtils {
     private static final String[] HEX_STRINGS;
 
     static {
-        HEX_STRINGS = new String[256];
-        for (int i = 0; i < 256; i++) {
+        int length=256;
+        HEX_STRINGS = new String[length];
+        for (int i = 0; i < length; i++) {
             StringBuilder d = new StringBuilder(2);
             char ch = Character.forDigit(((byte) i >> 4) & 0x0F, 16);
             d.append(Character.toUpperCase(ch));

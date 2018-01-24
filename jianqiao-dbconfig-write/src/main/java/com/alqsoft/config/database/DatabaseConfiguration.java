@@ -71,13 +71,14 @@ public class DatabaseConfiguration implements EnvironmentAware{
 	@Primary
 	public   DataSource dataSource(){
 		log.info("数据库连接池加载中··············");
-		if (StringUtils.isEmpty(prop.getProperty("url"))) {
+		String url=prop.getProperty("url");
+		if (StringUtils.isEmpty(url)) {
 			log.error("数据库连接池配置错误,请检查spring配置文件");
             throw new ApplicationContextException("数据库连接池配置错误!");
         }else{
         	DruidDataSource druid=new DruidDataSource();
         	//设置连接池连接基本信息
-        	druid.setUrl(prop.getProperty("url"));
+        	druid.setUrl(url);
         	druid.setUsername(prop.getProperty("username"));
         	druid.setPassword(prop.getProperty("password"));
         	druid.setDriverClassName(prop.getProperty("driver-class-name"));
