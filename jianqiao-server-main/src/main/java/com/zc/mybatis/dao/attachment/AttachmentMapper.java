@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  * @package : com.zc.mybatis.dao.attachment
  * @progect : jianqiao-parent
  * @Description :
- * @Author by : asus 王鑫涛
+ * @author by : asus 王鑫涛
  * @Creation Date ：2018年01月22日16:07
  */
 @MyBatisRepository

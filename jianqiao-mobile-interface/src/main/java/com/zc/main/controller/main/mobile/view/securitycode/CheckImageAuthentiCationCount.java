@@ -1,7 +1,7 @@
 package com.zc.main.controller.main.mobile.view.securitycode;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.common.util.http.iPUtil;
+import com.common.util.http.IpUtil;
 import com.common.util.securitycode.SecurityCount;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @Description : 登录防刷——图片验证码
- * @Created by : tenghui
+ * @author by : tenghui
  * @Creation Date ：2018年01月16日11:19
  */
 @Controller
@@ -145,7 +145,7 @@ public class CheckImageAuthentiCationCount {
             result.setCode(1);
             result.setMsg("验证成功");
             String codeType = "JQ2017613";
-            String ipAddress = iPUtil.getIpAddress(request);
+            String ipAddress = IpUtil.getIpAddress(request);
             logger.info("------图形验证成功,调用发送短信验证码接口，用户IP地址："+ipAddress+"-------------");
             Result result = securityCodeService.sendCodeRegisterByPhone(phone,codeType);
             return result;

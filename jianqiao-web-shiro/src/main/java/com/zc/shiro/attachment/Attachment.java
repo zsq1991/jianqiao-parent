@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @描述：图片上传
  *
- * @作者： Mr.Shu  ggg
+ * @author ： Mr.Shu  ggg
  *
  * @创建时间：2017年3月20日
  *

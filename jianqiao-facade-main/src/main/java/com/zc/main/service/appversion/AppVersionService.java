@@ -6,7 +6,7 @@ import com.zc.common.core.result.Result;
  * @package : com.zc.main.service.appversion
  * @progect : jianqiao-parent
  * @Description :
- * @Created by :ZhaoJunBiao
+ * @author by :ZhaoJunBiao
  * @Creation Date ：2018年01月18日16:32
  */
 public interface AppVersionService {

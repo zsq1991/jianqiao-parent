@@ -11,7 +11,7 @@ import java.util.Map;
  * @package : com.zc.mybatis.dao.collectionconsulation
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : asus 王鑫涛
+ * @author by : asus 王鑫涛
  * @Creation Date ：2018年01月17日16:59
  */
 @MyBatisRepository
