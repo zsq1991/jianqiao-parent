@@ -7,7 +7,7 @@ package com.common.util.exception;
  */
 public class GmException extends Exception{
 
-private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 12L;
 
 public GmException(Integer resultCode, String resultMessage, String errorDetail, Integer responseCode) {
     super("{"+"\""+"resultCode"+"\""+":"+"\""+resultCode+"\""+","+"\""+"resultMsg"+"\""+":"+
