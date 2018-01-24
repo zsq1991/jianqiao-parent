@@ -17,23 +17,30 @@ import java.io.Serializable;
 public class AppVersion extends BaseIdEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	//版本号
 	@Column(name = "version")
-	private String version;//版本号
+	private String version;
+	//文件
 	@Column(name = "attachment_id")
-	private Long attachmentId;//文件
+	private Long attachmentId;
+	//是否使用该版本 1是  0不是
 	@Column(name = "is_used")
-	private Integer isUsed;//是否使用该版本 1是  0不是
+	private Integer isUsed;
+	//是否强制更新 1强制更新 0不强制更新
 	@Column(name = "is_must_to_update")
-	private Integer isMustToUpdate;//是否强制更新 1强制更新 0不强制更新
+	private Integer isMustToUpdate;
+	//更新信息
 	@Column(name = "message")
-	private String  message;//更新信息
+	private String  message;
+	//应用名称
 	@Column(name = "apply_name")
-	private String   applyName;//应用名称
+	private String   applyName;
+	//应用平台
 	@Column(name = "apply_aplat")
-	private String    applyAplat;//应用平台
+	private String    applyAplat;
+	// 0或null未删除，1删除
 	@Column(name = "is_delete")
-	private Integer isDelete;// 0或null未删除，1删除
+	private Integer isDelete;
 
 	public String getVersion() {
 		return version;

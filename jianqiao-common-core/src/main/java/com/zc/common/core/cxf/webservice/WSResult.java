@@ -11,9 +11,18 @@ package com.zc.common.core.cxf.webservice;
  * 
  */
 public class WSResult<T> {
-	private Integer code = 1;// 状态，1为成功，0为失败，其他自定义
-	private String msg;// 状态说明信息
-	private T t;// 内容
+	/**
+	 * 状态，1为成功，0为失败，其他自定义
+	 */
+	private Integer code = 1;
+	/**
+	 * 状态说明信息
+	 */
+	private String msg;
+	/**
+	 * 内容
+	 */
+	private T t;
 
 	public Integer getCode() {
 		return code;

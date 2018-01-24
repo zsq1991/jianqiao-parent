@@ -2,6 +2,7 @@ package com.zc.main.service.attachment;
 
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.attachment.Attachment;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -40,5 +41,15 @@ public interface AttachmentService {
      * @return Result 0失败 1成功
      */
     public Result saveAttachment(Attachment attachment);
+
+    /**
+     * @description 接口说明 根据附件id获取系统附件
+     * @author 王鑫涛
+     * @date 16:04 2018/1/18
+     * @version 版本号
+     * @param id 系统附件id
+     * @return
+     */
+    Attachment findOne(Long id);
 
 }

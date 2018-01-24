@@ -1,8 +1,8 @@
 package com.zc.common.core.result;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+
+import java.io.Serializable;
 
 
 /**
@@ -16,16 +16,26 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
  * 
  */
 public class Result implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 262888242269244717L;
-	private Integer code = 1;// 状态，1为成功，0为失败，其他自定义
-	private String msg;// 状态说明信息
+	/**
+	 * 状态，1为成功，0为失败，其他自定义
+	 */
+	private Integer code = 1;
+	/**
+	 * 状态说明信息
+	 */
+	private String msg;
+	/**
+	 * 内容
+	 */
 	@JsonUnwrapped
-	private Object content;// 内容
+	private Object content;
+	/**
+	 * 会话ID
+	 */
 	@JsonUnwrapped
-	private String sessionId;// 会话ID
+	private String sessionId;
 
 	public Integer getCode() {
 		return code;

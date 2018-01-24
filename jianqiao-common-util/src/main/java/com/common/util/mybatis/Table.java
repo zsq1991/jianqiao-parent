@@ -17,10 +17,14 @@ import java.util.Map;
  */
 public class Table {
 
-	// 表名
+	/**
+	 * 表名
+	 */
 	String name;
 
-	// 字段类型
+	/**
+	 * 字段类型
+	 */
 	Map<String, String> fields = new HashMap<String, String>();
 
 	public Iterator<String> getKeys() {

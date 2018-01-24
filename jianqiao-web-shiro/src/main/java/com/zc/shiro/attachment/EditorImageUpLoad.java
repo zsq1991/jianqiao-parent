@@ -18,39 +18,41 @@ import java.util.Map;
 
 @Controller
 
-public class EditorImageUpLoad  {
-				
-	 @Autowired
-     OSSClientUtil ossClientUtil;
-	
-	 private static final int MAX_POST_SIZE = 5 * 1024 * 1024; //5M
-	 
-	 public static synchronized String getOrder() {
-	        return DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS") + RandomStringUtils.randomNumeric(6);
-	 }
-   
-    
+public class EditorImageUpLoad {
+
+    @Autowired
+    OSSClientUtil ossClientUtil;
+    /**
+     * 上传最大值5M
+     */
+    private static final int MAX_POST_SIZE = 5 * 1024 * 1024;
+
+    public static synchronized String getOrder() {
+        return DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS") + RandomStringUtils.randomNumeric(6);
+    }
+
+
     /**
      * 商品详情富文本上传图片
      *
      * @param imgFile
      * @param module
      * @return
-     * @author  yyg
+     * @author yyg
      */
     @ResponseBody
     @RequestMapping(value = "/uploadProductImage", method = RequestMethod.POST)
-    public Map<String,Object> springUploadProductFile(MultipartFile imgFile, String module) {
-    	String fileName = null;
+    public Map<String, Object> springUploadProductFile(MultipartFile imgFile, String module) {
+        String fileName = null;
         if (module == null || "".equals(module)) {
             module = "default";
         }
         try {
             if (imgFile.isEmpty()) {
-            	 return getError("文件不存在");
+                return getError("文件不存在");
             } else {
                 if (imgFile.getSize() > MAX_POST_SIZE) {
-                	 return getError("文件超出最大限制");
+                    return getError("文件超出最大限制");
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 String date = sdf.format(new Date());
@@ -64,23 +66,23 @@ public class EditorImageUpLoad  {
                     Object address = ossClientUtil.putObject(path, imgFile);
                     System.out.print(address);
                     Map<String, Object> succMap = Maps.newHashMap();
-                    succMap.put("error", 0);  
-                    succMap.put("url",address);  
-                    return succMap;  
+                    succMap.put("error", 0);
+                    succMap.put("url", address);
+                    return succMap;
                 } else {
-                	  return getError("上传失败");
+                    return getError("上传失败");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            	return getError("上传失败");
+            return getError("上传失败");
         }
     }
-    
-    private Map<String, Object> getError(String errorMsg) {  
+
+    private Map<String, Object> getError(String errorMsg) {
         Map<String, Object> errorMap = Maps.newHashMap();
-        errorMap.put("error", 1);  
-        errorMap.put("message", errorMsg);  
-        return errorMap;  
-    }  
+        errorMap.put("error", 1);
+        errorMap.put("message", errorMsg);
+        return errorMap;
+    }
 }

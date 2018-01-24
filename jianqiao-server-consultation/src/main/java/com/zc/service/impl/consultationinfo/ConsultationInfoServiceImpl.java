@@ -215,8 +215,8 @@ public class ConsultationInfoServiceImpl implements ConsultationInfoService {
             params.put("startIndex", (page - 1) * size);
             params.put("endIndex", size);
 
-
-            List<Map<String, Object>> afterlist = consultationCommentMapper.findTopAfterCommentListByTopId(params);//顶级评论下的评论列表
+            //顶级评论下的评论列表
+            List<Map<String, Object>> afterlist = consultationCommentMapper.findTopAfterCommentListByTopId(params);
 
             for (Map<String, Object> after : afterlist) {
                 //获取时间,当天时间保存是时间，不是当天保存的是时间

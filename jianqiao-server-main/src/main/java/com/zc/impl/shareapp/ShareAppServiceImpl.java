@@ -47,16 +47,21 @@ public class ShareAppServiceImpl implements ShareAppService {
             // 处理时间格式
             String chidAlreadyTime = DateUtils.dateFormat((Date) consultationTop.get("createdTime"),
                     "yyyy/MM/dd HH:mm:ss");
-            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+            // 设置日期格式
+            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
             String chidNowTime = chiddf.format(new Date());
             String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
             String chidTime2 = chidNowTime.subSequence(0, 10).toString();
-            if (chidTime1.equals(chidTime2)) {// 同一天
-                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();// 截取当天
+            if (chidTime1.equals(chidTime2)) {
+                // 同一天
+                // 截取当天
+                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();
                 // 时，分
                 consultationTop.put("createdTime", chidcreatedTime);
-            } else {// 不同一天
-                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();// 截取当天
+            } else {
+                // 不同一天
+                // 截取当天
+                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();
                 // 年，月，日
                 consultationTop.put("createdTime", chidcreatedTime);
             }
@@ -72,16 +77,21 @@ public class ShareAppServiceImpl implements ShareAppService {
             String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"),
                     "yyyy/MM/dd HH:mm:ss");
             if (alreadyTime != null) {
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+                // 设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String nowTime = df.format(new Date());
                 String time1 = alreadyTime.subSequence(0, 10).toString();
                 String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {// 同一天
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();// 截取当天
+                if (time1.equals(time2)) {
+                    // 同一天
+                    // 截取当天
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
                     // 时，分
                     consultationInfo.put("createdTime", createdTime);
-                } else {// 不同一天
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();// 截取当天
+                } else {
+                    // 不同一天
+                    // 截取当天
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
                     // 年，月，日
                     consultationInfo.put("createdTime", createdTime);
                 }
@@ -104,16 +114,21 @@ public class ShareAppServiceImpl implements ShareAppService {
             String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"),
                     "yyyy/MM/dd HH:mm:ss");
             if (alreadyTime != null) {
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+                // 设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String nowTime = df.format(new Date());
                 String time1 = alreadyTime.subSequence(0, 10).toString();
                 String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {// 同一天
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();// 截取当天
+                if (time1.equals(time2)) {
+                    // 同一天
+                    // 截取当天
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
                     // 时，分
                     consultationInfo.put("createdTime", createdTime);
-                } else {// 不同一天
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();// 截取当天
+                } else {
+                    // 不同一天
+                    // 截取当天
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
                     // 年，月，日
                     consultationInfo.put("createdTime", createdTime);
                 }
@@ -130,16 +145,21 @@ public class ShareAppServiceImpl implements ShareAppService {
             String alreadyTime = DateUtils.dateFormat((Date) consultationInfo.get("createdTime"),
                     "yyyy/MM/dd HH:mm:ss");
             if (alreadyTime != null) {
-                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+                // 设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String nowTime = df.format(new Date());
                 String time1 = alreadyTime.subSequence(0, 10).toString();
                 String time2 = nowTime.subSequence(0, 10).toString();
-                if (time1.equals(time2)) {// 同一天
-                    String createdTime = alreadyTime.subSequence(11, 16).toString();// 截取当天
+                if (time1.equals(time2)) {
+                    // 同一天
+                    // 截取当天
+                    String createdTime = alreadyTime.subSequence(11, 16).toString();
                     // 时，分
                     consultationInfo.put("createdTime", createdTime);
-                } else {// 不同一天
-                    String createdTime = alreadyTime.subSequence(0, 10).toString();// 截取当天
+                } else {
+                    // 不同一天
+                    // 截取当天
+                    String createdTime = alreadyTime.subSequence(0, 10).toString();
                     // 年，月，日
                     consultationInfo.put("createdTime", createdTime);
                 }
@@ -159,16 +179,21 @@ public class ShareAppServiceImpl implements ShareAppService {
         Map<String, Object> helpAuthor = shareAppMapper.getHelpAuthor(id);
         String alreadyTime = DateUtils.dateFormat((Date) helpAuthor.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
         if (alreadyTime != null) {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+            // 设置日期格式
+            SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
             String nowTime = df.format(new Date());
             String time1 = alreadyTime.subSequence(0, 10).toString();
             String time2 = nowTime.subSequence(0, 10).toString();
-            if (time1.equals(time2)) {// 同一天
-                String createdTime = alreadyTime.subSequence(11, 16).toString();// 截取当天
+            if (time1.equals(time2)) {
+                // 同一天
+                // 截取当天
+                String createdTime = alreadyTime.subSequence(11, 16).toString();
                 // 时，分
                 helpAuthor.put("createdTime", createdTime);
-            } else {// 不同一天
-                String createdTime = alreadyTime.subSequence(0, 10).toString();// 截取当天
+            } else {
+                // 不同一天
+                // 截取当天
+                String createdTime = alreadyTime.subSequence(0, 10).toString();
                 // 年，月，日
                 helpAuthor.put("createdTime", createdTime);
             }
@@ -193,16 +218,21 @@ public class ShareAppServiceImpl implements ShareAppService {
         Map<String, Object> authorUserList = shareAppMapper.getAuthorUserList(id);
         String alreadyTime = DateUtils.dateFormat((Date) authorUserList.get("createdTime"), "yyyy/MM/dd HH:mm:ss");
         if (alreadyTime != null) {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+            // 设置日期格式
+            SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
             String nowTime = df.format(new Date());
             String time1 = alreadyTime.subSequence(0, 10).toString();
             String time2 = nowTime.subSequence(0, 10).toString();
-            if (time1.equals(time2)) {// 同一天
-                String createdTime = alreadyTime.subSequence(11, 16).toString();// 截取当天
+            if (time1.equals(time2)) {
+                // 同一天
+                // 截取当天
+                String createdTime = alreadyTime.subSequence(11, 16).toString();
                 // 时，分
                 authorUserList.put("createdTime", createdTime);
-            } else {// 不同一天
-                String createdTime = alreadyTime.subSequence(0, 10).toString();// 截取当天
+            } else {
+                // 不同一天
+                // 截取当天
+                String createdTime = alreadyTime.subSequence(0, 10).toString();
                 // 年，月，日
                 authorUserList.put("createdTime", createdTime);
             }

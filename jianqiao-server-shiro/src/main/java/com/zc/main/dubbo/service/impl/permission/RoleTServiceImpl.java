@@ -54,7 +54,8 @@ public class RoleTServiceImpl implements IRoleService {
     	try {
 			role.setCreatedTime(new Date());
 			role.setUpdateTime(new Date());
-			role.setStatus(0);//默认为启用状态
+			//默认为启用状态
+			role.setStatus(0);
 			roleMapper.insert(role);
 			return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
 		} catch (Exception ex) {
@@ -175,7 +176,6 @@ public class RoleTServiceImpl implements IRoleService {
 
     @Override
     public Result getRoleById(Long id) {
-       // Role r = roleMapper.selectByPrimaryKey(id);
         return ResultUtil.getResult(PermissionEnum.Code.SUCCESS, null);
     }
 

@@ -23,7 +23,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.util.Date;
 
 /**
- * @package : com.zc.main.service.consultationInfo
+ * @package : com.zc.main.service.consultationinfo
  * @progect : jianqiao-parent
  * @Description :
  * @Created by :ZhaoJunBiao
@@ -42,12 +42,10 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
     @Autowired
     private MemberMsgMapper memberMsgMapper;
 
-    //@Autowired
-    //private PowerService powerService;
-
     /**
-     * @param id       咨询id
+     *
      * @param memberId 用户id
+     * @param id       咨询id
      * @param type     点赞 1   取消赞2
      * @return
      * @description:对4种内容进行点赞
@@ -109,7 +107,8 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
             msg.setType(5);
             msg.setContentType(consultation.getType());
             msg.setConsultationId(consultation.getId());
-            msg.setMemberBaseId(member.getId());//点赞者
+            //点赞者
+            msg.setMemberBaseId(member.getId());
             msg.setCreatedTime(new Date());
             memberMsgMapper.save(msg);
             consultation.setFabulousNum(fabulousnum + 1);
@@ -129,25 +128,14 @@ public class ConsultationFabulousServiceImpl implements ConsultationFabulousServ
 			powerService.saveAndModify(power);*/
 
         } else {
-            //取消点赞时删除memberMsg
+            /**
+            *取消点赞时删除memberMsg
+             */
             Integer types = 5;
             logger.info("取消点赞获取的参数：" + memberId + "====" + types + "=====" + id + "+++++++");
             memberMsgMapper.deleteMemberMsgByConsulatationId(memberId, types, id);
 
             consultation.setFabulousNum(fabulousnum - 1 < 0 ? 0 : fabulousnum - 1);
-            /**
-             * 因为需求原因,将三期需求的权重值增加注释掉
-             * @wjt
-             */
-        /*	//取消点赞权重值减5
-			consultation.setPower(powerNum - 5 < 0 ? 0 : powerNum - 5);*/
-            //权重值维护详情列表
-		/*	power.setConsultation(consultation);
-			power.setMember(member);
-			power.setCreatedTime(new Date());
-			power.setStatus(1);
-			power.setType(1);
-			powerService.saveAndModify(power);*/
         }
         consultationMapper.insert(consultation);
         return ResultUtils.returnSuccess(type == 1 ? "点赞成功" : "取消点赞");

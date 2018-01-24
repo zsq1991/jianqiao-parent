@@ -13,52 +13,98 @@ import java.util.Date;
  */
 @Table(name="alq_member")
 public class Member extends BaseIdEntity {
-
-    private String phone;// 手机号
-
-    private String password;// 密码
-
-    private Long logoAttachmentId;// 上传头像
-
-    private String nickname;// 昵称
-
-    private Long consulationNum;// 收藏内容数量
-
-    private Long focusNum;// 关注的用户数量
-
-    private Long followingNum;// 粉丝数量
-
-    private String uuid;//
-
-    private String name;// 真实姓名
-
-    private String card;// 身份证号
-
-    private Integer userType;// 0普通 1认证后用户可以发布访谈 口述 2:认证中
-
-    private Integer labelNum;// 用户拥有的标签个数
-
-    private Integer isDelete;// 0或null未禁用，1禁用
-
-    private Integer sex;// 性别
-
-    private String auditUserName;// 审核人员名称
-
-    private Integer status;//0 未申请  1审核中 2已发布 3驳回
+    /**
+     * 手机号
+     */
+    private String phone;
+    /**
+     * 密码
+     */
+    private String password;
+    /**
+     * 上传头像
+     */
+    private Long logoAttachmentId;
+    /**
+     * 昵称
+     */
+    private String nickname;
+    /**
+     * 收藏内容数量
+     */
+    private Long consulationNum;
+    /**
+     * 关注的用户数量
+     */
+    private Long focusNum;
+    /**
+     * 粉丝数量
+     */
+    private Long followingNum;
+    /**
+     * UUID
+     */
+    private String uuid;
+    /**
+     * 真实姓名
+     */
+    private String name;
+    /**
+     * 身份证号
+     */
+    private String card;
+    /**
+     * 0普通 1认证后用户可以发布访谈 口述 2:认证中
+     */
+    private Integer userType;
+    /**
+     * 用户拥有的标签个数
+     */
+    private Integer labelNum;
+    /**
+     * 0或null未禁用，1禁用
+     */
+    private Integer isDelete;
+    /**
+     * 性别
+     */
+    private Integer sex;
+    /**
+     * 审核人员名称
+     */
+    private String auditUserName;
+    /**
+     * 0 未申请  1审核中 2已发布 3驳回
+     */
+    private Integer status;
+    /**
+     * 认证审核的时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date audittime;//认证审核的时间
-
-    //阅读咨询积分
+    private Date audittime;
+    /**
+     * 阅读咨询积分
+     */
     private Integer readNum;
-    //发布咨询积分
+    /**
+     * 发布咨询积分
+     */
     private Integer releaseNum;
-    //邀请好友积分
+    /**
+     * 邀请好友积分
+     */
     private Integer inviteNum;
-    //分享咨询积分
+    /**
+     * 分享咨询积分
+     */
     private Integer shareNum;
-    //认证积分
+    /**
+     * 认证积分
+     */
     private Integer authenticationNum;
-    //总积分
+    /**
+     * 总积分
+     */
     private Integer integralNum;
 
     public Long getLogoAttachmentId() {

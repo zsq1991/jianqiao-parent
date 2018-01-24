@@ -83,9 +83,6 @@ public class BaseSqlProvider<T> {
 				 if(!"".equals(filedValue)){
 					 SET(key + "=" + table.getField(key));
 				 }
-				 /*if("update_time".equals(key)){
-					 SET(key + "= now()" );
-					} */
 			}
 
 		}

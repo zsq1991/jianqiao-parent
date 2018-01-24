@@ -16,19 +16,21 @@ public class FieldMap {
 	public static String getObjectValue(Object object,String fieldName) throws Exception {
 			//我们项目的所有实体类都继承BaseDomain （所有实体基类：该类只是串行化一下）
 			//不需要的自己去掉即可
-			if (object != null ) {//if (object!=null )  ----begin
+			//if (object!=null )  ----begin
+			if (object != null ) {
 				// 拿到该类
 				Class<?> clz = object.getClass();
 				// 获取实体类的所有属性，返回Field数组
 				Field[] fields = clz.getDeclaredFields();
-	
-				for (Field field : fields) {// --for() begin
+				// --for() begin
+				for (Field field : fields) {
 					//System.out.println(field.getGenericType());//打印该类的所有属性类型
 					//System.out.println(field.getName());
 					if(fieldName.equals(field.getName())){
 	
 						// 如果类型是String
-						if ("class java.lang.String".equals(field.getGenericType().toString())) { // 如果type是类类型，则前面包含"class "，后面跟类名
+						// 如果type是类类型，则前面包含"class "，后面跟类名
+						if ("class java.lang.String".equals(field.getGenericType().toString())) {
 							// 拿到该属性的gettet方法
 							/**
 							 * 这里需要说明一下：他是根据拼凑的字符来找你写的getter方法的
@@ -37,8 +39,8 @@ public class FieldMap {
 							 */
 							Method m = (Method) object.getClass().getMethod(
 									"get" + getMethodName(field.getName()));
-		
-							String val = (String) m.invoke(object);// 调用getter方法获取属性值
+							// 调用getter方法获取属性值
+							String val = (String) m.invoke(object);
 							if (val != null) {
 								return val;
 							}
@@ -118,8 +120,13 @@ public class FieldMap {
 			
 			return "";
 		}
-	
-		// 把一个字符串的第一个字母大写、效率是最高的、
+
+	/**
+	 * 把一个字符串的第一个字母大写、效率是最高的、
+	 * @param fildeName
+	 * @return
+	 * @throws Exception
+	 */
 		private static String getMethodName(String fildeName) throws Exception{
 			byte[] items = fildeName.getBytes();
 			items[0] = (byte) ((char) items[0] - 'a' + 'A');

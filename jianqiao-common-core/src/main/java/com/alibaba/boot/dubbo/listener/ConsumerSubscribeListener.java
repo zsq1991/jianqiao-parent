@@ -1,9 +1,5 @@
 package com.alibaba.boot.dubbo.listener;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.alibaba.boot.dubbo.domain.ClassIdBean;
 import com.alibaba.boot.dubbo.domain.SpringBootStarterDobboConstants;
 import com.alibaba.dubbo.common.URL;
@@ -12,6 +8,10 @@ import com.alibaba.dubbo.common.utils.ConcurrentHashSet;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.listener.InvokerListenerAdapter;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * dubbo client invoker listener
@@ -22,11 +22,15 @@ import com.alibaba.dubbo.rpc.listener.InvokerListenerAdapter;
  */
 @Activate
 public class ConsumerSubscribeListener extends InvokerListenerAdapter {
-  // subscribe interfaces
+  /**
+   * subscribe interfaces
+   */
   public static final Set<ClassIdBean> SUBSCRIBEDINTERFACES_SET =
       new ConcurrentHashSet<ClassIdBean>();
 
-  // connection interface name
+  /**
+   * connection interface name
+   */
   public static final Map<ClassIdBean, Set<String>> CONNECTION_MAP =
       new ConcurrentHashMap<ClassIdBean, Set<String>>();
 

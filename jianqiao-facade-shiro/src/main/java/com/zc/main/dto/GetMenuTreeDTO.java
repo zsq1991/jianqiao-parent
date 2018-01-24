@@ -17,7 +17,9 @@ public class GetMenuTreeDTO implements Serializable {
 
     private static final long serialVersionUID = -5350629229232288288L;
 
-    //角色ID
+    /**
+     * 角色ID
+     */
     private Long roleId;
 
     /**

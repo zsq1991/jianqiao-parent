@@ -34,6 +34,11 @@ import java.util.concurrent.*;
  *    一个Object允许的最大字节数5GB。
  *    并修改常量UPLOAD_FILE_PATH为测试文件的路径；修改常量DOWNLOAD_FILE_PATH为下载文件的路径。
  * 4. 该程序仅为示例代码，仅供参考，并不能保证足够健壮。
+ * @Discription 阿里云开发存储 oss工具类
+ * @Email 540970036@qq.com
+ * @Project zte-main
+ * @author 陈振兵
+ * @Date 2014-11-1 下午3:03:33
  **/
 public class OSSMultipartSample {
 	private static Logger log = LoggerFactory.getLogger(OSSMultipartSample.class);
@@ -43,9 +48,14 @@ public class OSSMultipartSample {
     private static final String UPLOAD_FILE_PATH = "d:/temp/测试上传大文件.zip";
     private static final String DOWNLOAD_FILE_PATH = "d:/temp/测试下载大文件.zip";
     private static final String OSS_ENDPOINT = "http://oss.aliyuncs.com/";
-
-    private static final long PART_SIZE = 5 * 1024 * 1024L; // 每个Part的大小，最小为5MB
-    private static final int CONCURRENCIES = 2; // 上传Part的并发线程数。
+    /**
+     * 每个Part的大小，最小为5MB
+     */
+    private static final long PART_SIZE = 5 * 1024 * 1024L;
+    /**
+     * 上传Part的并发线程数。
+     */
+    private static final int CONCURRENCIES = 2;
 
     private final static int CORE_POOL_SIZE = 5;
 
@@ -88,7 +98,13 @@ public class OSSMultipartSample {
         }
     }*/
 
-    // 创建Bucket
+    /**
+     * 创建Bucket
+     * @param client
+     * @param bucketName
+     * @throws OSSException
+     * @throws ClientException
+     */
     private static void ensureBucket(OSSClient client, String bucketName)
             throws OSSException, ClientException {
 
@@ -103,7 +119,13 @@ public class OSSMultipartSample {
         }
     }
 
-    // 删除掉Bucket
+    /**
+     * 删除掉Bucket
+     * @param client
+     * @param bucketName
+     * @throws OSSException
+     * @throws ClientException
+     */
     private static void deleteBucket(OSSClient client, String bucketName)
             throws OSSException, ClientException {
 
@@ -137,8 +159,16 @@ public class OSSMultipartSample {
         client.deleteBucket(bucketName);
     }
 
-    // 通过Multipart的方式上传一个大文件
-    // 要上传文件的大小必须大于一个Part允许的最小大小，即5MB。
+    /**
+     * 通过Multipart的方式上传一个大文件 要上传文件的大小必须大于一个Part允许的最小大小，即5MB。
+     * @param client
+     * @param bucketName
+     * @param key
+     * @param uploadFile
+     * @throws OSSException
+     * @throws ClientException
+     * @throws InterruptedException
+     */
     private static void uploadBigFile(OSSClient client, String bucketName, String key,
                                       File uploadFile) throws OSSException, ClientException, InterruptedException {
 
@@ -184,7 +214,11 @@ public class OSSMultipartSample {
         completeMultipartUpload(client, bucketName, key, uploadId, eTags);
     }
 
-    // 根据文件的大小和每个Part的大小计算需要划分的Part个数。
+    /**
+     * 根据文件的大小和每个Part的大小计算需要划分的Part个数。
+     * @param f
+     * @return
+     */
     private static int calPartCount(File f) {
         int partCount = (int) (f.length() / PART_SIZE);
         if (f.length() % PART_SIZE != 0){
@@ -193,7 +227,15 @@ public class OSSMultipartSample {
         return partCount;
     }
 
-    // 初始化一个Multi-part upload请求。
+    /**
+     * 初始化一个Multi-part upload请求。
+     * @param client
+     * @param bucketName
+     * @param key
+     * @return
+     * @throws OSSException
+     * @throws ClientException
+     */
     private static String initMultipartUpload(OSSClient client,
             String bucketName, String key) throws OSSException, ClientException {
         InitiateMultipartUploadRequest initUploadRequest =
@@ -204,7 +246,16 @@ public class OSSMultipartSample {
         return uploadId;
     }
 
-    // 完成一个multi-part请求。
+    /**
+     * 完成一个multi-part请求。
+     * @param client
+     * @param bucketName
+     * @param key
+     * @param uploadId
+     * @param eTags
+     * @throws OSSException
+     * @throws ClientException
+     */
     private static void completeMultipartUpload(OSSClient client,
             String bucketName, String key, String uploadId, List<PartETag> eTags)
                     throws OSSException, ClientException {
@@ -284,7 +335,15 @@ public class OSSMultipartSample {
         }
     }
 
-    // 下载Object到本地文件。
+    /**
+     * 下载Object到本地文件。
+     * @param client
+     * @param bucketName
+     * @param key
+     * @param downloadFilePath
+     * @throws OSSException
+     * @throws ClientException
+     */
     private static void downloadFile(OSSClient client,
             String bucketName, String key, String downloadFilePath)
                     throws OSSException, ClientException {

@@ -1,9 +1,9 @@
 package com.zc.common.core.easyui;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+
+import java.io.Serializable;
 
 
 /**
@@ -21,11 +21,20 @@ public class EasyuiResult<T> implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -5692458681120354788L;
-	private Long total;// 总数
+	/**
+	 * 总数
+	 */
+	private Long total;
+	/**
+	 * 类型
+	 */
 	@JsonProperty("rows")
-	private T t;// 类型
+	private T t;
+	/**
+	 * 底部统计
+	 */
 	@JsonUnwrapped
-	private Object footer;// 底部统计
+	private Object footer;
 
 	public Long getTotal() {
 		return total;

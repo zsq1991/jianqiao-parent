@@ -18,11 +18,20 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
  *
  */
 public class EasyuiWebResult<T> {
-	private Long total;// 总数
+	/**
+	 * 总数
+	 */
+	private Long total;
+	/**
+	 * 类型
+	 */
 	@JsonProperty("content")
-	private T t;// 类型
+	private T t;
+	/**
+	 * 底部统计
+	 */
 	@JsonUnwrapped
-	private Object footer;// 底部统计
+	private Object footer;
 
 	public Long getTotal() {
 		return total;

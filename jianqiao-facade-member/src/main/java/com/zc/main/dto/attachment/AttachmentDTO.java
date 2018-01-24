@@ -15,24 +15,42 @@ public class AttachmentDTO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-
-    private String createUser;// 建立的用户
-
-    private Date createdTime;// 建立的时间
-
-    private Date updateTime;// 更新时间
-
-    private String createdIp ;// 建立的ip
-
-    private String name;//附件名称
-
-    private String address;//附件地址
-
-    private Double memory;//记录文件大小；
-
-    private String sizeInfo;//尺寸信息
-
-    private String commentInfo;//备注
+    /**
+     * 建立的用户
+     */
+    private String createUser;
+    /**
+     * 建立的时间
+     */
+    private Date createdTime;
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+    /**
+     * 建立的ip
+     */
+    private String createdIp ;
+    /**
+     * 附件名称
+     */
+    private String name;
+    /**
+     * 附件地址
+     */
+    private String address;
+    /**
+     * 记录文件大小；
+     */
+    private Double memory;
+    /**
+     * 尺寸信息
+     */
+    private String sizeInfo;
+    /**
+     * 备注
+     */
+    private String commentInfo;
 
     public Long getId() {
         return id;

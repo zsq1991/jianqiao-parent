@@ -31,8 +31,10 @@ public class UpLoadUtils {
 	 
 	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 	
-	public static String BASE_PATH ; 
-	//imageUploadPath 图片上传路径
+	public static String BASE_PATH ;
+	/**
+	 * 图片上传路径
+ 	 */
 	public static String IMAGE_UPLOAD_PATH;
 	
 	public UpLoadUtils(){
@@ -49,7 +51,11 @@ public class UpLoadUtils {
 		return serials;
 	}
 
-	// 检查是否是图片格式
+	/**
+	 * 检查是否是图片格式
+	 * @param imgStr
+	 * @return
+	 */
 	public static boolean checkIsImage(String imgStr) {
 		boolean flag = false;
 		if (imgStr != null) {
@@ -72,19 +78,25 @@ public class UpLoadUtils {
 
 		// imageUploadPath 图片上传路径
 		Result appResult = new Result();
-		appResult.setCode(0);//默认是失败
-		String extName = ".jpg"; // 保存文件拓展名
+		//默认是失败
+		appResult.setCode(0);
+		// 保存文件拓展名
+		String extName = ".jpg";
 		if("Android".equals(module)){
 			extName=".apk";
 		}else if("IOS".equals(module)){
 			extName=".ipa";
 		}
-		String newFileName = ""; // 保存新的文件名
-		String nowTimeStr = ""; // 保存当前时间
+		// 保存新的文件名
+		String newFileName = "";
+		// 保存当前时间
+		String nowTimeStr = "";
 		SimpleDateFormat sDateFormat;
 		Random r = new Random();
-		String realPath = BASE_PATH;//实际路径
-		String savePath = IMAGE_UPLOAD_PATH + module + "/";// 上传目录
+		//实际路径
+		String realPath = BASE_PATH;
+		// 上传目录
+		String savePath = IMAGE_UPLOAD_PATH + module + "/";
 		Set<Entry<String, String>> set = imageMap.entrySet();
 		Map<String, String> resultMap = Maps.newHashMap();
 		for (Entry<String, String> entry : set) {
@@ -112,11 +124,15 @@ public class UpLoadUtils {
 					appResult.setMsg(imageName + "上传的文件不能大于30M");
 				} else {
 					// 生成随机文件名：当前年月日时分秒+五位随机数（为了在实际项目中防止文件同名而进行的处理）
-					int rannum = (int) (r.nextDouble() * (99999 - 10000 + 1)) + 10000; // 获取随机数
-					sDateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); // 时间格式化的格式
-					nowTimeStr = sDateFormat.format(new Date()); // 当前时间
+					// 获取随机数
+					int rannum = (int) (r.nextDouble() * (99999 - 10000 + 1)) + 10000;
+					// 时间格式化的格式
+					sDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+					// 当前时间
+					nowTimeStr = sDateFormat.format(new Date());
 					// 获取拓展名
-					newFileName = nowTimeStr + rannum + extName; // 文件重命名后的名字
+					// 文件重命名后的名字
+					newFileName = nowTimeStr + rannum + extName;
 					String filePath = savePath + newFileName;
 					filePath = filePath.replace("\\", "/");
 					String msgUrl = "upload/" + module + "/" + newFileName;
@@ -243,7 +259,8 @@ public class UpLoadUtils {
 		 String accessId="e6wt7YMUZEru6TOD";
 		 String accessKey="QLhDKpV0Rez9fsH6oIOXbmks4sd7WE";
 		 String bucketName="yst-images";
-		if ("true".equals(isOpen))// 是否开启sso********把图片保存到云服务器上
+		// 是否开启sso********把图片保存到云服务器上
+		if ("true".equals(isOpen))
 		{
 	       OSSFileUpLoad.createOss(bucketName,"upload/"+module+"/" + sysFileName, path, accessId, accessKey);
 		} 

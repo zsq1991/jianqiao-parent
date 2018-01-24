@@ -28,7 +28,7 @@ import java.util.List;
  * @Discription 阿里云开发存储 oss工具类
  * @Email 540970036@qq.com
  * @Project zte-main
- * @Author 陈振兵
+ * @author  陈振兵
  * @Date 2014-11-1 下午3:03:33
  */
 public class OSSObjectSample {
@@ -38,8 +38,10 @@ public class OSSObjectSample {
     //太古粮家
    /* private static final String ACCESS_ID = "G9Ghxml888FNt3Bk";
     private static final String ACCESS_KEY = "CAFh14WmeLAgBGptwPc0zzahZK4bZY";*/
-	
-	//*********test
+
+    /**
+     * test
+     */
     private static final String ACCESS_ID = "1kDHbQZuzf8J7gLv";
     private static final String ACCESS_KEY = "CJD3tZ4CXX9vFi3iaX0BQNJksxLUZd";
     private static final String BUCKET_NAME = "tigo-main";
@@ -81,7 +83,8 @@ public class OSSObjectSample {
         OSSClient client = new OSSClient(OSSClientUtil.DEFAULT_ENDPOINT,accessId, accessKey);
         try {
             if (!client.doesBucketExist(bucketName)) {
-                ensureBucket(client, bucketName);//创建bucket
+                //创建bucket
+                ensureBucket(client, bucketName);
                 //如果已经不存在bucketName 才设置读写的权限
                 setBucketPublicReadable(client, bucketName);
             }
@@ -171,7 +174,13 @@ public class OSSObjectSample {
         client.deleteBucket(bucketName);
     }
 
-    // 把Bucket设置为所有人可读
+    /**
+     * 把Bucket设置为所有人可读
+     * @param client
+     * @param bucketName
+     * @throws OSSException
+     * @throws ClientException
+     */
     private static void setBucketPublicReadable(OSSClient client, String bucketName)
             throws OSSException, ClientException {
         //创建bucket
@@ -181,7 +190,16 @@ public class OSSObjectSample {
         client.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
     }
 
-    // 上传文件
+    /**
+     * 上传文件
+     * @param client
+     * @param bucketName
+     * @param key
+     * @param filename
+     * @throws OSSException
+     * @throws ClientException
+     * @throws FileNotFoundException
+     */
     private static void uploadFile(OSSClient client, String bucketName, String key, String filename)
             throws OSSException, ClientException, FileNotFoundException {
         File file = new File(filename);

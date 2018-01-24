@@ -1,20 +1,18 @@
 package com.zc.shiro.confige;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-
+import com.zc.main.dto.UserDTO;
+import com.zc.main.dubbo.service.permission.IBtnService;
+import com.zc.main.dubbo.service.permission.IMenuService;
+import com.zc.main.dubbo.service.permission.IRoleService;
+import com.zc.main.dubbo.service.permission.IUserService;
+import com.zc.main.vo.BtnVO;
+import com.zc.main.vo.MenuVO;
+import com.zc.main.vo.RoleVO;
+import com.zc.main.vo.UserVO;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -25,20 +23,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.zc.main.dto.UserDTO;
-import com.zc.main.dubbo.service.permission.IBtnService;
-import com.zc.main.dubbo.service.permission.IMenuService;
-import com.zc.main.dubbo.service.permission.IRoleService;
-import com.zc.main.dubbo.service.permission.IUserService;
-import com.zc.main.entity.permission.Btn;
-import com.zc.main.entity.permission.Menu;
-import com.zc.main.entity.permission.Role;
-import com.zc.main.entity.permission.User;
-import com.zc.main.vo.BtnVO;
-import com.zc.main.vo.MenuVO;
-import com.zc.main.vo.RoleVO;
-import com.zc.main.vo.UserVO;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * @项目：Shiro配置
@@ -110,7 +98,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         UserVO user = userService.getUserByCondition(userDTO);
         //3.如果用户存在，获取该用户的角色集合和权限集合
         if (user != null) {
-            SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();	//权限信息对象info,用来存放用户的所有角色（role）及权限（permission）
+            //权限信息对象info,用来存放用户的所有角色（role）及权限（permission）
+            SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
             //用户的角色集合
             List<RoleVO> roles = roleService.getRoleByUserId(user.getId());
             info.setRoles(ConvertRoleListUtil.convertRoleListToSet(roles));
@@ -153,7 +142,8 @@ public class MyShiroRealm extends AuthorizingRealm {
             }
             return info;
         }
-        return null; // 返回null的话，就会导致任何用户访问被拦截的请求时，都会自动跳转到unauthorizedUrl指定的地址
+        // 返回null的话，就会导致任何用户访问被拦截的请求时，都会自动跳转到unauthorizedUrl指定的地址
+        return null;
     }
 
     /**
@@ -173,7 +163,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         UserDTO userDTO = new UserDTO();
         userDTO.setTelphone(token.getUsername());
         UserVO user = userService.getUserByCondition(userDTO);
-        if (user == null) {//账户不存在
+        //账户不存在
+        if (user == null) {
             throw new UnknownAccountException();
         }else{
 

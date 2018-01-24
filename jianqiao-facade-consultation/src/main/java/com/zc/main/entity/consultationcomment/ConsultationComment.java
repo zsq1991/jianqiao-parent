@@ -2,10 +2,11 @@
 package com.zc.main.entity.consultationcomment;
 
 import com.zc.common.core.orm.hibernate.BaseIdEntity;
-import com.zc.main.entity.consultation.Consultation;
 import org.apache.ibatis.type.Alias;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -14,42 +15,43 @@ import java.io.Serializable;
  * @Creation Date ： 2018/1/19 15:05
  * @version 1.0.0
  */
+@Table(name = "alq_consultation_comment")
 @Alias("alq_consultation_comment")
 @MappedSuperclass
 public class ConsultationComment extends BaseIdEntity implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
-
+    //评论的咨询
     @Column(name = "consultation_id")
-    private Long consultationId;//评论的咨询
-
+    private Long consultationId;
+    //咨询关联的会员
     @Column(name = "consultation_member_id")
-    private Long consultationMemberId;//咨询关联的会员
-
+    private Long consultationMemberId;
+    //那个会员评论的、回复的
     @Column(name = "member_id")
-    private Long memberId;//那个会员评论的、回复的
-
+    private Long memberId;
+    //评论的内容
     @Column(name = "content")
-    private String content;//评论的内容
-
+    private String content;
+    //顶级评论  如果为评论的话  则可以为空,空为顶级
     @Column(name = "comment_info_id")
-    private Long commentInfoId;//顶级评论  如果为评论的话  则可以为空,空为顶级
-
+    private Long commentInfoId;
+    //父级的回复 评论
     @Column(name = "parent_id")
-    private Long parentId;//父级的回复 评论
-
+    private Long parentId;
+    //回复数量
     @Column(name = "reply_num")
-    private Long replyNum;//回复数量
-
+    private Long replyNum;
+    //赞的数量
     @Column(name = "fabulous_num")
-    private Long fabulousNum;//赞的数量
-
+    private Long fabulousNum;
+    //0或null未删，1删除
     @Column(name = "is_delete")
-    private Integer isDelete;//0或null未删，1删除
-
+    private Integer isDelete;
+    //这条评论回复最早的评论
     @Column(name = "first_reply_comment")
-    private Long firstReplyCommentId;//这条评论回复最早的评论
+    private Long firstReplyCommentId;
 
 
     public Long getConsultationId() {

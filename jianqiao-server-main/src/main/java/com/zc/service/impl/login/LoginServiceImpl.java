@@ -121,7 +121,8 @@ public class LoginServiceImpl implements LoginService {
                     map.put("status", number);
                     map.put("nickname", loginData.getNickname());
                     String userType = loginData.getUserType() == null ? "0" : loginData.getUserType().toString();
-                    map.put("userType", userType);// 0普通 1认证后用户可以发布访谈 口述
+                    // 0普通 1认证后用户可以发布访谈 口述
+                    map.put("userType", userType);
                     result.setCode(1);
                     result.setMsg("登录成功");
                     result.setContent(map);
@@ -203,7 +204,8 @@ public class LoginServiceImpl implements LoginService {
                 map.put("status", number);
                 map.put("nickname", loginData.getNickname());
                 String userType = loginData.getUserType() == null ? "0" : loginData.getUserType().toString();
-                map.put("userType", userType);// 0普通 1认证后用户可以发布访谈 口述
+                // 0普通 1认证后用户可以发布访谈 口述
+                map.put("userType", userType);
                 result.setCode(1);
                 result.setMsg("成功");
                 result.setContent(map);

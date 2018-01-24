@@ -1,7 +1,5 @@
 package com.alibaba.boot.dubbo.listener;
 
-import java.util.Set;
-
 import com.alibaba.boot.dubbo.domain.ClassIdBean;
 import com.alibaba.boot.dubbo.domain.SpringBootStarterDobboConstants;
 import com.alibaba.dubbo.common.URL;
@@ -12,6 +10,8 @@ import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.listener.ExporterListenerAdapter;
 
+import java.util.Set;
+
 /**
  * provider export listener
  *
@@ -21,11 +21,15 @@ import com.alibaba.dubbo.rpc.listener.ExporterListenerAdapter;
  */
 @Activate
 public class ProviderExportListener extends ExporterListenerAdapter {
-  // exported interfaces
+  /**
+   * exported interfaces
+   */
   public static final Set<ClassIdBean> EXPORTEDINTERFACES_SET =
       new ConcurrentHashSet<ClassIdBean>();
 
-  // exported urls
+  /**
+   * exported urls
+   */
   public static final Set<URL> EXPORTED_URL = new ConcurrentHashSet<URL>();
 
   @Override

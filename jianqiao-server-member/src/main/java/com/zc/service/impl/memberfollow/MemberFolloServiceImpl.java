@@ -67,7 +67,8 @@ public class MemberFolloServiceImpl implements MemberFollowService {
                 MemberFollow memberFollow = memberFollowMapper.getMemberFollowById(memberFollowByData.getId());
                 if (memberFollow != null){
                     Integer number = memberFollow.getIsDelete() == null?0:memberFollow.getIsDelete();
-                    if(number==0){//修改为取消关注
+                    //修改为取消关注
+                    if(number==0){
                         //粉丝数量，被关注者
                         Long follwNum = fMember.getFollowingNum()==null?0:fMember.getFollowingNum();
                         fMember.setFollowingNum(follwNum-1);
@@ -84,15 +85,17 @@ public class MemberFolloServiceImpl implements MemberFollowService {
                         }
 
                         memberFollow.setUpdateTime(new Date());
-                        memberFollow.setIsDelete(1);//0或者null为关注，1是取消关注
+                        //0或者null为关注，1是取消关注
+                        memberFollow.setIsDelete(1);
                         if (memberFollowMapper.updateMemberFollowById(memberFollow)>0){
                             logger.info("更新关注记录成功！");
                         }
                         result.setCode(1);
-                        result.setContent(0);//取消成功
+                        //取消成功
+                        result.setContent(0);
                         result.setMsg("取消关注");
-                    }else{//修改为关注
-
+                    }else{
+                        //修改为关注
                         //粉丝数量，被关注者
                         fMember.setFollowingNum(fMember.getFollowingNum()+1);
                         fMember.setUpdateTime(new Date());
@@ -109,7 +112,8 @@ public class MemberFolloServiceImpl implements MemberFollowService {
                         }
 
                         memberFollow.setUpdateTime(new Date());
-                        memberFollow.setIsDelete(0);//0或者null为关注，1是取消关注
+                        //0或者null为关注，1是取消关注
+                        memberFollow.setIsDelete(0);
                         if (memberFollowMapper.updateMemberFollowById(memberFollow)>0){
                             logger.info("更新关注记录成功！");
                         }
@@ -119,14 +123,16 @@ public class MemberFolloServiceImpl implements MemberFollowService {
                         }else{
                             result.setContent(1);
                         }
-                        result.setCode(1);//0或者null为取消关注，1是关注
+                        //0或者null为取消关注，1是关注
+                        result.setCode(1);
                         result.setMsg("关注成功");
                     }
                 }
                 return result;
             }catch (Exception e){
                 logger.info("取消关注异常:"+e.getMessage());
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+                //回滚数据
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return ResultUtils.returnError("取消关注用户失败");
             }
         }else{
@@ -152,9 +158,12 @@ public class MemberFolloServiceImpl implements MemberFollowService {
                 }
                 MemberFollow follow = new MemberFollow();
                 follow.setCreatedTime(new Date());
-                follow.setMemberId(mId);//被关注者
-                follow.setMemberFollowingId(fId);//关注者
-                follow.setIsDelete(0);//0为关注1为取消关注
+                //被关注者
+                follow.setMemberId(mId);
+                //关注者
+                follow.setMemberFollowingId(fId);
+                //0为关注1为取消关注
+                follow.setIsDelete(0);
                 follow.setUpdateTime(new Date());
                 //检索是否已存在关注信息  如果没有直接添加  如果存在则更新 判断三个状态，此接口为0添加关注,1已关注,2相互关注
                 MemberFollow dataById2 = memberFollowMapper.getDataById(mId, fId);
@@ -175,7 +184,8 @@ public class MemberFolloServiceImpl implements MemberFollowService {
             } catch (Exception e) {
                 logger.info("关注异常："+e.getMessage());
                 e.printStackTrace();
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//回滚数据
+                //回滚数据
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return ResultUtils.returnError("关注用户失败");
             }
             logger.info("关注成功");
@@ -197,10 +207,12 @@ public class MemberFolloServiceImpl implements MemberFollowService {
             }
             List list = new ArrayList();
             for (int i = 0; mIdList.size() > i; i++) {
-                String id = mIdList.get(i).get("member_following_id").toString();//关注者
+                //关注者
+                String id = mIdList.get(i).get("member_following_id").toString();
                 long longValue = Long.valueOf(id).longValue();
                 //longValue被关注者id，mId是关注者id
-                MemberFollow focusById = memberFollowMapper.getFocusById(longValue, mId);//第一个参数是被关注，第二个参数关注者
+                //第一个参数是被关注，第二个参数关注者
+                MemberFollow focusById = memberFollowMapper.getFocusById(longValue, mId);
                 Map fanList = memberFollowMapper.getFanList(longValue);
                 Map title = memberFollowMapper.getConsulatationTitleByMId(longValue);
                 String titles = title == null ? "" : (String) title.get("title");
@@ -238,11 +250,14 @@ public class MemberFolloServiceImpl implements MemberFollowService {
             }
             List list = new ArrayList();
             for (int i = 0; mIdList.size() > i; i++) {
-                String id = mIdList.get(i).get("member_id").toString();//被关注者id
+                //被关注者id
+                String id = mIdList.get(i).get("member_id").toString();
                 long longValue = Long.valueOf(id).longValue();
                 //longValue是关注者id，被关注id是mId
-                MemberFollow focusById = memberFollowMapper.getFocusById(mId, longValue);//第一个参数是被关注，第二个参数关注者
-                Map fanList = memberFollowMapper.getFanList(longValue);//通过Id获取昵称和头像地址
+                //第一个参数是被关注，第二个参数关注者
+                MemberFollow focusById = memberFollowMapper.getFocusById(mId, longValue);
+                //通过Id获取昵称和头像地址
+                Map fanList = memberFollowMapper.getFanList(longValue);
                 Map title = memberFollowMapper.getConsulatationTitleByMId(longValue);
                 String titles = title == null ? "" : (String) title.get("title");
                 fanList.put("title", titles);

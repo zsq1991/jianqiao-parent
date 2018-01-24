@@ -1,21 +1,5 @@
 package com.zc.shiro.controller;
 
-import java.util.Collection;
-
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.subject.support.DefaultSubjectContext;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.zc.common.core.shiro.PermissionEnum;
 import com.zc.common.core.shiro.Result;
@@ -33,6 +17,21 @@ import com.zc.main.entity.permission.User;
 import com.zc.main.vo.SessionUserVO;
 import com.zc.main.vo.UserVO;
 import com.zc.shiro.confige.MyShiroRealm;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Collection;
 
 
 @Controller
@@ -184,7 +183,8 @@ public class UserController {
 		//处理session
 		DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
 		DefaultWebSessionManager sessionManager = (DefaultWebSessionManager) securityManager.getSessionManager();
-		Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();//获取当前已登录的用户session列表
+		//获取当前已登录的用户session列表
+		Collection<Session> sessions = sessionManager.getSessionDAO().getActiveSessions();
 		if (sessions != null && sessions.size() != 0) {
 			for (Session session : sessions) {
 				//清除该用户以前登录时保存的session

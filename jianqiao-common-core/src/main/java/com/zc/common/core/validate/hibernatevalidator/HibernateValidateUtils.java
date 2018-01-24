@@ -1,10 +1,10 @@
 package com.zc.common.core.validate.hibernatevalidator;
 
-import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.Set;
 
 /**
  * 关于hibernatevalidator框架的封装,是对Bean对象做验证
@@ -18,7 +18,10 @@ import javax.validation.ValidatorFactory;
  * 
  */
 public class HibernateValidateUtils {
-	private static Validator validator;// 验证对象
+	/**
+	 * 验证对象
+	 */
+	private static Validator validator;
 	static {
 		// 获取validator工厂方法
 		ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();

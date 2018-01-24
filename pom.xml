@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>jianqiao-parent</groupId>
-  <artifactId>jianqiao-parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  
-     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.6.RELEASE</version>
-    </parent>
-  
-  <properties>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>jianqiao-parent</groupId>
+	<artifactId>jianqiao-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.6.RELEASE</version>
+	</parent>
+
+	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,34 +26,34 @@
 		<dubbo-spring-boot>1.0.0-SNAPSHOT</dubbo-spring-boot>
 		<!-- dubbo依赖包  -->
 		<javassit.version>3.20.0-GA</javassit.version>
-		 <!-- zookeeper客户端版本 -->
-        <zkclient.version>0.10</zkclient.version>
-        <!-- zookeeper版本 -->
-        <zookeeper.version>3.4.8</zookeeper.version>
-        <!-- dubbo版本 -->
-        <dubbo.version>2.5.2</dubbo.version>
-        <!-- 验证码jar包版本 -->
-        <patchca.version>0.0.1</patchca.version>
-        <!-- fastjson版本 -->
-        <fastjson.version>1.2.36</fastjson.version>
-        <!-- httpClient版本 -->
-        <httpclient.version>4.5.3</httpclient.version>
-        <httpcore.veresion>4.4.6</httpcore.veresion>
-	    <!-- 阿里云oss版本 -->
-	    <oss.version>2.2.1</oss.version>
-	    <!-- apache common包 -->
-	    <commons-io>2.4</commons-io>
-	    <commons-lang>3.4</commons-lang>
-	    <cxf>2.7.14</cxf>
-	    <!-- poi -->
-	    <apache.poi.version>3.9</apache.poi.version>
+		<!-- zookeeper客户端版本 -->
+		<zkclient.version>0.10</zkclient.version>
+		<!-- zookeeper版本 -->
+		<zookeeper.version>3.4.8</zookeeper.version>
+		<!-- dubbo版本 -->
+		<dubbo.version>2.5.2</dubbo.version>
+		<!-- 验证码jar包版本 -->
+		<patchca.version>0.0.1</patchca.version>
+		<!-- fastjson版本 -->
+		<fastjson.version>1.2.36</fastjson.version>
+		<!-- httpClient版本 -->
+		<httpclient.version>4.5.3</httpclient.version>
+		<httpcore.veresion>4.4.6</httpcore.veresion>
+		<!-- 阿里云oss版本 -->
+		<oss.version>2.2.1</oss.version>
+		<!-- apache common包 -->
+		<commons-io>2.4</commons-io>
+		<commons-lang>3.4</commons-lang>
+		<cxf>2.7.14</cxf>
+		<!-- poi -->
+		<apache.poi.version>3.9</apache.poi.version>
 		<apache.poi-ooxml-schemas.verison>3.10-FINAL</apache.poi-ooxml-schemas.verison>
-	    <!-- 富文本 -->
-	    <json-simple.version>1.1</json-simple.version>
-	    <!-- guava工具类 -->
-	    <guava.version>21.0</guava.version>
-	    <!-- java日期工具 -->
-	    <joda-time.version>2.9.9</joda-time.version>
+		<!-- 富文本 -->
+		<json-simple.version>1.1</json-simple.version>
+		<!-- guava工具类 -->
+		<guava.version>21.0</guava.version>
+		<!-- java日期工具 -->
+		<joda-time.version>2.9.9</joda-time.version>
 		<!-- springfox-swagger2 -->
 		<springfox-swagger2.version>2.6.1</springfox-swagger2.version>
 		<!-- google 条形码类库 -->
@@ -66,8 +66,8 @@
 		<zt-zip>1.12</zt-zip>
 		<jsoup>1.8.2</jsoup>
 		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
-    	<thymeleaf-layout-dialect.version>2.0.4</thymeleaf-layout-dialect.version>
-    	<thymeleaf-extras-springsecurity4.version>3.0.0.RELEASE</thymeleaf-extras-springsecurity4.version>
+		<thymeleaf-layout-dialect.version>2.0.4</thymeleaf-layout-dialect.version>
+		<thymeleaf-extras-springsecurity4.version>3.0.0.RELEASE</thymeleaf-extras-springsecurity4.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -76,239 +76,219 @@
 		</repository>
 	</repositories>
 
-	<modules>
-		<!-- 公共配置模块 -->
-		<module>jianqiao-common-config</module>
-		<module>jianqiao-common-core</module>
-		<module>jianqiao-common-util</module>
-		<module>jianqiao-server-main</module>
-		<module>jianqiao-server-shiro</module>
-		<module>jianqiao-facade-main</module>
-		<module>jianqiao-facade-shiro</module>
-		<module>jianqiao-web-shiro</module>
-		<!--分布式事物-->
-		<module>jianqiao-tx-manager</module>
-		<module>jianqiao-dbconfig-read</module>
-		<module>jianqiao-dbconfig-write</module>
-        <module>jianqiao-facade-member</module>
-		<module>jianqiao-facade-consultation</module>
-		<module>jianqiao-server-consultation</module>
-		<module>jianqiao-server-member</module>
-	</modules>
-	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+		<!-- spring cache -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<!--aop-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<!-- redis  -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<!--mapper-->
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper-spring-boot-starter</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!--mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<!-- dubbo依赖包 -->
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+		</dependency>
+		<!-- zkclient -->
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>${zkclient.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- dubbo -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>${dubbo.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-expression</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- zookeeper -->
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>${zookeeper.version}</version>
+			<exclusions>
+				<!--<exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>-->
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- 验证码 -->
+		<dependency>
+			<groupId>com.github.bingoohuang</groupId>
+			<artifactId>patchca</artifactId>
+			<version>${patchca.version}</version>
+		</dependency>
+		<!-- 日志记录 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+		<!-- httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<!-- httpcore -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+		</dependency>
+		<!-- aliyun oss -->
+		<dependency>
+			<groupId>com.aliyun.oss</groupId>
+			<artifactId>aliyun-sdk-oss</artifactId>
+			<version>${oss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang}</version>
+		</dependency>
+		<!--commons-io-->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io}</version>
+		</dependency>
+		<!-- poi -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${apache.poi.version}</version>
+		</dependency>
+		<!-- poi-ooxml -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${apache.poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>${apache.poi-ooxml-schemas.verison}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+		</dependency>
+		<!-- java日期工具类 -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox-swagger2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox-swagger2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		</dependency>
+
+	</dependencies>
+
 	<!-- 依赖包管理 -->
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter</artifactId>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-logging</artifactId>
-			</dependency>
-			<!-- spring cache -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-cache</artifactId>
-			</dependency>
-			<!--aop-->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-aop</artifactId>
-			</dependency>
-			<!-- redis  -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-data-redis</artifactId>
-			</dependency>
-			<!--mapper-->
-			<dependency>
-				<groupId>tk.mybatis</groupId>
-				<artifactId>mapper-spring-boot-starter</artifactId>
-				<version>1.1.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-actuator</artifactId>
-			</dependency>
-			<!--mysql -->
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-thymeleaf</artifactId>
-			</dependency>
-			<!-- dubbo依赖包 -->
-			<dependency>
-				<groupId>org.javassist</groupId>
-				<artifactId>javassist</artifactId>
-			</dependency>
-			<!-- zkclient -->
-			<dependency>
-				<groupId>com.101tec</groupId>
-				<artifactId>zkclient</artifactId>
-				<version>${zkclient.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<!-- dubbo -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>dubbo</artifactId>
-				<version>${dubbo.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-web</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-aop</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-beans</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-context</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-expression</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<!-- zookeeper -->
-			<dependency>
-				<groupId>org.apache.zookeeper</groupId>
-				<artifactId>zookeeper</artifactId>
-				<version>${zookeeper.version}</version>
-				<exclusions>
-					<!--<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-log4j12</artifactId>
-					</exclusion>-->
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<!-- 验证码 -->
-			<dependency>
-				<groupId>com.github.bingoohuang</groupId>
-				<artifactId>patchca</artifactId>
-				<version>${patchca.version}</version>
-			</dependency>
-			<!-- 日志记录 -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-				<version>${fastjson.version}</version>
-			</dependency>
-			<!-- httpclient -->
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-			</dependency>
-			<!-- httpcore -->
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpcore</artifactId>
-			</dependency>
-			<!-- aliyun oss -->
-			<dependency>
-				<groupId>com.aliyun.oss</groupId>
-				<artifactId>aliyun-sdk-oss</artifactId>
-				<version>${oss.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>jstl</groupId>
-				<artifactId>jstl</artifactId>
-				<version>1.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>${commons-lang}</version>
-			</dependency>
-			<!--commons-io-->
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>${commons-io}</version>
-			</dependency>
-			<!-- poi -->
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>${apache.poi.version}</version>
-			</dependency>
-			<!-- poi-ooxml -->
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml</artifactId>
-				<version>${apache.poi.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml-schemas</artifactId>
-				<version>${apache.poi-ooxml-schemas.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.googlecode.json-simple</groupId>
-				<artifactId>json-simple</artifactId>
-			</dependency>
-			<!-- java日期工具类 -->
-			<dependency>
-				<groupId>joda-time</groupId>
-				<artifactId>joda-time</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${springfox-swagger2.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${springfox-swagger2.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-			</dependency>
-			<dependency>
-	            <groupId>org.thymeleaf.extras</groupId>
-	            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-	        </dependency>
-
-		</dependencies>
-
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
+				<!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
@@ -354,4 +334,45 @@
 			</resource>
 		</resources>
 	</build>
+
+	<modules>
+		<!-- 公共配置模块 -->
+		<module>jianqiao-common-config</module>
+		<module>jianqiao-common-core</module>
+		<module>jianqiao-common-util</module>
+		<!-- 数据源配置 -->
+		<module>jianqiao-dbconfig-read</module>
+		<module>jianqiao-dbconfig-write</module>
+		<!-- 通用接口模块 -->
+		<module>jianqiao-facade-main</module>
+		<!-- shiro接口模块 -->
+		<module>jianqiao-facade-shiro</module>
+		<!-- 会员接口模块 -->
+		<module>jianqiao-facade-member</module>
+		<!-- 咨询接口模块 -->
+		<module>jianqiao-facade-consultation</module>
+		<!-- 订单接口模块 -->
+		<module>jianqiao-facade-order</module>
+		<!-- 服务专员接口模块 -->
+		<module>jianqiao-facade-servicer</module>
+
+		<!-- 通用业务模块 -->
+		<module>jianqiao-server-main</module>
+		<!-- shiro业务模块 -->
+		<module>jianqiao-server-shiro</module>
+		<!-- 咨询业务模块 -->
+		<module>jianqiao-server-consultation</module>
+		<!-- 会员业务模块 -->
+		<module>jianqiao-server-member</module>
+		<!-- 订单业务模块 -->
+		<module>jianqiao-server-order</module>
+		<!-- 服务专员业务模块 -->
+		<module>jianqiao-server-servicer</module>
+		<!-- 管理员后台 -->
+		<module>jianqiao-web-admin</module>
+		<!-- 服务专员/高手后台 -->
+		<module>jianqiao-web-service</module>
+		<!--分布式事物-->
+		<module>jianqiao-tx-manager</module>
+	</modules>
 </project>

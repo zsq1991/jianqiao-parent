@@ -48,8 +48,10 @@ public class ImageUtils {
 
 		BufferedImage srcImage = ImageIO.read(in);
 		if (width > 0) {
-			int sw = srcImage.getWidth();// 原图的宽度
-			int sh = srcImage.getHeight();// 原图的高度
+			// 原图的宽度
+			int sw = srcImage.getWidth();
+			// 原图的高度
+			int sh = srcImage.getHeight();
 			// 如果原图像的大小小于要缩放的图像大小，直接将要缩放的图像复制过去
 			if (sw > width) {
 				double percent = (double) width / sw;
@@ -80,7 +82,8 @@ public class ImageUtils {
 			}
 		}
 		if (isDel) {
-			boolean result = file.delete();// 调用delete()方法
+			// 调用delete()方法
+			boolean result = file.delete();
 			if (result) {
 				System.out.println("文件" + inFilePath + "删除成功");
 			} else {

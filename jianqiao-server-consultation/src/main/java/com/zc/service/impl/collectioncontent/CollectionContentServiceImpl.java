@@ -92,24 +92,31 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                 }
                 // 处理时间格式
                 String chidAlreadyTime1 = DateUtils.dateFormat((Date) consulationDetail.get("createdTime"),"yyyy/MM/dd HH:mm:ss");
-                SimpleDateFormat chiddf1 = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+                // 设置日期格式
+                SimpleDateFormat chiddf1 = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                 String chidNowTime1 = chiddf1.format(new Date());
                 String chidTime11 = chidAlreadyTime1.subSequence(0, 10).toString();
                 String chidTime22 = chidNowTime1.subSequence(0, 10).toString();
-                if (chidTime11.equals(chidTime22)) {// 同一天
-                    String chidcreatedTime = chidAlreadyTime1.subSequence(11, 16).toString();// 截取当天
+                // 同一天
+                if (chidTime11.equals(chidTime22)) {
+                    // 截取当天
+                    String chidcreatedTime = chidAlreadyTime1.subSequence(11, 16).toString();
                     // 时，分
                     consulationDetail.put("createdTime", chidcreatedTime);
-                } else {// 不同一天
-                    String chidcreatedTime = chidAlreadyTime1.subSequence(0, 10).toString();// 截取当天
+                } else {
+                    // 不同一天
+                    // 截取当天
+                    String chidcreatedTime = chidAlreadyTime1.subSequence(0, 10).toString();
                     // 年，月，日
                     consulationDetail.put("createdTime", chidcreatedTime);
                 }
                 // 获取当前咨询的type
                 String type = (String) consulationDetail.get("type").toString();
-                boolean isMore = false;// 是否是主题或访谈的标识 false 不是 true 是
+                // 是否是主题或访谈的标识 false 不是 true 是
+                boolean isMore = false;
                 List<Map<String, Object>> consultationChidList = new ArrayList<Map<String, Object>>();
-                if ("0".equals(type) || "2".equals(type)) {// 0是访谈主题 1访谈内容 2口述主题
+                // 0是访谈主题 1访谈内容 2口述主题
+                if ("0".equals(type) || "2".equals(type)) {
                     // 3口述内容 4求助 5回答 6分享
                     // 判断访谈和口述是否有内容
                     Integer count = consultationMapper.getCountById(Long.valueOf(consulationDetail.get("id").toString()));
@@ -117,25 +124,29 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                         continue;
                     }
                     isMore = true;
-                    consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consulationDetail.get("id").toString()));// 根据访谈或口述的id查询其子类
+                    // 根据访谈或口述的id查询其子类
+                    consultationChidList = consultationMapper.findConsultationChidById(Long.valueOf(consulationDetail.get("id").toString()));
                     // 取详情内容
                     Object detailContentChid = "";
                     if (consultationChidList.size() > 0) {
                         for (Map<String, Object> consultationChidInfo : consultationChidList) {
                             // 处理时间格式
                             String chidAlreadyTime = DateUtils.dateFormat((Date) consultationChidInfo.get("createdTime"),"yyyy/MM/dd HH:mm:ss");
-                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");// 设置日期格式
+                            // 设置日期格式
+                            SimpleDateFormat chiddf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
                             String chidNowTime = chiddf.format(new Date());
                             String chidTime1 = chidAlreadyTime.subSequence(0, 10).toString();
                             String chidTime2 = chidNowTime.subSequence(0, 10).toString();
                             if (chidTime1.equals(chidTime2)) {
                                 // 同一天
-                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();// 截取当天
+                                // 截取当天
+                                String chidcreatedTime = chidAlreadyTime.subSequence(11, 16).toString();
                                 // 时，分
                                 consultationChidInfo.put("createdTime", chidcreatedTime);
                             } else {
                                 // 不同一天
-                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();// 截取当天
+                                // 截取当天
+                                String chidcreatedTime = chidAlreadyTime.subSequence(0, 10).toString();
                                 // 年，月，日
                                 consultationChidInfo.put("createdTime", chidcreatedTime);
                             }
@@ -254,7 +265,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                 if(typeflag==1 ||typeflag==3 ){
                     //获取到当前资讯信息-得到父级的资讯ID
                     Long consultationParentId = consultationinfo.getConsultationId();
-                    Consultation con = consultationMapper.findOne(consultationParentId);//洋大侠
+                    //洋大侠
+                    Consultation con = consultationMapper.findOne(consultationParentId);
                     con.setCollectNum(con.getCollectNum()==null?0+1:con.getCollectNum()+1);
                     con.setUpdateTime(new Date());
                     if (consultationMapper.updateConsultationById(con)>0){
@@ -327,7 +339,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                     if(typeflag==1 ||typeflag==3 ){
                         //获取到当前资讯信息-得到父级的资讯ID
                         Long consultationParentId = consultationinfo.getConsultationId();
-                        Consultation con = consultationMapper.findOne(consultationParentId);//洋大侠
+                        //洋大侠
+                        Consultation con = consultationMapper.findOne(consultationParentId);
                         Long collectNum = con.getCollectNum()==null?0L:con.getCollectNum();
                         con.setCollectNum(collectNum-1<0?0:collectNum-1);
                         con.setUpdateTime(new Date());

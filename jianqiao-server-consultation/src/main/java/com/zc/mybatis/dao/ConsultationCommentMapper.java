@@ -73,7 +73,15 @@ public interface ConsultationCommentMapper extends BasicMapper<ConsultationComme
      */
     public List<Map> getCommentSonIdByPid(Long id);
 
-    public ConsultationComment getRowLock(Long parentid);
+    /**
+     * @description ：根据ID获取咨询评论
+     * @Created by  : 朱军
+     * @version
+     * @Creation Date ： 2018/1/22 18:01
+     * @param parentId
+     * @return
+     */
+    public ConsultationComment getRowLock(Long parentId);
 
     /**
      * 保存咨询评论

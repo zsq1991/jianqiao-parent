@@ -13,13 +13,15 @@ package com.zc.common.config.springmvcexception;
  */
 public class BizException extends RuntimeException{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2128062111650408907L;
-	
-	private String msg;//错误消息
-	protected String code;//错误代码
+	/**
+	 * 错误消息
+	 */
+	private String msg;
+	/**
+	 * 错误代码
+	 */
+	protected String code;
 	
 	public BizException(String msg, String code,Object...args) {
 		super(String.format(msg,args));
