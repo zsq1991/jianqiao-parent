@@ -65,6 +65,7 @@ public class MemberServiceImpl implements MemberService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public int updateById(Member member) {
         int i = memberMapper.updateByPrimaryKeySelective(member);
         return i;

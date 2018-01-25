@@ -222,6 +222,7 @@ public class CollectionContentServiceImpl implements CollectionContentService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public int updateById(CollectionConsultation collectionConsultation) {
         return collectionContentMapper.updateById(collectionConsultation);
     }
