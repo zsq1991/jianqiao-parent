@@ -60,10 +60,12 @@ public class SecurityCount {
         //取第一位数加2取余判断加减号
         String subString = verifyCode.subSequence(0, 1).toString();
         int decideCount = (Integer.parseInt(subString)+2) % 2;
+        String zero = "0";
+        String one = "1";
         //与1,2进行比较
-        if ("1".equals(String.valueOf(decideCount))){
+        if (one.equals(String.valueOf(decideCount))){
             verifyCode.replace(1, 2, "+");
-        }else if("0".equals(String.valueOf(decideCount))){
+        }else if(zero.equals(String.valueOf(decideCount))){
             verifyCode.replace(1, 2, "-");
         }
 
@@ -95,7 +97,9 @@ public class SecurityCount {
 
         //判断加减号 并计算
         int x = 0;
-        if ("+".equals(subString)) {
+        String add="+";
+        String sub="-";
+        if (add.equals(subString)) {
             String one = verifyCode.toString().substring(0,1);
             logger.info("生成的前一个字符："+one);
             String two = verifyCode.toString().substring(2,3);
@@ -103,7 +107,7 @@ public class SecurityCount {
 
             x = Integer.parseInt(one) + Integer.parseInt(two);
             logger.info("相加——计算出的数字："+ x);
-        }else if("-".equals(subString)) {
+        }else if(sub.equals(subString)) {
             //如果是减号，，判断大小，然后从新生成
 
             String one = verifyCode.toString().substring(0,1);

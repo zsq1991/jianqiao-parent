@@ -5,7 +5,7 @@ import com.lorne.tx.utils.SocketUtils;
 import io.netty.channel.Channel;
 
 /**
- * create by lorne on 2017/8/7
+ * @author  by lorne on 2017/8/7
  */
 public class ChannelSender {
 

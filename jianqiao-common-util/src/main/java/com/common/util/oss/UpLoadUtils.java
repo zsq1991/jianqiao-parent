@@ -59,10 +59,14 @@ public class UpLoadUtils {
 	public static boolean checkIsImage(String imgStr) {
 		boolean flag = false;
 		if (imgStr != null) {
-			if (".gif".equalsIgnoreCase(imgStr)
-					|| ".jpg".equalsIgnoreCase(imgStr)
-					|| ".jpeg".equalsIgnoreCase(imgStr)
-					|| ".png".equalsIgnoreCase(imgStr)) {
+			String gif=".gif";
+			String jpg=".jpg";
+			String jpeg=".jpeg";
+			String png=".png";
+			if (gif.equalsIgnoreCase(imgStr)
+					|| jpg.equalsIgnoreCase(imgStr)
+					|| jpeg.equalsIgnoreCase(imgStr)
+					|| png.equalsIgnoreCase(imgStr)) {
 				flag = true;
 			}
 		}
@@ -82,9 +86,11 @@ public class UpLoadUtils {
 		appResult.setCode(0);
 		// 保存文件拓展名
 		String extName = ".jpg";
-		if("Android".equals(module)){
+		String android="Android";
+		String ios="IOS";
+		if(android.equals(module)){
 			extName=".apk";
-		}else if("IOS".equals(module)){
+		}else if(ios.equals(module)){
 			extName=".ipa";
 		}
 		// 保存新的文件名
@@ -260,10 +266,11 @@ public class UpLoadUtils {
 		 String accessKey="QLhDKpV0Rez9fsH6oIOXbmks4sd7WE";
 		 String bucketName="yst-images";
 		// 是否开启sso********把图片保存到云服务器上
-		if ("true".equals(isOpen))
+		String str="true";
+		if (str.equals(isOpen))
 		{
 	       OSSFileUpLoad.createOss(bucketName,"upload/"+module+"/" + sysFileName, path, accessId, accessKey);
-		} 
+		}
 	}
 	
 }

@@ -54,6 +54,8 @@ public class SpringValidateSignatureInterceptor extends HandlerInterceptorAdapte
 		}
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=utf-8");
+		String iType="I";
+		String aType="A";
 		if(objType == null){
 			PrintWriter out= response.getWriter();
 			result.setCode(201);
@@ -67,7 +69,7 @@ public class SpringValidateSignatureInterceptor extends HandlerInterceptorAdapte
 			logger.info(JSON.toJSON(result).toString());
 			out.print(JSON.toJSON(result).toString());
 		}else{
-			if(!("I".equals(objType.toString()) || "A".equals(objType.toString()))){
+			if(!(iType.equals(objType.toString()) || aType.equals(objType.toString()))){
 				PrintWriter out= response.getWriter();
 				result.setCode(203);
 				result.setMsg("客户端异常");

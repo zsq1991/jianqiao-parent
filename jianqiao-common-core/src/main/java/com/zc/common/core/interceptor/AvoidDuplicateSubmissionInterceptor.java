@@ -9,7 +9,7 @@
 
 package com.zc.common.core.interceptor;
 
-        import com.zc.common.core.utils.UniqueUtils;
+import com.zc.common.core.utils.UniqueUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +23,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
-
-/*
-        *
-        * 防止重复提交过滤器.
-        *
-        * @author 张灿
-        * @since JDK 1.7
-        * @see
-*/
-
-
+/**
+ * 防止重复提交过滤器.
+ * @author 张灿
+ * @since JDK 1.7
+ * @see
+ */
 public class AvoidDuplicateSubmissionInterceptor extends HandlerInterceptorAdapter {
     private static Logger logger = LoggerFactory.getLogger(AvoidDuplicateSubmissionInterceptor.class);
 
@@ -46,12 +41,12 @@ public class AvoidDuplicateSubmissionInterceptor extends HandlerInterceptorAdapt
                              Object handler) throws Exception {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
-        String token=(String)request.getSession().getAttribute("token");
-        logger.info("第一步："+Thread.currentThread().getName()+"="+token);
-        if(StringUtils.isBlank(token)){
+        String token = (String) request.getSession().getAttribute("token");
+        logger.info("第一步：" + Thread.currentThread().getName() + "=" + token);
+        if (StringUtils.isBlank(token)) {
             String uuid = UniqueUtils.getUUID();
-            redisTemplate.opsForHash().put("tokens", "token"+request.getSession().getId(), uuid);
-            request.getSession().setAttribute("token",uuid);
+            redisTemplate.opsForHash().put("tokens", "token" + request.getSession().getId(), uuid);
+            request.getSession().setAttribute("token", uuid);
         }
         AvoidDuplicateSubmission annotation = method.getAnnotation(AvoidDuplicateSubmission.class);
         if (annotation != null) {
@@ -64,24 +59,26 @@ public class AvoidDuplicateSubmissionInterceptor extends HandlerInterceptorAdapt
                     out.close();
                     return false;
                 }
-                redisTemplate.opsForHash().delete("tokens", "token"+request.getSession().getId());
+                redisTemplate.opsForHash().delete("tokens", "token" + request.getSession().getId());
                 request.getSession().removeAttribute("token");
             }
-            logger.info("第二步："+Thread.currentThread().getName()+"="+(String) redisTemplate.opsForHash().get("tokens", "token"+request.getSession().getId()));
+            logger.info("第二步：" + Thread.currentThread().getName() + "=" + (String) redisTemplate.opsForHash().get("tokens", "token" + request.getSession().getId()));
         }
         return true;
     }
 
     /**
      * 生成一个唯一值的token
+     *
      * @param request
      * @return
      */
     private boolean isRepeatSubmit(HttpServletRequest request) {
-        String serverToken = (String) redisTemplate.opsForHash().get("tokens", "token"+request.getSession().getId());;
+        String serverToken = (String) redisTemplate.opsForHash().get("tokens", "token" + request.getSession().getId());
+        ;
 
         String clinetToken = request.getParameter("token");
-        logger.info("进入对比的到数值："+serverToken+"="+clinetToken);
+        logger.info("进入对比的到数值：" + serverToken + "=" + clinetToken);
         if (StringUtils.isBlank(serverToken)) {
             return true;
         }

@@ -5,7 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.zc.common.core.encrypt.MD5;
+import com.zc.common.core.encrypt.Md5;
 import com.zc.common.core.shiro.PermissionEnum;
 import com.zc.common.core.shiro.RespCode;
 import com.zc.common.core.shiro.Result;
@@ -40,7 +40,7 @@ import java.util.Random;
  * @描述：用户实现层
  */
 @Component
-@Service(version="1.0.0",interfaceClass=IUserService.class)
+@Service(version = "1.0.0", interfaceClass = IUserService.class)
 public class UserTServiceImpl implements IUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserTServiceImpl.class);
@@ -55,35 +55,35 @@ public class UserTServiceImpl implements IUserService {
     UserRoleMapper userRoleMapper;
 
 
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result addUser(UserRoleDTO dto) {
         try {
-        	logger.info("新增用户入参，dto={}",JSON.toJSONString(dto));
-        	Result result = ResultUtil.getResult(PermissionEnum.Code.FAIL);
-        	//if (ParamsCheck.checkAddUser(dto)) {
-            	//验证手机号是否存在
-                if (null != userMapper.findUserByPhone(dto.getTelphone())) {
-                    return ResultUtil.getResult(PermissionEnum.REGISTERED);
-                }
-                User user =new User();
-                //参数转换
-                paramsTranf(user, dto);
-            	logger.info("新增用户入参，user={}",JSON.toJSONString(user));
-                //新增用戶
-                userMapper.insert(user);
-                Long userId = user.getId();
-                //除了管理员类型的账号以外，需要默认分配角色
-                if (dto.getRoleCode().intValue() != 1) {
-                	addUserRole(dto.getRoleCode().byteValue(), userId);
-                }
-                result = ResultUtil.getResult(PermissionEnum.Code.SUCCESS,userId);
-        	//}
-        	logger.info("新增用户返回值，result={}",JSON.toJSONString(result));
+            logger.info("新增用户入参，dto={}", JSON.toJSONString(dto));
+            Result result = ResultUtil.getResult(PermissionEnum.Code.FAIL);
+            //if (ParamsCheck.checkAddUser(dto)) {
+            //验证手机号是否存在
+            if (null != userMapper.findUserByPhone(dto.getTelphone())) {
+                return ResultUtil.getResult(PermissionEnum.REGISTERED);
+            }
+            User user = new User();
+            //参数转换
+            paramsTranf(user, dto);
+            logger.info("新增用户入参，user={}", JSON.toJSONString(user));
+            //新增用戶
+            userMapper.insert(user);
+            Long userId = user.getId();
+            //除了管理员类型的账号以外，需要默认分配角色
+            if (dto.getRoleCode().intValue() != 1) {
+                addUserRole(dto.getRoleCode().byteValue(), userId);
+            }
+            result = ResultUtil.getResult(PermissionEnum.Code.SUCCESS, userId);
+            //}
+            logger.info("新增用户返回值，result={}", JSON.toJSONString(result));
             return result;
         } catch (Exception ex) {
             logger.error("新增用户异常，ex={}", ex);
-           throw new PermissionBizException(PermissionEnum.ADD_USER_ERROR);
+            throw new PermissionBizException(PermissionEnum.ADD_USER_ERROR);
         }
     }
 
@@ -91,7 +91,7 @@ public class UserTServiceImpl implements IUserService {
     @Transactional(rollbackFor = Exception.class)
     public Result updatePassword(User user) {
         try {
-        	logger.info("修改密码入参,user={}",JSON.toJSONString(user));
+            logger.info("修改密码入参,user={}", JSON.toJSONString(user));
             if (StringUtils.isNotBlank(user.getTelphone())) {
                 User findUser = this.userMapper.findUserByPhone(user.getTelphone());
                 if (findUser == null) {
@@ -114,10 +114,10 @@ public class UserTServiceImpl implements IUserService {
     public Result updatePass(UpdatePassDTO updatePassDto) {
         try {
             Result result;
-            logger.info("(后台)修改密码入参,updatePassDto={}",JSON.toJSONString(updatePassDto));
+            logger.info("(后台)修改密码入参,updatePassDto={}", JSON.toJSONString(updatePassDto));
             User user = userMapper.selectByPrimaryKey(updatePassDto.getId());
-            String oldPass = MD5.getMD5Str(updatePassDto.getPassword());
-            String newPass = MD5.getMD5Str(updatePassDto.getNewPassword());
+            String oldPass = Md5.getMD5Str(updatePassDto.getPassword());
+            String newPass = Md5.getMD5Str(updatePassDto.getNewPassword());
             if (user != null && StringUtils.isNotBlank(user.getPassword())
                     && user.getPassword().equals(oldPass)) {
                 User mdyUser = new User();
@@ -128,7 +128,7 @@ public class UserTServiceImpl implements IUserService {
             } else {
                 result = ResultUtil.getResult(PermissionEnum.PASSWORD_ERROR);
             }
-            logger.info("(后台)修改密码返回值,result={}",JSON.toJSONString(result));
+            logger.info("(后台)修改密码返回值,result={}", JSON.toJSONString(result));
             return result;
         } catch (Exception ex) {
             logger.error("(后台)修改密码入参，ex={}", ex);
@@ -140,10 +140,10 @@ public class UserTServiceImpl implements IUserService {
     @Override
     public Result updateUser(User user) {
         try {
-        	logger.info("修改用户信息入参,user={}",JSON.toJSONString(user));
-        	//判断手机号是否重复
+            logger.info("修改用户信息入参,user={}", JSON.toJSONString(user));
+            //判断手机号是否重复
             User queryUser = userMapper.findUserByPhone(user.getTelphone());
-            if ( null != queryUser &&  !queryUser.getId().equals(user.getId())) {
+            if (null != queryUser && !queryUser.getId().equals(user.getId())) {
                 return ResultUtil.getResult(PermissionEnum.REGISTERED);
             }
             modifyUser(user);
@@ -157,22 +157,22 @@ public class UserTServiceImpl implements IUserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Result frozenOrEnableUser(User user) {
-    	try {
-    		logger.info("冻结或者启用用户入参,user={}",JSON.toJSONString(user));
-    		user.setUpdateTime(new Date());
-	        return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
-		} catch (Exception e) {
+        try {
+            logger.info("冻结或者启用用户入参,user={}", JSON.toJSONString(user));
+            user.setUpdateTime(new Date());
+            return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
+        } catch (Exception e) {
             //throw new PermissionBizException(PermissionEnum.DISABLE_ERROR);
-			return null;
+            return null;
         }
-       
+
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Result deleteUser(User user) {
         try {
-        	logger.info("删除用户入参,user={}",JSON.toJSONString(user));
+            logger.info("删除用户入参,user={}", JSON.toJSONString(user));
             userRoleMapper.deleteUserRoleByUserId(user.getId());
             return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
         } catch (Exception ex) {
@@ -184,15 +184,15 @@ public class UserTServiceImpl implements IUserService {
 
     @Override
     public Result getUserById(User user) {
-        return ResultUtil.getResult(PermissionEnum.Code.SUCCESS,null);
+        return ResultUtil.getResult(PermissionEnum.Code.SUCCESS, null);
     }
 
     @Override
     public Result getUserListByPage(PageBean page, UserDTO userDto) {
-    	PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<UserVO> list = userMapper.getUserByPage(userDto);
         PageInfo<UserVO> pageInfo = new PageInfo<>(list);
-        return ResultUtil.getResult(PermissionEnum.Code.SUCCESS,pageInfo.getList(),pageInfo.getTotal());
+        return ResultUtil.getResult(PermissionEnum.Code.SUCCESS, pageInfo.getList(), pageInfo.getTotal());
     }
 
     @Override
@@ -203,23 +203,23 @@ public class UserTServiceImpl implements IUserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Result updateUserRole(UpdateUserRoleDTO updateUserRoleDto) {
-    	try {
-    		logger.info("修改用户对应的角色入参，updateUserRoleDto={}", JSON.toJSONString(updateUserRoleDto));
+        try {
+            logger.info("修改用户对应的角色入参，updateUserRoleDto={}", JSON.toJSONString(updateUserRoleDto));
             userRoleMapper.deleteUserRoleByUserId(updateUserRoleDto.getUserId());
             userRoleMapper.insertUserRole(updateUserRoleDto.getUserId(), updateUserRoleDto.getRoleIds(), updateUserRoleDto.getCreaterId(), updateUserRoleDto.getUpdaterId());
             return ResultUtil.getResult(PermissionEnum.Code.SUCCESS);
-    	} catch (Exception e) {
-			logger.error("修改用户对应的角色异常，ex={}", e);
-			throw new PermissionBizException(PermissionEnum.UPDATE_USER_ROLE_ERROR);
+        } catch (Exception e) {
+            logger.error("修改用户对应的角色异常，ex={}", e);
+            throw new PermissionBizException(PermissionEnum.UPDATE_USER_ROLE_ERROR);
         }
-       
+
     }
 
 
-	@Override
+    @Override
     public UserVO getUserByCondition(UserDTO userDto) {
         return userMapper.getUserByCondition(userDto);
-	}
+    }
 
     @Override
     public Result checkUserByCondition(UserDTO userDto) {
@@ -228,14 +228,14 @@ public class UserTServiceImpl implements IUserService {
         if (userVO == null) {
             return ResultUtil.getResult(PermissionEnum.NO_TELPHONE_ERROR);
         } else {
-
-         if (userVO.getIsable() == 2) {
+            int num=2;
+            if (userVO.getIsable() == num) {
                 return ResultUtil.getResult(PermissionEnum.LOCKED_ACCOUNT);
             }
 
             if (userVO.getAgentName() != null) {
                 return ResultUtil.getResult(RespCode.Code.SUCCESS);
-           } else {
+            } else {
                 return ResultUtil.getResult(PermissionEnum.NO_FIND_PASSWORD_ERROR);
             }
         }
@@ -262,11 +262,12 @@ public class UserTServiceImpl implements IUserService {
      * @描述：参数转换
      */
     public static final Byte START = 1;
+
     private void paramsTranf(User user, UserRoleDTO dto) {
         user.setUpdaterId(dto.getUpdaterId());
         user.setUserName(dto.getUserName());
         user.setTelphone(dto.getTelphone());
-        user.setPassword(MD5.getMD5Str(dto.getPassword()));
+        user.setPassword(Md5.getMD5Str(dto.getPassword()));
         user.setIsable(START);
         user.setCreatedTime(new Date());
         user.setUpdateTime(new Date());

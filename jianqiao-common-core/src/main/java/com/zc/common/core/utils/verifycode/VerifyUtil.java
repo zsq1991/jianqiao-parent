@@ -40,7 +40,8 @@ public class VerifyUtil {
 		if (value == null) {
 			return false;
 		}
-		if ("".equals(value.toString()) || "null".equals(value.toString())) {
+		String str ="null";
+		if ("".equals(value.toString()) || str.equals(value.toString())) {
 			return false;
 		}
 		return true;
@@ -59,7 +60,8 @@ public class VerifyUtil {
 		if (value == null) {
 			return true;
 		}
-		if ("".equals(value.toString()) || "null".equals(value.toString())) {
+		String str ="null";
+		if ("".equals(value.toString()) || str.equals(value.toString())) {
 			return true;
 		}
 		return false;

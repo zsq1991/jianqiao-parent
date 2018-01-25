@@ -1,19 +1,19 @@
 package com.zc.main.dubbo.service.impl.permission;
 
-import java.util.List;
-
+import com.alibaba.dubbo.config.annotation.Service;
+import com.zc.main.dubbo.service.permission.IBtnService;
+import com.zc.main.vo.BtnVO;
+import com.zc.mybatis.dao.BtnMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.zc.main.dubbo.service.permission.IBtnService;
-import com.zc.main.vo.BtnVO;
-import com.zc.mybatis.dao.BtnMapper;
+import java.util.List;
 
 /**
  * @描述：按钮实现层
+ * @author system
  */
 @Component
 @Service(version = "1.0.0",interfaceClass=IBtnService.class)

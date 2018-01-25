@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
-import com.zc.common.core.encrypt.MD5;
+import com.zc.common.core.encrypt.Md5;
 import com.zc.common.core.shiro.PermissionEnum;
 import com.zc.common.core.shiro.Result;
 import com.zc.common.core.utils.CommonConstants;
@@ -113,7 +113,7 @@ public class LoginControler {
 	        //2.登录认证
 	        String username = user.getTelphone();
 	        //MD5加密
-	        user.setPassword(MD5.getMD5Str(user.getPassword()));
+	        user.setPassword(Md5.getMD5Str(user.getPassword()));
 	        UsernamePasswordToken token = new UsernamePasswordToken(username, user.getPassword(), rememberMe);
 	        //获取当前的Subject
 	        Subject currentUser = SecurityUtils.getSubject();

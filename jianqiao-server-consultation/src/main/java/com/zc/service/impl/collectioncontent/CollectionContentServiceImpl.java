@@ -307,7 +307,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                     if(typeflag==1 ||typeflag==3 ){
                         //获取到当前资讯信息-得到父级的资讯ID
                         Long consultationParentId = consultationinfo.getConsultationId();
-                        Consultation con = consultationMapper.findOne(consultationParentId);//洋大侠
+                        //洋大侠
+                        Consultation con = consultationMapper.findOne(consultationParentId);
                         Long collectNum = con.getCollectNum()==null?0L:con.getCollectNum();
                         con.setCollectNum(collectNum-1<0?0:collectNum-1);
                         con.setUpdateTime(new Date());

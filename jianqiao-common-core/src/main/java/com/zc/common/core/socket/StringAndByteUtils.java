@@ -4,17 +4,17 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * String进制数和byte之间的转换
- * 
+ *
  * @author zhangkaoqin
  * @e-mail 627658539@qq.com
  * @version v1.0
  * @copyright 2010-2015
  * @create-time 2012-10-13 下午12:24:09
- * 
+ *
  */
 public class StringAndByteUtils {
-	
-	
+
+
 	public static String stringToHexString(String strPart) {
 
 		String hexString = "";
@@ -36,7 +36,7 @@ public class StringAndByteUtils {
 	private static String hexString = "0123456789ABCDEF";
 
 	/*
-	 * 
+	 *
 	 * 将字符串编码成16进制数字,适用于所有字符（包括中文）
 	 */
 
@@ -75,11 +75,11 @@ public class StringAndByteUtils {
 
 	{
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes.length() / 2);
+		int bitNum=2;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes.length() / bitNum);
 
 		// 将每2位16进制整数组装成一个字节
-
-		for (int i = 0; i < bytes.length(); i += 2)
+		for (int i = 0; i < bytes.length(); i += bitNum)
 
         {
             baos.write((hexString.indexOf(bytes.charAt(i)) << 4 | hexString.indexOf(bytes
@@ -106,12 +106,12 @@ public class StringAndByteUtils {
 	public static byte[] hexString2Bytes(String src)
 
 	{
-
-		byte[] ret = new byte[6];
+		int length=6;
+		byte[] ret = new byte[length];
 
 		byte[] tmp = src.getBytes();
 
-		for (int i = 0; i < 6; ++i)
+		for (int i = 0; i < length; ++i)
 
 		{
 
@@ -126,9 +126,9 @@ public class StringAndByteUtils {
 	/**
 	 * Convert byte[] to hex
 	 * string.这里我们可以将byte转换成int，然后利用Integer.toHexString(int)来转换成16进制字符串。
-	 * 
+	 *
 	 * @param src byte[] data
-	 * 
+	 *
 	 * @return hex string
 	 */
 
@@ -163,11 +163,11 @@ public class StringAndByteUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert hex string to byte[]
-	 * 
+	 *
 	 * @param hexString the hex string
-	 * 
+	 *
 	 * @return byte[]
 	 */
 
@@ -200,11 +200,11 @@ public class StringAndByteUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Convert char to byte
-	 * 
+	 *
 	 * @param c char
-	 * 
+	 *
 	 * @return byte
 	 */
 

@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @version 1.0.0
  * @description ：系统附件
- * @Created by  : gaoge
+ * @author by  : gaoge
  * @Creation Date ： 2018/1/16 9:39
  */
 @Table(name = "alq_attachment")

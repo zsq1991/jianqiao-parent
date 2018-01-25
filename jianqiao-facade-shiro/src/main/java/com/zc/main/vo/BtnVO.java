@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @项目：phshopping-facade-permission
  * @描述：按钮返回VO
- * @作者： Mr.Shu
+ * @author ： Mr.Shu
  * @创建时间：2017年5月12日
  * @Copyright @2017 by Mr.Shu
  */
