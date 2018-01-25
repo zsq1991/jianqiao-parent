@@ -7,7 +7,7 @@ import com.zc.common.core.result.Result;
  * @package : com.zc.main.service.memberfollow
  * @progect : jianqiao-parent
  * @Description : 用户相关信息  关注  粉丝
- * @Created by : wangxueyang[wxueyanghj@163.com]
+ * @author  by : wangxueyang[wxueyanghj@163.com]
  * @Creation Date ：2018年01月16日18:04
  */
 public interface MemberFollowService {

@@ -1,7 +1,7 @@
 package com.lorne.tx.service;
 
 /**
- * Created by lorne on 2017/7/4.
+ * @author  by lorne on 2017/7/4.
  */
 public interface InitService {
 

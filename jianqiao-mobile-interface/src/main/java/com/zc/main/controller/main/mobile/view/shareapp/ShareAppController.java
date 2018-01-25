@@ -23,7 +23,7 @@ import java.util.Map;
  * @package : com.zc.main.controller.main.mobile.view.share
  * @progect : jianqiao-parent
  * @Description :
- * @Created by :ZhaoJunBiao
+ * @author  by :ZhaoJunBiao
  * @Creation Date ：2018年01月16日14:52
  */
 @Controller

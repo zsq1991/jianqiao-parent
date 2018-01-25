@@ -4,7 +4,12 @@ import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 
-
+/**
+ * @description 角色VO
+ * @author system
+ * @date 2018-01-25 17:47
+ * @version 1.0.0
+ */
 @Alias("RoleVO")
 public class RoleVO implements Serializable {
 

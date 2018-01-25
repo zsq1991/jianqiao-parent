@@ -2,7 +2,7 @@ package com.zc.common.config.rediscache;
 
 
 /**
- *@Author: Yaowei
+ *@author : Yaowei
  *@Description:
  *@Date: 2017/12/5 11:13
  */

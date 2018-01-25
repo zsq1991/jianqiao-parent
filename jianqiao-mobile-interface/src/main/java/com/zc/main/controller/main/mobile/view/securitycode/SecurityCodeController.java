@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @Description : 短信验证码
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月18日15:16
  */
 @Controller

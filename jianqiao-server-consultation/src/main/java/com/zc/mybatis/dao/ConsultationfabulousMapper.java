@@ -4,6 +4,12 @@ import com.common.util.mybatis.BasicMapper;
 import com.zc.main.entity.consultationfabulous.ConsultationFabulous;
 import org.apache.ibatis.annotations.Param;
 
+/**
+ * @description 资讯点赞
+ * @author ZhaoJunBiao
+ * @date 2018-01-25 17:18
+ * @version 1.0.0
+ */
 public interface ConsultationfabulousMapper extends BasicMapper<ConsultationFabulous> {
 	
 	

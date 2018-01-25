@@ -1,19 +1,18 @@
 package com.zc.main.entity.permission;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zc.common.core.orm.hibernate.BaseIdEntity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  *
  * @描述：公共登录用户实体
- *
+ * @author system
  */
 @Entity
 @Table(name = "alq_permission_common_user")

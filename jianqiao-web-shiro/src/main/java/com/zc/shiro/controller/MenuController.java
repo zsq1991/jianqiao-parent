@@ -11,6 +11,12 @@ import com.zc.common.core.shiro.Result;
 import com.zc.main.dubbo.service.permission.IMenuService;
 import com.zc.main.dubbo.service.permission.IUserService;
 
+/**
+ * @description 菜单
+ * @author system
+ * @date 2018-01-25 17:38
+ * @version 1.0.0
+ */
 @RequestMapping("permission")
 @Controller
 public class MenuController {

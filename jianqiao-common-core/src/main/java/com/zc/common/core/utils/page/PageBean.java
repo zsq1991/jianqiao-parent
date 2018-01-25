@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @描述：分页基础Bean
  *
- * @作者： Mr.chang
+ * @author ： Mr.chang
  *
  * @创建时间：2017年3月17日
  * @Copyright @2017 by Mr.chang

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * @Description : 验证码
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018/1/17 10:00
  */
 public class TencentSms {

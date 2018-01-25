@@ -4,7 +4,6 @@ import com.zc.common.core.orm.mybatis.MyBatisRepository;
 import com.zc.main.entity.member.Member;
 import com.zc.main.entity.memberfollow.MemberFollow;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.method.P;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,7 @@ import java.util.Map;
  * @package : com.zc.mybatis.dao
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : wangxueyang[wxueyanghj@163.com]
+ * @author  by : wangxueyang[wxueyanghj@163.com]
  * @Creation Date ：2018年01月17日9:45
  */
 @MyBatisRepository

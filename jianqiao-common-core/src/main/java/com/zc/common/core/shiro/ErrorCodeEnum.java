@@ -5,7 +5,7 @@ package com.zc.common.core.shiro;
 /**
  * @项目：wholesale
  * @描述：错误码enum
- * @作者： Mr.chang
+ * @author ： Mr.chang
  * @创建时间：2017/6/23
  * @Copyright @2017 by Mr.chang
  */

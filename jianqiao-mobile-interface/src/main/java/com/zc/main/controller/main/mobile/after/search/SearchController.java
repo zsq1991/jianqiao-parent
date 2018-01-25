@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @package : com.zc.main.controller.main.mobile.after.search
  * @progect : jianqiao-parent
  * @Description :历史搜索和热门搜索
- * @Created by :ZhaoJunBiao
+ * @author  by :ZhaoJunBiao
  * @Creation Date ：2018年01月18日15:13
  */
 @Controller

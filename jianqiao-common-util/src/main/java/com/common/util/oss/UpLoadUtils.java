@@ -25,6 +25,9 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * @author system
+ */
 public class UpLoadUtils {
 	
 	private static final Log logger = LogFactory.getLog(UpLoadUtils.class);

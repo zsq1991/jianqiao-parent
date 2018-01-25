@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @项目：phshopping-facade-permission
  * @描述： 菜单按钮关系DTO
- * @作者： Mr.Shu
+ * @author ： Mr.Shu
  * @创建时间：2017-03-14
  * @Copyright @2017 by Mr.Shu
  */

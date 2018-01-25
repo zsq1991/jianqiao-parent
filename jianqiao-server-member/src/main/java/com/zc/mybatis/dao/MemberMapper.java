@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @Description :
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月15日17:25
  */
 @MyBatisRepository

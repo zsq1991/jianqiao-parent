@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @项目：phsopping-facade-permission
  * @描述：获取菜单按钮列表
- * @作者： Mr.Shu
+ * @author ： Mr.Shu
  * @创建时间：2017-03-15
  * @Copyright @2017 by Mr.Shu
  */

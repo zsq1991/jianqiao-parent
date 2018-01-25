@@ -24,7 +24,7 @@ import java.util.*;
  * @package : com.zc.service.impl.consultationinfo
  * @progect : jianqiao-parent
  * @Description :
- * @Created by :ZhaoJunBiao
+ * @author  by :ZhaoJunBiao
  * @Creation Date ：2018年01月17日16:59
  */
 @Service(version = "1.0.0",interfaceClass =ConsultationInfoService.class )

@@ -1,9 +1,6 @@
 package com.zc.main.dubbo.service.permission;
 
 
-import java.util.List;
-import java.util.Map;
-
 import com.zc.common.core.shiro.Result;
 import com.zc.common.core.utils.page.PageBean;
 import com.zc.main.dto.RoleDTO;
@@ -12,12 +9,15 @@ import com.zc.main.entity.permission.Role;
 import com.zc.main.vo.RoleVO;
 import com.zc.main.vo.UserVO;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @项目：phshopping-facade-permission
  *
  * @描述：角色接口
  *
- * @作者： Mr.Shu
+ * @author ： Mr.Shu
  *
  * @创建时间：2017-03-13
  *

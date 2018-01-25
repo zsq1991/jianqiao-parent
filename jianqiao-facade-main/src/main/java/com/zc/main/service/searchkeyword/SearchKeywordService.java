@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @description ：热门搜索
- * @Created by  : gaoge
+ * @author  by  : gaoge
  * @Creation Date ： 2018/1/18 13:33
  * @version 1.0.0
  */

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @package : com.alqsoft.entity.specialist
  * @progect : jianqiao-parent
  * @Description :咨询DTO
- * @Created by : 朱军
+ * @author  by : 朱军
  * @Creation Date ：2018年01月09日14:29
  */
 public class SpecialistDTO implements Serializable{

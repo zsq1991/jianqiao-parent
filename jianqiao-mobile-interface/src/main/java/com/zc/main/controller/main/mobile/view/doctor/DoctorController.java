@@ -3,7 +3,6 @@ package com.zc.main.controller.main.mobile.view.doctor;
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.zc.common.core.result.Result;
 import com.zc.common.core.result.ResultUtils;
-import com.zc.main.controller.main.mobile.view.specialist.SpecialistController;
 import com.zc.main.service.doctor.DoctorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @package : com.alqsoft.controller.mobile.after.doctor
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : 朱军
+ * @author  by : 朱军
  * @Creation Date ：2018年01月10日9:49
  */
 @Controller

@@ -5,7 +5,7 @@ import com.zc.common.core.result.Result;
 
 /**
  * @description ：给咨询的评论点赞
- * @Created by  : gaoge
+ * @author  by  : gaoge
  * @Creation Date ： 2018/1/19 16:58
  * @version 1.0.0
  */

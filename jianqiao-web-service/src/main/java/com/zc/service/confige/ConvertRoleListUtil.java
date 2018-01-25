@@ -1,17 +1,20 @@
 package com.zc.service.confige;
 
+import com.zc.main.vo.BtnVO;
+import com.zc.main.vo.MenuVO;
+import com.zc.main.vo.RoleVO;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.zc.main.entity.permission.Btn;
-import com.zc.main.entity.permission.Menu;
-import com.zc.main.entity.permission.Role;
-import com.zc.main.vo.BtnVO;
-import com.zc.main.vo.MenuVO;
-import com.zc.main.vo.RoleVO;
-
+/**
+ * @description 角色权限转换工具类
+ * @author system
+ * @date 2018-01-25 17:21
+ * @version 1.0.0
+ */
 public class ConvertRoleListUtil {
 
     /**

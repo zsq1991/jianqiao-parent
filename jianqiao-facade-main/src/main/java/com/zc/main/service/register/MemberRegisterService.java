@@ -3,12 +3,11 @@ package com.zc.main.service.register;
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
  * @Description : 用户注册实现接口
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月17日13:44
  */
 public interface MemberRegisterService {

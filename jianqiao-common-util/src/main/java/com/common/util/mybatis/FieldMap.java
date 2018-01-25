@@ -4,6 +4,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
 
+/**
+ * @description 泛型数据
+ * @author system
+ * @date 2018-01-25 17:30
+ * @version 1.0.0
+ */
 public class FieldMap {
 	
 	/**

@@ -2,6 +2,12 @@ package com.zc.common.core.utils;
 
 import java.security.MessageDigest;
 
+/**
+ * @description Md5工具类
+ * @author system
+ * @date 2018-01-25 17:33
+ * @version 1.0.0
+ */
 public class MD5Util {
     private static final String[] HEXDIGITS  = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
 

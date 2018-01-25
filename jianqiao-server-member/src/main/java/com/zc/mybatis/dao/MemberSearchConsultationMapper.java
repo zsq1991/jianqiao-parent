@@ -1,6 +1,5 @@
 package com.zc.mybatis.dao;
 
-import com.zc.main.entity.member.Member;
 import com.zc.main.entity.membersearchconsultation.MemberSearchConsultation;
 
 import java.util.HashMap;
@@ -12,7 +11,7 @@ import java.util.Map;
  * @package : com.zc.mybatis.dao
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : wangxueyang[wxueyanghj@163.com]
+ * @author  by : wangxueyang[wxueyanghj@163.com]
  * @Creation Date ：2018年01月17日17:15
  */
 public interface MemberSearchConsultationMapper {

@@ -1,17 +1,17 @@
 package com.zc.main.dubbo.service.permission;
 
 
-import java.util.List;
-
 import com.zc.common.core.shiro.Result;
 import com.zc.main.vo.MenuVO;
+
+import java.util.List;
 
 /**
  * @项目：phshopping-facade-permission
  *
  * @描述：菜单接口类
  *
- * @作者： Mr.chang
+ * @author ： Mr.chang
  *
  * @创建时间：2017年3月13日
  *

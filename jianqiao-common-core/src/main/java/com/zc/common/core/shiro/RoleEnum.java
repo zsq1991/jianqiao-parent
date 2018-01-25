@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * @描述： 角色编号枚举
+ * @author system
  */
 public enum RoleEnum {
     /**

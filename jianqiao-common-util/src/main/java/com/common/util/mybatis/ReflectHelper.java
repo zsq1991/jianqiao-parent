@@ -3,7 +3,13 @@ package com.common.util.mybatis;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
-  
+
+/**
+ * @description 反射
+ * @author system
+ * @date 2018-01-25 17:44
+ * @version 1.0.0
+ */
 public class ReflectHelper {  
       
     public static Object getFieldValue(Object obj , String fieldName ){  

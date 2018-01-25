@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by lorne on 2017/7/4.
+ * @author  by lorne on 2017/7/4.
  */
 @Service
 public class InitServiceImpl implements InitService {

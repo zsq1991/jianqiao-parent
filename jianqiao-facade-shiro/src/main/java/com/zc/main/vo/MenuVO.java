@@ -6,7 +6,12 @@ import org.apache.ibatis.type.Alias;
 import java.io.Serializable;
 import java.util.List;
 
-
+/**
+ * @description 菜单VO
+ * @author system
+ * @date 2018-01-25 17:39 
+ * @version 1.0.0
+ */
 @Alias("MenuVO")
 public class MenuVO implements Serializable {
 

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
-
+/**
+ * @description 验签工具类
+ * @author system
+ * @date 2018-01-25 17:50
+ * @version 1.0.0
+ */
 public class SignUtils {
     private static final String[] HEX_STRINGS;
 

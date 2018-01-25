@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 /**
  * @Description : 验证码实现
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月16日11:29
  */
 @Component

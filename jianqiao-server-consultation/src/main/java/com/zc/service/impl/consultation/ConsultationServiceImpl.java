@@ -39,6 +39,12 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * @description 资讯信息
+ * @author 王鑫涛
+ * @date 2018-01-25 17:20
+ * @version 1.0.0
+ */
 @Component
 @Service(version = "1.0.0", interfaceClass = ConsultationService.class)
 @Transactional(readOnly = true,rollbackFor=Exception.class)

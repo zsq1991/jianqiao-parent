@@ -6,7 +6,6 @@ import com.zc.common.core.annotation.MemberAnno;
 import com.zc.common.core.result.Result;
 import com.zc.main.entity.member.Member;
 import com.zc.main.service.consultationcommentfabulous.ConsultationCommentFabulousService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * @version 1.0.0
  * @description ：咨询回复评论点赞
- * @Created by  : gaoge
+ * @author  by  : gaoge
  * @Creation Date ： 2018/1/16 16:56
  */
 @RequestMapping("mobile/after/consultationcommentfabulous")

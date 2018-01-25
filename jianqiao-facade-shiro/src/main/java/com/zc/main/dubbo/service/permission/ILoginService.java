@@ -9,7 +9,7 @@ import com.zc.main.entity.permission.User;
  *
  * @描述：登录校验
  *
- * @作者： Mr.Shu
+ * @author ： Mr.Shu
  *
  * @创建时间：2017-03-15
  *

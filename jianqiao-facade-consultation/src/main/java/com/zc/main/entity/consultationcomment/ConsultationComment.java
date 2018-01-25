@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 /**
  * @description ：内容评论 回复记录表
- * @Created by  : gaoge
+ * @author by  : gaoge
  * @Creation Date ： 2018/1/19 15:05
  * @version 1.0.0
  */

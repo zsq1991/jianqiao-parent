@@ -8,6 +8,12 @@ import com.zc.main.entity.consultationcomment.ConsultationComment;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @description 资讯评论
+ * @author gaoge
+ * @date 2018-01-25 17:18
+ * @version 1.0.0
+ */
 @MyBatisRepository
 public interface ConsultationCommentMapper extends BasicMapper<ConsultationComment> {
 

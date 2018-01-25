@@ -8,7 +8,7 @@ import com.zc.main.entity.membermsg.MemberMsg;
  * @package : com.zc.main.service.membermsg
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : asus 王鑫涛
+ * @author  by : asus 王鑫涛
  * @Creation Date ：2018年01月18日10:40
  */
 public interface MemberMsgService{

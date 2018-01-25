@@ -3,7 +3,7 @@ package com.lorne.tx.service.model;
 import java.util.List;
 
 /**
- * Created by lorne on 2017/7/1.
+ * @author  by lorne on 2017/7/1.
  */
 public class TxState {
 

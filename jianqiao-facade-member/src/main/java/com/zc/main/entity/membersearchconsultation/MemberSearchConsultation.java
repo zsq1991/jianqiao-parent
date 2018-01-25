@@ -10,7 +10,7 @@ import javax.persistence.Column;
  * @package : com.zc.main.entity.membersearchconsultation
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : wangxueyang[wxueyanghj@163.com]
+ * @author  by : wangxueyang[wxueyanghj@163.com]
  * @Creation Date ：2018年01月17日17:27
  */
 @Alias("alq_member_search_consultation")

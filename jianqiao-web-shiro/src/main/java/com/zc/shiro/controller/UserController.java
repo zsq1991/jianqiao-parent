@@ -33,7 +33,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collection;
 
-
+/**
+ * @author system
+ */
 @Controller
 @RequestMapping("permission/user")
 public class UserController {

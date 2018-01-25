@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Created by Moya on 2017/11/28.
+ * @author  by Moya on 2017/11/28.
  * @Description: 初始化敏感词库，将敏感词加入到HashMap中，构建DFA算法模型
  */
 public class SensitiveWordInit {

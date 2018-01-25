@@ -18,7 +18,7 @@ import com.zc.main.dubbo.service.permission.IUserService;
  * 
  *
  * @description：shiro的dubbo代理，获取服务提供者（接口）
- *
+ * @author systems
  */
 @Configuration
 public class ShiroDubboAgent {

@@ -10,7 +10,7 @@ import java.util.Map;
  * @package : com.alqsoft.dao.specialist
  * @progect : jianqiao-parent
  * @Description :专家模块数据访问层
- * @Created by : 朱军
+ * @author  by : 朱军
  * @Creation Date ：2018年01月09日9:22
  */
 @MyBatisRepository

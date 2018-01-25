@@ -3,7 +3,7 @@ package com.common.util.sensitiveword;
 import java.util.*;
 
 /**
- * Created by Moya on 2017/11/28.
+ * @author  by Moya on 2017/11/28.
  * @Description: 敏感词过滤
  */
 public class SensitivewordFilter {

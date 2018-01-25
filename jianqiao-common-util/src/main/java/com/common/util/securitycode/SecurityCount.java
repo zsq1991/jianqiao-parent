@@ -17,7 +17,7 @@ import java.util.Random;
 
 /**
  * @Description : 图形验证码
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月16日11:53
  */
 public class SecurityCount {

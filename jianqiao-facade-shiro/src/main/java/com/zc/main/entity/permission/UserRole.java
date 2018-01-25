@@ -1,17 +1,17 @@
 package com.zc.main.entity.permission;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.zc.common.core.orm.hibernate.BaseIdEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.zc.common.core.orm.hibernate.BaseIdEntity;
-
 /**
  *
  * @描述： 用户角色实体
- *
+ * @author system
  */
 @Entity
 @Table(name = "alq_permission_user_role")

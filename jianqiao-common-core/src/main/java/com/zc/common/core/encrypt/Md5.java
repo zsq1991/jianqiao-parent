@@ -6,6 +6,12 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * @description Md5工具类
+ * @author system
+ * @date 2018-01-25 17:33
+ * @version 1.0.0
+ */
 public class Md5 {
 	/**
 	 * Used building output as Hex

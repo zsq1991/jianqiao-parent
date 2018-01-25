@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * create by lorne on 2017/8/8
+ * @author s by lorne on 2017/8/8
  */
 @Service
 public class JobServiceImpl implements JobService{

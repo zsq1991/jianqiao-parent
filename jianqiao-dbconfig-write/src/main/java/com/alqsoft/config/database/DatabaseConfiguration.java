@@ -28,11 +28,12 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 
-/*@项目：tianyi-common-core
+/**
+ * @项目：tianyi-common-core
  *
  * @描述：数据库配置
  *
- * @作者： chang
+ * @author ： chang
  *
  * @创建时间：2017年3月8日
  *

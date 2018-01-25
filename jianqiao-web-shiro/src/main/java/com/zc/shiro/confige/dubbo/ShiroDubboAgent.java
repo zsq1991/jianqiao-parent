@@ -16,9 +16,8 @@ import com.zc.shiro.confige.properties.WebProperties;
 
 /**
  * 
- *
  * @description：shiro的dubbo代理，获取服务提供者（接口）
- *
+ * @author system
  */
 @Configuration
 public class ShiroDubboAgent {

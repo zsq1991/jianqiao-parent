@@ -3,7 +3,7 @@ package com.zc.main.constants;
 /**
  * @项目：phshopping-facade-permission
  * @描述： 角色ID枚举
- * @作者： Mr.zheng
+ * @author ： Mr.zheng
  * @创建时间：2017-03-14
  * @Copyright @2017 by Mr.zheng
  */

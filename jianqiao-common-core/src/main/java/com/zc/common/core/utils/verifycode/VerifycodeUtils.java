@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random;
 
+/**
+ * @author system
+ */
 public class VerifycodeUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(VerifycodeUtils.class);

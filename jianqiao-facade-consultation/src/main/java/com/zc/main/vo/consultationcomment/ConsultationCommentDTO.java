@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @package : com.zc.main.vo.consultationcomment
  * @className : ConsultationCommentDTO
  * @description ：内容评论 回复记录表
- * @Created by  : 朱军
+ * @author by  : 朱军
  * @Creation Date ： 2018/1/18 11:06
  * @version
  */

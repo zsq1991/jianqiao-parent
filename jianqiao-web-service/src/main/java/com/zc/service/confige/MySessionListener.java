@@ -5,6 +5,7 @@ import org.apache.shiro.session.SessionListenerAdapter;
 
 
 /**
+ * @author system
  */
 public class MySessionListener extends SessionListenerAdapter {
     @Override

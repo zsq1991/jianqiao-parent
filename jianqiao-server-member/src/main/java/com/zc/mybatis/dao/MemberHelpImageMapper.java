@@ -7,7 +7,7 @@ import com.zc.main.entity.memberhelpimage.MemberHelpImage;
  * @package : com.zc.mybatis.dao
  * @progect : jianqiao-parent
  * @Description :
- * @Created by :ZhaoJunBiao
+ * @author  by :ZhaoJunBiao
  * @Creation Date ：2018年01月18日10:14
  */
 public interface MemberHelpImageMapper extends BasicMapper<MemberHelpImage> {

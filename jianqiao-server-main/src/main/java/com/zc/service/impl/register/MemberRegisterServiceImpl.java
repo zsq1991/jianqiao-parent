@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
@@ -27,7 +26,7 @@ import java.util.regex.Pattern;
 
 /**
  * @Description : 用户注册实现类
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月17日13:45
  */
 @Component

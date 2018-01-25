@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lorne on 2017/6/7.
+ * @author  by lorne on 2017/6/7.
  */
 public class TxGroup {
 

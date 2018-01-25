@@ -5,6 +5,7 @@ package com.zc.common.core.utils;
 
 /**
  * @描述：系统常量类
+ * @author system
  */
 public final class CommonConstants {
 	

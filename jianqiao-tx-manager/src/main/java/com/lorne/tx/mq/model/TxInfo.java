@@ -3,10 +3,9 @@ package com.lorne.tx.mq.model;
 import com.alibaba.fastjson.JSONObject;
 import com.lorne.core.framework.model.JsonModel;
 import com.lorne.tx.service.model.ChannelSender;
-import io.netty.channel.Channel;
 
 /**
- * Created by lorne on 2017/6/7.
+ * @author  by lorne on 2017/6/7.
  */
 public class TxInfo extends JsonModel {
 

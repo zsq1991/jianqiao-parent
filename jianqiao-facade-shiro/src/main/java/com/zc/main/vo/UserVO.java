@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * @author system
  */
 @Alias("UserVO")
 public class UserVO implements Serializable {

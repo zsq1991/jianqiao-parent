@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @项目：phshopping-service-permission
  * @描述： 菜单按钮关系mapper
- * @作者： Mr.Shu
+ * @author ： Mr.Shu
  * @创建时间：2017-05-12
  * @Copyright @2017 by Mr.Shu
  */

@@ -3,7 +3,6 @@ package com.zc.main.controller.main.mobile.view.search;
 import com.alibaba.boot.dubbo.annotation.DubboConsumer;
 import com.zc.common.core.result.Result;
 import com.zc.main.service.search.SearchService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @version 1.0.0
  * @description ：历史搜索和热门搜索(未登录)
- * @Created by  : gaoge
+ * @author  by  : gaoge
  * @Creation Date ： 2018/1/18 11:57
  */
 @RestController

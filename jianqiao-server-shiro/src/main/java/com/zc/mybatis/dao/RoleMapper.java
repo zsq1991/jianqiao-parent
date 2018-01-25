@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * @描述： 角色mapper
+ * @author system
  */
 @MyBatisRepository
 public interface RoleMapper{

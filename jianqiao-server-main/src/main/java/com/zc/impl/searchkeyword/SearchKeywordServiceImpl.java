@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * @version 1.0.0
  * @description ：热门搜索
- * @Created by  : gaoge
+ * @author  by  : gaoge
  * @Creation Date ： 2018/1/18 13:35
  */
 @Component

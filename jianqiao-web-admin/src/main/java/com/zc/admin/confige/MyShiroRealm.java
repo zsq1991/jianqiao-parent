@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @项目：Shiro配置
  * @描述：Shiro权限模块
- * @作者： Mr.Shu, liuy
+ * @author ： Mr.Shu, liuy
  * @创建时间：2017年5月9日
  * @Copyright @2017 by Mr.Shu,liuy
  */

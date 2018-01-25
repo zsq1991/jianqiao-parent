@@ -32,6 +32,12 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @description 登录
+ * @author system
+ * @date 2018-01-25 17:33
+ * @version 1.0.0
+ */
 @Controller
 @RequestMapping("/")
 public class LoginControler {

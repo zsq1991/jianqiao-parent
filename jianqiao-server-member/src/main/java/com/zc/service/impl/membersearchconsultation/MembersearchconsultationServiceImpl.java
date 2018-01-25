@@ -25,7 +25,7 @@ import java.util.Map;
  * @package : com.zc.service.impl.membersearchconsultation
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : wangxueyang[wxueyanghj@163.com]
+ * @author  by : wangxueyang[wxueyanghj@163.com]
  * @Creation Date ：2018年01月17日17:09
  */
 @Component

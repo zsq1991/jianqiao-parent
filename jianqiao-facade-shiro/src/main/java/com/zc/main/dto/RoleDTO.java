@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @项目：phshopping-facade-permission
  * @描述：角色列表查询dto
- * @作者： Mr.zheng
+ * @author ： Mr.zheng
  * @创建时间：2017-03-15
  * @Copyright @2017 by Mr.zheng
  */

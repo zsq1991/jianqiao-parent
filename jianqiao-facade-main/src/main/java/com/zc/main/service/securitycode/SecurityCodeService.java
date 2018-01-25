@@ -4,7 +4,7 @@ import com.zc.common.core.result.Result;
 
 /**
  * @Description : 验证码接口
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月16日11:26
  */
 public interface SecurityCodeService {

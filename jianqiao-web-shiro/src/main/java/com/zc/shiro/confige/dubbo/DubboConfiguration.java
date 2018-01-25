@@ -13,6 +13,7 @@ import org.springframework.context.annotation.PropertySource;
  *
  * @描述：dubbo消费者配置
  *
+ * @author system
  */
 @Configuration
 @ConditionalOnClass(Invoker.class)

@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * @version 1.0.0
  * @description ：咨询评论 回复 点赞、取消赞
- * @Created by  : gaoge
+ * @author  by  : gaoge
  * @Creation Date ： 2018/1/17 9:44
  */
 @Table(name = "alq_consultation_comment_fabulous")

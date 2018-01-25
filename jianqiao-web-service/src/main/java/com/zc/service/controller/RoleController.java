@@ -32,7 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @description 角色
+ * @author sytem
+ * @date 2018-01-25 17:46
+ * @version 1.0.0
+ */
 @Controller
 @RequestMapping("permission/role")
 public class RoleController {

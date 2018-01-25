@@ -5,7 +5,9 @@ import org.apache.ibatis.type.Alias;
 import java.io.Serializable;
 import java.util.List;
 
-
+/**
+ * @author system
+ */
 @Alias("SessionUserVO")
 public class SessionUserVO implements Serializable {
     private static final long serialVersionUID = 6829940553030159312L;

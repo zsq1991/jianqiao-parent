@@ -9,7 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
+/**
+ * @author system
+ */
 @SpringBootApplication(scanBasePackages = {"com.codingapi.tx","com.zc","com.alqsoft","com.alibaba"})
 @EnableDubboProviderConfiguration
 @EnableDubboConsumerConfiguration

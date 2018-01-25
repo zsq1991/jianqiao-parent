@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by lorne on 2017/7/1.
+ * @author  by lorne on 2017/7/1.
  */
 @RestController
 @RequestMapping("/tx/manager")

@@ -7,7 +7,7 @@ import java.util.Map;
  * @package : com.zc.main.service.shareapp
  * @progect : jianqiao-parent
  * @Description :
- * @Created by :ZhaoJunBiao
+ * @author  by :ZhaoJunBiao
  * @Creation Date ：2018年01月16日14:53
  */
 public interface ShareAppService {

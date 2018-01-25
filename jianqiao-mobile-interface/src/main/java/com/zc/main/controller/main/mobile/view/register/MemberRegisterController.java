@@ -5,7 +5,6 @@ import com.zc.common.core.annotation.Explosionproof;
 import com.zc.common.core.result.Result;
 import com.zc.main.service.register.MemberRegisterService;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +16,7 @@ import java.util.Map;
 
 /**
  * @Description : 用户注册
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月17日13:39
  */
 @Controller

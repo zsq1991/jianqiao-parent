@@ -3,6 +3,9 @@ package com.zc.common.core.utils.verifycode;
 import java.lang.reflect.Field;
 import java.util.List;
 
+/**
+ * @author system
+ */
 public class VerifyUtil {
 
 	/**

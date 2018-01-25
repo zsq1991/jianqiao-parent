@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by lorne on 2017/6/7.
+ * @author  by lorne on 2017/6/7.
  */
 @Service
 public class MQTxManagerServiceImpl implements MQTxManagerService {

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * create by lorne on 2017/11/11
+ * @author by lorne on 2017/11/11
  */
 @Component
 public class ConfigReader {

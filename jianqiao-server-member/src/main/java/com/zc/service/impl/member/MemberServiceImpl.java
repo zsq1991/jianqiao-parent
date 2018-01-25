@@ -25,6 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+/**
+ * @description 用户
+ * @author 王鑫涛
+ * @date 2018-01-25 17:37
+ * @version 1.0.0
+ */
 @Component
 @Service(version = "1.0.0",interfaceClass =MemberService.class )
 @Transactional(readOnly = true,rollbackFor = Exception.class)

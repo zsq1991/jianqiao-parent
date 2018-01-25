@@ -18,7 +18,7 @@ import java.util.Map;
  * @package : com.alqsoft.service.impl.doctor
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : 朱军
+ * @author  by : 朱军
  * @Creation Date ：2018年01月10日9:53
  */
 @Component

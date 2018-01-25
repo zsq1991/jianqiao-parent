@@ -16,8 +16,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * @description 富文本上传图片
+ * @author system
+ * @date 2018-01-25 17:28
+ * @version 1.0.0
+ */
 @Controller
-
 public class EditorImageUpLoad {
 
     @Autowired

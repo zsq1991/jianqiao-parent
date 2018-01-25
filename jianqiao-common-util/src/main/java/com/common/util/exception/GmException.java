@@ -1,7 +1,7 @@
 package com.common.util.exception;
 
 /**
- *@Author: Yaowei
+ *@author : Yaowei
  *@Description: 
  *@Date: 2017/11/27 14:33
  */

@@ -1,7 +1,7 @@
 package com.lorne.tx;
 
 /**
- * Created by lorne on 2017/6/8.
+ * @author by lorne on 2017/6/8.
  */
 public class Constants {
 

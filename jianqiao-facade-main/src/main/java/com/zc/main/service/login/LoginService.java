@@ -2,12 +2,11 @@ package com.zc.main.service.login;
 
 import com.zc.common.core.result.Result;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
  * @Description : 用户登录
- * @Created by : tenghui
+ * @author  by : tenghui
  * @Creation Date ：2018年01月18日13:41
  */
 public interface LoginService {

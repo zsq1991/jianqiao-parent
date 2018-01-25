@@ -6,6 +6,12 @@ import com.zc.main.entity.doctor.Doctor;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @description 高手信息
+ * @author 朱军
+ * @date 2018-01-25 17:26
+ * @version 1.0.0
+ */
 @MyBatisRepository
 public interface DoctorMapper {
 
