@@ -49,7 +49,7 @@
 		(SELECT SUBSTRING_INDEX(attm.size_info,',',1)  FROM alq_attachment attm WHERE attm.id=ca.attachment_id)width,
 		(SELECT SUBSTRING_INDEX(attm.size_info,',',-1)  FROM alq_attachment attm  WHERE attm.id=ca.attachment_id) height
 		FROM alq_consultation_attachment  AS ca
-		WHERE  IFNULL(ca.cover,0) != 1 AND  ca.consultation_id = #{id} ORDER BY ca.sort_num ASC
+		WHERE  IFNULL(ca.cover,0) != 1 AND IFNULL(ca.cover,0) != 2 AND  ca.consultation_id = #{id} ORDER BY ca.sort_num ASC
 
 	</select>
 

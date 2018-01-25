@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public interface AppVersionMapper {
     /**
+     * 查询版本相关信息
      * @description:  查询版本相关信息
      * @author:  ZhaoJunBiao
      * @date:  2018/1/18 16:36

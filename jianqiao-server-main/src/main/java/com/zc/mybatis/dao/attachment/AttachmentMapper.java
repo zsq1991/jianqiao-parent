@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
 @MyBatisRepository
 public interface AttachmentMapper extends BaseMapper<Attachment> {
 	/**
+	 * 根据附件id获取系统附件
 	 * @description 接口说明 根据附件id获取系统附件
 	 * @author 王鑫涛
 	 * @date 16:04 2018/1/18

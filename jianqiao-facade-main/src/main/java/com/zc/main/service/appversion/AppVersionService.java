@@ -11,6 +11,7 @@ import com.zc.common.core.result.Result;
  */
 public interface AppVersionService {
     /**
+     * 检测软件更新版本信息
      * @description: 检测软件更新版本信息
      * @author:  ZhaoJunBiao
      * @date:  2018/1/18 16:33

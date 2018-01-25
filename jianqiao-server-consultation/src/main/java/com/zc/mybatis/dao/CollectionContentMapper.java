@@ -13,14 +13,14 @@ import java.util.Map;
  * @package : com.zc.mybatis.dao
  * @progect : jianqiao-parent
  * @Description :
- * @Created by : wangxueyang[wxueyanghj@163.com]
+ * @author by : wangxueyang[wxueyanghj@163.com]
  * @Creation Date ：2018年01月17日13:36
  */
 @MyBatisRepository
 public interface CollectionContentMapper extends BasicMapper<CollectionConsultation>{
     /**
-     * * @author:  wangxueyang[wxueyanghj@163.com]
-     *
+     * 得到当前用户的收藏
+     * @author:  wangxueyang[wxueyanghj@163.com]
      * @param param member_id
      * @return
      * @create: 2018/1/17 13:38
@@ -29,6 +29,7 @@ public interface CollectionContentMapper extends BasicMapper<CollectionConsultat
      */
     List<Map<String, Object>> getMyCollentent(Map<String, Object> param);
     /**
+     * 根据资讯id查询收藏记录
      * @description 接口说明 根据资讯id查询收藏记录
      * @author 王鑫涛
      * @date 9:24 2018/1/18
@@ -39,6 +40,7 @@ public interface CollectionContentMapper extends BasicMapper<CollectionConsultat
     CollectionConsultation findOne(Long consulationId);
 
     /**
+     * 获取收藏记录
      * * @author:  wangxueyang[wxueyanghj@163.com]
      * @create:  2018/1/19 15:19
      * @desc: 获取收藏记录

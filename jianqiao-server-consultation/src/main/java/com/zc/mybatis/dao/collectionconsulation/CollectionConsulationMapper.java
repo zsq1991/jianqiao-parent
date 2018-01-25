@@ -17,7 +17,7 @@ import java.util.Map;
 @MyBatisRepository
 public interface CollectionConsulationMapper extends BasicMapper<CollectionConsultation>{
 	/**
-	 *
+	 *通过资讯id获取数据
 	 *@description 接口说明  通过资讯id获取数据
 	 * @author 王鑫涛
 	 * @date 17:06 2018/1/17
@@ -27,7 +27,7 @@ public interface CollectionConsulationMapper extends BasicMapper<CollectionConsu
 	 */
 	public List<Map> getMemberIdByConsultationId(Long id);
 	/**
-	 *
+	 *通过资讯主题id获取所有主题下资讯的id
 	 *@description方法说明 通过资讯主题id获取所有主题下资讯的id
 	 * @author 王鑫涛
 	 * @date  15:31  2018/1/19

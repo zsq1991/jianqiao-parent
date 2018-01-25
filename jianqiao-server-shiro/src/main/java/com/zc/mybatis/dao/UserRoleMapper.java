@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @项目：phshopping-service-permission
  * @描述：
- * @作者： Mr.zheng
+ * @author ： Mr.zheng
  * @创建时间：2017-03-14
  * @Copyright @2017 by Mr.zheng
  */
@@ -19,6 +19,7 @@ import java.util.List;
 public interface UserRoleMapper  {
 
     /**
+     * 通过用户id删除用户角色关系
      * @methodname deleteUserRoleByUserId 的描述：通过用户id删除用户角色关系
      * @param userId
      * @return int
@@ -29,6 +30,7 @@ public interface UserRoleMapper  {
 
 
     /**
+     * 通过用户id查询用户对应的角色id
      * @methodname selectUserRoleByUserId 的描述：通过用户id查询用户对应的角色id
      * @param userId
      * @return java.util.List<java.lang.Long>
@@ -39,16 +41,19 @@ public interface UserRoleMapper  {
 
 
     /**
-     * @methodname insertUserRole 的描述：给用户赋予角色
-     * @param userId
-     * @param roleIds
-     * @return int
+     * 给用户赋予角色
      * @author Mr.Shu
      * @create 2017/5/17
+     * @param userId
+     * @param roleIds
+     * @param createrId
+     * @param updaterId
+     * @return
      */
     int insertUserRole(@Param("userId") Long userId, @Param("roleIds") List<Long> roleIds, @Param("createrId") Long createrId, @Param("updaterId") Long updaterId);
 
     /**
+     * 通过用户id查询role
      * @methodname selectRoleVOByUserId 的描述：通过用户id查询role
      * @param userId
      * @return java.util.List<com.ph.shopping.facade.permission.vo.SessionRoleVO>
@@ -58,6 +63,7 @@ public interface UserRoleMapper  {
     List<SessionRoleVO> selectRoleVOByUserId(@Param("userId") Long userId);
     
     /**
+     * 新增用户对应的角色
      * @methodname inserUserRole 的描述：新增用户对应的角色
      * @param userRole
      * @return int
@@ -68,6 +74,7 @@ public interface UserRoleMapper  {
 
 
     /**
+     * 查询角色用户
      * @methodname selectUserRole 的描述：查询角色用户
      * @param userRole
      * @return java.util.List<com.ph.shopping.facade.permission.entity.UserRole>

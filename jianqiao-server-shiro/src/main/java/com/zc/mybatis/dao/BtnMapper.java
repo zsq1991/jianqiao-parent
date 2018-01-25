@@ -13,6 +13,7 @@ import java.util.List;
 public interface BtnMapper  {
 
     /**
+     * 根据角色Id和菜单id获取已分配（已选择）按钮
      * @param menuIds
      * @param roleId
      * @return java.util.List<com.ph.shopping.facade.permission.vo.MenuVO>
@@ -23,6 +24,7 @@ public interface BtnMapper  {
     List<BtnVO> getBtnListByMenuIdsAndRoleId(@Param("menuIds") List<Long> menuIds, @Param("roleId") Long roleId);
 
     /**
+     * 通过菜单id查询该菜单的基础按钮
      * @param menuId
      * @return java.util.List<com.ph.shopping.facade.permission.vo.BtnVO>
      * @methodname getAllBaseBtnByMenuId 的描述：通过菜单id查询该菜单的基础按钮
@@ -32,6 +34,7 @@ public interface BtnMapper  {
     List<BtnVO> getAllBaseBtnByMenuId(@Param("menuId") Long menuId);
 
     /**
+     * 查询所有按钮
      * @param
      * @return java.util.List<com.ph.shopping.facade.permission.vo.BtnVO>
      * @methodname getAllBtn 的描述：查询所有按钮

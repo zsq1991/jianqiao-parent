@@ -20,6 +20,7 @@ import java.util.Map;
 @MyBatisRepository
 public interface ConsultationAttachmentMapper  extends BasicMapper<ConsultationAttachment> {
 	/**
+	 * 删除内容信息附件
 	 * @description 接口说明 删除内容信息附件
 	 * @author 王鑫涛
 	 * @date 15:43 2018/1/19
@@ -28,6 +29,7 @@ public interface ConsultationAttachmentMapper  extends BasicMapper<ConsultationA
 	 */
 	void deleteConsultationAttachmentByConsultation(Consultation consultation);
 	/**
+	 * 保存内容信息附件
 	 * @description 接口说明保存内容信息附件
 	 * @author 王鑫涛
 	 * @date 15:43 2018/1/19
@@ -65,6 +67,7 @@ public interface ConsultationAttachmentMapper  extends BasicMapper<ConsultationA
 	List<Map<String,Object>> getConsultationAttachmentDetailByConsultation(Long mid);
 
 	/**
+	 * 父级咨询信息
 	 * @description 接口说明  父级咨询信息
 	 * @author 王鑫涛
 	 * @date 15:57 2018/1/19

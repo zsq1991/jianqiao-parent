@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @项目：phshopping-service-permission
  * @描述： 用户mapper
- * @作者： Mr.Shu
+ * @author ： Mr.Shu
  * @创建时间：2017-5-17
  * @Copyright @2017 by Mr.Shu
  */
@@ -19,6 +19,7 @@ import java.util.List;
 public interface UserMapper{
 
     /**
+     * 通过用户手机号查询用户登录信息
      * @methodname findUserByPhone 的描述：通过用户手机号查询用户登录信息
      * @param telphone
      * @return com.ph.shopping.facade.permission.vo.UserVO
@@ -29,6 +30,7 @@ public interface UserMapper{
 
     
     /**
+     * 分页获取所有用户
      * @methodname getUserByPage 的描述：分页获取所有用户
      * @param userDto
      * @return java.util.List<com.ph.shopping.facade.permission.vo.UserVO>
@@ -47,11 +49,23 @@ public interface UserMapper{
     UserVO getUserByCondition(UserDTO userDto);
 
 
+    /**
+     * 添加用户
+     * @param user
+     * @return
+     */
 	int insert(User user);
 
-
+    /**
+     * 根据主键修改用户
+     * @param user
+     */
 	void updateByPrimaryKey(User user);
 
-
+    /**
+     * 根据主键查询用户
+     * @param id
+     * @return
+     */
 	User selectByPrimaryKey(@Param("id")Long id);
 }
