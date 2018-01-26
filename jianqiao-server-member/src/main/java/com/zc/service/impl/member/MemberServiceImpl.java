@@ -48,19 +48,6 @@ public class MemberServiceImpl implements MemberService {
     private MemberMessageMapper messageMapper;
 
 
-    /**
-     * @description 接口说明 修改收藏内容数量
-     * @author 王鑫涛
-     * @date 8:28 2018/1/18
-     * @version 版本号
-     * @param member 用户
-     * @return
-     */
-    @Override
-    public int updateByConNum(Long id,Long num) {
-        int i = memberMapper.updateByConNum(id,num);
-        return i;
-    }
 
     /**
      * @description 接口说明 修改用户信息

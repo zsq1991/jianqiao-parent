@@ -46,7 +46,7 @@ public interface MemberMsgMapper extends BasicMapper<MemberMsg> {
      * @author 王鑫涛
      * @date 10:55 2018/1/18
      * @version 版本号
-     * @param memberId
+     * @param memberId  被通知的用户id
      * @return
      */
     public List<MemberMsg> getRowLockList(@org.springframework.data.repository.query.Param("member_id")Long memberId);
