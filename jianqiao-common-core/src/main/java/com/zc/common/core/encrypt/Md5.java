@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  * @date 2018-01-25 17:33
  * @version 1.0.0
  */
-public class MD5 {
+public class Md5 {
 	/**
 	 * Used building output as Hex
 	 */
