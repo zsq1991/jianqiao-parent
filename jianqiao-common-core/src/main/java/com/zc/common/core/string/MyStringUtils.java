@@ -95,7 +95,8 @@ public class MyStringUtils {
 				if (chb) {
 					String ss = Integer.toHexString(ch);
 					sb.append("\\u");
-					for (int k = 0; k < 4 - ss.length(); k++) {
+					int num = 4;
+					for (int k = 0; k < num - ss.length(); k++) {
 						sb.append('0');
 					}
 					sb.append(ss.toUpperCase());

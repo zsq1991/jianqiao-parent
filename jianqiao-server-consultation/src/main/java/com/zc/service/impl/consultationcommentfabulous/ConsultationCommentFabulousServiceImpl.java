@@ -60,7 +60,8 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
             return ResultUtils.returnError("参数错误,commentid不能为空");
         }
         //type 1 点赞；2 取消点赞
-        if (type != 1 && type != 2) {
+        Integer type2=2;
+        if (type != 1 && !type2.equals(type)) {
             return ResultUtils.returnError("点赞参数非法值错误");
         }
         if (consultationCommentService.findHasConsultationCommentById(commentid) == 0) {
@@ -78,7 +79,7 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
             member.setId(memberid);
             //评论点赞
             if (consultationCommentFabulousdb == null) {
-                if (type == 2) {
+                if (type2.equals(type)) {
                     return ResultUtils.returnError("操作失败，未有点赞记录");
                 }
                 ConsultationCommentFabulous consultationCommentFabulous = new ConsultationCommentFabulous();
@@ -128,7 +129,7 @@ public class ConsultationCommentFabulousServiceImpl implements ConsultationComme
 
             }
             //取消点赞的时删除对应的memberMsg表格
-            else if (type == 2) {
+            else if (type2.equals(type)) {
                 Integer types = 5;
                 memberMsgMapper.deleteMemberMsgBycontentId(memberid, types, commentid);
             }

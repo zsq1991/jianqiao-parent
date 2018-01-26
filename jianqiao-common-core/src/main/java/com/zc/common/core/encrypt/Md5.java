@@ -64,16 +64,17 @@ public class Md5 {
 		String s = md5(key);
 		byte[] textData = text.getBytes();
 		int len = textData.length;
-		int n = (len + 15) / 16;
-		byte[] tempData = new byte[n * 16];
-		for (int i = len; i < n * 16; i++) {
+		int bit = 16;
+		int n = (len + 15) / bit;
+		byte[] tempData = new byte[n * bit];
+		for (int i = len; i < n * bit; i++) {
 			tempData[i] = 0;
 		}
 		System.arraycopy(textData, 0, tempData, 0, len);
 		textData = tempData;
 		String[] c = new String[n];
 		for (int i = 0; i < n; i++) {
-			c[i] = new String(textData, 16 * i, 16);
+			c[i] = new String(textData, bit * i, bit);
 		}
 		// end c
 		String[] b = new String[n];

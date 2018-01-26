@@ -263,7 +263,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                 Member memberdb = new Member();
                 memberdb.setId(member.getId());
                 //当typeflag=1和3的时候，collectNum将对应的主题0和2也要1，其他不变！ 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享
-                if(typeflag==1 ||typeflag==3 ){
+                Integer type3=3;
+                if(typeflag==1 || type3.equals(typeflag)){
                     //获取到当前资讯信息-得到父级的资讯ID
                     Long consultationParentId = consultationinfo.getConsultationId();
                     //洋大侠
@@ -304,7 +305,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                 Integer type = cctype.getType();
 
                 if(type==0){
-                    if(typeflag==1 ||typeflag==3 ){
+                    Integer type3=3;
+                    if(typeflag==1 || type3.equals(typeflag)){
                         //获取到当前资讯信息-得到父级的资讯ID
                         Long consultationParentId = consultationinfo.getConsultationId();
                         //洋大侠
@@ -338,7 +340,8 @@ public class CollectionContentServiceImpl implements CollectionContentService {
                     result.setMsg("取消收藏");
                 }else if(type==1){
                     //type 0是访谈主题  1访谈内容 2口述主题  3口述内容 4求助 5回答  6分享 当typeflag=1和3的时候，collectNum将对应的主题0和2也要1，其他不变
-                    if(typeflag==1 ||typeflag==3 ){
+                    Integer type3=3;
+                    if(typeflag==1 || type3.equals(typeflag)){
                         //获取到当前资讯信息-得到父级的资讯ID
                         Long consultationParentId = consultationinfo.getConsultationId();
                         //洋大侠

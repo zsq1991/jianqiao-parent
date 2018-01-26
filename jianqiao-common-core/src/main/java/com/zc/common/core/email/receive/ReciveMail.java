@@ -76,15 +76,17 @@ public class ReciveMail {
 		String mailaddr = "";
 		String addrType = type.toUpperCase();
 		InternetAddress[] address = null;
-
-		if ("TO".equals(addrType) || "CC".equals(addrType) || "BCC".equals(addrType)) {
-			if ("TO".equals(addrType)) {
+		String to = "TO";
+		String cc = "CC";
+		String bcc = "BCC";
+		if (to.equals(addrType) || cc.equals(addrType) || bcc.equals(addrType)) {
+			if (to.equals(addrType)) {
 				address = (InternetAddress[]) msg.getRecipients(Message.RecipientType.TO);
 			}
-			if ("CC".equals(addrType)) {
+			if (cc.equals(addrType)) {
 				address = (InternetAddress[]) msg.getRecipients(Message.RecipientType.CC);
 			}
-			if ("BCC".equals(addrType)) {
+			if (bcc.equals(addrType)) {
 				address = (InternetAddress[]) msg.getRecipients(Message.RecipientType.BCC);
 			}
 
@@ -166,17 +168,21 @@ public class ReciveMail {
 		if (nameindex != -1) {
 			conname = true;
 		}
-		if (part.isMimeType("text/plain") && !conname) {
+		String textPlain="text/plain";
+		String textHtml="text/html";
+		String multipartType="multipart/*";
+		String messageType="message/rfc822";
+		if (part.isMimeType(textPlain) && !conname) {
 			bodytext.append((String) part.getContent());
-		} else if (part.isMimeType("text/html") && !conname) {
+		} else if (part.isMimeType(textHtml) && !conname) {
 			bodytext.append((String) part.getContent());
-		} else if (part.isMimeType("multipart/*")) {
+		} else if (part.isMimeType(multipartType)) {
 			Multipart multipart = (Multipart) part.getContent();
 			int count = multipart.getCount();
 			for (int i = 0; i < count; i++) {
 				getMailContent(multipart.getBodyPart(i));
 			}
-		} else if (part.isMimeType("message/rfc822")) {
+		} else if (part.isMimeType(messageType)) {
 			getMailContent((Part) part.getContent());
 		}
 
@@ -237,7 +243,9 @@ public class ReciveMail {
 	 */
 	public boolean isContainAttch(Part part) throws MessagingException, IOException {
 		boolean flag = false;
-		if (part.isMimeType("multipart/*")) {
+		String multipartType="multipart/*";
+		String messageType="message/rfc822";
+		if (part.isMimeType(multipartType)) {
 			Multipart multipart = (Multipart) part.getContent();
 			int count = multipart.getCount();
 
@@ -278,7 +286,7 @@ public class ReciveMail {
 					}
 				}
 			}
-		} else if (part.isMimeType("message/rfc822")) {
+		} else if (part.isMimeType(messageType)) {
 			flag = isContainAttch((Part) part.getContent());
 		}
 
@@ -295,7 +303,9 @@ public class ReciveMail {
 	public void saveAttchMent(String baseFile, Part part) throws MessagingException, IOException {
 		String filename = "";
 		String fileName = "";
-		if (part.isMimeType("multipart/*")) {
+		String multipartType="multipart/*";
+		String messageType="message/rfc822";
+		if (part.isMimeType(multipartType)) {
 			Multipart mp = (Multipart) part.getContent();
 			for (int i = 0; i < mp.getCount(); i++) {
 				BodyPart mpart = mp.getBodyPart(i);
@@ -335,7 +345,7 @@ public class ReciveMail {
 				}
 			}
 
-		} else if (part.isMimeType("message/rfc822")) {
+		} else if (part.isMimeType(messageType)) {
 			saveAttchMent(baseFile, (Part) part.getContent());
 		}
 	}

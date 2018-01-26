@@ -166,13 +166,17 @@ public class DoubleUtils {
 		BigDecimal b = new BigDecimal(d);
 		double f1 = b.setScale(5,BigDecimal.ROUND_HALF_UP).doubleValue();
 		String fom = "0.0";
-		if(scale == 2){
+		int two = 2;
+		int three = 3;
+		int four = 4;
+		int five = 5;
+		if(scale == two){
 			fom = "0.00";
-		}else if(scale==3){
+		}else if(scale==three){
 			fom = "0.000";
-		}else if(scale==4){
+		}else if(scale==four){
 			fom = "0.0000";
-		}else if(scale==5){
+		}else if(scale==five){
 			fom = "0.00000";
 		}else{
 //			保留1位

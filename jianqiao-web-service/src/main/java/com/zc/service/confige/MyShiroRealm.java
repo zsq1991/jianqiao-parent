@@ -183,7 +183,8 @@ public class MyShiroRealm extends AuthorizingRealm {
             } else if (user.getSupplierStatus() != null && SPMEnum.supplierIsFrozen.ONE.getIndex() == user.getSupplierStatus()) {
                 throw new LockedAccountException();
             } else */
-        	if (user.getIsable() == 2) {
+            int lockedType=2;
+        	if (user.getIsable() == lockedType) {
                  throw new LockedAccountException();
             } else {
                 // 若账户存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验

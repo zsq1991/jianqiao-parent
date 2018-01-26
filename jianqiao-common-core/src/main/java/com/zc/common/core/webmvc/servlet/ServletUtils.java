@@ -92,7 +92,8 @@ public class ServletUtils {
 	public static boolean checkIfModifiedSince(HttpServletRequest request,
 			HttpServletResponse response, long lastModified) {
 		long ifModifiedSince = request.getDateHeader("If-Modified-Since");
-		if ((ifModifiedSince != -1) && (lastModified < ifModifiedSince + 1000)) {
+		long delay=1000;
+		if ((ifModifiedSince != -1) && (lastModified < ifModifiedSince + delay)) {
 			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 			return false;
 		}
@@ -111,7 +112,8 @@ public class ServletUtils {
 		String headerValue = request.getHeader("If-None-Match");
 		if (headerValue != null) {
 			boolean conditionSatisfied = false;
-			if (!"*".equals(headerValue)) {
+			String asterisk="*";
+			if (!asterisk.equals(headerValue)) {
 				StringTokenizer commaTokenizer = new StringTokenizer(headerValue, ",");
 
 				while (!conditionSatisfied && commaTokenizer.hasMoreTokens()) {
@@ -150,11 +152,13 @@ public class ServletUtils {
 			response.setBufferSize(4000);
 			// 中文文件名支持
 			String browserType = request.getHeader("User-Agent").toLowerCase();
-			if (browserType.toUpperCase().indexOf("FIREFOX") > 0
+			String firefox="FIREFOX";
+			String msie="MISE";
+			if (browserType.toUpperCase().indexOf(firefox) > 0
 					|| browserType.toUpperCase().indexOf("CHROME") > 0) {
 				// firefox浏览器
 				fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
-			} else if (browserType.toUpperCase().indexOf("MSIE") > 0) {
+			} else if (browserType.toUpperCase().indexOf(msie) > 0) {
 				// IE浏览器
 				fileName = URLEncoder.encode(fileName, "UTF-8");
 			} else {
@@ -213,49 +217,64 @@ public class ServletUtils {
 	public static String getContentType(String fileName) {
 		String fileNameTmp = fileName.toLowerCase();
 		String ret = "";
-		if (fileNameTmp.endsWith("txt")) {
+		String txt = "txt";
+		String gif = "gif";
+		String jpg = "jpg";
+		String jpeg = "jpeg";
+		String jpe = "jpe";
+		String zip = "zip";
+		String rar = "rar";
+		String doc = "doc";
+		String ppt = "ppt";
+		String xls = "xls";
+		String html = "html";
+		String htm = "htm";
+		String tif = "tif";
+		String tiff = "tiff";
+		String pdf = "pdf";
+		if (fileNameTmp.endsWith(txt)) {
 			ret = "text/plain";
 		}
-		if (fileNameTmp.endsWith("gif")) {
+		if (fileNameTmp.endsWith(gif)) {
 			ret = "image/gif";
 		}
-		if (fileNameTmp.endsWith("jpg")) {
+		if (fileNameTmp.endsWith(jpg)) {
 			ret = "image/jpeg";
 		}
-		if (fileNameTmp.endsWith("jpeg")) {
+		if (fileNameTmp.endsWith(jpeg)) {
 			ret = "image/jpeg";
 		}
-		if (fileNameTmp.endsWith("jpe")) {
+		if (fileNameTmp.endsWith(jpe)) {
 			ret = "image/jpeg";
 		}
-		if (fileNameTmp.endsWith("zip")) {
+		if (fileNameTmp.endsWith(zip)) {
 			ret = "application/zip";
 		}
-		if (fileNameTmp.endsWith("rar")) {
+		if (fileNameTmp.endsWith(rar)) {
 			ret = "application/rar";
 		}
-		if (fileNameTmp.endsWith("doc")) {
+		if (fileNameTmp.endsWith(doc)) {
 			ret = "application/msword";
 		}
-		if (fileNameTmp.endsWith("ppt")) {
+		if (fileNameTmp.endsWith(ppt)) {
 			ret = "application/vnd.ms-powerpoint";
 		}
-		if (fileNameTmp.endsWith("xls")) {
+		if (fileNameTmp.endsWith(xls)) {
 			ret = "application/vnd.ms-excel";
 		}
-		if (fileNameTmp.endsWith("html")) {
+		if (fileNameTmp.endsWith(html)) {
 			ret = "text/html";
 		}
-		if (fileNameTmp.endsWith("htm")) {
+		if (fileNameTmp.endsWith(htm)) {
 			ret = "text/html";
 		}
-		if (fileNameTmp.endsWith("tif")) {
+		if (fileNameTmp.endsWith(tif)) {
 			ret = "image/tiff";
 		}
-		if (fileNameTmp.endsWith("tiff")) {
+		if (fileNameTmp.endsWith(tiff)) {
 			ret = "image/tiff";
 		}
-		if (fileNameTmp.endsWith("pdf")) {
+		if (fileNameTmp.endsWith(pdf)) {
 			ret = "application/pdf";
 		}
 		return ret;

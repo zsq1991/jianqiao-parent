@@ -94,7 +94,8 @@ public class ConsultationAttachmentServiceImpl implements ConsultationAttachment
             logger.info("===============用户信息异常===============");
             return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
         }
-        if (!"1,2,3,4".contains(type)){
+        String type1234="1,2,3,4";
+        if (!type1234.contains(type)){
             logger.info("===============type值类型异常===============");
             return ResultUtils.returnError(StatusCodeEnums.ERROR_PARAM.getMsg());
         }

@@ -1,8 +1,6 @@
 package com.zc.common.core.net.html;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
+import com.zc.common.core.utils.DebugUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.zc.common.core.utils.DebugUtils;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * 
@@ -84,10 +83,11 @@ public class HttpClientUtils {
         ResponseEntity<String> responseEntity=null;
         //进行头部参数和一般参数集合
         HttpEntity<MultiValueMap<String, String>> bodyAndHeader=new HttpEntity<MultiValueMap<String, String>>(multiValueMap,headerRequest);
-        
-        if ("GET".equals(StringUtils.upperCase(type))) {
+        String get = "GET";
+		String post = "POST";
+        if (get.equals(StringUtils.upperCase(type))) {
           responseEntity = restTemplate.exchange(url, HttpMethod.GET, bodyAndHeader, String.class);
-        }else if("POST".equals(StringUtils.upperCase(type))){
+        }else if(post.equals(StringUtils.upperCase(type))){
           responseEntity = restTemplate.exchange(url, HttpMethod.POST, bodyAndHeader, String.class);
         }
         String jsonResult = responseEntity.getBody();
@@ -112,9 +112,11 @@ public class HttpClientUtils {
         ResponseEntity<String> responseEntity=null;
         //进行头部参数和一般参数集合
         HttpEntity<MultiValueMap<String, String>> bodyAndHeader=new HttpEntity<MultiValueMap<String, String>>(multiValueMap,headerRequest);
-        if ("GET".equals(StringUtils.upperCase(type))) {
+		String get = "GET";
+		String post = "POST";
+        if (get.equals(StringUtils.upperCase(type))) {
           responseEntity = restTemplate.exchange(url, HttpMethod.GET, bodyAndHeader, String.class);
-        }else if("POST".equals(StringUtils.upperCase(type))){
+        }else if(post.equals(StringUtils.upperCase(type))){
           responseEntity = restTemplate.exchange(url, HttpMethod.POST, bodyAndHeader, String.class);
         }
         return responseEntity;
@@ -151,11 +153,17 @@ public class HttpClientUtils {
 	public static Boolean linkType(String uRL) {
 		Boolean result = false;
 		String linkType = "";
-		if (uRL.contains(".")) {
-			linkType = uRL.substring(uRL.lastIndexOf("."));
+		String point = ".";
+		if (uRL.contains(point)) {
+			linkType = uRL.substring(uRL.lastIndexOf(point));
 		}
 		DebugUtils.println("linkType:" + linkType);
-		if (linkType.contains("doc") || linkType.contains("xls") || linkType.contains("ppt") || linkType.contains("pdf") || linkType.contains("rar")) {
+		String doc = "doc";
+		String xls = "xls";
+		String ppt = "ppt";
+		String pdf = "pdf";
+		String rar = "rar";
+		if (linkType.contains(doc) || linkType.contains(xls) || linkType.contains(ppt) || linkType.contains(pdf) || linkType.contains(rar)) {
 			result = true;
 		} else {
 			result = false;

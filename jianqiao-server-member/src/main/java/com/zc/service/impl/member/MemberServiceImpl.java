@@ -227,14 +227,18 @@ public class MemberServiceImpl implements MemberService {
             return ResultUtils.returnError("附件不能为空");
         }
         try {
-            if (!"0".equals(String.valueOf(member.getStatus())) && !"3".equals(String.valueOf(member.getStatus()))){
+            String zero = "0";
+            String one = "1";
+            String three = "3";
+            int imageLength = 4;
+            if (!zero.equals(String.valueOf(member.getStatus())) && !three.equals(String.valueOf(member.getStatus()))){
                 return ResultUtils.returnError("非待认证状态,无法认证");
             }
-            if (!"0".equals(String.valueOf(member.getUserType()))){
+            if (!zero.equals(String.valueOf(member.getUserType()))){
                 return ResultUtils.returnError("非待认证状态,无法认证");
             }
             String[] picsAry = pics.split(",");
-            if (!Objects.isNull(picsAry) && picsAry.length!=4){
+            if (!Objects.isNull(picsAry) && picsAry.length!=imageLength){
                 return ResultUtils.returnError("图片只能上传四张");
             }
             TencentSms sms = new TencentSms();
@@ -242,7 +246,7 @@ public class MemberServiceImpl implements MemberService {
             Result msgResult =  sms.checkMsg(phone,code,codeType);
             if (!Objects.isNull(msgResult)){
                 Integer msgCode = msgResult.getCode();
-                if ("0".equals(String.valueOf(msgCode))){
+                if (zero.equals(String.valueOf(msgCode))){
                     return ResultUtils.returnError("验证码错误");
                 }
             } else {
@@ -254,8 +258,8 @@ public class MemberServiceImpl implements MemberService {
             Result elementResult = sms.checkCarId(name,card);
             logger.info("用户ID={},返回参数={}",member.getId(),elementResult.toString());
 
-            if (("0").equals(elementResult.getCode())) {
-                if ("1".equals(type)){
+            if (zero.equals(elementResult.getCode())) {
+                if (one.equals(type)){
                     memberAttachmentMapper.deleteAttachment(member.getId());
                 }
                 String[] pic = pics.split(",");

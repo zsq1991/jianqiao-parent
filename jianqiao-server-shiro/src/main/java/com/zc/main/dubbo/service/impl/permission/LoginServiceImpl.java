@@ -53,7 +53,8 @@ public class LoginServiceImpl implements ILoginService {
                 //手机号或者密码有错误
                 return ResultUtil.getResult(RespCode.Code.INTERNAL_SERVER_ERROR);
             }
-            if (dbUser.getIsable() == 2) {
+            int locked = 2;
+            if (dbUser.getIsable() == locked) {
                 return ResultUtil.getResult(PermissionEnum.USER_ISABLED);
             }
 
@@ -94,8 +95,8 @@ public class LoginServiceImpl implements ILoginService {
                 //手机号不存在
                 return ResultUtil.getResult(PermissionEnum.NO_TELPHONE_ERROR);
             } else {
-
-                if (dbUser.getIsable() == 2) {
+                int locked = 2;
+                if (dbUser.getIsable() == locked) {
                     //账户已被冻结
                     return ResultUtil.getResult(PermissionEnum.USER_ISABLED);
                 }

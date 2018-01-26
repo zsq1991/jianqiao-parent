@@ -50,13 +50,15 @@ public class MybatisStatementInterceptor implements Interceptor {
 
         // 分离代理对象链(由于目标类可能被多个插件拦截，从而形成多次代理，通过下面的两次循环
         // 可以分离出最原始的的目标类)
-        while (metaStatementHandler.hasGetter("h")) {
-            Object object = metaStatementHandler.getValue("h");
+        String h = "h";
+        while (metaStatementHandler.hasGetter(h)) {
+            Object object = metaStatementHandler.getValue(h);
             metaStatementHandler = SystemMetaObject.forObject(object);
         }
         // 分离最后一个代理对象的目标类
-        while (metaStatementHandler.hasGetter("target")) {
-            Object object = metaStatementHandler.getValue("target");
+        String target = "target";
+        while (metaStatementHandler.hasGetter(target)) {
+            Object object = metaStatementHandler.getValue(target);
             metaStatementHandler = SystemMetaObject.forObject(object);
         }
         MappedStatement mappedStatement = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
@@ -66,12 +68,15 @@ public class MybatisStatementInterceptor implements Interceptor {
         String sql = boundSql.getSql();
 
         String sqlCommandType = mappedStatement.getSqlCommandType().name();
-
-        if(sql.contains("update_time") || sql.contains("created_time")){
+        String updateTime="update_time";
+        String createdTime="created_time";
+        String update = "UPDATE";
+        String insert = "INSERT";
+        if(sql.contains(updateTime) || sql.contains(createdTime)){
 
         }else {
             //如果是“增加”或“更新”操作
-            if ("UPDATE".equals(sqlCommandType)) {
+            if (update.equals(sqlCommandType)) {
                 String updateCreatdTime = ",update_time = " + "'"+s1+"'";
                 String[] orgSql = sql.split("WHERE");
                 String fristSql = orgSql[0];
@@ -79,7 +84,7 @@ public class MybatisStatementInterceptor implements Interceptor {
                 String newSql = fristSql + updateCreatdTime + "\nWHERE" + secondSql;
                 metaStatementHandler.setValue("delegate.boundSql.sql", newSql);
             }
-            if ("INSERT".equals(sqlCommandType)) {
+            if (insert.equals(sqlCommandType)) {
                 String createdTimeKey= ",created_time ,update_time ";
                 String createdTimeValue=",'"+s1+"','"+s1+"'";
                 String[] orgSql = sql.split("\\)(\\s+)VALUES?");

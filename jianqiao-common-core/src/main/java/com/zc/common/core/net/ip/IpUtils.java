@@ -1,18 +1,12 @@
 package com.zc.common.core.net.ip;
 
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import org.apache.commons.lang.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * 
@@ -79,10 +73,11 @@ public class IpUtils {
 	 */
 	public static String getClientIP(HttpServletRequest request) {
 		String ip = request.getHeader("X-Real-IP");
-		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+		String unknown = "unknown";
+		if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("X-Forwarded-For");
 		}
-		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 		}
 
@@ -115,12 +110,14 @@ public class IpUtils {
 	 * @return
 	 */
 	public static boolean isLocal(String strIp) {
-		if ("127.0.0.1".equals(strIp)) {
+		String localhost = "127.0.0.1";
+		if (localhost.equals(strIp)) {
             return true;
         }
 		long l = ipToLong(strIp);
-		if (l >= 3232235520L) {
-            return l <= 3232301055L;
+		long max =3232235520L;
+		if (l >= max) {
+            return l <= max;
         }
 		return (l >= 167772160L) && (l <= 184549375L);
 	}

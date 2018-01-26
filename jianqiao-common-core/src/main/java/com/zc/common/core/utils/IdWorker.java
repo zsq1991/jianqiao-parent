@@ -140,7 +140,8 @@ public class IdWorker {
     @SuppressWarnings("static-access")
 	public static void main(String[] args) throws InterruptedException {
         IdWorker idWorker = new IdWorker(0, 0);
-        for (int i = 0; i < 1000; i++) {
+        long length = 1000;
+        for (int i = 0; i < length; i++) {
         	Thread.sleep(1000L);
             long id = idWorker.nextId();
             System.out.println(Long.toBinaryString(id));

@@ -100,7 +100,8 @@ public class MShiroFilterFactoryBean extends ShiroFilterFactoryBean {
             // 当然如果你的集群系统使用了动静分离处理，静态资料的请求不会到Filter这个层面，便可以忽略。
             boolean flag = true;
             int idx = 0;
-            if ((idx = str.indexOf(".")) > 0) {
+            String point = ".";
+            if ((idx = str.indexOf(point)) > 0) {
                 str = str.substring(idx);
                 if (ignoreExt.contains(str.toLowerCase())) {
                     flag = false;

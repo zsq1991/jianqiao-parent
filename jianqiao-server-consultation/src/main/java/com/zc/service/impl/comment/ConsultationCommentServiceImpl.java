@@ -55,7 +55,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
         if(!StringUtils.isNotBlank(content)){
             return ResultUtils.returnError("请填写评论内容");
         }
-        if (content.length()>3000) {
+        int maxLength=3000;
+        if (content.length()>maxLength) {
             return ResultUtils.returnError("字数已达上限");
         }
         try {
@@ -117,7 +118,8 @@ public class ConsultationCommentServiceImpl implements ConsultationCommentServic
         if(!StringUtils.isNotBlank(content)){
             return ResultUtils.returnError("请填写回复内容");
         }
-        if (content.length()>3000) {
+        int maxLength=3000;
+        if (content.length()>maxLength) {
             return ResultUtils.returnError("字数已达上限");
         }
         try {
